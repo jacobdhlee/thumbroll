@@ -35,15 +35,15 @@ class Login extends React.Component {
 
 
   handleUsernameChange(event) {
-    // this.setState({
-    //   username: event.nativeEvent.text
-    // });
+    this.setState({
+      username: event.nativeEvent.text
+    });
   }
 
   handlePasswordChange(event) {
-    // this.setState({
-    //   password: event.nativeEvent.text
-    // });
+    this.setState({
+      password: event.nativeEvent.text
+    });
   }
 
   handleSubmit(){
@@ -101,39 +101,85 @@ class Login extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          ==Login Page==
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+      <View style={{flex: 1, backgroundColor: '#ededed'}}> 
+        <View style={styles.loginContainer}>
+          <Text style={styles.fieldTitle}> Username </Text>
+          <TextInput
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            maxLength={16}
+            style={styles.userInput}
+            value={this.state.username}
+            returnKeyType={'next'}
+            onChange={this.handleUsernameChange.bind(this)}
+            onSubmitEditing={(event) => { 
+              this.refs.SecondInput.focus(); 
+            }}
+             />
+          <Text style={styles.fieldTitle}> Password </Text>
+          <TextInput
+            ref='SecondInput'
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            maxLength={16}
+            secureTextEntry={true}
+            style={styles.userInput}
+            value={this.state.password}
+            returnKeyType={'go'}
+            onChange={this.handlePasswordChange.bind(this)} 
+            onSubmitEditing={this.handleSubmit.bind(this)}/>
+          <TouchableHighlight
+            style={styles.button}
+            onPress={this.handleSubmit.bind(this)}
+            underlayColor='#e66365'>
+            <Text style={styles.buttonText}> Sign In </Text>
+          </TouchableHighlight>
+
+          <TouchableHighlight
+            onPress={this.handleRedirect.bind(this)}
+            underlayColor='#ededed'>
+            <Text style={styles.signup}> {"Don't have an account yet? Sign Up!"}  </Text>
+          </TouchableHighlight>
+
+          <ActivityIndicatorIOS
+            animating= {this.state.isLoading}
+            size='large' 
+            style={styles.loading} />
+        </View>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  loginContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  fieldTitle: {
+
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  userInput: {
+    height: 50,
+    padding: 4,
+    fontSize: 18,
+    borderWidth: 1,
+    borderRadius: 4,
   },
+  button: {
+
+  },
+  buttonText: {
+
+  },
+  signup: {
+
+  },
+  loading: {
+
+  }
 });
 
 module.exports = Login;
