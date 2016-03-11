@@ -65,19 +65,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   pageText: {
-
+    fontSize: 20
   },
   buttonsContainer: {
-
+    padding: 20
   },
   buttonContainer: {
-
+    margin: 20
   },
   button: {
 
   },
   buttonText: {
-
+    fontSize: 20
   }
 });
 
