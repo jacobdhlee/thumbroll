@@ -5,7 +5,7 @@
   "author": "Shane McGraw <shanemcgraw17@gmail.com>, Ian Deboisblanc, Jake Pace, Jacob Lee",
   "main": "server.js",
   "scripts": {
-    //"start": "node_modules/.bin/nodemon server.js",
+    "start": "node_modules/.bin/nodemon server/app.js",
     "test": "node_modules/.bin/mocha test/test.js"
   },
   "repository": {
