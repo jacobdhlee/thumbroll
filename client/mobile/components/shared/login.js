@@ -1,7 +1,9 @@
 var React = require('react-native');
+var JoinClassView = require('./../student/joinClassView.js');
+var StartClassView = require('./../teacher/startClassView.js');
+var Signup = require('./signup.js');
 // var NavigationBar = require('react-native-navbar');
 // var api = require('../Utils/api');
-// var Signup = require('./signup');
 // var Keychain = require('react-native-keychain');
 
 var {
@@ -88,17 +90,17 @@ class Login extends React.Component {
       });
     }
 
-  handleRedirect() {
-    // this.props.navigator.push({
-    //   component: Signup,
-    //   sceneConfig: Navigator.SceneConfigs.FloatFromRight
-    // });
-    // this.setState({
-    //   isLoading: false,
-    //   error: false,
-    //   username: '',
-    //   password: ''
-    // });
+  handleSignupRedirect() {
+    this.props.navigator.push({
+      component: Signup,
+      sceneConfig: Navigator.SceneConfigs.FloatFromRight
+    });
+    this.setState({
+      isLoading: false,
+      error: false,
+      username: '',
+      password: ''
+    });
   }
 
   render() {
@@ -141,7 +143,7 @@ class Login extends React.Component {
           </TouchableHighlight>
 
           <TouchableHighlight
-            onPress={this.handleRedirect.bind(this)}
+            onPress={this.handleSignupRedirect.bind(this)}
             underlayColor='#ededed'>
             <Text style={styles.signup}> {"Don't have an account yet? Sign Up!"}  </Text>
           </TouchableHighlight>
@@ -184,6 +186,9 @@ const styles = StyleSheet.create({
 
   },
   loading: {
+
+  },
+  err: {
 
   }
 });
