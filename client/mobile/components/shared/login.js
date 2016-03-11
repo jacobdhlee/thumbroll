@@ -47,43 +47,36 @@ class Login extends React.Component {
   }
 
   handleSubmit(){
-      // this.setState({
-      //   isLoading: true
-      // });
+      this.setState({
+        isLoading: true
+      });
       // api.login(this.state.username, this.state.password)
-      //   .then((res) => {
-      //     if(res.status === 500){
-      //       this.setState({
-      //          error: 'Username or password is incorrect',
-      //          isLoading: false
-      //        });
-      //     } else {
-      //       // load the JSON Web token into the keychain (keychain is the storage loction given to us by ios)
-      //       var bodyText = JSON.parse(res._bodyText);
-      //       Keychain.setGenericPassword(null, bodyText.token)
-      //       console.log('Credentials saved successfully!', bodyText.userId, bodyText.token);
-      //       this.props.navigator.push({
-      //         component: Main,
-      //         userId: bodyText.userId,
-      //         sceneConfig: {
-      //           ...Navigator.SceneConfigs.FloatFromBottom,
-      //           gestures: {}
-      //         }
-      //       });
-
-      //         this.setState({
-      //           isLoading: false,
-      //           error: false,
-      //           username: '',
-      //           password: ''
-      //         });
-      //       }
-      //     }).catch((err) => {
-      //        this.setState({
-      //          error: 'User not found' + err,
-      //          isLoading: false
-      //        });
-      //     });
+      // for time being, hardcoded teach and student
+      if(this.state.username === 'teacher') {
+        this.props.navigator.push({
+          component: StartClassView,
+          userId: 'teacher',
+          sceneConfig: {
+            ...Navigator.SceneConfigs.FloatFromBottom,
+            gestures: {}
+          }
+        });
+      } else if(this.state.username === 'student') {
+        this.props.navigator.push({
+          component: JoinClassView,
+          userId: 'student',
+          sceneConfig: {
+            ...Navigator.SceneConfigs.FloatFromBottom,
+            gestures: {}
+          }
+        });
+      }
+      this.setState({
+        isLoading: false,
+        error: false,
+        username: '',
+        password: ''
+      });
     }
 
   handleRedirect() {
