@@ -1,1 +1,0 @@
-joinClassView.js
