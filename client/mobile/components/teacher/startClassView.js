@@ -5,10 +5,8 @@ var {
   View,
   Text,
   StyleSheet,
-  TextInput,
-  TouchableHighlight,
-  ActivityIndicatorIOS,
-  Navigator
+  Navigator,
+  TouchableOpacity
 } = React;
 
 class StartClassView extends React.Component {
@@ -19,11 +17,40 @@ class StartClassView extends React.Component {
     };
   }
 
+  selectClass() {
+    // this.props.navigator.push({
+    //   component: StartClassView,
+    //   userId: 'teacher',
+    //   sceneConfig: {
+    //     ...Navigator.SceneConfigs.FloatFromBottom,
+    //     gestures: {}
+    //   }
+    // });
+    // this.setState({
+    //   isLoading: false,
+    //   error:false
+    // });
+  }
+
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <View style={styles.viewContainer}>
-          <Text style={styles.pageTitle}> Start Class: </Text>
+          <View style={styles.titleContainer}>
+            <Text style={styles.pageText}> Start Class: </Text>
+          </View>
+          <View style={styles.buttonsContainer}>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity onPress={this.selectClass} style={styles.button}>
+                <Text style={styles.buttonText}> CS 101 </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity onPress={this.selectClass} style={styles.button}>
+                <Text style={styles.buttonText}> CS 201 </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       </View>
     )
@@ -37,7 +64,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  pageTitle: {
+  pageText: {
+
+  },
+  buttonsContainer: {
+
+  },
+  buttonContainer: {
+
+  },
+  button: {
+
+  },
+  buttonText: {
 
   }
 });
