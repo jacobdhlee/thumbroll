@@ -61,6 +61,10 @@ class Login extends React.Component {
             gestures: {}
           }
         });
+        this.setState({
+          isLoading: false,
+          error:false
+        });
       } else if(this.state.username === 'student') {
         this.props.navigator.push({
           component: JoinClassView,
@@ -70,10 +74,15 @@ class Login extends React.Component {
             gestures: {}
           }
         });
+        this.setState({
+          isLoading: false,
+          error:false
+        });
+      } else {
+        this.setState({error: 'Invalid User'})
       }
       this.setState({
         isLoading: false,
-        error: false,
         username: '',
         password: ''
       });
@@ -93,6 +102,9 @@ class Login extends React.Component {
   }
 
   render() {
+    var showErr = (
+      this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
+    );
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <View style={styles.loginContainer}>
@@ -138,6 +150,7 @@ class Login extends React.Component {
             animating= {this.state.isLoading}
             size='large' 
             style={styles.loading} />
+          {showErr}
         </View>
       </View>
     )
