@@ -1,1 +1,1 @@
-joinClassView.js
+//joinClassView.js
