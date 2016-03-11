@@ -13,11 +13,13 @@ class StartClassView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: this.props.route.userId
+      userId: this.props.route.userId,
+      classes: ['Quick Class', 'CS 101', 'CS 201']
     };
   }
 
-  selectClass() {
+  selectClass(className) {
+    console.log(className);
     // this.props.navigator.push({
     //   component: StartClassView,
     //   userId: 'teacher',
@@ -32,6 +34,18 @@ class StartClassView extends React.Component {
     // });
   }
 
+  renderClasses(classes) {
+    return classes.map((className, index) => {
+      return (
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={this.selectClass.bind(this, className)} style={styles.button}>
+            <Text style={styles.buttonText}> {className} </Text>
+          </TouchableOpacity>
+        </View>
+      )
+    })
+  }
+
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
@@ -40,16 +54,7 @@ class StartClassView extends React.Component {
             <Text style={styles.pageText}> Start Class: </Text>
           </View>
           <View style={styles.buttonsContainer}>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={this.selectClass} style={styles.button}>
-                <Text style={styles.buttonText}> CS 101 </Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={this.selectClass} style={styles.button}>
-                <Text style={styles.buttonText}> CS 201 </Text>
-              </TouchableOpacity>
-            </View>
+            {this.renderClasses(this.state.classes)}
           </View>
         </View>
       </View>
