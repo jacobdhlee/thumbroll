@@ -37,7 +37,7 @@ class RequestFeedbackView extends React.Component {
   }
 
   selectFeebackOption(feedbackOption) {
-    var component;
+    // trigger socket 
     this.props.navigator.push({
       component: FeedbackView,
       userId: this.state.userId,
