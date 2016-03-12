@@ -60,19 +60,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  caption: {
-    //flex: 1,
-  },
   value: {
     flex: 1,
     textAlign: 'right',
     marginLeft: 10,
   },
   mainDiv: {
-    // flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // backgroundColor: '#6ECFBF',
+    backgroundColor: '#6ECFBF',
   }
 })
 

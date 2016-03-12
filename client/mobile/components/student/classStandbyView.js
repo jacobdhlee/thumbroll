@@ -24,6 +24,15 @@ class ClassStandbyView extends React.Component {
       }
     })
   }
+  multiPage() {
+    this.props.navigator.push({
+      component: MultiChoice,
+      sceneConfig: {
+        ...Navigator.SceneConfigs.FloatFromBottom,
+        gestures: {}
+      }
+    })
+  }
   previousSection() {
     this.props.navigator.pop();
   }
@@ -39,6 +48,9 @@ class ClassStandbyView extends React.Component {
         </View>
         <View>
           <Text onPress={this.thumbcheckPage.bind(this)} >ThumbCheck</Text>
+        </View>
+        <View>
+          <Text onPress={this.multiPage.bind(this)} >MutipleChoice</Text>
         </View>
       </View>
     )
