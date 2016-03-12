@@ -49,6 +49,7 @@ class Login extends React.Component {
       // api.login(this.state.username, this.state.password)
         // if good, push relevant new scene to navigator with correct userId (for getting classes)
         // else, set error state
+        //api call will return classes, pass classes through navigator
       // for time being, hardcoded teacher and student
       if(this.state.username === 'teacher') {
         this.props.navigator.push({

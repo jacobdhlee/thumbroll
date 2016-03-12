@@ -33,11 +33,13 @@ class RequestFeedbackView extends React.Component {
   }
 
   dismissClass() {
+    // emit socket dismissClass
     this.props.navigator.pop();
   }
 
   selectFeebackOption(feedbackOption) {
-    // emit socket event
+    // api post request with lessonId, feedbackType
+    // socket event emitted by server
     this.props.navigator.push({
       component: FeedbackView,
       userId: this.state.userId,

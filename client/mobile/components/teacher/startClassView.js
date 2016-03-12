@@ -24,6 +24,10 @@ class StartClassView extends React.Component {
   selectClass(classId) {
     console.log(classId);
     //currently skipping lessons
+    //api call to get lessons, passing classId
+      // once including lessons, will need to fetch lesson data when selecting lesson
+        //pass lesson data through navigator
+      // socket emit class is open
     //open socket for class (to allow attendence, messages, etc)
     this.props.navigator.push({
       component: RequestFeedbackView,
