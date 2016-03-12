@@ -60,6 +60,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  caption: {
+    //flex: 1,
+  },
   value: {
     flex: 1,
     textAlign: 'right',

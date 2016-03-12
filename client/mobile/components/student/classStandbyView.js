@@ -34,6 +34,15 @@ class ClassStandbyView extends React.Component {
     })
   }
 
+  thumbcheckPage() {
+    this.props.navigator.push({
+      component: ThumbCheck,
+      sceneConfig: {
+        ...Navigator.SceneConfigs.FloatFromBottom,
+        gestures: {}
+      }
+    })
+  }
   previousSection() {
     this.props.navigator.pop();
   }
