@@ -29,7 +29,7 @@ class StartClassView extends React.Component {
       userId: this.state.userId,
       classId: classId,
       sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromBottom,
+        ...Navigator.SceneConfigs.FloatFromRight,
         gestures: {}
       }
     });
