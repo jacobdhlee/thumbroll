@@ -15,12 +15,15 @@ class StartClassView extends React.Component {
     super(props);
     this.state = {
       userId: this.props.route.userId,
+      //ultimately refactor classes as objects based on db entries
       classes: ['Quick Class', 'CS 101', 'CS 201']
     };
+    //populate classes state from db
   }
 
   selectClass(classId) {
     console.log(classId);
+    //currently skipping lessons
     this.props.navigator.push({
       component: RequestFeedbackView,
       userId: this.state.userId,
@@ -30,10 +33,6 @@ class StartClassView extends React.Component {
         gestures: {}
       }
     });
-    // this.setState({
-    //   isLoading: false,
-    //   error:false
-    // });
   }
 
   renderClasses(classes) {
@@ -50,6 +49,8 @@ class StartClassView extends React.Component {
 
   render() {
     return (
+      //need back/logout button
+      //will want to show loading symbol until classes are pulled from DB
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <View style={styles.viewContainer}>
           <View style={styles.titleContainer}>
