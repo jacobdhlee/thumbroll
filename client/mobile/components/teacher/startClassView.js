@@ -1,4 +1,5 @@
 var React = require('react-native');
+var RequestFeedbackView = require('./requestFeedbackView');
 // var api = require('../Utils/api');
 
 var {
@@ -18,16 +19,17 @@ class StartClassView extends React.Component {
     };
   }
 
-  selectClass(className) {
-    console.log(className);
-    // this.props.navigator.push({
-    //   component: StartClassView,
-    //   userId: 'teacher',
-    //   sceneConfig: {
-    //     ...Navigator.SceneConfigs.FloatFromBottom,
-    //     gestures: {}
-    //   }
-    // });
+  selectClass(classId) {
+    console.log(classId);
+    this.props.navigator.push({
+      component: RequestFeedbackView,
+      userId: this.state.userId,
+      classId: classId,
+      sceneConfig: {
+        ...Navigator.SceneConfigs.FloatFromBottom,
+        gestures: {}
+      }
+    });
     // this.setState({
     //   isLoading: false,
     //   error:false
