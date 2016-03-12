@@ -30,7 +30,6 @@ class Login extends React.Component {
       // else, all the stuff below
   }
 
-
   handleUsernameChange(event) {
     this.setState({
       username: event.nativeEvent.text
