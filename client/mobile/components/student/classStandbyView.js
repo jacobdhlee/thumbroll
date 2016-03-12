@@ -33,7 +33,6 @@ class ClassStandbyView extends React.Component {
       }
     })
   }
-
   thumbcheckPage() {
     this.props.navigator.push({
       component: ThumbCheck,
