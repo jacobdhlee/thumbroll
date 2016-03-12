@@ -1,10 +1,12 @@
 var React = require('react-native');
+var ClassStandbyView = require('./classStandbyView.js');
 
 var {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
+  Navigator,
 } = React;
 
 class JoinClassView extends React.Component {
@@ -17,9 +19,14 @@ class JoinClassView extends React.Component {
 
   selectedClass(cls) {
     console.log(cls);
-    // this.props.navigator.push({
-
-    // })
+    this.props.navigator.push({
+      component: ClassStandbyView,
+      className: cls,
+      sceneConfig: {
+        ...Navigator.SceneConfigs.FloatFromBottom,
+        gestures: {}
+      }
+    })
   }
 
   eachClasses(classes){
