@@ -44,6 +44,7 @@ class ClassStandbyView extends React.Component {
     })
   }
   
+
   previousSection() {
     this.props.navigator.pop();
   }
