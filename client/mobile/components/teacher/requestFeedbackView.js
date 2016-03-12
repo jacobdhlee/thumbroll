@@ -14,12 +14,24 @@ class RequestFeedbackView extends React.Component {
     super(props);
     this.state = {
       userId: this.props.route.userId,
-      classId: this.props.route.classId
+      classId: this.props.route.classId,
+      lessonId: 'default',
+      feedbackOptions: [
+        {
+          id: 1,
+          name: 'Thumbs Check',
+          /*options:{for preset answers?}*/
+        },
+        {
+          id: 2,
+          name: 'Multiple Choice'
+        }
+      ]
     };
   }
 
-  selectFeebackOption(type) {
-    console.log(type);
+  selectFeebackOption(optionId) {
+    console.log(optionId);
     // this.props.navigator.push({
     //   component: RequestFeedbackView,
     //   userId: this.state.userId,
@@ -35,7 +47,20 @@ class RequestFeedbackView extends React.Component {
     // });
   }
 
+  renderFeedbackOptions(options) {
+    return options.map((option, index) => {
+      return (
+        <View style={styles.buttonContainer} key={index}>
+          <TouchableOpacity onPress={this.selectFeebackOption.bind(this, option.id)} style={styles.button}>
+            <Text style={styles.buttonText}> {option.name} </Text>
+          </TouchableOpacity>
+        </View>
+      )
+    })
+  }
+
   render() {
+    //need end class / back button
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <View style={styles.viewContainer}>
@@ -43,16 +68,7 @@ class RequestFeedbackView extends React.Component {
             <Text style={styles.pageText}> Request Feedback: </Text>
           </View>
           <View style={styles.buttonsContainer}>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={this.selectFeebackOption.bind(this, 'thumbs')} style={styles.button}>
-                <Text style={styles.buttonText}> Thumbs Check </Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={this.selectFeebackOption.bind(this, 'multChoice')} style={styles.button}>
-                <Text style={styles.buttonText}> Multiple Choice </Text>
-              </TouchableOpacity>
-            </View>
+            {this.renderFeedbackOptions(this.state.feedbackOptions)}
           </View>
         </View>
       </View>
