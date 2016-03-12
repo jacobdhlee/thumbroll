@@ -18,7 +18,8 @@ module.exports = {
 
   },
 
-  thumbsCheck: function(req, res, next) {
+  thumbsCheck: function(io, req, res, next) {
+    console.log(io);
     // var teacherId = req.body.teacherId;
     // var poll = req.body.poll;
 
