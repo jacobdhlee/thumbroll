@@ -15,19 +15,17 @@ module.exports = function(app, express, io) {
   app.get('/signup', authenticationController.signup);
   
   app.get('/teachers/poll', teachersController.pollClass);
-  app.get('/teachers/thumbs', teachersController.thumbsCheck.bind(this, io));
+  //app.get('/teachers/thumbs', teachersController.thumbsCheck);
   
-  app.post('/teachers/thumbs', teachersController.thumbsCheck);
+  app.get('/teachers/thumbs', teachersController.thumbsCheck.bind(this, io));
   app.post('/teachers/poll', teachersController.pollClass);
 
-  //app.get('/teachers', teachersController.getAllClasses);
+  //app.get('/teachers/lessons/:classId', teachersController.getLessons);
+  //app.get('/teachers/polls/:lessonId', teachersController.getPolls);
 
-  //app.get('/teachers/:classId', teachersController.getOneClass);
-
-  //app.get('/students', studentsController.readyStage);
+  app.post('/teachers/polls', teachersController.newPoll);
 
   //app.get('/classDismissed', teachersController.endClass);
-
-
+  app.get('/students/ready', studentsController.readyStage.bind(this, io));
 
 };
