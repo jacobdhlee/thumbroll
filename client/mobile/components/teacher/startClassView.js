@@ -24,6 +24,7 @@ class StartClassView extends React.Component {
   selectClass(classId) {
     console.log(classId);
     //currently skipping lessons
+    //open socket for class (to allow attendence, messages, etc)
     this.props.navigator.push({
       component: RequestFeedbackView,
       userId: this.state.userId,
