@@ -77,6 +77,9 @@ class Login extends React.Component {
           error:false
         });
       } else {
+        this.setState({
+          error: 'Invalid Username'
+        })
       }
       this.setState({
         isLoading: false,
