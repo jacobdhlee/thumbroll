@@ -9,13 +9,13 @@ var studentsController = require('../controllers/students');
 var teachersController = require('../controllers/teachers');
 var authenticationController = require('../controllers/authenticate');
 
-module.exports = function(app, express) {
+module.exports = function(app, express, io) {
 
   app.get('/login', authenticationController.login);
   app.get('/signup', authenticationController.signup);
   
   app.get('/teachers/poll', teachersController.pollClass);
-  app.get('/teachers/thumbs', teachersController.thumbsCheck);
+  app.get('/teachers/thumbs', teachersController.thumbsCheck.bind(this, io));
   
   app.post('/teachers/thumbs', teachersController.thumbsCheck);
   app.post('/teachers/poll', teachersController.pollClass);
