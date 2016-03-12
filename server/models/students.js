@@ -2,16 +2,15 @@
 
 module.exports = function(sequelize, DataTypes) {
   var Students = sequelize.define("Students", {
-    id: DataTypes.STRING,
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1,
+      primaryKey: true
+    },
     firstname: DataTypes.STRING,
     lastname: DataTypes.STRING,
     username: DataTypes.STRING,
     password: DataTypes.STRING
-  }, {
-    classMethods: {
-      associate: function(models) {
-        User.hasMany(models.Task)
-      }
     }
   });
   return Students;
