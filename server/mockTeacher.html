@@ -1,0 +1,36 @@
+<!doctype html>  
+<html lang="en">  
+    <head>
+
+    </head>
+    <body>
+        <h1>Thumbroll</h1>
+        <p></p>
+        <div id="future"></div>
+         <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.js"></script>    
+        <script>  
+            var socket = io.connect('http://localhost:3000');
+            socket.on('connect', function(data) {
+              socket.emit('join', 'This is your teacher speaking');
+            });
+            socket.on('greeting', function(data) {
+              $("p").append(data);
+              //socket.emit('newPoll', poll);
+            });
+
+            var poll = {
+              type: 'poll',
+              datetime: new Date(),
+              lessonId: 4,
+              responseId: 2
+            };
+
+            var sendNewPoll = function() {
+              socket.emit('newPoll', poll);
+            };
+
+            setTimeout(sendNewPoll.bind(this), 3000);
+        </script>
+    </body>
+</html>
