@@ -39,7 +39,7 @@ class StartClassView extends React.Component {
   renderClasses(classes) {
     return classes.map((className, index) => {
       return (
-        <View style={styles.buttonContainer}>
+        <View style={styles.buttonContainer} key={index}>
           <TouchableOpacity onPress={this.selectClass.bind(this, className)} style={styles.button}>
             <Text style={styles.buttonText}> {className} </Text>
           </TouchableOpacity>
