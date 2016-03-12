@@ -28,23 +28,19 @@ class RequestFeedbackView extends React.Component {
         }
       ]
     };
+    //populate feedbackOptions with anything custom from lesson
   }
 
   selectFeebackOption(optionId) {
-    console.log(optionId);
-    // this.props.navigator.push({
-    //   component: RequestFeedbackView,
-    //   userId: this.state.userId,
-    //   classId: classId,
-    //   sceneConfig: {
-    //     ...Navigator.SceneConfigs.FloatFromBottom,
-    //     gestures: {}
-    //   }
-    // });
-    // this.setState({
-    //   isLoading: false,
-    //   error:false
-    // });
+    if(optionId === 1) {
+      console.log('Thumbs Check!');
+      //navigate to thumbsCheck
+      //pass feedbackOption options if required
+    } else if(optionId === 2) {
+      console.log('Generic Multiple Choice!');
+      //navigate to multiple choice
+      //pass feedbackOption options if required
+    }
   }
 
   renderFeedbackOptions(options) {

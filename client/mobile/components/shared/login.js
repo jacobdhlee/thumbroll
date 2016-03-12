@@ -25,14 +25,9 @@ class Login extends React.Component {
       isLoading: false,
       error: false
     };
-    // check for token match in keychain with server, if it is good.. go to camera view
-    // Keychain
-    //   .getGenericPassword()
-    //   .then((credentials) => {
-    //     console.log('getting from Keychain: ', credentials);
-    //   }).catch((err) => {
-    //     // Keychain not found. User must login
-    //   });
+    // Check keychain for saved credentials
+      // if so, move forward to next scene
+      // else, all the stuff below
   }
 
 
@@ -53,7 +48,9 @@ class Login extends React.Component {
         isLoading: true
       });
       // api.login(this.state.username, this.state.password)
-      // for time being, hardcoded teach and student
+        // if good, push relevant new scene to navigator with correct userId (for getting classes)
+        // else, set error state
+      // for time being, hardcoded teacher and student
       if(this.state.username === 'teacher') {
         this.props.navigator.push({
           component: StartClassView,
@@ -81,7 +78,6 @@ class Login extends React.Component {
           error:false
         });
       } else {
-        this.setState({error: 'Invalid User'})
       }
       this.setState({
         isLoading: false,
