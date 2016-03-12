@@ -7,10 +7,6 @@ var io = require('socket.io').listen(server);
 var PORT = process.env.PORT || 3000;
 
 
-// app.get('/', function (req, res) {
-//   res.sendFile(__dirname + '/socketTest.html');
-// })
-
 //models.sequelize.sync().then(function () {
 
   io.on('connection', function(client) {
@@ -22,11 +18,9 @@ var PORT = process.env.PORT || 3000;
       } else{
         client.emit('greeting', 'Hello, student. Please wait for your instructor to open a new poll.');
       }
-      //client.emit('openPoll', 'hello, its me');
     });
 
     client.on('newPoll', function(data) {
-      console.log('>>>>>>>>>',data);
       io.sockets.emit('openPoll', data);
     });
 
