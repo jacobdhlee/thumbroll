@@ -1,0 +1,30 @@
+<!doctype html>  
+<html lang="en">  
+    <head>
+
+    </head>
+    <body>
+        <h1>Thumbroll</h1>
+        <p></p>
+        <div id="future"></div>
+         <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.js"></script>    
+        <script>  
+            var socket = io.connect('http://localhost:3000');
+            socket.on('connect', function(data) {
+              socket.emit('join', 'Hiya, Teach! It\'s a student!');
+            });
+            socket.on('openPoll', function(data) {
+              console.log('new poll received');
+              console.log(data);
+              $("p").text(JSON.stringify(data));
+            });
+            socket.on('anything', function(data) {
+              console.log(data);
+            });
+            socket.on('greeting', function(data) {
+              $("p").append(data);
+            });
+        </script>
+    </body>
+</html>
