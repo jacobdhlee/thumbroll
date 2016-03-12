@@ -2,25 +2,43 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);  
 var io = require('socket.io').listen(server);
+//var models = require("./models");
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
 
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/socketTest.html');
-})
+// app.get('/', function (req, res) {
+//   res.sendFile(__dirname + '/socketTest.html');
+// })
 
-io.on('connection', function(client) {  
-    console.log('Client connected!');
+//models.sequelize.sync().then(function () {
+
+  io.on('connection', function(client) {
+    console.log('Someone connected!');
+
     client.on('join', function(data) {
-      console.log(data);
+      if(data === 'This is your teacher speaking') {
+        client.emit('greeting', 'Hiya, Teach!');
+      } else{
+        client.emit('greeting', 'Hello, student. Please wait for your instructor to open a new poll.');
+      }
+      //client.emit('openPoll', 'hello, its me');
     });
+
+    client.on('newPoll', function(data) {
+      console.log('>>>>>>>>>',data);
+      io.sockets.emit('openPoll', data);
+    });
+
     client.on('disconnect', function(client) {
       console.log('Bye!\n');
     });
-});
+  });
 
+  require('./config/routes.js')(app, express);
 
-server.listen(PORT, function (){
-  console.log('listening on port', PORT);
-});
+  server.listen(PORT, function (){
+    console.log('listening on port', PORT);
+  });
+
+// };
