@@ -12,9 +12,9 @@
         <script>  
             var socket = io.connect('http://localhost:3000');
             socket.on('connect', function(data) {
-              socket.emit('join', 'Hiya, Teach! It\'s a student!');
+              socket.emit('studentJoin', 'Hiya, Teach! It\'s a student!');
             });
-            socket.on('openPoll', function(data) {
+            socket.on('thumbsCheck', function(data) {
               console.log('new poll received');
               console.log(data);
               $("p").text(JSON.stringify(data));
