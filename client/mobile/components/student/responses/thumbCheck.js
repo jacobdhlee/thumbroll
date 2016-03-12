@@ -21,7 +21,7 @@ class ThumbCheck extends React.Component {
 
   valueChange(value) {
     console.log('$$$$$$$$$',value)
-    this.setState({value:value})
+    this.setState({value: Math.floor(value)})
   }
   
   render() {
@@ -35,9 +35,9 @@ class ThumbCheck extends React.Component {
         </View>
         <View style={styles.container}>
           <Slider
-            style={customStyles8.container}
-            trackStyle={customStyles8.track}
-            thumbStyle={customStyles8.thumb}
+            trackStyle={customStyles.track}
+            thumbStyle={customStyles.thumb}
+            minimumTrackTintColor='#30a935'
             value={this.state.value}
             maximumValue={100}
             onValueChange={this.valueChange.bind(this)} />
@@ -76,24 +76,19 @@ const styles = StyleSheet.create({
   }
 })
 
-var customStyles8 = StyleSheet.create({
-  container: {
-    height: 20,
-  },
+var customStyles = StyleSheet.create({
   track: {
-    height: 2,
-    backgroundColor: '#303030',
-  },
-  thumb: {
-    width: 10,
-    height: 10,
-    backgroundColor: '#31a4db',
-    borderRadius: 10 / 2,
-    shadowColor: '#31a4db',
-    shadowOffset: {width: 0, height: 0},
-    shadowRadius: 2,
-    shadowOpacity: 1,
-  }
+      height: 4,
+      borderRadius: 2,
+    },
+    thumb: {
+      width: 30,
+      height: 30,
+      borderRadius: 30 / 2,
+      backgroundColor: 'white',
+      borderColor: '#30a935',
+      borderWidth: 2,
+    }
 });
 
 
