@@ -29,7 +29,7 @@ var PORT = process.env.PORT || 3000;
     });
   });
 
-  require('./config/routes.js')(app, express);
+  require('./config/routes.js')(app, express, io);
 
   server.listen(PORT, function (){
     console.log('listening on port', PORT);
