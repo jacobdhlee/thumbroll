@@ -16,20 +16,11 @@ class FeedbackView extends React.Component {
   constructor(props) {
     super(props);
     var {height, width} = Dimensions.get('window');
-    var graphType = '';
-    var feedbackOption = this.props.route.feedbackOption;
-    if(feedbackOption.id === 1) {
-      graphType = 'PercentageChart';
-    } else if (feedbackOption.id === 2) {
-      graphType = 'HistogramChart';
-    }
-    //include other graphTypes
     this.state = {
       userId: this.props.route.userId,
       classId: this.props.route.classId,
       lessonId: this.props.route.lessonId,
-      feedbackOption: feedbackOption,
-      graphType: graphType,
+      feedbackOption: this.props.route.feedbackOption,
       height: height,
       width: width
     };
@@ -37,6 +28,22 @@ class FeedbackView extends React.Component {
 
   exitPage() {
     this.props.navigator.pop();
+  }
+
+  renderChart() {
+    if(this.state.feedbackOption.id === 1) {
+      return (
+        <View style={{ width: this.state.width, height: this.state.height * 0.7, backgroundColor: 'red'}}>
+          {React.createElement(PercentageChart)}
+        </View>
+      )
+    } else if(this.state.feedbackOption.id === 2) {
+      return (
+        <View style={{ width: this.state.width, height: this.state.height * 0.7, backgroundColor: 'red'}}>
+          {React.createElement(HistogramChart)}
+        </View>
+      )
+    }
   }
 
   render() {
@@ -52,8 +59,7 @@ class FeedbackView extends React.Component {
           <View style={styles.titleContainer}>
             <Text style={styles.pageText}> {this.state.feedbackOption.name} </Text>
           </View>
-          <View style={{ width: this.state.width, height: this.state.height * 0.7, backgroundColor: 'red'}}>
-          </View>
+          {this.renderChart.bind(this)()}
         </View>
       </View>
     )
