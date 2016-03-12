@@ -106,7 +106,7 @@ class Login extends React.Component {
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
     );
     return (
-      <View style={{flex: 1, backgroundColor: 'white'}}> 
+      <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <View style={styles.loginContainer}>
           <Text style={styles.fieldTitle}> Username </Text>
           <TextInput

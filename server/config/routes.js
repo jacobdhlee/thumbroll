@@ -27,5 +27,4 @@ module.exports = function(app, express, io) {
 
   //app.get('/classDismissed', teachersController.endClass);
   app.get('/students/ready', studentsController.readyStage.bind(this, io));
-
 };
