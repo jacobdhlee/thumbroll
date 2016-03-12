@@ -106,7 +106,7 @@ class Login extends React.Component {
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
     );
     return (
-      <View style={{flex: 1, backgroundColor: '#ededed'}}> 
+      <View style={{flex: 1, backgroundColor: 'white'}}> 
         <View style={styles.loginContainer}>
           <Text style={styles.fieldTitle}> Username </Text>
           <TextInput
@@ -160,12 +160,16 @@ class Login extends React.Component {
 const styles = StyleSheet.create({
   loginContainer: {
     flex: 1,
+    padding: 30,
+    flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
   fieldTitle: {
-
+    marginTop: 10,
+    marginBottom: 15,
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#616161'
   },
   userInput: {
     height: 50,
@@ -175,19 +179,33 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   button: {
-
+    height: 45,
+    flexDirection: 'row',
+    backgroundColor: '#FF5A5F',
+    borderColor: 'transparent',
+    borderWidth: 1,
+    borderRadius: 4,
+    marginBottom: 10,
+    marginTop: 30,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
   },
   buttonText: {
-
+    fontSize: 18,
+    color: 'white',
+    alignSelf: 'center'
   },
   signup: {
-
+    marginTop: 20,
+    fontSize: 14,
+    textAlign: 'center'
   },
   loading: {
-
+    marginTop: 20
   },
   err: {
-
+    fontSize: 14,
+    textAlign: 'center'
   }
 });
 
