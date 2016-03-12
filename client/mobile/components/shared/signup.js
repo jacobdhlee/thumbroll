@@ -95,7 +95,7 @@ class Signup extends React.Component {
     );
     //be able to select if teacher or not?
     return (
-      <View style={{flex: 1, backgroundColor: '#ededed'}}> 
+      <View style={{flex: 1, backgroundColor: 'white'}}> 
         <View style={styles.mainContainer}>
           <Text style={styles.fieldTitle}> Username </Text>
           <TextInput
@@ -149,7 +149,7 @@ class Signup extends React.Component {
             onPress={this.handleRedirect.bind(this)}
             underlayColor='#ededed'
           >
-            <Text style={styles.signup}> Already have an account? Sign in! </Text>
+            <Text style={styles.signin}> Already have an account? Sign in! </Text>
           </TouchableHighlight>
           <ActivityIndicatorIOS
             animating= {this.state.isLoading}
@@ -171,7 +171,6 @@ var styles = StyleSheet.create({
     padding: 30,
     flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor: '#ededed'
   },
   fieldTitle: {
     marginTop: 10,
@@ -206,25 +205,18 @@ var styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
-  signup: {
+  signin: {
     marginTop: 20,
     fontSize: 14,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   loading: {
     marginTop: 20
   },
   err: {
     fontSize: 14,
-    textAlign: 'center',
+    textAlign: 'center'
   },
-  backIcon: {
-    marginLeft: 15,
-  },
-  pageTitle: {
-    fontSize: 18,
-    textAlign: 'center',
-  }
 });
 
 module.exports = Signup;
