@@ -113,10 +113,6 @@ class Signup extends React.Component {
     this.props.navigator.pop();
   }
 
-  _backButton() {
-    this.props.navigator.pop();
-  }
-
   render() {
     var showErr = (
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
