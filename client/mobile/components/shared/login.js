@@ -2,8 +2,8 @@ var React = require('react-native');
 var JoinClassView = require('./../student/joinClassView.js');
 var StartClassView = require('./../teacher/startClassView.js');
 var Signup = require('./signup.js');
+var api = require('./../../utils/api.js');
 // var NavigationBar = require('react-native-navbar');
-// var api = require('../Utils/api');
 // var Keychain = require('react-native-keychain');
 
 var {
@@ -47,6 +47,20 @@ class Login extends React.Component {
         isLoading: true
       });
       // api.login(this.state.username, this.state.password)
+      // .then((response) => {
+      //   this.props.navigator.push({
+      //     component: StartClassView,
+      //     userId: response.userId,
+      //     classes: response.classes,
+      //     sceneConfig: {
+      //       ...Navigator.SceneConfigs.FloatFromBottom,
+      //       gestures: {}
+      //     }
+      //   });
+      // })
+      // .catch((err) => {
+      //   this.setState({error:err})
+      // });
         // if good, push relevant new scene to navigator with correct userId (for getting classes)
         // else, set error state
         //api call will return classes, pass classes through navigator
@@ -60,10 +74,6 @@ class Login extends React.Component {
             gestures: {}
           }
         });
-        this.setState({
-          isLoading: false,
-          error:false
-        });
       } else if(this.state.username === 'student') {
         this.props.navigator.push({
           component: JoinClassView,
@@ -72,10 +82,6 @@ class Login extends React.Component {
             ...Navigator.SceneConfigs.FloatFromBottom,
             gestures: {}
           }
-        });
-        this.setState({
-          isLoading: false,
-          error:false
         });
       } else {
         this.setState({
