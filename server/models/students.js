@@ -11,7 +11,6 @@ module.exports = function(sequelize, DataTypes) {
     lastname: DataTypes.STRING,
     username: DataTypes.STRING,
     password: DataTypes.STRING
-    }
   });
   return Students;
 };
