@@ -50,12 +50,43 @@ class Signup extends React.Component {
         isLoading: true,
         passwordError: false
       });
-      //api call to signup
-        //check if user already exists
-        //if not, set to Keychain?
-          // push logged in view
-        //if user exists,
-          //set username error
+      // api.signup(this.state.username, this.state.password)
+      // .then((response) => {
+      //   if(response.status === 500){
+      //     this.setState({
+      //       error: 'User already exists',
+      //       isLoading: false
+      //     });
+      //   } else {
+      //     //keychain stuff?
+      //     var body = JSON.parse(response.body);
+      //     if(body.type === 'teacher') {
+      //       this.props.navigator.push({
+      //         component: StartClassView,
+      //         classes: body.classes,
+      //         sceneConfig: {
+      //           ...Navigator.SceneConfigs.FloatFromBottom,
+      //           gestures: {}
+      //         }
+      //       });
+      //     } else if (body.type === 'student') {
+      //       this.props.navigator.push({
+      //         component: JoinClassView,
+      //         classes: body.classes,
+      //         sceneConfig: {
+      //           ...Navigator.SceneConfigs.FloatFromBottom,
+      //           gestures: {}
+      //         }
+      //       });
+      //     }
+      //   }
+      // })
+      // .catch((err) => {
+      //   this.setState({
+      //     error: 'User already exists' + err,
+      //     isLoading: false
+      //   });
+      // }
       //for time being, this is hardcoded:
       this.props.navigator.push({
         component: StartClassView,
