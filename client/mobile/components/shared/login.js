@@ -46,24 +46,46 @@ class Login extends React.Component {
       this.setState({
         isLoading: true
       });
+      // API FUNCTION RETURNS PROMIS
       // api.login(this.state.username, this.state.password)
       // .then((response) => {
-      //   this.props.navigator.push({
-      //     component: StartClassView,
-      //     userId: response.userId,
-      //     classes: response.classes,
-      //     sceneConfig: {
-      //       ...Navigator.SceneConfigs.FloatFromBottom,
-      //       gestures: {}
+      //   if(response.status === 500){
+      //     this.setState({
+      //        error: 'Username or password is incorrect',
+      //        isLoading: false
+      //      });
+      //   } else {
+      //     var body = JSON.parse(response.body);
+      //     if(body.type === 'teacher') {
+      //       this.props.navigator.push({
+      //         component: StartClassView,
+      //         userId: body.userId,
+      //         classes: body.classes,
+      //         sceneConfig: {
+      //           ...Navigator.SceneConfigs.FloatFromBottom,
+      //           gestures: {}
+      //         }
+      //       });
+      //     } else if (body.type === 'student') {
+      //       this.props.navigator.push({
+      //         component: JoinClassView,
+      //         userId: body.userId,
+      //         classes: body.classes,
+      //         sceneConfig: {
+      //           ...Navigator.SceneConfigs.FloatFromBottom,
+      //           gestures: {}
+      //         }
+      //       });
       //     }
-      //   });
+      //   }
       // })
       // .catch((err) => {
-      //   this.setState({error:err})
-      // });
-        // if good, push relevant new scene to navigator with correct userId (for getting classes)
-        // else, set error state
-        //api call will return classes, pass classes through navigator
+      //   this.setState({
+      //      error: 'User not found' + err,
+      //      isLoading: false
+      //    });
+      // }
+      
       // for time being, hardcoded teacher and student
       if(this.state.username === 'teacher') {
         this.props.navigator.push({
