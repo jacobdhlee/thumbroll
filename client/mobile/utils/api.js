@@ -29,6 +29,10 @@ module.exports = {
           password: password
         })
       });
+  },
+
+  getLessons: (classId) => {
+    return fetch(sever + '/teachers/lessons/' + classId);
   }
 }
 

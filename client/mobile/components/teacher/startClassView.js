@@ -1,6 +1,6 @@
 var React = require('react-native');
 var RequestFeedbackView = require('./requestFeedbackView');
-// var api = require('../Utils/api');
+var api = require('./../../utils/api.js');
 
 var {
   View,
@@ -14,23 +14,47 @@ class StartClassView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      //ultimately refactor classes as objects based on db entries
+      //classes: this.props.route.classes
       classes: ['Quick Class', 'CS 101', 'CS 201']
     };
-    //populate classes state from db
   }
 
   selectClass(classId) {
     console.log(classId);
+    // if(classId === /*whatever is quick class*/) {
+    //   // socket emit class is open
+    //   this.props.navigator.push({
+    //     component: RequestFeedbackView,
+    //     lessonId: 'default',
+    //     sceneConfig: {
+    //       ...Navigator.SceneConfigs.FloatFromRight,
+    //       gestures: {}
+    //     }
+    //   });
+    // } else {
+    //   // once including lessons, will need to fetch lesson data when selecting lesson
+    //     //pass lesson data through navigator
+    //   api.getLessons(classId)
+    //   .then((response) => {
+    //     var body = JSON.parse(response.body);
+    //     this.props.navigator.push({
+    //       component: SelectLessonsView,
+    //       lessons: body.lessons
+    //       classId: classId,
+    //       sceneConfig: {
+    //         ...Navigator.SceneConfigs.FloatFromRight,
+    //         gestures: {}
+    //       }
+    //     });  
+    //   })
+    // }
+    
     //currently skipping lessons
-    //api call to get lessons, passing classId
-      // once including lessons, will need to fetch lesson data when selecting lesson
-        //pass lesson data through navigator
-      // socket emit class is open
     //open socket for class (to allow attendence, messages, etc)
     this.props.navigator.push({
       component: RequestFeedbackView,
       classId: classId,
+      lessonId: 'default',
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromRight,
         gestures: {}
