@@ -14,8 +14,7 @@ class RequestFeedbackView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      classId: this.props.route.classId,
-      lessonId: 'default',
+      lessonId: this.props.route.lessonId,
       feedbackOptions: [
         {
           id: 1,
@@ -37,7 +36,22 @@ class RequestFeedbackView extends React.Component {
   }
 
   selectFeebackOption(feedbackOption) {
-    // api post request with lessonId, feedbackType
+    // api.startPoll(feedbackOption, this.state.lessonId)
+    // .then((response) => {
+    //   if(response === 500) {
+    //     /* something bad */
+    //   } else {
+    //     this.props.navigator.push({
+    //       component: FeedbackView,
+    //       lessonId: this.state.lessonId,
+    //       feedbackOption: feedbackOption,
+    //       sceneConfig: {
+    //         ...Navigator.SceneConfigs.FloatFromRight,
+    //         gestures: {}
+    //       }
+    //     });
+    //   }
+    // });
     // socket event emitted by server
     this.props.navigator.push({
       component: FeedbackView,

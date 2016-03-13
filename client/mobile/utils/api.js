@@ -33,6 +33,25 @@ module.exports = {
 
   getLessons: (classId) => {
     return fetch(sever + '/teachers/lessons/' + classId);
+  },
+
+  getLessonData: (lessonId) => {
+    return fetch(server + '/teachers/polls/' + lessonId);
+  },
+
+  startPoll: (pollObject, lessonId) => {
+    return
+      fetch(sever + '/teachers/polls', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          pollObject: pollObject,
+          lessonId: lessonId
+        })
+      });
   }
 }
 
