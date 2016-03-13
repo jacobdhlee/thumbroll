@@ -59,7 +59,6 @@ class Login extends React.Component {
       //     if(body.type === 'teacher') {
       //       this.props.navigator.push({
       //         component: StartClassView,
-      //         userId: body.userId,
       //         classes: body.classes,
       //         sceneConfig: {
       //           ...Navigator.SceneConfigs.FloatFromBottom,
@@ -69,7 +68,6 @@ class Login extends React.Component {
       //     } else if (body.type === 'student') {
       //       this.props.navigator.push({
       //         component: JoinClassView,
-      //         userId: body.userId,
       //         classes: body.classes,
       //         sceneConfig: {
       //           ...Navigator.SceneConfigs.FloatFromBottom,
@@ -90,7 +88,6 @@ class Login extends React.Component {
       if(this.state.username === 'teacher') {
         this.props.navigator.push({
           component: StartClassView,
-          userId: 'teacher',
           sceneConfig: {
             ...Navigator.SceneConfigs.FloatFromBottom,
             gestures: {}
@@ -99,7 +96,6 @@ class Login extends React.Component {
       } else if(this.state.username === 'student') {
         this.props.navigator.push({
           component: JoinClassView,
-          userId: 'student',
           sceneConfig: {
             ...Navigator.SceneConfigs.FloatFromBottom,
             gestures: {}

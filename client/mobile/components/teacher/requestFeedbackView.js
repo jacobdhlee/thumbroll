@@ -14,7 +14,6 @@ class RequestFeedbackView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: this.props.route.userId,
       classId: this.props.route.classId,
       lessonId: 'default',
       feedbackOptions: [
@@ -42,7 +41,6 @@ class RequestFeedbackView extends React.Component {
     // socket event emitted by server
     this.props.navigator.push({
       component: FeedbackView,
-      userId: this.state.userId,
       classId: this.state.classId,
       lessonId: this.state.lessonId,
       feedbackOption: feedbackOption,

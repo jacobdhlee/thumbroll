@@ -14,7 +14,6 @@ class StartClassView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: this.props.route.userId,
       //ultimately refactor classes as objects based on db entries
       classes: ['Quick Class', 'CS 101', 'CS 201']
     };
@@ -31,7 +30,6 @@ class StartClassView extends React.Component {
     //open socket for class (to allow attendence, messages, etc)
     this.props.navigator.push({
       component: RequestFeedbackView,
-      userId: this.state.userId,
       classId: classId,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromRight,

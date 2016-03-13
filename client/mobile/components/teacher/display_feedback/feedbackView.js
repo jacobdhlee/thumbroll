@@ -17,7 +17,6 @@ class FeedbackView extends React.Component {
     super(props);
     var {height, width} = Dimensions.get('window');
     this.state = {
-      userId: this.props.route.userId,
       classId: this.props.route.classId,
       lessonId: this.props.route.lessonId,
       feedbackOption: this.props.route.feedbackOption,
@@ -27,6 +26,7 @@ class FeedbackView extends React.Component {
   }
 
   exitPage() {
+    // emit socket disconnect
     this.props.navigator.pop();
   }
 
