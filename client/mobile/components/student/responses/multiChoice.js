@@ -23,12 +23,10 @@ class ToggleButton extends React.Component {
 class MultiChoice extends React.Component {
   constructor (props){
     super(props)
-  }
-  
+  }  
   previousPage() {
     this.props.navigator.pop();
   }
-
 
   render() {
     return (
@@ -53,23 +51,24 @@ const styles = StyleSheet.create({
     flex: 1, 
     flexDirection: 'column'
   },
+  halfHeight1: {
+    flex: .1, 
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#E8A30C'
+  },
   halfHeight: {
     flex: .1, 
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FF3366'
   },
-  halfHeight1: {
-    flex: .1, 
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FF3366',
-  },
   button:{
     flex: .2,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#70D1C1',
+
   },
 })
 
