@@ -16,7 +16,7 @@ module.exports = {
       });
   },
 
-  signup: (username, password) => {
+  signup: (username, password, teacherOrStudent) => {
     return
       fetch(sever + '/signup', {
         method: 'POST',
@@ -26,7 +26,8 @@ module.exports = {
         },
         body: JSON.stringify({
           username: username,
-          password: password
+          password: password,
+          type: teacherOrStudent
         })
       });
   },
