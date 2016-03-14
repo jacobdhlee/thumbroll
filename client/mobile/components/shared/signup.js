@@ -2,7 +2,7 @@ var React = require('react-native');
 var Login = require('./login');
 var JoinClassView = require('./../student/joinClassView.js');
 var StartClassView = require('./../teacher/startClassView.js');
-// var api = require('../Utils/api');
+var api = require('./../../utils/api.js');
 
 var {
   View,
