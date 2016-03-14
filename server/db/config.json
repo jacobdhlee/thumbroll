@@ -1,7 +1,7 @@
 {
   "development":{
-  "username":"Jake",
-  "password":"123",
+  "username":"iandeboisblanc",
+  "password":"",
   "database":"thumbroll",
   "host":"127.0.0.1",
   "dialect":"postgres",
