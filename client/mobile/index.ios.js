@@ -1,5 +1,7 @@
 var React = require('react-native');
-var Login = require('./components/shared/login.js')
+var Login = require('./components/shared/login');
+require('./utils/userAgent');
+var io =require('socket.io-client/socket.io');
 
 var {
   AppRegistry,
