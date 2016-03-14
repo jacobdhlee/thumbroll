@@ -3,6 +3,9 @@ var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var models = require("./models");
 
+var StudentsController = require('./controllers/students');
+
+
 var PORT = process.env.PORT || 3000;
 
 
