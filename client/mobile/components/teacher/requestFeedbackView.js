@@ -1,5 +1,5 @@
 var React = require('react-native');
-var FeedbackView = require('./display_feedback/feedbackView.js');
+var FeedbackView = require('./display_feedback/feedbackView');
 // var api = require('../Utils/api');
 
 var {
@@ -14,9 +14,8 @@ class RequestFeedbackView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: this.props.route.userId,
-      classId: this.props.route.classId,
-      lessonId: 'default',
+      lessonId: this.props.route.lessonId,
+      socket: this.props.route.socket,
       feedbackOptions: [
         {
           id: 1,
@@ -33,17 +32,35 @@ class RequestFeedbackView extends React.Component {
   }
 
   dismissClass() {
+    // emit socket dismissClass
     this.props.navigator.pop();
   }
 
   selectFeebackOption(feedbackOption) {
-    // emit socket event
+    // api.startPoll(feedbackOption, this.state.lessonId)
+    // .then((response) => {
+    //   if(response === 500) {
+    //     /* something bad */
+    //   } else {
+    //     this.props.navigator.push({
+    //       component: FeedbackView,
+    //       lessonId: this.state.lessonId,
+    //       feedbackOption: feedbackOption,
+          // socket: this.state.socket,
+    //       sceneConfig: {
+    //         ...Navigator.SceneConfigs.FloatFromRight,
+    //         gestures: {}
+    //       }
+    //     });
+    //   }
+    // });
+    // socket event emitted by server
     this.props.navigator.push({
       component: FeedbackView,
-      userId: this.state.userId,
       classId: this.state.classId,
       lessonId: this.state.lessonId,
       feedbackOption: feedbackOption,
+      socket: this.state.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromRight,
         gestures: {}

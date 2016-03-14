@@ -1,6 +1,6 @@
 var React = require('react-native');
-var PercentageChart = require('./percentageChart.js');
-var HistogramChart = require('./histogramChart.js');
+var PercentageChart = require('./percentageChart');
+var HistogramChart = require('./histogramChart');
 // var api = require('../Utils/api');
 
 var {
@@ -17,16 +17,17 @@ class FeedbackView extends React.Component {
     super(props);
     var {height, width} = Dimensions.get('window');
     this.state = {
-      userId: this.props.route.userId,
       classId: this.props.route.classId,
       lessonId: this.props.route.lessonId,
       feedbackOption: this.props.route.feedbackOption,
       height: height,
-      width: width
+      width: width,
+      socket: this.props.route.socket
     };
   }
 
   exitPage() {
+    // emit socket disconnect
     this.props.navigator.pop();
   }
 
@@ -47,7 +48,7 @@ class FeedbackView extends React.Component {
   }
 
   render() {
-    //need back button
+    //need back/cancle button
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <View style={styles.viewContainer}>

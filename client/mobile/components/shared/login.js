@@ -1,9 +1,9 @@
 var React = require('react-native');
-var JoinClassView = require('./../student/joinClassView.js');
-var StartClassView = require('./../teacher/startClassView.js');
-var Signup = require('./signup.js');
+var JoinClassView = require('./../student/joinClassView');
+var StartClassView = require('./../teacher/startClassView');
+var Signup = require('./signup');
+var api = require('./../../utils/api');
 // var NavigationBar = require('react-native-navbar');
-// var api = require('../Utils/api');
 // var Keychain = require('react-native-keychain');
 
 var {
@@ -23,7 +23,8 @@ class Login extends React.Component {
       username: '',
       password: '',
       isLoading: false,
-      error: false
+      error: false,
+      socket: this.props.route.socket
     };
     // Check keychain for saved credentials
       // if so, move forward to next scene
@@ -46,35 +47,64 @@ class Login extends React.Component {
       this.setState({
         isLoading: true
       });
+      // API FUNCTION RETURNS PROMIS
       // api.login(this.state.username, this.state.password)
-        // if good, push relevant new scene to navigator with correct userId (for getting classes)
-        // else, set error state
+      // .then((response) => {
+      //   if(response.status === 500){
+      //     this.setState({
+      //        error: 'Username or password is incorrect',
+      //        isLoading: false
+      //      });
+      //   } else {
+      //     var body = JSON.parse(response.body);
+      //     if(body.type === 'teacher') {
+      //       this.props.navigator.push({
+      //         component: StartClassView,
+      //         classes: body.classes,
+              // socket: this.state.socket,
+      //         sceneConfig: {
+      //           ...Navigator.SceneConfigs.FloatFromBottom,
+      //           gestures: {}
+      //         }
+      //       });
+      //     } else if (body.type === 'student') {
+      //       this.props.navigator.push({
+      //         component: JoinClassView,
+      //         classes: body.classes,
+              // socket: this.state.socket,
+      //         sceneConfig: {
+      //           ...Navigator.SceneConfigs.FloatFromBottom,
+      //           gestures: {}
+      //         }
+      //       });
+      //     }
+      //   }
+      // })
+      // .catch((err) => {
+      //   this.setState({
+      //      error: 'User not found' + err,
+      //      isLoading: false
+      //    });
+      // }
+      
       // for time being, hardcoded teacher and student
       if(this.state.username === 'teacher') {
         this.props.navigator.push({
           component: StartClassView,
-          userId: 'teacher',
+          socket: this.state.socket,
           sceneConfig: {
             ...Navigator.SceneConfigs.FloatFromBottom,
             gestures: {}
           }
-        });
-        this.setState({
-          isLoading: false,
-          error:false
         });
       } else if(this.state.username === 'student') {
         this.props.navigator.push({
           component: JoinClassView,
-          userId: 'student',
+          socket: this.state.socket,
           sceneConfig: {
             ...Navigator.SceneConfigs.FloatFromBottom,
             gestures: {}
           }
-        });
-        this.setState({
-          isLoading: false,
-          error:false
         });
       } else {
         this.setState({
@@ -91,6 +121,7 @@ class Login extends React.Component {
   handleSignupRedirect() {
     this.props.navigator.push({
       component: Signup,
+      socket: this.state.socket,
       sceneConfig: Navigator.SceneConfigs.FloatFromRight
     });
     this.setState({

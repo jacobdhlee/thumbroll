@@ -1,8 +1,8 @@
 var React = require('react-native');
 var Login = require('./login');
-var JoinClassView = require('./../student/joinClassView.js');
-var StartClassView = require('./../teacher/startClassView.js');
-// var api = require('../Utils/api');
+var JoinClassView = require('./../student/joinClassView');
+var StartClassView = require('./../teacher/startClassView');
+var api = require('./../../utils/api');
 
 var {
   View,
@@ -10,6 +10,7 @@ var {
   StyleSheet,
   TextInput,
   TouchableHighlight,
+  Picker,
   ActivityIndicatorIOS
 } = React;
 
@@ -20,9 +21,11 @@ class Signup extends React.Component {
       username: '',
       password: '',
       confirmedPassword: '',
+      accountType: 'student',
       isLoading: false,
       error: false,
-      passwordError: false
+      passwordError: false,
+      socket: this.props.route.socket
     };
   }
 
@@ -50,17 +53,51 @@ class Signup extends React.Component {
         isLoading: true,
         passwordError: false
       });
-      //api call to signup
-        //check if user already exists
-        //if not, set to Keychain?
-          // push logged in view
-        //if user exists,
-          //set username error
+      // api.signup(this.state.username, this.state.password, this.state.accountType)
+      // .then((response) => {
+      //   if(response.status === 500){
+      //     this.setState({
+      //       error: 'User already exists',
+      //       isLoading: false
+      //     });
+      //   } else {
+      //     //keychain stuff?
+      //     var body = JSON.parse(response.body);
+      //     if(body.type === 'teacher') {
+      //       this.props.navigator.push({
+      //         component: StartClassView,
+      //         classes: body.classes,
+              // socket: this.state.socket,
+      //         sceneConfig: {
+      //           ...Navigator.SceneConfigs.FloatFromBottom,
+      //           gestures: {}
+      //         }
+      //       });
+      //     } else if (body.type === 'student') {
+      //       this.props.navigator.push({
+      //         component: JoinClassView,
+      //         classes: body.classes,
+              // socket: this.state.socket,
+      //         sceneConfig: {
+      //           ...Navigator.SceneConfigs.FloatFromBottom,
+      //           gestures: {}
+      //         }
+      //       });
+      //     }
+      //   }
+      // })
+      // .catch((err) => {
+      //   this.setState({
+      //     error: 'User already exists' + err,
+      //     isLoading: false
+      //   });
+      // }
       //for time being, this is hardcoded:
       this.props.navigator.push({
         component: StartClassView,
         userId: 'aUserId',
-        username: this.state.username
+        username: this.state.username,
+        socket: this.state.socket,
       });
       this.setState({
         isLoading: false,
@@ -82,10 +119,6 @@ class Signup extends React.Component {
     this.props.navigator.pop();
   }
 
-  _backButton() {
-    this.props.navigator.pop();
-  }
-
   render() {
     var showErr = (
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
@@ -93,7 +126,6 @@ class Signup extends React.Component {
     var showPasswordErr = (
       this.state.passwordError ? <Text style={styles.err}> {this.state.passwordError} </Text> : <View></View>
     );
-    //be able to select if teacher or not?
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}> 
         <View style={styles.mainContainer}>
@@ -138,6 +170,14 @@ class Signup extends React.Component {
             onSubmitEditing={this.handleSubmit.bind(this)}
             onChange={this.handleConfirmedPasswordChange.bind(this)} 
           />
+          <Text style={styles.fieldTitle}> Account Type </Text>
+          <Picker
+            style={styles.picker}
+            selectedValue={this.state.accountType}
+            onValueChange={(type) => this.setState({accountType: type})}>
+            <Picker.Item label="Student" value="student" />
+            <Picker.Item label="Teacher" value="teacher" />
+          </Picker>
           <TouchableHighlight
             style={styles.button}
             onPress={this.handleSubmit.bind(this)}
@@ -187,6 +227,10 @@ var styles = StyleSheet.create({
     borderColor: '#616161',
     borderRadius: 4,
     color: '#616161'
+  },
+  picker: {
+    bottom: 70,
+    height: 70
   },
   buttonText: {
     fontSize: 18,
