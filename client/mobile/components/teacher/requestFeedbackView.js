@@ -1,5 +1,5 @@
 var React = require('react-native');
-var FeedbackView = require('./display_feedback/feedbackView.js');
+var FeedbackView = require('./display_feedback/feedbackView');
 // var api = require('../Utils/api');
 
 var {

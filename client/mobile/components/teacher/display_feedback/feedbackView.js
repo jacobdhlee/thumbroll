@@ -1,6 +1,6 @@
 var React = require('react-native');
-var PercentageChart = require('./percentageChart.js');
-var HistogramChart = require('./histogramChart.js');
+var PercentageChart = require('./percentageChart');
+var HistogramChart = require('./histogramChart');
 // var api = require('../Utils/api');
 
 var {

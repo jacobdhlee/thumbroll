@@ -1,8 +1,8 @@
 var React = require('react-native');
-var JoinClassView = require('./../student/joinClassView.js');
-var StartClassView = require('./../teacher/startClassView.js');
-var Signup = require('./signup.js');
-var api = require('./../../utils/api.js');
+var JoinClassView = require('./../student/joinClassView');
+var StartClassView = require('./../teacher/startClassView');
+var Signup = require('./signup');
+var api = require('./../../utils/api');
 // var NavigationBar = require('react-native-navbar');
 // var Keychain = require('react-native-keychain');
 
@@ -61,6 +61,7 @@ class Login extends React.Component {
       //       this.props.navigator.push({
       //         component: StartClassView,
       //         classes: body.classes,
+              // socket: this.state.socket,
       //         sceneConfig: {
       //           ...Navigator.SceneConfigs.FloatFromBottom,
       //           gestures: {}
@@ -70,6 +71,7 @@ class Login extends React.Component {
       //       this.props.navigator.push({
       //         component: JoinClassView,
       //         classes: body.classes,
+              // socket: this.state.socket,
       //         sceneConfig: {
       //           ...Navigator.SceneConfigs.FloatFromBottom,
       //           gestures: {}
@@ -89,7 +91,7 @@ class Login extends React.Component {
       if(this.state.username === 'teacher') {
         this.props.navigator.push({
           component: StartClassView,
-          socket: this.props.route.socket,
+          socket: this.state.socket,
           sceneConfig: {
             ...Navigator.SceneConfigs.FloatFromBottom,
             gestures: {}
@@ -98,7 +100,7 @@ class Login extends React.Component {
       } else if(this.state.username === 'student') {
         this.props.navigator.push({
           component: JoinClassView,
-          socket: this.props.route.socket,
+          socket: this.state.socket,
           sceneConfig: {
             ...Navigator.SceneConfigs.FloatFromBottom,
             gestures: {}
@@ -119,7 +121,7 @@ class Login extends React.Component {
   handleSignupRedirect() {
     this.props.navigator.push({
       component: Signup,
-      socket: this.props.route.socket,
+      socket: this.state.socket,
       sceneConfig: Navigator.SceneConfigs.FloatFromRight
     });
     this.setState({

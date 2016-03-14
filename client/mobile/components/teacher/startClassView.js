@@ -1,6 +1,6 @@
 var React = require('react-native');
 var RequestFeedbackView = require('./requestFeedbackView');
-var api = require('./../../utils/api.js');
+var api = require('./../../utils/api');
 
 var {
   View,
