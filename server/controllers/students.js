@@ -5,24 +5,21 @@
 // var Lessons = require('../models/lessons');
 //var RequestedResponses = require('../models/requested_responses');
 
-module.exports = function(io){
+module.exports = {
 
-  var functionTable = {};
+  readyStage : function(io, req, res, next) {
 
-  functionTable.readyStage = function(req, res, next) {
-
-    io.on('connection', function(client){
-      console.log('Hey, server! A student is ready to learn!');
+    // io.on('connection', function(client){
+    //   console.log('Hey, server! A student is ready to learn!');
       
-      client.emit('greeting', 'Hello, student!');
+    //   client.emit('greeting', 'Hello, student!');
 
-      client.on('responseRecorded', function(data){
-        io.sockets.emit('responseRecordedFromStudent', data);
-      });
+    //   client.on('responseRecorded', function(data){
+    //     io.sockets.emit('responseRecordedFromStudent', data);
+    //   });
 
-    });
-    res.send(responseHTML);
-  };
-  
-  return functionTable;
+    // });
+
+    res.status(200).send('Hello from the other side');
+  }
 };
