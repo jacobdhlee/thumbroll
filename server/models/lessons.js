@@ -6,7 +6,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-  var Lessons = sequelize.define("Lessons", {
+  var lessons = sequelize.define("lessons", {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,
@@ -17,12 +17,12 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Lessons.belongsTo(models.Classes, {
+        lessons.belongsTo(models.classes, {
           foreignKey: 'id', 
           as: 'classId'
         }); 
       }
     }
   });
-  return Lessons;
+  return lessons;
 };

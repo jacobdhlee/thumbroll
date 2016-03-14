@@ -6,7 +6,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-  var Polls = sequelize.define("Polls", {
+  var polls = sequelize.define("polls", {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,
@@ -17,16 +17,16 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Polls.belongsTo(models.Teachers, {
+        polls.belongsTo(models.teachers, {
           foreignKey: 'id', 
           as: 'teacherId'
         }); 
-        Polls.belongsTo(models.Lessons, {
+        polls.belongsTo(models.lessons, {
           foreignKey: 'id', 
-          as: 'LessonId'
+          as: 'lessonId'
         }); 
       }
     }
   });
-  return Polls;
+  return polls;
 };

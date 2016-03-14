@@ -5,7 +5,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-  var Students_Classes = sequelize.define("Students_Classes", {
+  var students_classes = sequelize.define("students_classes", {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,
@@ -14,16 +14,16 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Students_Classes.belongsTo(models.Students, {
+        students_classes.belongsTo(models.students, {
           foreignKey: 'id', 
-          as: 'StudentId'
+          as: 'studentId'
         }); 
-        Students_Classes.belongsTo(models.Classes, {
+        students_classes.belongsTo(models.classes, {
           foreignKey: 'id', 
-          as: 'ClassId'
+          as: 'classId'
         }); 
       }
     }
   });
-  return Students_Classes;
+  return students_classes;
 };
