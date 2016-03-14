@@ -13,11 +13,17 @@ var {
 } = React;
 
 class thumbroll extends Component {
+  constructor(props) {
+    super(props);
+    this.socket = io('localhost:3000', {jsonp: false});
+  }
+
   render() {
     return (
       <Navigator
         initialRoute={{
-          component: Login
+          component: Login,
+          socket: this.socket
         }}
         configureScene={(route) => {
           if (route.sceneConfig) {

@@ -15,7 +15,8 @@ class StartClassView extends React.Component {
     super(props);
     this.state = {
       //classes: this.props.route.classes
-      classes: ['Quick Class', 'CS 101', 'CS 201']
+      classes: ['Quick Class', 'CS 101', 'CS 201'],
+      socket: this.props.route.socket
     };
   }
 

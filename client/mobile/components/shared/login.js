@@ -23,7 +23,8 @@ class Login extends React.Component {
       username: '',
       password: '',
       isLoading: false,
-      error: false
+      error: false,
+      socket: this.props.route.socket
     };
     // Check keychain for saved credentials
       // if so, move forward to next scene
@@ -88,6 +89,7 @@ class Login extends React.Component {
       if(this.state.username === 'teacher') {
         this.props.navigator.push({
           component: StartClassView,
+          socket: this.props.route.socket,
           sceneConfig: {
             ...Navigator.SceneConfigs.FloatFromBottom,
             gestures: {}
@@ -96,6 +98,7 @@ class Login extends React.Component {
       } else if(this.state.username === 'student') {
         this.props.navigator.push({
           component: JoinClassView,
+          socket: this.props.route.socket,
           sceneConfig: {
             ...Navigator.SceneConfigs.FloatFromBottom,
             gestures: {}
@@ -116,6 +119,7 @@ class Login extends React.Component {
   handleSignupRedirect() {
     this.props.navigator.push({
       component: Signup,
+      socket: this.props.route.socket,
       sceneConfig: Navigator.SceneConfigs.FloatFromRight
     });
     this.setState({
