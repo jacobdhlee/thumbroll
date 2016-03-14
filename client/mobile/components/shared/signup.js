@@ -122,7 +122,6 @@ class Signup extends React.Component {
     var showPasswordErr = (
       this.state.passwordError ? <Text style={styles.err}> {this.state.passwordError} </Text> : <View></View>
     );
-    //be able to select if teacher or not?
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}> 
         <View style={styles.mainContainer}>
