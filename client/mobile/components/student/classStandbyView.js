@@ -1,4 +1,6 @@
 var React = require('react-native');
+var ThumbCheck =  require('./responses/thumbCheck.js');
+var MultiChoice =  require('./responses/multiChoice.js');
 
 var {
   Text,
@@ -10,8 +12,27 @@ var {
 class ClassStandbyView extends React.Component {
   constructor(props){ 
     super(props);
+    //socket.on()
   }
 
+  thumbcheckPage() {
+    this.props.navigator.push({
+      component: ThumbCheck,
+      sceneConfig: {
+        ...Navigator.SceneConfigs.FloatFromBottom,
+        gestures: {}
+      }
+    })
+  }
+  multiPage() {
+    this.props.navigator.push({
+      component: MultiChoice,
+      sceneConfig: {
+        ...Navigator.SceneConfigs.FloatFromBottom,
+        gestures: {}
+      }
+    })
+  }
   previousSection() {
     this.props.navigator.pop();
   }
@@ -25,6 +46,12 @@ class ClassStandbyView extends React.Component {
         <View>
          <Text style={styles.textSize} onPress={this.previousSection.bind(this)}>Go Back</Text>
         </View>
+        <View>
+          <Text onPress={this.thumbcheckPage.bind(this)} >ThumbCheck</Text>
+        </View>
+        <View>
+          <Text onPress={this.multiPage.bind(this)} >MutipleChoice</Text>
+        </View>
       </View>
     )
   }
@@ -33,6 +60,8 @@ class ClassStandbyView extends React.Component {
 const styles = StyleSheet.create({
   topStyle: {
     flex: 1, 
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#ededed'
   },
 
