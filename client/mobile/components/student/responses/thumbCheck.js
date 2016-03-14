@@ -83,7 +83,6 @@ var customStyles = StyleSheet.create({
       borderColor: '#30a935',
       borderWidth: 2,
     }
-});
-
+})
 
 module.exports = ThumbCheck;

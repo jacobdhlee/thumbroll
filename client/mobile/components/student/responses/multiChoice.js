@@ -28,6 +28,7 @@ class MultiChoice extends React.Component {
     this.props.navigator.pop();
   }
 
+
   render() {
     return (
       <View style={styles.container}>
@@ -68,7 +69,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#70D1C1',
-
   },
 })
 
