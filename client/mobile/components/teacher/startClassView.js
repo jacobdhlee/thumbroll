@@ -27,6 +27,7 @@ class StartClassView extends React.Component {
     //   this.props.navigator.push({
     //     component: RequestFeedbackView,
     //     lessonId: 'default',
+        // socket: this.state.socket,
     //     sceneConfig: {
     //       ...Navigator.SceneConfigs.FloatFromRight,
     //       gestures: {}
@@ -42,6 +43,7 @@ class StartClassView extends React.Component {
     //       component: SelectLessonsView,
     //       lessons: body.lessons
     //       classId: classId,
+          // socket: this.state.socket,
     //       sceneConfig: {
     //         ...Navigator.SceneConfigs.FloatFromRight,
     //         gestures: {}
@@ -56,6 +58,7 @@ class StartClassView extends React.Component {
       component: RequestFeedbackView,
       classId: classId,
       lessonId: 'default',
+      socket: this.state.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromRight,
         gestures: {}

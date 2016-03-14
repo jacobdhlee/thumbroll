@@ -15,6 +15,7 @@ class RequestFeedbackView extends React.Component {
     super(props);
     this.state = {
       lessonId: this.props.route.lessonId,
+      socket: this.props.route.socket,
       feedbackOptions: [
         {
           id: 1,
@@ -45,6 +46,7 @@ class RequestFeedbackView extends React.Component {
     //       component: FeedbackView,
     //       lessonId: this.state.lessonId,
     //       feedbackOption: feedbackOption,
+          // socket: this.state.socket,
     //       sceneConfig: {
     //         ...Navigator.SceneConfigs.FloatFromRight,
     //         gestures: {}
@@ -58,6 +60,7 @@ class RequestFeedbackView extends React.Component {
       classId: this.state.classId,
       lessonId: this.state.lessonId,
       feedbackOption: feedbackOption,
+      socket: this.state.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromRight,
         gestures: {}

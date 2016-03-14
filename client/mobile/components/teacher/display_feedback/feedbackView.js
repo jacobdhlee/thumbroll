@@ -21,7 +21,8 @@ class FeedbackView extends React.Component {
       lessonId: this.props.route.lessonId,
       feedbackOption: this.props.route.feedbackOption,
       height: height,
-      width: width
+      width: width,
+      socket: this.props.route.socket
     };
   }
 
@@ -47,7 +48,7 @@ class FeedbackView extends React.Component {
   }
 
   render() {
-    //need back button
+    //need back/cancle button
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <View style={styles.viewContainer}>
