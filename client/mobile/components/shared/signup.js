@@ -10,6 +10,7 @@ var {
   StyleSheet,
   TextInput,
   TouchableHighlight,
+  Picker,
   ActivityIndicatorIOS
 } = React;
 
@@ -20,6 +21,7 @@ class Signup extends React.Component {
       username: '',
       password: '',
       confirmedPassword: '',
+      accountType: 'student',
       isLoading: false,
       error: false,
       passwordError: false
@@ -50,7 +52,7 @@ class Signup extends React.Component {
         isLoading: true,
         passwordError: false
       });
-      // api.signup(this.state.username, this.state.password, 'teacher')
+      // api.signup(this.state.username, this.state.password, this.state.accountType)
       // .then((response) => {
       //   if(response.status === 500){
       //     this.setState({
@@ -165,6 +167,14 @@ class Signup extends React.Component {
             onSubmitEditing={this.handleSubmit.bind(this)}
             onChange={this.handleConfirmedPasswordChange.bind(this)} 
           />
+          <Text style={styles.fieldTitle}> Account Type </Text>
+          <Picker
+            style={styles.picker}
+            selectedValue={this.state.accountType}
+            onValueChange={(type) => this.setState({accountType: type})}>
+            <Picker.Item label="Student" value="student" />
+            <Picker.Item label="Teacher" value="teacher" />
+          </Picker>
           <TouchableHighlight
             style={styles.button}
             onPress={this.handleSubmit.bind(this)}
@@ -214,6 +224,10 @@ var styles = StyleSheet.create({
     borderColor: '#616161',
     borderRadius: 4,
     color: '#616161'
+  },
+  picker: {
+    bottom: 70,
+    height: 70
   },
   buttonText: {
     fontSize: 18,
