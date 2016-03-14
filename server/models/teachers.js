@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-  var Teachers = sequelize.define("Teachers", {
+  var teachers = sequelize.define("teachers", {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,
@@ -12,5 +12,5 @@ module.exports = function(sequelize, DataTypes) {
     username: DataTypes.STRING,
     password: DataTypes.STRING  
   });
-  return Teachers;
+  return teachers;
 };
