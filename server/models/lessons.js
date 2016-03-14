@@ -11,13 +11,13 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,
       primaryKey: true
-    }
+    },
     name: DataTypes.STRING,
     date: DataTypes.DATE
   }, {
     classMethods: {
       associate: function(models) {
-        Lessons.belongsTo(Classes, {
+        Lessons.belongsTo(models.Classes, {
           foreignKey: 'id', 
           as: 'classId'
         }); 

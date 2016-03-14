@@ -14,11 +14,11 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Students_Classes.belongsTo(Students, {
+        Students_Classes.belongsTo(models.Students, {
           foreignKey: 'id', 
           as: 'StudentId'
         }); 
-        Students_Classes.belongsTo(Classes, {
+        Students_Classes.belongsTo(models.Classes, {
           foreignKey: 'id', 
           as: 'ClassId'
         }); 

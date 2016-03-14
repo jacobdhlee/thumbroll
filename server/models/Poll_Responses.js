@@ -11,16 +11,16 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,
       primaryKey: true
-    }
+    },
     responseVal: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {
-        Poll_Responses.belongsTo(Students, {
+        Poll_Responses.belongsTo(models.Students, {
           foreignKey: 'id', 
           as: 'studentId'
         }); 
-        Poll_Responses.belongsTo(Polls, {
+        Poll_Responses.belongsTo(models.Polls, {
           foreignKey: 'id', 
           as: 'pollId'
         }); 
