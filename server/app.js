@@ -20,7 +20,6 @@ models.teachers.create({
                       lastname: 'Pace',
                       username: 'jakepace',
                       password: 'pass',
-                      createdAt: Date.now()
                     });
 
 models.teachers.create({
@@ -28,7 +27,6 @@ models.teachers.create({
                       lastname: 'DUBWABLANNNN',
                       username: 'ianD',
                       password: 'pass123',
-                      createdAt: Date.now()
                     });
 
 
@@ -37,34 +35,51 @@ models.students.create({
                       lastname: 'McGraw',
                       username: 'ShaneM',
                       password: 'passworddd',
-                      createdAt: Date.now()
+                    });
+
+models.students.create({
+                      firstname: 'Jacob',
+                      lastname: 'Lee',
+                      username: 'JLee',
+                      password: '1234',
                     });
 
 
 models.classes.create({
                       name: 'CS101',
-                      // teacherID field not populating
-                      teacherId: 1,
-                      createdAt: Date.now()
+                      teacher_id: 1,
                     });
 
 
 models.classes.create({
                       name: 'CS102',
-                      // teacherID field not populating
-                      teacherId: 2,
-                      createdAt: Date.now()
+                      teacher_id: 2,
                     });
 
 models.classes.create({
                       name: 'History',
-                      // teacherID field not populating
-                      createdAt: Date.now()
                     });
 
 
 // Needs correct fiends added
-// models.students_classes.create({
-//                     });
+models.students_classes.create({
+                      class_id: 1,
+                      student_id: 1
+                    });
+
+
+models.students_classes.create({
+                      class_id: 2,
+                      student_id: 2
+                    });
+
+
+
+
+
+
+
+
+
 
 });
