@@ -12,6 +12,7 @@ class ThumbCheck extends React.Component {
     super(props)
     this.state = {
       value: 0,
+      socket: this.props.route.socket
     }
   }
 

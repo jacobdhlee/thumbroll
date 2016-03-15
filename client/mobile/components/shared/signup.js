@@ -24,8 +24,7 @@ class Signup extends React.Component {
       accountType: 'student',
       isLoading: false,
       error: false,
-      passwordError: false,
-      socket: this.props.route.socket
+      passwordError: false
     };
   }
 
@@ -67,7 +66,6 @@ class Signup extends React.Component {
       //       this.props.navigator.push({
       //         component: StartClassView,
       //         classes: body.classes,
-              // socket: this.state.socket,
       //         sceneConfig: {
       //           ...Navigator.SceneConfigs.FloatFromBottom,
       //           gestures: {}
@@ -77,7 +75,6 @@ class Signup extends React.Component {
       //       this.props.navigator.push({
       //         component: JoinClassView,
       //         classes: body.classes,
-              // socket: this.state.socket,
       //         sceneConfig: {
       //           ...Navigator.SceneConfigs.FloatFromBottom,
       //           gestures: {}
@@ -97,7 +94,6 @@ class Signup extends React.Component {
         component: StartClassView,
         userId: 'aUserId',
         username: this.state.username,
-        socket: this.state.socket,
       });
       this.setState({
         isLoading: false,
