@@ -1,4 +1,5 @@
-var server = 'http://localhost:3000';
+var env = require('./environment');
+var server = 'http://' + env.server + ':' + env.port;
 
 module.exports = {
   login: (username, password) => {

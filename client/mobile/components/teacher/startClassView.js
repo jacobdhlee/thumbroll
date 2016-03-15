@@ -3,6 +3,8 @@ var RequestFeedbackView = require('./requestFeedbackView');
 var api = require('./../../utils/api');
 require('./../../utils/userAgent');
 var io =require('socket.io-client/socket.io');
+var env = require('./../../utils/environment');
+var server = env.server + ':' + env.port;
 
 var {
   View,
@@ -56,7 +58,7 @@ class StartClassView extends React.Component {
     //currently skipping lessons
     //open socket for class (to allow attendence, messages, etc)
     // pass with url for class?
-    this.socket = io('localhost:3000', {jsonp: false});
+    this.socket = io(server, {jsonp: false});
 
     this.socket.emit('teacherConnect');
 

@@ -2,6 +2,8 @@ var React = require('react-native');
 var ClassStandbyView = require('./classStandbyView.js');
 require('./../../utils/userAgent');
 var io =require('socket.io-client/socket.io');
+var env = require('./../../utils/environment');
+var server = env.server + ':' + env.port;
 
 var {
   View,
@@ -23,7 +25,7 @@ class JoinClassView extends React.Component {
   selectedClass(cls) {
     console.log(cls);
     //perhaps pass class as part of url to socket
-    this.socket = io('localhost:3000', {jsonp: false});
+    this.socket = io(server, {jsonp: false});
 
     this.socket.emit('studentConnect', this.state.userId);
 
