@@ -13,17 +13,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 models.sequelize.sync().then(function () {
   require('./config/routes.js')(app, io);
-
-  //deploy socketLogic
-
   socketLogic(io);
-
-
-
-
 
   server.listen(PORT, function (){
     console.log('listening on port', PORT);
   });
-
 });
