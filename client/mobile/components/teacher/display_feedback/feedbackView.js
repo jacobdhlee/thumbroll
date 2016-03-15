@@ -24,9 +24,9 @@ class FeedbackView extends React.Component {
       width: width,
       socket: this.props.route.socket
     };
-
-    this.state.socket.on('newPoll', function(newPoll) {
-      console.log('The new poll: >>>>>>>>', newPoll);
+    this.state.socket.on('responseFromStudent', function(studentResponseData) {
+      //display aggregated data somehow. d3?
+      console.log('Student data!', studentResponseData);
     });
   }
 
