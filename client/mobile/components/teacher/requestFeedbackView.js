@@ -1,6 +1,6 @@
 var React = require('react-native');
 var FeedbackView = require('./display_feedback/feedbackView');
-// var api = require('../Utils/api');
+var api = require('./../../utils/api');
 
 var {
   View,
@@ -37,33 +37,21 @@ class RequestFeedbackView extends React.Component {
   }
 
   selectFeebackOption(feedbackOption) {
-    // api.startPoll(feedbackOption, this.state.lessonId)
-    // .then((response) => {
-    //   if(response === 500) {
-    //     /* something bad */
-    //   } else {
-    //     this.props.navigator.push({
-    //       component: FeedbackView,
-    //       lessonId: this.state.lessonId,
-    //       feedbackOption: feedbackOption,
-          // socket: this.state.socket,
-    //       sceneConfig: {
-    //         ...Navigator.SceneConfigs.FloatFromRight,
-    //         gestures: {}
-    //       }
-    //     });
-    //   }
-    // });
-    // socket event emitted by server
-    this.props.navigator.push({
-      component: FeedbackView,
-      classId: this.state.classId,
-      lessonId: this.state.lessonId,
-      feedbackOption: feedbackOption,
-      socket: this.state.socket,
-      sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromRight,
-        gestures: {}
+    api.startPoll(feedbackOption, this.state.lessonId)
+    .then((response) => {
+      if(response === 500) {
+        /* something bad */
+      } else {
+        this.props.navigator.push({
+          component: FeedbackView,
+          lessonId: this.state.lessonId,
+          feedbackOption: feedbackOption,
+          socket: this.state.socket,
+          sceneConfig: {
+            ...Navigator.SceneConfigs.FloatFromRight,
+            gestures: {}
+          }
+        });
       }
     });
   }
