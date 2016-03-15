@@ -33,9 +33,9 @@ module.exports = function(io) {
 
     //STUDENT CODE
 
-    client.on('newPoll', function(data) {
-      client.emit(data);
-    });
+    // client.on('newPoll', function(data) {
+    //   client.emit(data);
+    // });
 
     setTimeout(function(){
       io.sockets.emit('responseFromStudent');
