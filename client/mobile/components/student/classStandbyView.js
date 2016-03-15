@@ -13,18 +13,27 @@ class ClassStandbyView extends React.Component {
   constructor(props){ 
     super(props);
     this.state = {
-      socket: this.props.route.socket
+      socket: this.props.route.socket,
+      userId: this.props.route.userId
     };
     this.state.socket.on('teacherConnect', () => {
       console.log('Class is in sesson');
     });
 
-    this.state.socket.emit('')
+    this.state.socket.on('newPoll', function(pollInfo) {
+      if(pollInfo.pollObject.id === 1) {
+        thumbcheckPage(pollInfo);
+      } else if(pollInfo.pollObject.id === 2) {
+        multiPage(pollInfo);
+      }
+    });
   }
 
-  thumbcheckPage() {
+  thumbcheckPage(pollInfo) {
     this.props.navigator.push({
       component: ThumbCheck,
+      pollInfo: pollInfo,
+      userId: this.state.userId,
       socket: this.state.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromBottom,
@@ -32,9 +41,12 @@ class ClassStandbyView extends React.Component {
       }
     })
   }
-  multiPage() {
+
+  multiPage(pollInfo) {
     this.props.navigator.push({
       component: MultiChoice,
+      pollInfo: pollInfo,
+      userId: this.state.userId,
       socket: this.state.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromBottom,

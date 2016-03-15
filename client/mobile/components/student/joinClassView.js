@@ -15,7 +15,8 @@ class JoinClassView extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      enrolledClasses: ['Quick class','CS101', 'CS201']
+      enrolledClasses: ['Quick class','CS101', 'CS201'],
+      userId: this.props.route.userId
     }
   }
 
@@ -23,9 +24,13 @@ class JoinClassView extends React.Component {
     console.log(cls);
     //perhaps pass class as part of url to socket
     this.socket = io('localhost:3000', {jsonp: false});
+
+    this.socket.emit('studentConnect', this.state.userId);
+
     this.props.navigator.push({
       component: ClassStandbyView,
       className: cls,
+      userId: this.state.userId,
       socket: this.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromBottom,
