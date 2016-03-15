@@ -118,6 +118,13 @@ models.students.create({
                     });
 
 
+models.students.create({
+                      firstname: 'Orlando',
+                      lastname: 'Calrisian',
+                      username: 'OlandoC',
+                      password: 'pass123',
+                    });
+
 models.classes.create({
                       name: 'CS101',
                       teacher_id: 1,
@@ -142,6 +149,12 @@ models.students_classes.create({
 models.students_classes.create({
                       class_id: 2,
                       student_id: 2
+                    });
+
+
+models.students_classes.create({
+                      class_id: 2,
+                      student_id: 3
                     });
 
 });
