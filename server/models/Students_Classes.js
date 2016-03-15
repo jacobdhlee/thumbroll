@@ -7,9 +7,23 @@
 module.exports = function(sequelize, DataTypes) {
   var students_classes = sequelize.define("students_classes", {
     id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV1,
-      primaryKey: true
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    // Foreign key
+    // studentId: DataTypes.INTEGER,
+    // Foreign key
+    // classId: DataTypes.INTEGER,
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+      allowNull: false
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+      allowNull: false
     }
   }, {
     classMethods: {
