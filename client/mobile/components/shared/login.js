@@ -23,8 +23,7 @@ class Login extends React.Component {
       username: '',
       password: '',
       isLoading: false,
-      error: false,
-      socket: this.props.route.socket
+      error: false
     };
     // Check keychain for saved credentials
       // if so, move forward to next scene
@@ -61,7 +60,6 @@ class Login extends React.Component {
       //       this.props.navigator.push({
       //         component: StartClassView,
       //         classes: body.classes,
-              // socket: this.state.socket,
       //         sceneConfig: {
       //           ...Navigator.SceneConfigs.FloatFromBottom,
       //           gestures: {}
@@ -71,7 +69,6 @@ class Login extends React.Component {
       //       this.props.navigator.push({
       //         component: JoinClassView,
       //         classes: body.classes,
-              // socket: this.state.socket,
       //         sceneConfig: {
       //           ...Navigator.SceneConfigs.FloatFromBottom,
       //           gestures: {}
@@ -91,7 +88,6 @@ class Login extends React.Component {
       if(this.state.username === 'teacher') {
         this.props.navigator.push({
           component: StartClassView,
-          socket: this.state.socket,
           sceneConfig: {
             ...Navigator.SceneConfigs.FloatFromBottom,
             gestures: {}
@@ -100,7 +96,6 @@ class Login extends React.Component {
       } else if(this.state.username === 'student') {
         this.props.navigator.push({
           component: JoinClassView,
-          socket: this.state.socket,
           sceneConfig: {
             ...Navigator.SceneConfigs.FloatFromBottom,
             gestures: {}
@@ -121,7 +116,6 @@ class Login extends React.Component {
   handleSignupRedirect() {
     this.props.navigator.push({
       component: Signup,
-      socket: this.state.socket,
       sceneConfig: Navigator.SceneConfigs.FloatFromRight
     });
     this.setState({

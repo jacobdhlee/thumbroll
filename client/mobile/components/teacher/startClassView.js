@@ -1,6 +1,8 @@
 var React = require('react-native');
 var RequestFeedbackView = require('./requestFeedbackView');
 var api = require('./../../utils/api');
+require('./../../utils/userAgent');
+var io =require('socket.io-client/socket.io');
 
 var {
   View,
@@ -16,7 +18,6 @@ class StartClassView extends React.Component {
     this.state = {
       //classes: this.props.route.classes
       classes: ['Quick Class', 'CS 101', 'CS 201'],
-      socket: this.props.route.socket
     };
   }
 
@@ -54,11 +55,13 @@ class StartClassView extends React.Component {
     
     //currently skipping lessons
     //open socket for class (to allow attendence, messages, etc)
+    // pass with url for class?
+    this.socket = io('localhost:3000', {jsonp: false});
     this.props.navigator.push({
       component: RequestFeedbackView,
       classId: classId,
       lessonId: 'default',
-      socket: this.state.socket,
+      socket: this.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromRight,
         gestures: {}

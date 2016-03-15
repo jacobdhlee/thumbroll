@@ -1,5 +1,7 @@
 var React = require('react-native');
 var ClassStandbyView = require('./classStandbyView.js');
+require('./../../utils/userAgent');
+var io =require('socket.io-client/socket.io');
 
 var {
   View,
@@ -19,9 +21,12 @@ class JoinClassView extends React.Component {
 
   selectedClass(cls) {
     console.log(cls);
+    //perhaps pass class as part of url to socket
+    this.socket = io('localhost:3000', {jsonp: false});
     this.props.navigator.push({
       component: ClassStandbyView,
       className: cls,
+      socket: this.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromBottom,
         gestures: {}

@@ -12,6 +12,7 @@ class ThumbCheck extends React.Component {
     super(props)
     this.state = {
       value: 0,
+      socket: this.props.route.socket
     }
   }
 
@@ -25,6 +26,7 @@ class ThumbCheck extends React.Component {
   }
   
   render() {
+    console.log('%%%%%%%%%%%%%%%%%%%%%%%%', this.state.socket);
     return (
       <View style={styles.mainDiv}>
         <View>

@@ -12,12 +12,16 @@ var {
 class ClassStandbyView extends React.Component {
   constructor(props){ 
     super(props);
+    this.state = {
+      socket: this.props.route.socket
+    };
     //socket.on()
   }
 
   thumbcheckPage() {
     this.props.navigator.push({
       component: ThumbCheck,
+      socket: this.state.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromBottom,
         gestures: {}
@@ -27,22 +31,13 @@ class ClassStandbyView extends React.Component {
   multiPage() {
     this.props.navigator.push({
       component: MultiChoice,
+      socket: this.state.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromBottom,
         gestures: {}
       }
     })
   }
-  thumbcheckPage() {
-    this.props.navigator.push({
-      component: ThumbCheck,
-      sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromBottom,
-        gestures: {}
-      }
-    })
-  }
-  
 
   previousSection() {
     this.props.navigator.pop();

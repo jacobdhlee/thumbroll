@@ -22,14 +22,18 @@ class ToggleButton extends React.Component {
 
 class MultiChoice extends React.Component {
   constructor (props){
-    super(props)
+    super(props);
+    this.state = {
+      socket: this.props.route.socket
+    };
   }  
+
   previousPage() {
     this.props.navigator.pop();
   }
 
-
   render() {
+    console.log('%%%%%%%%%%%%%%%%%%%%%%%%', this.state.socket);
     return (
       <View style={styles.container}>
         <View style={styles.halfHeight1}>
