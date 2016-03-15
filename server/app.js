@@ -12,7 +12,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 
 models.sequelize.sync({force: true}).then(function () {
-  require('./config/routes.js')(app, express, io);
+  require('./config/routes.js')(app, io);
+  socketLogic(io);
 
   server.listen(PORT, function (){
     console.log('listening on port', PORT);
@@ -70,7 +71,6 @@ models.sequelize.sync({force: true}).then(function () {
   models.classes.create({
     name: 'History',
   });
-
 
   // Needs correct fiends added
   models.students_classes.create({
