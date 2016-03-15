@@ -43,9 +43,17 @@ module.exports = {
     var lessonId = req.body.lessonId;
     var pollObject = req.body.pollObject;
 
-    io.sockets.emit('newPoll', pollObject);
+    //will need to store to DB and get back poll ID to send back down
+
+    var pollInformation = {
+      lessonId: lessonId,
+      pollObject: pollObject,
+      //respoonseId
+    }
+
+    io.sockets.emit('newPoll', pollInformation);
     
-    res.status(201).send('Poll sent... ' + pollObject);
+    res.status(201).send('Poll sent... ' + pollInformation);
   },
 
 };
