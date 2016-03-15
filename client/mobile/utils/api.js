@@ -42,6 +42,7 @@ module.exports = {
 
   startPoll: (pollObject, lessonId) => {
   
+  startPoll: (pollObject, lessonId) => {    
       return fetch(server + '/teachers/polls', {
         method: 'POST',
         headers: {
