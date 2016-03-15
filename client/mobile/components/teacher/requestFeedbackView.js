@@ -28,9 +28,6 @@ class RequestFeedbackView extends React.Component {
         }
       ]
     };
-    this.state.socket.on('newPoll', function(newPoll) {
-      console.log('The new poll on the previous page: >>>>>>>>', newPoll);
-    });
     //populate feedbackOptions with anything custom from lesson
   }
 
@@ -42,9 +39,10 @@ class RequestFeedbackView extends React.Component {
   selectFeebackOption(feedbackOption) {
     api.startPoll(feedbackOption, this.state.lessonId)
     .then((response) => {
-      if(response === 500) {
+      console.log('response', response);
+      if(response.status === 500) {
         /* something bad */
-      } else {
+      } else if(response.status === 201) {
         this.props.navigator.push({
           component: FeedbackView,
           lessonId: this.state.lessonId,
@@ -55,6 +53,8 @@ class RequestFeedbackView extends React.Component {
             gestures: {}
           }
         });
+      } else {
+        console.error('Error getting poll data', response);
       }
     });
   }

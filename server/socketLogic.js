@@ -9,19 +9,12 @@ module.exports = function(io) {
 
   io.on('connection', function(client){
 
-    console.log('Someone connected to the classroom!');
-
     //TEACHER CODE
-
-
-
-    
       
     client.on('studentStandby', function(data) {
       // FRONTEND-LISTENER: client.on('newStudentConnected', (studentInfo) => {display(studentCount++ and studentInfo);});
       client.emit('newStudentConnected', data);
     });
-
 
     // setTimeout(function(){
     //   io.sockets.emit('newPoll', poll);
@@ -38,27 +31,24 @@ module.exports = function(io) {
     //res.status(201).send('Hello from the client side');
 
     client.on('teacherConnect', function(data) {
-      console.log('A TEACH IS IN THE HOUSE');
+      console.log('Teacher connected');
     });
-
-  });
-
 
 
     //STUDENT CODE
 
+    client.on('studentConnect', function(data) {
+      console.log('Student connected');
+    });
 
-    // io.on('connection', function(student){
-      
-    //   student.emit('studentStandby', studentInformation);
+    client.on('newPoll', function(data) {
+      client.emit(data);
+    });
 
-    //   student.on('newPoll', function(data) {
-    //     student.emit(data);
-    //   });
+    setTimeout(function(){
+      io.sockets.emit('responseFromStudent');
+    }, 5000);
 
-    //   setTimeout(function(){
-    //     io.sockets.emit('responseFromStudent', pollResponse);
-    //   }, 5000);
 
-    // });
+  });
 };
