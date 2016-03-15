@@ -5,6 +5,7 @@
 //var Lessons = require('../models/lessons');
 //var RequestedResponses = require('../models/requested_responses');
 
+
 module.exports = {
   getClasses: function(req, res, next) {
     var teacherId = req.body.teacherId;
@@ -39,42 +40,42 @@ module.exports = {
   },
 
   pollClass: function(io, req, res, next) {
-    // var teacherId = req.body.teacherId;
-    // var poll = req.body.poll;
-
+    var lessonId = req.body.lessonId;
+    var pollObject = req.body.pollObject;
+    console.log("Poll Object >>>>>>>>>", pollObject);
     // this fake poll would normally be sent by the client to the socket, to the students' clients
-    var poll = {
-      responseId: 1,
-      type: 'thumbs',
-      datetime: new Date(),
-      lessonId: 13,
-    };
+    // var poll = {
+    //   responseId: 1,
+    //   type: 'thumbs',
+    //   datetime: new Date(),
+    //   lessonId: 13,
+    // };
 
     io.on('connection', function(teacher){
 
       // FRONTEND-LISTENER: student.on('teacherConnect', () => {display('class is in session');});
-      io.sockets.emit('teacherConnect');
+      //io.sockets.emit('teacherConnect');
         
-      teacher.on('studentStandby', function(data) {
-        // FRONTEND-LISTENER: teacher.on('newStudentConnected', (studentInfo) => {display(studentCount++ and studentInfo);});
-        teacher.emit('newStudentConnected', data);
-      });
+      // teacher.on('studentStandby', function(data) {
+      //   // FRONTEND-LISTENER: teacher.on('newStudentConnected', (studentInfo) => {display(studentCount++ and studentInfo);});
+      //   teacher.emit('newStudentConnected', data);
+      // });
 
 
       setTimeout(function(){
-        io.sockets.emit('newPoll', poll);
+        io.sockets.emit('newPoll', pollObject);
       }, 5000);
 
-      teacher.on('responseFromStudent', function(data) {
-        // write data to the DB
-        // TODO: DB query writing data
+      // teacher.on('responseFromStudent', function(data) {
+      //   // write data to the DB
+      //   // TODO: DB query writing data
 
-        // display data on frontend
-        // FRONTEND-LISTENER: teacher.on('studentData', (data) => {display(data)});
-        teacher.emit('studentData', data);
-      });
-      res.status(201).send('Hello from the teacher side');
+      //   // display data on frontend
+      //   // FRONTEND-LISTENER: teacher.on('studentData', (data) => {display(data)});
+      //   teacher.emit('studentData', data);
+      // });
     });
+    res.status(201).send('Poll sent... ', pollObject);
 
   },
 
