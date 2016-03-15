@@ -15,8 +15,6 @@ module.exports = function(sequelize, DataTypes) {
       timestamps: false,
       classMethods: {
         associate: function(models) {
-          // Set bi-directional relationship
-          // Creates field, but can't be
           students.hasMany(models.poll_responses, {
             foreignKey: 'student_id',
             onDelete: 'set null',
