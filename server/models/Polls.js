@@ -13,31 +13,25 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true
     },
     type: DataTypes.ENUM('thumbs', 'multiChoice'),
-    // foreign key 
-    // teacherId: DataTypes.INTEGER,
-    // foreign key
-    // lessonId: DataTypes.INTEGER,
-    preset_data: DataTypes.STRING,
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
-    }
+    preset_data: DataTypes.STRING
   }, {
+    timestamps: false,
     classMethods: {
       associate: function(models) {
         polls.belongsTo(models.teachers, {
-          foreignKey: 'id', 
-          as: 'teacherId'
+          foreignKey: 'teacher_id',
+          onDelete: 'set null',
+          onUpdate: 'cascade'
         }); 
         polls.belongsTo(models.lessons, {
-          foreignKey: 'id', 
-          as: 'lessonId'
+          foreignKey: 'lesson_id',
+          onDelete: 'set null',
+          onUpdate: 'cascade'
+        }); 
+        polls.hasMany(models.poll_responses, {
+          foreignKey: 'poll_id',
+          onDelete: 'set null',
+          onUpdate: 'cascade'
         }); 
       }
     }

@@ -11,26 +11,25 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    name: DataTypes.STRING,
-    // foreign key
-    // teacherId: DataTypes.INTEGER,
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
-    }
+    name: DataTypes.STRING
   }, {
+    timestamps: false,
     classMethods: {
       associate: function(models) {
         classes.belongsTo(models.teachers, {
-          foreignKey: 'teacherId',
+          foreignKey: 'teacher_id',
           // TEST setting delete conditions
           // to trigger association
+          onDelete: 'set null',
+          onUpdate: 'cascade'
+        }); 
+        classes.hasMany(models.lessons, {
+          foreignKey: 'class_id',
+          onDelete: 'set null',
+          onUpdate: 'cascade'
+        }); 
+        classes.hasMany(models.students_classes, {
+          foreignKey: 'class_id',
           onDelete: 'set null',
           onUpdate: 'cascade'
         }); 

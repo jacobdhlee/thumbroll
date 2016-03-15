@@ -10,26 +10,21 @@ module.exports = function(sequelize, DataTypes) {
     firstname: DataTypes.STRING,
     lastname: DataTypes.STRING,
     username: DataTypes.STRING,
-    password: DataTypes.STRING,
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
-    }
+    password: DataTypes.STRING
   }, {
+    timestamps: false,
     classMethods: {
       associate: function(models) {
 
         // Set bi-directional relationship
         // Creates field, but can't be
         teachers.hasMany(models.classes, {
-          foreignKey: 'teacherId',
-          // 
+          foreignKey: 'teacher_id',
+          onDelete: 'set null',
+          onUpdate: 'cascade'
+        }); 
+        teachers.hasMany(models.polls, {
+          foreignKey: 'teacher_id',
           onDelete: 'set null',
           onUpdate: 'cascade'
         }); 

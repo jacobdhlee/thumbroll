@@ -10,31 +10,20 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
-    },
-    // Foreign key
-    // studentId: DataTypes.INTEGER,
-    // Foreign key
-    // classId: DataTypes.INTEGER,
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
     }
   }, {
+    timestamps: false,
     classMethods: {
       associate: function(models) {
         students_classes.belongsTo(models.students, {
-          foreignKey: 'id', 
-          as: 'studentId'
+          foreignKey: 'student_id',
+          onDelete: 'set null',
+          onUpdate: 'cascade'
         }); 
         students_classes.belongsTo(models.classes, {
-          foreignKey: 'id', 
-          as: 'classId'
+          foreignKey: 'class_id',
+          onDelete: 'set null',
+          onUpdate: 'cascade'
         }); 
       }
     }
