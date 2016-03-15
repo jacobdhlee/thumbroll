@@ -1,6 +1,6 @@
-var Students = require('../models/students');
-var Teachers = require('../models/teachers');
+var models = require("./models");
 var sequelize = require('sequelize');
+var bcrypt = require('bcrypt');
 
 
 module.exports = {
@@ -15,6 +15,51 @@ module.exports = {
         //if correct, route to '/students' and store user on session
         //else if username is there but pw doesn't match, return pw error
         //else navigate to '/signup'
+
+    sequelize.sync().then(function() {
+
+      // search for user in teachers table
+      models.teachers.findOne({
+        where: {'username': email} 
+      })
+      .then(function(matchedUser){
+        // if there's no match in teachers
+        if (!matchedUser) { 
+          // search for user in students table
+          models.students.findOne({
+            where: {'username': email} 
+          }).then(function(matchedUser) {
+            if (!matchedUser) {
+              // navigate to '/signup'
+            } else {
+              // if user is a student, compare stored password with provided password
+              bcrypt.compare(password, matchedUser.dataValues.password, function(err, match) {
+                if (match) {
+                  // build object with student details
+                  // navigate to '/students'
+                  // res.send(200, studentObj)
+                } else {
+                  // ERROR: invalid password
+                  // redirect to '/login'
+                }
+              });
+            }
+          });
+        } else {
+          // if user is a teacher, compare stored password with provided password
+          bcrypt.compare(password, matchedUser.dataValues.password, function(err, match) {
+            if (match) {
+              // build object with teacher details
+              // navigate to '/teachers'
+              // res.send(200, teacherObj);
+            } else {
+              // ERROR: invalid password
+              // redirect to '/login'
+            }
+          });
+        }
+      }).catch(res.send(500, "Error while trying to find user in database."));
+    });
   },
 
   signup: function(req, res, next) {
