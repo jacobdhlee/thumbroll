@@ -15,6 +15,7 @@ var {
 class FeedbackView extends React.Component {
   constructor(props) {
     super(props);
+
     var {height, width} = Dimensions.get('window');
     this.state = {
       classId: this.props.route.classId,
@@ -28,6 +29,10 @@ class FeedbackView extends React.Component {
       //display aggregated data somehow. d3?
       console.log('Student data!', studentResponseData);
     });
+
+    this.state.socket.on('studentResponse', function(data){
+      console.log("stuent response >>>>>>>>>>>", data);
+    })
   }
 
   exitPage() {
