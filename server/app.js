@@ -61,7 +61,6 @@ models.sequelize.sync({force: true}).then(function () {
     teacher_id: 1,
   });
 
-
   models.classes.create({
     name: 'CS102',
     teacher_id: 2,
