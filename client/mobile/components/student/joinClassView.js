@@ -23,6 +23,9 @@ class JoinClassView extends React.Component {
     console.log(cls);
     //perhaps pass class as part of url to socket
     this.socket = io('localhost:3000', {jsonp: false});
+
+    this.socket.emit('studentConnect');
+
     this.props.navigator.push({
       component: ClassStandbyView,
       className: cls,
