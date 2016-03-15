@@ -38,10 +38,10 @@ module.exports = {
     // responseId and the poll type for students to send info back.
   },
 
-  thumbsCheck: function(io, req, res, next) {
+  pollClass: function(io, req, res, next) {
     // var teacherId = req.body.teacherId;
     // var poll = req.body.poll;
-    
+
     // this fake poll would normally be sent by the client to the socket, to the students' clients
     var poll = {
       responseId: 1,
@@ -50,29 +50,32 @@ module.exports = {
       lessonId: 13,
     };
 
-    io.on('connection', function(client){
-      //client.emit('join');
-      console.log('a teacher connected');
+    io.on('connection', function(teacher){
+
+      // FRONTEND-LISTENER: student.on('teacherConnect', () => {display('class is in session');});
+      io.sockets.emit('teacherConnect');
+        
+      teacher.on('studentStandby', function(data) {
+        // FRONTEND-LISTENER: teacher.on('newStudentConnected', (studentInfo) => {display(studentCount++ and studentInfo);});
+        teacher.emit('newStudentConnected', data);
+      });
+
 
       setTimeout(function(){
-        io.sockets.emit('greeting', poll);
+        io.sockets.emit('newPoll', poll);
       }, 5000);
+
+      teacher.on('responseFromStudent', function(data) {
+        // write data to the DB
+        // TODO: DB query writing data
+
+        // display data on frontend
+        // FRONTEND-LISTENER: teacher.on('studentData', (data) => {display(data)});
+        teacher.emit('studentData', data);
+      });
+
     });
 
-  },
-
-  pollClass: function(req, res, next) {
-    // var teacherId = req.body.teacherId;
-    // var lessonId = req.body.lessonId;
-
-    // var poll = RequestedResponses.findPoll(lessonId);
-
-    var poll = {
-      type: 'poll',
-      datetime: new Date(),
-      lessonId: 4,
-      responseId: 2
-    };
   },
 
 };
