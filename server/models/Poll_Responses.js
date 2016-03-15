@@ -8,21 +8,24 @@
 module.exports = function(sequelize, DataTypes) {
   var poll_responses = sequelize.define("poll_responses", {
     id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV1,
-      primaryKey: true
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
     },
     responseVal: DataTypes.STRING
   }, {
+    timestamps: false,
     classMethods: {
       associate: function(models) {
         poll_responses.belongsTo(models.students, {
-          foreignKey: 'id', 
-          as: 'studentId'
+          foreignKey: 'student_id',
+          onDelete: 'set null',
+          onUpdate: 'cascade'
         }); 
         poll_responses.belongsTo(models.polls, {
-          foreignKey: 'id', 
-          as: 'pollId'
+          foreignKey: 'poll_id',
+          onDelete: 'set null',
+          onUpdate: 'cascade'
         }); 
       }
     }

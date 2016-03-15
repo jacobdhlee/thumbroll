@@ -7,20 +7,23 @@
 module.exports = function(sequelize, DataTypes) {
   var students_classes = sequelize.define("students_classes", {
     id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV1,
-      primaryKey: true
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
     }
   }, {
+    timestamps: false,
     classMethods: {
       associate: function(models) {
         students_classes.belongsTo(models.students, {
-          foreignKey: 'id', 
-          as: 'studentId'
+          foreignKey: 'student_id',
+          onDelete: 'set null',
+          onUpdate: 'cascade'
         }); 
         students_classes.belongsTo(models.classes, {
-          foreignKey: 'id', 
-          as: 'classId'
+          foreignKey: 'class_id',
+          onDelete: 'set null',
+          onUpdate: 'cascade'
         }); 
       }
     }
