@@ -23,9 +23,9 @@ module.exports = function(io) {
     });
 
 
-    setTimeout(function(){
-      io.sockets.emit('newPoll', poll);
-    }, 5000);
+    // setTimeout(function(){
+    //   io.sockets.emit('newPoll', poll);
+    // }, 5000);
 
     client.on('responseFromStudent', function(data) {
       // write data to the DB

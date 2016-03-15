@@ -39,8 +39,6 @@ module.exports = {
   getLessonData: (lessonId) => {
     return fetch(server + '/teachers/polls/' + lessonId);
   },
-
-  startPoll: (pollObject, lessonId) => {
   
   startPoll: (pollObject, lessonId) => {    
       return fetch(server + '/teachers/polls', {

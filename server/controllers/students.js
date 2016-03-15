@@ -10,12 +10,12 @@ module.exports = {
   readyStage : function(io, req, res, next) {
 
     //var studentInformation = req.body.studentData
-    var pollResponse = {
-      responseId: 1,
-      type: 'thumbs',
-      datetime: new Date(),
-      lessonId: 13,
-    };
+    // var pollResponse = {
+    //   responseId: 1,
+    //   type: 'thumbs',
+    //   datetime: new Date(),
+    //   lessonId: 13,
+    // };
 
     io.on('connection', function(student){
       
@@ -25,9 +25,9 @@ module.exports = {
         student.emit(data);
       });
 
-      setTimeout(function(){
-        io.sockets.emit('responseFromStudent', pollResponse);
-      }, 5000);
+      // setTimeout(function(){
+      //   io.sockets.emit('responseFromStudent', pollResponse);
+      // }, 5000);
 
     });
     res.status(200).send('Hello from the student side');
