@@ -8,7 +8,7 @@ module.exports = {
     var email = req.body.email;
     var password = req.body.password;
 
-    //check teacher db for username/pw
+    //TODO: check teacher db for username/pw
       //if correct, route to '/teachers' and store user on session
       //else if username is there but pw doesn't match, return pw error
       //else if username isn't there, check student db
@@ -24,6 +24,7 @@ module.exports = {
     var teacherCode = req.body.teacherCode;
     var password = req.body.password;
 
+    //TODO: sign up user
     //if no teacherCode, search student DB
       //search DB for user
         //if no user exists, create one

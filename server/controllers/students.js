@@ -6,22 +6,30 @@
 //var RequestedResponses = require('../models/requested_responses');
 
 module.exports = {
-  readyStage: function(io, req, res, next) {
-    // var studentId = req.body.studentId;
-    // var poll = req.body.poll;
-    io.on('connection', function(client){
-      console.log('a student is ready to LERN!11!111!!');      
+
+  readyStage : function(io, req, res, next) {
+
+    //var studentInformation = req.body.studentData
+    var pollResponse = {
+      responseId: 1,
+      type: 'thumbs',
+      datetime: new Date(),
+      lessonId: 13,
+    };
+
+    io.on('connection', function(student){
+      
+      student.emit('studentStandby', studentInformation);
+
+      student.on('newPoll', function(data) {
+        student.emit(data);
+      });
+
+      setTimeout(function(){
+        io.sockets.emit('responseFromStudent', pollResponse);
+      }, 5000);
+
     });
-
-    res.send('students ye be warned');
-
-    //client.emit('thumbsCheck', 'a new thumbsCheck has been opened!');
-  },
-
-  respondToPoll: function(req, res, next) {
-    // var studentId = req.body.studentId;
-    // var lessonId = req.body.lessonId;
-
-  },
-
+    res.status(200).send('Hello from the student side');
+  }
 };
