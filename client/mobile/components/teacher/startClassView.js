@@ -57,6 +57,9 @@ class StartClassView extends React.Component {
     //open socket for class (to allow attendence, messages, etc)
     // pass with url for class?
     this.socket = io('localhost:3000', {jsonp: false});
+
+    this.socket.emit('teacherConnect');
+
     this.props.navigator.push({
       component: RequestFeedbackView,
       classId: classId,

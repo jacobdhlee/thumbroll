@@ -3,7 +3,7 @@ var server = 'http://localhost:3000';
 module.exports = {
   login: (username, password) => {
     return 
-      fetch(sever + '/login', {
+      fetch(server + '/login', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -18,7 +18,7 @@ module.exports = {
 
   signup: (username, password, teacherOrStudent) => {
     return
-      fetch(sever + '/signup', {
+      fetch(server + '/signup', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -33,16 +33,15 @@ module.exports = {
   },
 
   getLessons: (classId) => {
-    return fetch(sever + '/teachers/lessons/' + classId);
+    return fetch(server + '/teachers/lessons/' + classId);
   },
 
   getLessonData: (lessonId) => {
     return fetch(server + '/teachers/polls/' + lessonId);
   },
-
-  startPoll: (pollObject, lessonId) => {
-    return
-      fetch(sever + '/teachers/polls', {
+  
+  startPoll: (pollObject, lessonId) => {    
+      return fetch(server + '/teachers/polls', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
