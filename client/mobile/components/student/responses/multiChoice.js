@@ -44,7 +44,7 @@ class MultiChoice extends React.Component {
   submitAnswer(answer) {
     console.log(answer)
     // send socket with answer
-    this.socket.emit('studentResponse', {
+    this.state.socket.emit('studentResponse', {
       userId: this.state.userId,
       answer: answer,
 

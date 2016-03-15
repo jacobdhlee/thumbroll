@@ -12,16 +12,21 @@ class ThumbCheck extends React.Component {
     super(props)
     this.state = {
       value: 0,
-      socket: this.props.route.socket
+      socket: this.props.route.socket,
+      userId: this.props.route.userId,
     }
   }
 
-  previousPage() {
+  submitResponse() {
+    console.log(this.state.value);
+    this.state.socket.emit('studentResponse', {
+      userId: this.state.userId,
+      answer: this.state.value,
+    })
     this.props.navigator.pop();
   }
 
   valueChange(value) {
-    console.log('$$$$$$$$$',value)
     this.setState({value: Math.floor(value)})
   }
   
@@ -30,9 +35,6 @@ class ThumbCheck extends React.Component {
       <View style={styles.mainDiv}>
         <View>
           <Text>Hi</Text>
-        </View>
-        <View>
-          <Text onPress={this.previousPage.bind(this)}>Back</Text>
         </View>
         <View style={styles.container}>
           <Slider
@@ -43,6 +45,9 @@ class ThumbCheck extends React.Component {
             maximumValue={100}
             onValueChange={this.valueChange.bind(this)} />
           <Text>Value: {this.state.value}</Text>
+        </View>
+        <View>
+          <Text onPress={this.submitResponse.bind(this)}>Submit</Text>
         </View>
       </View>
     )
