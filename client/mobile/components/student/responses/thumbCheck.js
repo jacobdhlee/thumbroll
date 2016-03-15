@@ -26,7 +26,6 @@ class ThumbCheck extends React.Component {
   }
   
   render() {
-    console.log('%%%%%%%%%%%%%%%%%%%%%%%%', this.state.socket);
     return (
       <View style={styles.mainDiv}>
         <View>

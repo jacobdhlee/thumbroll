@@ -33,7 +33,6 @@ class MultiChoice extends React.Component {
   }
 
   render() {
-    console.log('%%%%%%%%%%%%%%%%%%%%%%%%', this.state.socket);
     return (
       <View style={styles.container}>
         <View style={styles.halfHeight1}>
