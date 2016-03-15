@@ -9,17 +9,31 @@ module.exports = {
 
   readyStage : function(io, req, res, next) {
 
-    // io.on('connection', function(client){
-    //   console.log('Hey, server! A student is ready to learn!');
+    //var studentInformation = req.body.studentData
+    var pollResponse = {
+      responseId: 1,
+      type: 'thumbs',
+      datetime: new Date(),
+      lessonId: 13,
+    };
+
+    io.on('connection', function(student){
       
-    //   client.emit('greeting', 'Hello, student!');
+      student.emit('studentStandby', studentInformation);
 
-    //   client.on('responseRecorded', function(data){
-    //     io.sockets.emit('responseRecordedFromStudent', data);
-    //   });
+      student.on('teacherConnect', function() {
+        student.emit('teacherConnect');
+      });
 
-    // });
+      student.on('newPoll', function(data) {
+        student.emit(data);
+      });
 
+      setTimeout(function(){
+        io.sockets.emit('responseFromStudent', pollResponse);
+      }, 5000);
+
+    });
     res.status(200).send('Hello from the other side');
   }
 };
