@@ -13,5 +13,5 @@ module.exports = function(app, io) {
   
   app.get('/teachers/lessons/:classId', teachersController.getLessons);
 
-  app.get('/students/ready', studentsController.readyStage.bind(null, io));
+  app.post('/students/ready', studentsController.readyStage.bind(null, io));
 };
