@@ -51,31 +51,31 @@ module.exports = {
     //   lessonId: 13,
     // };
 
-    io.on('connection', function(teacher){
+    // io.on('connection', function(teacher){
 
-      // FRONTEND-LISTENER: student.on('teacherConnect', () => {display('class is in session');});
-      //io.sockets.emit('teacherConnect');
+    //   // FRONTEND-LISTENER: student.on('teacherConnect', () => {display('class is in session');});
+    //   //io.sockets.emit('teacherConnect');
         
-      // teacher.on('studentStandby', function(data) {
-      //   // FRONTEND-LISTENER: teacher.on('newStudentConnected', (studentInfo) => {display(studentCount++ and studentInfo);});
-      //   teacher.emit('newStudentConnected', data);
-      // });
+    //   // teacher.on('studentStandby', function(data) {
+    //   //   // FRONTEND-LISTENER: teacher.on('newStudentConnected', (studentInfo) => {display(studentCount++ and studentInfo);});
+    //   //   teacher.emit('newStudentConnected', data);
+    //   // });
 
 
-      setTimeout(function(){
-        io.sockets.emit('newPoll', pollObject);
-      }, 5000);
+    //   setTimeout(function(){
+    //     io.sockets.emit('newPoll', pollObject);
+    //   }, 5000);
 
-      // teacher.on('responseFromStudent', function(data) {
-      //   // write data to the DB
-      //   // TODO: DB query writing data
+    //   // teacher.on('responseFromStudent', function(data) {
+    //   //   // write data to the DB
+    //   //   // TODO: DB query writing data
 
-      //   // display data on frontend
-      //   // FRONTEND-LISTENER: teacher.on('studentData', (data) => {display(data)});
-      //   teacher.emit('studentData', data);
-      // });
-    });
-    res.status(201).send('Poll sent... ', pollObject);
+    //   //   // display data on frontend
+    //   //   // FRONTEND-LISTENER: teacher.on('studentData', (data) => {display(data)});
+    //   //   teacher.emit('studentData', data);
+    //   // });
+    // });
+    res.status(201).send('Poll sent... ' + pollObject);
 
   },
 
