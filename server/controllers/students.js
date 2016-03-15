@@ -21,10 +21,6 @@ module.exports = {
       
       student.emit('studentStandby', studentInformation);
 
-      student.on('teacherConnect', function() {
-        student.emit('teacherConnect');
-      });
-
       student.on('newPoll', function(data) {
         student.emit(data);
       });
@@ -34,6 +30,6 @@ module.exports = {
       }, 5000);
 
     });
-    res.status(200).send('Hello from the other side');
+    res.status(200).send('Hello from the student side');
   }
 };
