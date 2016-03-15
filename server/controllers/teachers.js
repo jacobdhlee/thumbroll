@@ -51,6 +51,8 @@ module.exports = {
     //   lessonId: 13,
     // };
 
+    io.sockets.emit('newPoll', pollObject);
+    
     // io.on('connection', function(teacher){
 
     //   // FRONTEND-LISTENER: student.on('teacherConnect', () => {display('class is in session');});
@@ -63,7 +65,6 @@ module.exports = {
 
 
     //   setTimeout(function(){
-    //     io.sockets.emit('newPoll', pollObject);
     //   }, 5000);
 
     //   // teacher.on('responseFromStudent', function(data) {
