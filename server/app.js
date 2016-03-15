@@ -44,9 +44,27 @@ models.students.create({
 models.classes.create({
                       name: 'CS101',
                       // teacherID field not populating
-                      teacherID: 1,
+                      teacherId: 1,
                       createdAt: Date.now()
                     });
 
+
+models.classes.create({
+                      name: 'CS102',
+                      // teacherID field not populating
+                      teacherId: 2,
+                      createdAt: Date.now()
+                    });
+
+models.classes.create({
+                      name: 'History',
+                      // teacherID field not populating
+                      createdAt: Date.now()
+                    });
+
+
+// Needs correct fiends added
+// models.students_classes.create({
+//                     });
 
 });

@@ -26,7 +26,7 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
 
         // Set bi-directional relationship
-        // Creates field, but can't be written to
+        // Creates field, but can't be
         teachers.hasMany(models.classes, {
           foreignKey: 'teacherId',
           // 
