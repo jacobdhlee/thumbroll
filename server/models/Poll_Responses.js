@@ -12,21 +12,7 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    responseVal: DataTypes.STRING,
-    // foreign key
-    // studentId: DataTypes.INTEGER,
-    // foreign key
-    // pollId: DataTypes.INTEGER,
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
-    }
+    responseVal: DataTypes.STRING
   }, {
     timestamps: false,
     classMethods: {

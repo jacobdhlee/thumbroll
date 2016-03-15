@@ -13,21 +13,7 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true
     },
     type: DataTypes.ENUM('thumbs', 'multiChoice'),
-    // foreign key 
-    // teacherId: DataTypes.INTEGER,
-    // foreign key
-    // lessonId: DataTypes.INTEGER,
-    preset_data: DataTypes.STRING,
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
-    }
+    preset_data: DataTypes.STRING
   }, {
     timestamps: false,
     classMethods: {
