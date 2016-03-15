@@ -49,7 +49,6 @@ models.sequelize.sync({force: true}).then(function () {
     password: '1234',
   });
 
-
   models.students.create({
     firstname: 'Orlando',
     lastname: 'Calrisian',
@@ -86,75 +85,5 @@ models.sequelize.sync({force: true}).then(function () {
     class_id: 2,
     student_id: 3
   });
-
-// SAMPLE DB INSERTIONS
-models.teachers.create({
-                      firstname: 'Jake',
-                      lastname: 'Pace',
-                      username: 'jakepace',
-                      password: 'pass',
-                    });
-
-models.teachers.create({
-                      firstname: 'Ian',
-                      lastname: 'DUBWABLANNNN',
-                      username: 'ianD',
-                      password: 'pass123',
-                    });
-
-
-models.students.create({
-                      firstname: 'Shane',
-                      lastname: 'McGraw',
-                      username: 'ShaneM',
-                      password: 'passworddd',
-                    });
-
-models.students.create({
-                      firstname: 'Jacob',
-                      lastname: 'Lee',
-                      username: 'JLee',
-                      password: '1234',
-                    });
-
-
-models.students.create({
-                      firstname: 'Orlando',
-                      lastname: 'Calrisian',
-                      username: 'OlandoC',
-                      password: 'pass123',
-                    });
-
-models.classes.create({
-                      name: 'CS101',
-                      teacher_id: 1,
-                    });
-
-
-models.classes.create({
-                      name: 'CS102',
-                      teacher_id: 2,
-                    });
-
-models.classes.create({
-                      name: 'History',
-                    });
-
-models.students_classes.create({
-                      class_id: 1,
-                      student_id: 1
-                    });
-
-
-models.students_classes.create({
-                      class_id: 2,
-                      student_id: 2
-                    });
-
-
-models.students_classes.create({
-                      class_id: 2,
-                      student_id: 3
-                    });
 
 });
