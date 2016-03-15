@@ -57,7 +57,6 @@ module.exports = {
           // if user is a teacher, compare stored password with provided password
           bcrypt.compare(password, matchedUser.dataValues.password, function(err, match) {
             if (match) {
-
               // pull teacher's classes from db and attach them to response object
               models.classes.findAll({
                 where: {'teacher_id': matchedUser.dataValues.id}
