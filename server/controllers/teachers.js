@@ -73,7 +73,7 @@ module.exports = {
         // FRONTEND-LISTENER: teacher.on('studentData', (data) => {display(data)});
         teacher.emit('studentData', data);
       });
-
+      res.status(201).send('Hello from the teacher side');
     });
 
   },
