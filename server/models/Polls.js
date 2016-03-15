@@ -8,12 +8,26 @@
 module.exports = function(sequelize, DataTypes) {
   var polls = sequelize.define("polls", {
     id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV1,
-      primaryKey: true
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
     },
-    type: DataTypes.ENUM('thumbs', 'multiChoice'), 
-    preset_data: DataTypes.STRING
+    type: DataTypes.ENUM('thumbs', 'multiChoice'),
+    // foreign key 
+    // teacherId: DataTypes.INTEGER,
+    // foreign key
+    // lessonId: DataTypes.INTEGER,
+    preset_data: DataTypes.STRING,
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+      allowNull: false
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+      allowNull: false
+    }
   }, {
     classMethods: {
       associate: function(models) {
