@@ -41,10 +41,7 @@ module.exports = {
   },
 
   startPoll: (pollObject, lessonId) => {
-    console.log("start poll info::::::::::::")
-    console.log(pollObject, lessonId);
-
-    
+  
       return fetch(server + '/teachers/polls', {
         method: 'POST',
         headers: {
@@ -55,8 +52,6 @@ module.exports = {
           pollObject: pollObject,
           lessonId: lessonId
         })
-      }).then((resp) => {
-        console.log("CATCH ME::::::::", resp);
       });
   }
 }
