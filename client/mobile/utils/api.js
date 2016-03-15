@@ -51,8 +51,6 @@ module.exports = {
           pollObject: pollObject,
           lessonId: lessonId
         })
-      }).then((resp) => {
-        console.log("CATCH ME::::::::", resp);
       });
   }
 }
