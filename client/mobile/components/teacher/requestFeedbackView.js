@@ -28,11 +28,16 @@ class RequestFeedbackView extends React.Component {
         }
       ]
     };
+    this.state.socket.on('newPoll', function(newPoll) {
+      //pass newPoll down to state?
+    });
+
     //populate feedbackOptions with anything custom from lesson
   }
 
   dismissClass() {
     // emit socket dismissClass
+    this.state.socket.emit('dismiss');
     this.props.navigator.pop();
   }
 
@@ -40,7 +45,7 @@ class RequestFeedbackView extends React.Component {
     api.startPoll(feedbackOption, this.state.lessonId)
     .then((response) => {
       if(response.status === 500) {
-        /* something bad */
+        console.error('Server error', response);
       } else if(response.status === 201) {
         this.props.navigator.push({
           component: FeedbackView,

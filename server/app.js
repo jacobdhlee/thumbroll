@@ -69,6 +69,7 @@ models.sequelize.sync({force: true}).then(function () {
     name: 'History',
   });
 
+  // Needs correct fiends added
   models.students_classes.create({
     class_id: 1,
     student_id: 1
