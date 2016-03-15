@@ -12,31 +12,20 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    responseVal: DataTypes.STRING,
-    // foreign key
-    // studentId: DataTypes.INTEGER,
-    // foreign key
-    // pollId: DataTypes.INTEGER,
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
-    }
+    responseVal: DataTypes.STRING
   }, {
+    timestamps: false,
     classMethods: {
       associate: function(models) {
         poll_responses.belongsTo(models.students, {
-          foreignKey: 'id', 
-          as: 'studentId'
+          foreignKey: 'student_id',
+          onDelete: 'set null',
+          onUpdate: 'cascade'
         }); 
         poll_responses.belongsTo(models.polls, {
-          foreignKey: 'id', 
-          as: 'pollId'
+          foreignKey: 'poll_id',
+          onDelete: 'set null',
+          onUpdate: 'cascade'
         }); 
       }
     }

@@ -13,25 +13,20 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true
     },
     name: DataTypes.STRING,
-    date: DataTypes.DATE,
-    // foreign key
-    // classId: DataTypes.INTEGER,
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
-    }
+    date: DataTypes.DATE
   }, {
+    timestamps: false,
     classMethods: {
       associate: function(models) {
         lessons.belongsTo(models.classes, {
-          foreignKey: 'id', 
-          as: 'classId'
+          foreignKey: 'class_id',
+          onDelete: 'set null',
+          onUpdate: 'cascade'
+        }); 
+        lessons.hasMany(models.polls, {
+          foreignKey: 'lesson_id',
+          onDelete: 'set null',
+          onUpdate: 'cascade'
         }); 
       }
     }
