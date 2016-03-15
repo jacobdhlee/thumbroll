@@ -15,6 +15,7 @@ module.exports = function(io) {
       // FRONTEND-LISTENER: client.on('newStudentConnected', (studentInfo) => {display(studentCount++ and studentInfo);});
       
       //TODO: DB.write('newStudentConnected', data);
+      console.log('Student connected');
     });
 
     client.on('studentResponse', function(data) {
