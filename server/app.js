@@ -56,6 +56,15 @@ models.sequelize.sync({force: true}).then(function () {
   });
 
   models.classes.create({
+    name: 'Quick Class',
+  });
+
+  models.lessons.create({
+    name: 'Default',
+    class_id: 1
+  });
+
+  models.classes.create({
     name: 'CS101',
     teacher_id: 1,
   });
@@ -71,17 +80,17 @@ models.sequelize.sync({force: true}).then(function () {
 
   // Needs correct fiends added
   models.students_classes.create({
-    class_id: 1,
+    class_id: 2,
     student_id: 1
   });
 
   models.students_classes.create({
-    class_id: 2,
+    class_id: 3,
     student_id: 2
   });
 
   models.students_classes.create({
-    class_id: 2,
+    class_id: 3,
     student_id: 3
   });
 
