@@ -5,14 +5,12 @@ var bcrypt = require('bcrypt');
 // TODO: Remove globalTeacherCode
 var globalTeacherCode = 123;
 
-
 module.exports = {
   login: function(req, res, next) {
     var email = req.body.email;
     var password = req.body.password;
 
     sequelize.sync().then(function() {
-
       // search for user in teachers table
       models.teachers.findOne({
         where: {'username': email} 
@@ -27,25 +25,28 @@ module.exports = {
             if (!matchedUser) {
               // ERROR -> client redirects to '/signup'
               res.status(400).send('Invalid user');
-
             } else {
               // if user is a student, compare stored password with provided password
               bcrypt.compare(password, matchedUser.dataValues.password, function(err, match) {
                 if (match) {
+                  // Find all classes student is enrolled in (via student_classes table)
+                  // Attach them to response object
+                  models.students_classes.findAll({
+                    where: {'student_id': matchedUser.dataValues.id},
+                    include: [models.classes]
+                  }).then(function(classes) {
+                    var studentObj = {
+                      student: {
+                        uid: matchedUser.dataValues.id,
+                        firstName: matchedUser.dataValues.firstname,
+                        lastName: matchedUser.dataValues.lastname,
+                        classes: classes.dataValues
+                      }
+                    };
+                    // SUCCESS -> client redirect to '/students'
+                    res.status(200).send(studentObj);
+                  });
 
-                  // TODO: Pull classes with another query, add to object inside .then()
-                  // db query
-                  //.then(function(classes))
-                  var studentObj = {
-                    student: {
-                      uid: matchedUser.dataValues.id,
-                      firstName: matchedUser.dataValues.firstname,
-                      lastName: matchedUser.dataValues.lastname,
-                      classes: []
-                    }
-                  };
-                  // SUCCESS -> client redirect to '/students'
-                  res.status(200).send(studentObj);
                 } else {
                   // ERROR: invalid password -> Client redirects to '/login'
                   res.status(400).send('Invalid password');
@@ -58,21 +59,21 @@ module.exports = {
           bcrypt.compare(password, matchedUser.dataValues.password, function(err, match) {
             if (match) {
 
-              // TODO: Pull classes with another query, add to object inside .then()
-              // db query
-              //.then(function(classes))
-              var teacherObj = {
-                teacher: {
-                  uid: matchedUser.dataValues.id,
-                  firstName: matchedUser.dataValues.firstname,
-                  lastName: matchedUser.dataValues.lastname,
-                  classes: []
-                }
-              };
-
+              // pull teacher's classes from db and attach them to response object
+              models.classes.findAll({
+                where: {'teacher_id': matchedUser.dataValues.id}
+              }).then(function(classes) {
+                var teacherObj = {
+                  teacher: {
+                    uid: matchedUser.dataValues.id,
+                    firstName: matchedUser.dataValues.firstname,
+                    lastName: matchedUser.dataValues.lastname,
+                    classes: classes.dataValues
+                  }
+                };
               // SUCCESS -> client redirects to '/teachers'
               res.status(200).send(teacherObj);
-
+            });
             } else {
               // ERROR: invalid password -> client redirects to '/login'
               res.status(400).send('Invalid password');
@@ -91,14 +92,11 @@ module.exports = {
     var password = req.body.password;
 
     sequelize.sync().then(function() {
-
       // if invalid teacher code present, return error
       if (teacherCode && teacherCode !== globalTeacherCode) {
-        
         // ERROR -> client reloads '/signup'
         res.status(500).send("Invalid teacher code.");
       }
-
       // if valid teacher code provided, check teachers table
       else if (teacherCode) {
         models.teachers.findOne({
@@ -122,22 +120,21 @@ module.exports = {
                   });
                 })
                 .then(function(result) {
-                  
-                  var user = models.teachers.findOne({
+                  // Pull new teacher data from db (including db-generated id)
+                  models.teachers.findOne({
                     where:{ 'username': email }
+                  }).then(function(user) {
+                    var teacherObj = {
+                      teacher: {
+                        uid: user.dataValues.id,
+                        firstName: user.dataValues.firstname,
+                        lastName: user.dataValues.lastname,
+                        classes: []
+                      }
+                    };
+                    // SUCCESS: Account created -> client redirects to '/teacher'
+                    res.status(200).send(teacherObj);
                   });
-
-                  // TODO: wrap inside a promise from previous query
-                  var teacherObj = {
-                    teacher: {
-                      uid: user.dataValues.id,
-                      firstName: user.dataValues.firstname,
-                      lastName: user.dataValues.lastname,
-                      classes: []
-                    }
-                  };
-                  // SUCCESS: Account created -> client redirects to '/teacher'
-                  res.status(200).send(teacherObj);
                 });
               });
             });
@@ -167,23 +164,21 @@ module.exports = {
                 })
                 .then(function(result) {
 
-                  // create studentObj from DB query
-                  var user = models.students.findOne({
-                    where:{ 'username': email }
-                  });
-
-                  // TODO: wrap inside promise from previous query
-                  var studentObj = {
-                    student: {
-                      uid: user.dataValues.id,
-                      firstName: user.dataValues.firstname,
-                      lastName: user.dataValues.lastname,
-                      classes: []
-                    }
-                  };
-
-                  // SUCCESS -> client redirects to '/student'
-                  res.status(200).send(studentObj);
+                  // pull new student data from db (including db-generated id)
+                  models.students.findOne({
+                    where: { 'username': email }
+                  }).then(function(user){
+                    var studentObj = {
+                      student: {
+                        uid: user.dataValues.id,
+                        firstName: user.dataValues.firstname,
+                        lastName: user.dataValues.lastname,
+                        classes: []
+                      }
+                    };
+                    // SUCCESS -> client redirects to '/student'
+                    res.status(200).send(studentObj);
+                  });                  
                 });
               });
             });
