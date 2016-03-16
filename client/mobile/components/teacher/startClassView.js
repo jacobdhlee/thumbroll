@@ -11,7 +11,9 @@ var {
   Text,
   StyleSheet,
   Navigator,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView,
+  ListView
 } = React;
 
 class StartClassView extends React.Component {
@@ -19,7 +21,7 @@ class StartClassView extends React.Component {
     super(props);
     this.state = {
       //classes: this.props.route.classes
-      classes: ['Quick Class', 'CS 101', 'CS 201'],
+      classes: ['Quick Class', 'CS 101', 'CS 201', 'CS 401'],
     };
   }
 
@@ -93,11 +95,13 @@ class StartClassView extends React.Component {
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <View style={styles.viewContainer}>
           <View style={styles.titleContainer}>
-            <Text style={styles.pageText}> Start Class: </Text>
+            <Text style={styles.pageText}> Your classes </Text>
           </View>
-          <View style={styles.buttonsContainer}>
-            {this.renderClasses(this.state.classes)}
-          </View>
+          <ScrollView>
+            <View style={styles.buttonsContainer}>
+              {this.renderClasses(this.state.classes)}
+            </View>
+          </ScrollView>
         </View>
       </View>
     )
