@@ -18,8 +18,6 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         classes.belongsTo(models.teachers, {
           foreignKey: 'teacher_id',
-          // TEST setting delete conditions
-          // to trigger association
           onDelete: 'set null',
           onUpdate: 'cascade'
         }); 
