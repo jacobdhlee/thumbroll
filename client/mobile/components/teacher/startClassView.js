@@ -5,7 +5,6 @@ require('./../../utils/userAgent');
 var io =require('socket.io-client/socket.io');
 var env = require('./../../utils/environment');
 var server = env.server + ':' + env.port;
-var RNChart = require('react-native-chart');
 
 var {
   View,
