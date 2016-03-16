@@ -23,11 +23,20 @@ class FeedbackView extends React.Component {
       feedbackOption: this.props.route.feedbackOption,
       height: height,
       width: width,
-      socket: this.props.route.socket
+      socket: this.props.route.socket,
+      studentData: this.props.route.studentData
     };
-    this.state.socket.on('studentResponse', function(data){
-      console.log("stuent response >>>>>>>>>>>", data);
-    })
+
+    this.state.socket.on('studentResponseForTeacher', (studentData) => {
+      var currentStudentData = this.state.studentData.slice();
+      
+      currentStudentData.push(studentData);
+      this.setState({
+        studentData : currentStudentData
+      });
+      console.log('we have new student data! >>>', studentData);
+    });
+
   }
 
   exitPage() {
@@ -63,6 +72,7 @@ class FeedbackView extends React.Component {
         </View>
           <View style={styles.titleContainer}>
             <Text style={styles.pageText}> {this.state.feedbackOption.name} </Text>
+            <Text>Student responses: {this.state.studentData.length}</Text>
           </View>
           {this.renderChart.bind(this)()}
         </View>

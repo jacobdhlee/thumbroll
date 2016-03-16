@@ -7,6 +7,8 @@ var {
   Navigator,
 } = React;
 
+var studentData;
+
 class PercentageChart extends React.Component {
   constructor(props) {
     super(props);
@@ -22,5 +24,6 @@ class PercentageChart extends React.Component {
     )
   }
 }
+
 
 module.exports = PercentageChart;
