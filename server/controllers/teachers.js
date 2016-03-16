@@ -67,6 +67,7 @@ module.exports = {
     })
     .catch(function(err) {
       console.error('Error saving poll to DB:', err);
+      res.status(500).send(err);
     });
   },
 };
