@@ -7,20 +7,20 @@ var globalTeacherCode = 123;
 
 module.exports = {
   login: function(req, res, next) {
-    var email = req.body.email;
+    var username = req.body.username;
     var password = req.body.password;
 
     sequelize.sync().then(function() {
       // search for user in teachers table
       models.teachers.findOne({
-        where: {'username': email} 
+        where: {'username': username} 
       })
       .then(function(matchedUser){
         // if there's no match in teachers
         if (!matchedUser) { 
           // search for user in students table
           models.students.findOne({
-            where: {'username': email} 
+            where: {'username': username} 
           }).then(function(matchedUser) {
             if (!matchedUser) {
               // ERROR -> client redirects to '/signup'
@@ -86,27 +86,21 @@ module.exports = {
   signup: function(req, res, next) {
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
-    var email = req.body.email;
+    var username = req.body.username;
     var password = req.body.password;
     var accountType = req.body.accountType;
 
     sequelize.sync().then(function() {
-      // if invalid teacher code present, return error
-      // if (teacherCode && teacherCode !== globalTeacherCode) {
-      //   // ERROR -> client reloads '/signup'
-      //   res.status(500).send("Invalid teacher code.");
-      // }
-
       // if user specifies 'teacher' account, check teachers table
       if (accountType === "teacher") {
         models.teachers.findOne({
-          where: {'username': email}
+          where: {'username': username}
         })
         .then(function(matchedUser) {
           // if teacher exists, send error
           if (matchedUser) { 
             // ERROR -> client reloads '/signup'
-            res.status(500).send(email + " account already exists."); 
+            res.status(500).send(username + " account already exists."); 
           } else {
             // if no matches are found, create new teacher account
             bcrypt.genSalt(10, function(err, salt) {
@@ -115,14 +109,14 @@ module.exports = {
                   return models.teachers.create({
                     firstname: firstName,
                     lastname: lastName,
-                    username: email,
+                    username: username,
                     password: hash
                   });
                 })
                 .then(function(result) {
                   // Pull new teacher data from db (including db-generated id)
                   models.teachers.findOne({
-                    where:{ 'username': email }
+                    where:{ 'username': username }
                   }).then(function(user) {
                     var teacherObj = {
                       teacher: {
@@ -144,12 +138,12 @@ module.exports = {
       // if no teacher code provided, assume user is student
       else {
         models.students.findOne({
-           where: {'username': email}
+           where: {'username': username}
          })
         .then(function(matchedUser) {
           // if student exists, send error
           if (matchedUser) { 
-             res.status(500).send(email + " account already exists."); 
+             res.status(500).send(username + " account already exists."); 
            } else {
             // if no matches are found
             bcrypt.genSalt(10, function(err, salt) {
@@ -158,14 +152,14 @@ module.exports = {
                   return models.students.create({
                     firstname: firstName,
                     lastname: lastName,
-                    username: email,
+                    username: username,
                     password: hash
                   });
                 })
                 .then(function(result) {
                   // pull new student data from db (including db-generated id)
                   models.students.findOne({
-                    where: { 'username': email }
+                    where: { 'username': username }
                   }).then(function(user){
                     var studentObj = {
                       student: {
