@@ -26,7 +26,8 @@ class RequestFeedbackView extends React.Component {
           id: 2,
           name: 'Multiple Choice'
         }
-      ]
+      ],
+      studentData : []
     };
     this.state.socket.on('newPoll', function(newPoll) {
       //pass newPoll down to state?
@@ -52,6 +53,7 @@ class RequestFeedbackView extends React.Component {
           lessonId: this.state.lessonId,
           feedbackOption: feedbackOption,
           socket: this.state.socket,
+          studentData: this.state.studentData,
           sceneConfig: {
             ...Navigator.SceneConfigs.FloatFromRight,
             gestures: {}
@@ -77,6 +79,7 @@ class RequestFeedbackView extends React.Component {
 
   render() {
     //need end class / back button
+
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <View style={styles.viewContainer}>
