@@ -4,6 +4,7 @@
 //var ClassLessons = require('../models/class_lessons');
 //var Lessons = require('../models/lessons');
 //var RequestedResponses = require('../models/requested_responses');
+var models = require("./../models");
 
 
 module.exports = {
@@ -42,17 +43,31 @@ module.exports = {
   pollClass: function(io, req, res, next) {
     var lessonId = req.body.lessonId;
     var pollObject = req.body.pollObject;
-
-    //TODO: will need to store to DB and get back poll ID to send back down
-    var pollInformation = {
-      lessonId: lessonId,
-      pollObject: pollObject,
-      //respoonseId
+    //TODO: query if preset. otherwise:
+    var type = '';
+    //TODO: should have backend/frontend consistency in how we identify different types
+    if(pollObject.id == 1) {
+      type = 'thumbs';
+    } else if(pollObject.id == 2) {
+      type = 'multiChoice';
     }
 
-    io.sockets.emit('newPoll', pollInformation);
-    
-    res.status(201).send('Poll sent... ' + pollInformation);
+    models.polls.create({
+      type: type,
+      lesson_id: lessonId
+    })
+    .then(function(data) {
+      var pollInformation = {
+        lessonId: lessonId,
+        pollObject: pollObject,
+        pollId: data.dataValues.id
+      }
+      io.sockets.emit('newPoll', pollInformation);
+      res.status(201).send('Poll sent... ' + pollInformation);
+    })
+    .catch(function(err) {
+      console.error('Error saving poll to DB:', err);
+      res.status(500).send(err);
+    });
   },
-
 };

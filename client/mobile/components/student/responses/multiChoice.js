@@ -42,12 +42,12 @@ class MultiChoice extends React.Component {
   }
 
   submitAnswer(answer) {
-    console.log(answer)
+    console.log('Student',this.state.userId,'answered',answer,'to poll',this.state.pollInfo.pollId);
     // send socket with answer
     this.state.socket.emit('studentResponse', {
       userId: this.state.userId,
       answer: answer,
-
+      pollId: this.state.pollInfo.pollId
     })
     this.props.navigator.pop();
     // go to previous page

@@ -1,3 +1,5 @@
+var models = require("./models");
+
 module.exports = function(io) {
   
   var poll = {
@@ -19,13 +21,18 @@ module.exports = function(io) {
     });
 
     client.on('studentResponse', function(data) {
-      // write data to the DB
-      // TODO: DB query writing data
+      console.log('INCOMING STUDENT RESPONSE:', data);
+      io.sockets.emit('studentResponseForTeacher', data);
 
-      // display data on frontend
-      // FRONTEND-LISTENER: client.on('studentData', (data) => {display(data)});
-      //client.emit('studentData', data);
-      console.log(data);
+      //TODO: only save if not quick class?
+      models.poll_responses.create({
+        response_val: data.answer,
+        student_id: data.userId,
+        poll_id: data.pollId
+      })
+      .catch(function(err) {
+        console.error('Error saving student', data.userId, 'poll response to DB:', err);
+      });
     });
 
     client.on('teacherConnect', function(data) {

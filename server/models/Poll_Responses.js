@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    responseVal: DataTypes.STRING
+    response_val: DataTypes.STRING
   }, {
     timestamps: false,
     classMethods: {
