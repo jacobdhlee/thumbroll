@@ -25,10 +25,11 @@ module.exports = {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
+        // add firstName and lastName
         body: JSON.stringify({
           username: username,
           password: password,
-          type: teacherOrStudent
+          accountType: teacherOrStudent
         })
       });
   },
