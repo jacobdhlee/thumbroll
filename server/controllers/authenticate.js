@@ -32,11 +32,16 @@ module.exports = {
               // if user is a student, compare stored password with provided password
               bcrypt.compare(password, matchedUser.dataValues.password, function(err, match) {
                 if (match) {
-                  // TODO: 
-                  // build object with student details
+
+                  // TODO: Pull classes with another query, add to object inside .then()
+                  // db query
+                  //.then(function(classes))
                   var studentObj = {
                     student: {
-                      
+                      uid: matchedUser.dataValues.id,
+                      firstName: matchedUser.dataValues.firstname,
+                      lastName: matchedUser.dataValues.lastname,
+                      classes: []
                     }
                   };
                   // SUCCESS -> client redirect to '/students'
@@ -53,11 +58,15 @@ module.exports = {
           bcrypt.compare(password, matchedUser.dataValues.password, function(err, match) {
             if (match) {
 
-              // TODO: 
-              // build object with teacher details
+              // TODO: Pull classes with another query, add to object inside .then()
+              // db query
+              //.then(function(classes))
               var teacherObj = {
                 teacher: {
-                  
+                  uid: matchedUser.dataValues.id,
+                  firstName: matchedUser.dataValues.firstname,
+                  lastName: matchedUser.dataValues.lastname,
+                  classes: []
                 }
               };
 
@@ -93,13 +102,13 @@ module.exports = {
       // if valid teacher code provided, check teachers table
       else if (teacherCode) {
         models.teachers.findOne({
-          where: {'username': username}
+          where: {'username': email}
         })
         .then(function(matchedUser) {
           // if teacher exists, send error
           if (matchedUser) { 
             // ERROR -> client reloads '/signup'
-            res.status(500).send(username + " account already exists."); 
+            res.status(500).send(email + " account already exists."); 
           } else {
             // if no matches are found, create new teacher account
             bcrypt.genSalt(10, function(err, salt) {
@@ -113,11 +122,18 @@ module.exports = {
                   });
                 })
                 .then(function(result) {
+                  
+                  var user = models.teachers.findOne({
+                    where:{ 'username': email }
+                  });
 
-                  // TODO: build teacher object with id
+                  // TODO: wrap inside a promise from previous query
                   var teacherObj = {
                     teacher: {
-
+                      uid: user.dataValues.id,
+                      firstName: user.dataValues.firstname,
+                      lastName: user.dataValues.lastname,
+                      classes: []
                     }
                   };
                   // SUCCESS: Account created -> client redirects to '/teacher'
@@ -131,12 +147,12 @@ module.exports = {
       // if no teacher code provided, assume user is student
       else {
         models.students.findOne({
-           where: {'username': username}
+           where: {'username': email}
          })
         .then(function(matchedUser) {
           // if student exists, send error
           if (matchedUser) { 
-             res.status(500).send(username + " account already exists."); 
+             res.status(500).send(email + " account already exists."); 
            } else {
             // if no matches are found
             bcrypt.genSalt(10, function(err, salt) {
@@ -151,12 +167,21 @@ module.exports = {
                 })
                 .then(function(result) {
 
-                  // TODO: create studentObj from DB query
+                  // create studentObj from DB query
+                  var user = models.students.findOne({
+                    where:{ 'username': email }
+                  });
+
+                  // TODO: wrap inside promise from previous query
                   var studentObj = {
                     student: {
-                      
+                      uid: user.dataValues.id,
+                      firstName: user.dataValues.firstname,
+                      lastName: user.dataValues.lastname,
+                      classes: []
                     }
                   };
+
                   // SUCCESS -> client redirects to '/student'
                   res.status(200).send(studentObj);
                 });
