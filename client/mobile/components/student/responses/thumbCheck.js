@@ -12,16 +12,18 @@ class ThumbCheck extends React.Component {
     super(props)
     this.state = {
       value: 0,
+      pollInfo: this.props.route.pollInfo,
       socket: this.props.route.socket,
       userId: this.props.route.userId,
     }
   }
 
   submitResponse() {
-    console.log(this.state.value);
+    console.log('Student',this.state.userId,'answered',this.state.value,'to poll',this.state.pollInfo.pollId);
     this.state.socket.emit('studentResponse', {
       userId: this.state.userId,
       answer: this.state.value,
+      pollId: this.state.pollInfo.pollId
     })
     this.props.navigator.pop();
   }
