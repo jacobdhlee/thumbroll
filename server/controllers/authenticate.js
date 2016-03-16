@@ -1,5 +1,5 @@
 var models = require('../models');
-var sequelize = require('sequelize');
+var sequelize = require('../db/sequelize-connection');
 var bcrypt = require('bcrypt');
 
 // TODO: Remove globalTeacherCode
@@ -46,7 +46,6 @@ module.exports = {
                     // SUCCESS -> client redirect to '/students'
                     res.status(200).send(studentObj);
                   });
-
                 } else {
                   // ERROR: invalid password -> Client redirects to '/login'
                   res.status(400).send('Invalid password');
@@ -114,9 +113,9 @@ module.exports = {
                 sequelize.sync().then(function() {
                   return models.teachers.create({
                     firstname: firstName,
-                    lastname: firstName,
+                    lastname: lastName,
                     username: email,
-                    username: hash
+                    password: hash
                   });
                 })
                 .then(function(result) {
@@ -157,13 +156,12 @@ module.exports = {
                 sequelize.sync().then(function() {
                   return models.students.create({
                     firstname: firstName,
-                    lastname: firstName,
+                    lastname: lastName,
                     username: email,
-                    username: hash
+                    password: hash
                   });
                 })
                 .then(function(result) {
-
                   // pull new student data from db (including db-generated id)
                   models.students.findOne({
                     where: { 'username': email }

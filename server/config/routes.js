@@ -4,8 +4,8 @@ var authenticationController = require('../controllers/authenticate');
 
 module.exports = function(app, io) {
 
-  app.get('/login', authenticationController.login);
-  app.get('/signup', authenticationController.signup);
+  app.post('/login', authenticationController.login);
+  app.post('/signup', authenticationController.signup);
     
   app.post('/teachers/polls/', teachersController.pollClass.bind(null, io));
 
