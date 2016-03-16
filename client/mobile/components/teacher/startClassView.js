@@ -65,7 +65,7 @@ class StartClassView extends React.Component {
     this.props.navigator.push({
       component: RequestFeedbackView,
       classId: classId,
-      lessonId: 'default',
+      lessonId: 1,
       socket: this.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromRight,
