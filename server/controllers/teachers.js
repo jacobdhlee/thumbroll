@@ -43,8 +43,7 @@ module.exports = {
     var lessonId = req.body.lessonId;
     var pollObject = req.body.pollObject;
 
-    //will need to store to DB and get back poll ID to send back down
-
+    //TODO: will need to store to DB and get back poll ID to send back down
     var pollInformation = {
       lessonId: lessonId,
       pollObject: pollObject,

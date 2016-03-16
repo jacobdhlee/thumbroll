@@ -15,15 +15,17 @@ module.exports = function(io) {
       // FRONTEND-LISTENER: client.on('newStudentConnected', (studentInfo) => {display(studentCount++ and studentInfo);});
       
       //TODO: DB.write('newStudentConnected', data);
+      console.log('Student connected');
     });
 
-    client.on('responseFromStudent', function(data) {
+    client.on('studentResponse', function(data) {
       // write data to the DB
       // TODO: DB query writing data
 
       // display data on frontend
       // FRONTEND-LISTENER: client.on('studentData', (data) => {display(data)});
-      client.emit('studentData', data);
+      //client.emit('studentData', data);
+      console.log(data);
     });
 
     client.on('teacherConnect', function(data) {
@@ -32,14 +34,6 @@ module.exports = function(io) {
 
 
     //STUDENT CODE
-
-    // client.on('newPoll', function(data) {
-    //   client.emit(data);
-    // });
-
-    setTimeout(function(){
-      io.sockets.emit('responseFromStudent');
-    }, 5000);
 
   });
 };

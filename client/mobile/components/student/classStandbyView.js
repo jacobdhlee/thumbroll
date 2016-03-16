@@ -16,15 +16,17 @@ class ClassStandbyView extends React.Component {
       socket: this.props.route.socket,
       userId: this.props.route.userId
     };
+    var that = this;
     this.state.socket.on('teacherConnect', () => {
       console.log('Class is in sesson');
     });
 
     this.state.socket.on('newPoll', function(pollInfo) {
-      if(pollInfo.pollObject.id === 1) {
-        thumbcheckPage(pollInfo);
-      } else if(pollInfo.pollObject.id === 2) {
-        multiPage(pollInfo);
+      console.log('message received from server!', pollInfo);
+      if(pollInfo.pollObject.id == 1) {
+        that.thumbcheckPage(pollInfo);
+      } else if(pollInfo.pollObject.id == 2) {
+        that.multiPage(pollInfo);
       }
     });
   }

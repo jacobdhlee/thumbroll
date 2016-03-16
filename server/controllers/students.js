@@ -13,6 +13,6 @@ module.exports = {
       student.emit('studentStandby', studentInformation);
     });
 
-    res.status(200).send('Hello from the student side');
+    res.status(201).send('Welcome, student.');
   }
 };
