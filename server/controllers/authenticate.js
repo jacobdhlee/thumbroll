@@ -87,17 +87,18 @@ module.exports = {
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
     var email = req.body.email;
-    var teacherCode = req.body.teacherCode;
     var password = req.body.password;
+    var accountType = req.body.accountType;
 
     sequelize.sync().then(function() {
       // if invalid teacher code present, return error
-      if (teacherCode && teacherCode !== globalTeacherCode) {
-        // ERROR -> client reloads '/signup'
-        res.status(500).send("Invalid teacher code.");
-      }
-      // if valid teacher code provided, check teachers table
-      else if (teacherCode) {
+      // if (teacherCode && teacherCode !== globalTeacherCode) {
+      //   // ERROR -> client reloads '/signup'
+      //   res.status(500).send("Invalid teacher code.");
+      // }
+
+      // if user specifies 'teacher' account, check teachers table
+      if (accountType === "teacher") {
         models.teachers.findOne({
           where: {'username': email}
         })
