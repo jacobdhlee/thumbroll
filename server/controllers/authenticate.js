@@ -1,20 +1,15 @@
-var models = require("./models");
+var models = require('../models');
 var sequelize = require('sequelize');
 var bcrypt = require('bcrypt');
+
+// TODO: Remove globalTeacherCode
+var globalTeacherCode = 123;
 
 
 module.exports = {
   login: function(req, res, next) {
     var email = req.body.email;
     var password = req.body.password;
-
-    //TODO: check teacher db for username/pw
-      //if correct, route to '/teachers' and store user on session
-      //else if username is there but pw doesn't match, return pw error
-      //else if username isn't there, check student db
-        //if correct, route to '/students' and store user on session
-        //else if username is there but pw doesn't match, return pw error
-        //else navigate to '/signup'
 
     sequelize.sync().then(function() {
 
@@ -30,17 +25,25 @@ module.exports = {
             where: {'username': email} 
           }).then(function(matchedUser) {
             if (!matchedUser) {
-              // navigate to '/signup'
+              // ERROR -> client redirects to '/signup'
+              res.status(400).send('Invalid user');
+
             } else {
               // if user is a student, compare stored password with provided password
               bcrypt.compare(password, matchedUser.dataValues.password, function(err, match) {
                 if (match) {
+                  // TODO: 
                   // build object with student details
-                  // navigate to '/students'
-                  // res.send(200, studentObj)
+                  var studentObj = {
+                    student: {
+                      
+                    }
+                  };
+                  // SUCCESS -> client redirect to '/students'
+                  res.status(200).send(studentObj);
                 } else {
-                  // ERROR: invalid password
-                  // redirect to '/login'
+                  // ERROR: invalid password -> Client redirects to '/login'
+                  res.status(400).send('Invalid password');
                 }
               });
             }
@@ -49,16 +52,25 @@ module.exports = {
           // if user is a teacher, compare stored password with provided password
           bcrypt.compare(password, matchedUser.dataValues.password, function(err, match) {
             if (match) {
+
+              // TODO: 
               // build object with teacher details
-              // navigate to '/teachers'
-              // res.send(200, teacherObj);
+              var teacherObj = {
+                teacher: {
+                  
+                }
+              };
+
+              // SUCCESS -> client redirects to '/teachers'
+              res.status(200).send(teacherObj);
+
             } else {
-              // ERROR: invalid password
-              // redirect to '/login'
+              // ERROR: invalid password -> client redirects to '/login'
+              res.status(400).send('Invalid password');
             }
           });
         }
-      }).catch(res.send(500, "Error while trying to find user in database."));
+      });
     });
   },
 
@@ -69,12 +81,90 @@ module.exports = {
     var teacherCode = req.body.teacherCode;
     var password = req.body.password;
 
-    //TODO: sign up user
-    //if no teacherCode, search student DB
-      //search DB for user
-        //if no user exists, create one
-        //else report user already exists
-    //else search teacher DB
+    sequelize.sync().then(function() {
 
+      // if invalid teacher code present, return error
+      if (teacherCode && teacherCode !== globalTeacherCode) {
+        
+        // ERROR -> client reloads '/signup'
+        res.status(500).send("Invalid teacher code.");
+      }
+
+      // if valid teacher code provided, check teachers table
+      else if (teacherCode) {
+        models.teachers.findOne({
+          where: {'username': username}
+        })
+        .then(function(matchedUser) {
+          // if teacher exists, send error
+          if (matchedUser) { 
+            // ERROR -> client reloads '/signup'
+            res.status(500).send(username + " account already exists."); 
+          } else {
+            // if no matches are found, create new teacher account
+            bcrypt.genSalt(10, function(err, salt) {
+              bcrypt.hash(password, salt, function(err, hash) {
+                sequelize.sync().then(function() {
+                  return models.teachers.create({
+                    firstname: firstName,
+                    lastname: firstName,
+                    username: email,
+                    username: hash
+                  });
+                })
+                .then(function(result) {
+
+                  // TODO: build teacher object with id
+                  var teacherObj = {
+                    teacher: {
+
+                    }
+                  };
+                  // SUCCESS: Account created -> client redirects to '/teacher'
+                  res.status(200).send(teacherObj);
+                });
+              });
+            });
+          }
+        });
+      }
+      // if no teacher code provided, assume user is student
+      else {
+        models.students.findOne({
+           where: {'username': username}
+         })
+        .then(function(matchedUser) {
+          // if student exists, send error
+          if (matchedUser) { 
+             res.status(500).send(username + " account already exists."); 
+           } else {
+            // if no matches are found
+            bcrypt.genSalt(10, function(err, salt) {
+              bcrypt.hash(password, salt, function(err, hash) {
+                sequelize.sync().then(function() {
+                  return models.students.create({
+                    firstname: firstName,
+                    lastname: firstName,
+                    username: email,
+                    username: hash
+                  });
+                })
+                .then(function(result) {
+
+                  // TODO: create studentObj from DB query
+                  var studentObj = {
+                    student: {
+                      
+                    }
+                  };
+                  // SUCCESS -> client redirects to '/student'
+                  res.status(200).send(studentObj);
+                });
+              });
+            });
+          }
+        });
+      }
+    });
   }
-}
+};
