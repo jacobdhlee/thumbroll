@@ -21,7 +21,7 @@ const chartData = [
   {
     name: 'BarChart',
     type: 'bar',
-    color:'#219dff',
+    color:'purple',
     widthPercent: 0.6,
     data: [30, 1, 1, 2, 3, 5, 21, 13, 21, 34, 55, 30],
   },
@@ -38,7 +38,7 @@ const chartData = [
  
 const xLabels = ['0','1','2','3','4','5','6','7','8','9','10','11'];
  
-class PercentageChart extends Component {
+class SimpleChart extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -52,4 +52,5 @@ class PercentageChart extends Component {
   }
 }
 
-module.exports = PercentageChart;
+
+module.exports = SimpleChart;

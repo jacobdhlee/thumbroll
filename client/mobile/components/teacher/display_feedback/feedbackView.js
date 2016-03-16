@@ -29,7 +29,7 @@ class FeedbackView extends React.Component {
 
     this.state.socket.on('studentResponseForTeacher', (studentData) => {
       var currentStudentData = this.state.studentData.slice();
-      
+      console.log(currentStudentData);
       currentStudentData.push(studentData);
       this.setState({
         studentData : currentStudentData
