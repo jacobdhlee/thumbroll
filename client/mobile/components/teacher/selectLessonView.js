@@ -17,7 +17,7 @@ class SelectLessonView extends React.Component {
     super(props);
     this.state = {
       //classes: this.props.route.classes
-      lessons: ['Quick Class', 'CS 101', 'CS 201', 'CS 401'],
+      lessons: this.props.route.lessons,
       socket: this.props.route.socket,
       classId: this.props.route.classId,
     };
