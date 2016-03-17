@@ -40,7 +40,7 @@ module.exports = {
                         uid: matchedUser.dataValues.id,
                         firstName: matchedUser.dataValues.firstname,
                         lastName: matchedUser.dataValues.lastname,
-                        classes: classes.dataValues
+                        classes: classes
                       }
                     };
                     // SUCCESS -> client redirect to '/students'
@@ -67,7 +67,7 @@ module.exports = {
                     uid: matchedUser.dataValues.id,
                     firstName: matchedUser.dataValues.firstname,
                     lastName: matchedUser.dataValues.lastname,
-                    classes: classes.dataValues
+                    classes: classes
                   }
                 };
               // SUCCESS -> client redirects to '/teachers'
