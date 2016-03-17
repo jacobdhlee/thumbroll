@@ -11,7 +11,7 @@ module.exports = {
   getClassLessons: function(req, res, next) {
     var classId = req.params.classId;
     models.lessons.findAll({ where: {
-      classId: classId
+      class_id: classId
       }
     })
     .then(function(lessons) {
@@ -26,7 +26,7 @@ module.exports = {
   getLessonData: function(req, res, next) {
     var lessonId = req.params.lessonId;
     models.polls.findAll({ where: {
-      lessonId: lessonId,
+      lesson_id: lessonId,
       //TODO?: preset: true
       }
     })
