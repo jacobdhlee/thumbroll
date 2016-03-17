@@ -24,7 +24,8 @@ class FeedbackView extends React.Component {
       height: height,
       width: width,
       socket: this.props.route.socket,
-      studentData: this.props.route.studentData
+      studentData: this.props.route.studentData,
+      mock: [1,2,3,4,25,62,13,6,4,5,7,7,7,4]
     };
 
     this.state.socket.on('studentResponseForTeacher', (studentData) => {
@@ -48,7 +49,7 @@ class FeedbackView extends React.Component {
     if(this.state.feedbackOption.id === 1) {
       return (
         <View style={{ width: this.state.width, height: this.state.height * 0.7, backgroundColor: 'red'}}>
-          {React.createElement(PercentageChart)}
+          {React.createElement(PercentageChart, this.state.mock)}
         </View>
       )
     } else if(this.state.feedbackOption.id === 2) {

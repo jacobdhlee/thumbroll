@@ -29,9 +29,6 @@ class RequestFeedbackView extends React.Component {
       ],
       studentData : []
     };
-    this.state.socket.on('newPoll', function(newPoll) {
-      //pass newPoll down to state?
-    });
 
     //populate feedbackOptions with anything custom from lesson
   }
