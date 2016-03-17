@@ -22,13 +22,25 @@ class Signup extends React.Component {
       username: '',
       password: '',
       confirmedPassword: '',
-      firstName: 'Ian',
-      lastName: 'deBoisblanc',
+      firstName: '',
+      lastName: '',
       accountType: 'student',
       isLoading: false,
       error: false,
       passwordError: false
     };
+  }
+
+  handleFirstNameChange(event) {
+    this.setState({
+      firstName: event.nativeEvent.text
+    });
+  }
+
+  handleLastNameChange(event) {
+    this.setState({
+      lastName: event.nativeEvent.text
+    });
   }
 
   handleUsernameChange(event) {
