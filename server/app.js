@@ -23,14 +23,18 @@ models.sequelize.sync({force: true}).then(function () {
     firstname: 'Jake',
     lastname: 'Pace',
     username: 'jakepace',
-    password: 'pass',
+    // 123
+    password: '$2a$10$cWPLKHIJUX7YRLwJvpMrVeIi0Pxo/IATOPNJ43S2NU/2MG2Qd6rEq',
+    email: 'jake@email.com'
   });
 
   models.teachers.create({
     firstname: 'Ian',
     lastname: 'DUBWABLANNNN',
     username: 'ianD',
-    password: 'pass123',
+    // 123
+    password: '$2a$10$f1jdZ5ppWnnWXwL6Hm66/O.gWG25ajXG6KBHJKQtB1fE7rSEgFuNy',
+    email: 'ian@gmail.com'
   });
 
 
@@ -38,21 +42,27 @@ models.sequelize.sync({force: true}).then(function () {
     firstname: 'Shane',
     lastname: 'McGraw',
     username: 'ShaneM',
-    password: 'passworddd',
+    // 123
+    password: '$2a$10$cWPLKHIJUX7YRLwJvpMrVeIi0Pxo/IATOPNJ43S2NU/2MG2Qd6rEq',
+    email: 'shane@email.com'
   });
 
   models.students.create({
     firstname: 'Jacob',
     lastname: 'Lee',
     username: 'JLee',
-    password: '1234',
+    // 123
+    password: '$2a$10$f1jdZ5ppWnnWXwL6Hm66/O.gWG25ajXG6KBHJKQtB1fE7rSEgFuNy',
+    email: 'jacob@email.com'
   });
 
   models.students.create({
     firstname: 'Orlando',
     lastname: 'Calrisian',
     username: 'OlandoC',
-    password: 'pass123',
+    // 123
+    password: '$2a$10$cWPLKHIJUX7YRLwJvpMrVeIi0Pxo/IATOPNJ43S2NU/2MG2Qd6rEq',
+    email: 'orlando@cloudcity.com'
   });
 
   models.classes.create({
