@@ -74,7 +74,8 @@ class Signup extends React.Component {
         isLoading: true,
         passwordError: false
       });
-      api.signup(this.state.username, this.state.password, this.state.firstName, this.state.lastName, this.state.accountType)
+      api.signup(this.state.firstName, this.state.lastName, this.state.username, 
+        this.state.email, this.state.password, this.state.accountType)
       .then((response) => {
         if(response.status === 500){
           this.setState({
