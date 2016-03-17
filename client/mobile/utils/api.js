@@ -3,8 +3,7 @@ var server = env.server + ':' + env.port;
 
 module.exports = {
   login: (username, password) => {
-    return 
-      fetch(server + '/login', {
+    return fetch(server + '/login', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -18,8 +17,7 @@ module.exports = {
   },
 
   signup: (username, password, teacherOrStudent) => {
-    return
-      fetch(server + '/signup', {
+    return fetch(server + '/signup', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
