@@ -1,43 +1,42 @@
-//var Teachers = require('../models/teachers');
-//var TeacherClasses = require('../models/Teacher_classes');
-//var Classes = require('../models/classes');
-//var ClassLessons = require('../models/class_lessons');
-//var Lessons = require('../models/lessons');
-//var RequestedResponses = require('../models/requested_responses');
 var models = require("./../models");
-
 
 module.exports = {
   getClasses: function(req, res, next) {
     var teacherId = req.body.teacherId;
 
     //TODO: get all classes through TeacherClasses
-    //TeacherClasses.getAllClasses(teacherId);
+    //currently being handled by authentication controller, but probably should be here
   },
 
-  getLessons: function(req, res, next) {
-    //get all lessons based on req.body.classId
+  getClassLessons: function(req, res, next) {
     var classId = req.params.classId;
-
-    ClassLessons.hasMany(Lessons, {foreignKey: 'lessonId'})
-    Lessons.belongsTo(ClassLessons, {foreignKey: 'lessonId'})
-
-    var allLessons = Lessons.find({ where: {
-      classId: classId,
-    }, include: [ClassLessons]});
-
-    return allLessons;
+    models.lessons.findAll({ where: {
+      classId: classId
+      }
+    })
+    .then(function(lessons) {
+      res.status(200).send(lessons);
+    })
+    .catch(function(err) {
+      console.error('Error getting class lessons from DB:', err);
+      res.status(500).send(err);
+    });
   },
 
-  getPolls: function(req, res, next) {
+  getLessonData: function(req, res, next) {
     var lessonId = req.params.lessonId;
-    // TODO: Query DB to list all the polls based on one single lesson ID
-  },
-
-  newPoll: function(req, res, next) {
-    // TODO: post new poll to the db with the following object sent over: {lessonId, poll type}
-    // then, after successfully posted to the DB, open up a socket event with a DB-generated
-    // responseId and the poll type for students to send info back.
+    models.polls.findAll({ where: {
+      lessonId: lessonId,
+      //TODO?: preset: true
+      }
+    })
+    .then(function(polls) {
+      res.status(200).send(polls);
+    })
+    .catch(function(err) {
+      console.error('Error getting class lessons from DB:', err);
+      res.status(500).send(err);
+    });
   },
 
   pollClass: function(io, req, res, next) {

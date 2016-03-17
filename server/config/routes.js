@@ -9,9 +9,9 @@ module.exports = function(app, io) {
     
   app.post('/teachers/polls/', teachersController.pollClass.bind(null, io));
 
-  app.get('/teachers/polls/:lessonId', teachersController.getPolls);  
+  app.get('/teachers/polls/:lessonId', teachersController.getLessonData);  
   
-  app.get('/teachers/lessons/:classId', teachersController.getLessons);
+  app.get('/teachers/lessons/:classId', teachersController.getClassLessons);
 
   app.post('/students/ready', studentsController.readyStage.bind(null, io));
 };
