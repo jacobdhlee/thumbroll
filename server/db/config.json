@@ -1,0 +1,10 @@
+{
+  "development":{
+  "username":"postgresdb",
+  "password":"",
+  "database":"thumbroll",
+  "host":"postgres",
+  "dialect":"postgres",
+  "port":"5432"
+  }
+}
