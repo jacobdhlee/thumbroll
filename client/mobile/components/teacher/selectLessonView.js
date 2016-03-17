@@ -52,11 +52,11 @@ class SelectLessonView extends React.Component {
   }
 
   renderLessons(lessons) {
-    return lessons.map((lessonName, index) => {
+    return lessons.map((lesson, index) => {
       return (
         <View style={styles.buttonContainer} key={index}>
-          <TouchableOpacity onPress={this.selectLesson.bind(this, lessonName)} style={styles.button}>
-            <Text style={styles.buttonText}> {lessonName} </Text>
+          <TouchableOpacity onPress={this.selectLesson.bind(this, lesson.id)} style={styles.button}>
+            <Text style={styles.buttonText}> {lesson.name} </Text>
           </TouchableOpacity>
         </View>
       )
