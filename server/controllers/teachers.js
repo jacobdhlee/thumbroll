@@ -23,7 +23,7 @@ module.exports = {
     });
   },
 
-  getLessonData: function(req, res, next) {
+  getLessonPolls: function(req, res, next) {
     var lessonId = req.params.lessonId;
     models.polls.findAll({ where: {
       lesson_id: lessonId,

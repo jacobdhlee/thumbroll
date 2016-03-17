@@ -9,7 +9,7 @@ module.exports = function(app, io) {
     
   app.post('/teachers/polls/', teachersController.pollClass.bind(null, io));
 
-  app.get('/teachers/polls/:lessonId', teachersController.getLessonData);  
+  app.get('/teachers/polls/:lessonId', teachersController.getLessonPolls);  
   
   app.get('/teachers/lessons/:classId', teachersController.getClassLessons);
 
