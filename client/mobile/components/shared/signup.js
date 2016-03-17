@@ -11,7 +11,8 @@ var {
   TextInput,
   TouchableHighlight,
   Picker,
-  ActivityIndicatorIOS
+  ActivityIndicatorIOS,
+  Navigator
 } = React;
 
 class Signup extends React.Component {
@@ -59,24 +60,28 @@ class Signup extends React.Component {
         if(response.status === 500){
           this.setState({
             error: 'User already exists',
+            password: '',
+            confirmedPassword: '',
             isLoading: false
           });
-        } else {
+        } else if(response.status === 200) {
           //keychain stuff?
-          var body = JSON.parse(response.body);
-          if(body.type === 'teacher') {
+          var body = JSON.parse(response._bodyText);
+          if(body.teacher) {
             this.props.navigator.push({
               component: StartClassView,
-              classes: body.classes,
+              classes: body.teacher.classes,
+              userId: body.teacher.uid,
               sceneConfig: {
                 ...Navigator.SceneConfigs.FloatFromBottom,
                 gestures: {}
               }
             });
-          } else if (body.type === 'student') {
+          } else if (body.student) {
             this.props.navigator.push({
               component: JoinClassView,
-              classes: body.classes,
+              classes: body.student.classes,
+              userId: body.student.uid,
               sceneConfig: {
                 ...Navigator.SceneConfigs.FloatFromBottom,
                 gestures: {}
@@ -90,7 +95,7 @@ class Signup extends React.Component {
           error: 'User already exists' + err,
           isLoading: false
         });
-      }
+      });
     } else {
       this.setState({
         isLoading: false,
