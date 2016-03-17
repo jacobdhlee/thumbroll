@@ -140,8 +140,36 @@ class Signup extends React.Component {
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}> 
         <View style={styles.mainContainer}>
+        <Text style={styles.fieldTitle}> First Name </Text>
+          <TextInput
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            maxLength={16}
+            style={styles.userInput}
+            value={this.state.firstName}
+            returnKeyType={'next'}
+            onChange={this.handleFirstNameChange.bind(this)}
+            onSubmitEditing={(event) => {
+              this.refs.SecondInput.focus();
+            }} 
+          />
+          <Text style={styles.fieldTitle}> Last Name </Text>
+          <TextInput
+            ref='SecondInput'
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            maxLength={16}
+            style={styles.userInput}
+            value={this.state.lastName}
+            returnKeyType={'next'}
+            onChange={this.handleLastNameChange.bind(this)}
+            onSubmitEditing={(event) => {
+              this.refs.ThirdInput.focus();
+            }} 
+          />
           <Text style={styles.fieldTitle}> Username </Text>
           <TextInput
+            ref='ThirdInput'
             autoCapitalize={'none'}
             autoCorrect={false}
             maxLength={16}
@@ -150,12 +178,26 @@ class Signup extends React.Component {
             returnKeyType={'next'}
             onChange={this.handleUsernameChange.bind(this)}
             onSubmitEditing={(event) => {
-              this.refs.SecondInput.focus();
+              this.refs.FourthInput.focus();
+            }} 
+          />
+          <Text style={styles.fieldTitle}> Email </Text>
+          <TextInput
+            ref='FourthInput'
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            maxLength={16}
+            style={styles.userInput}
+            value={this.state.email}
+            returnKeyType={'next'}
+            onChange={this.handleEmailChange.bind(this)}
+            onSubmitEditing={(event) => {
+              this.refs.FifthInput.focus();
             }} 
           />
           <Text style={styles.fieldTitle}> Password </Text>
           <TextInput
-            ref='SecondInput'
+            ref='FifthInput'
             autoCapitalize={'none'}
             autoCorrect={false}
             maxLength={16}
@@ -165,12 +207,12 @@ class Signup extends React.Component {
             returnKeyType={'next'}
             onChange={this.handlePasswordChange.bind(this)}
             onSubmitEditing={(event) => {
-              this.refs.ThirdInput.focus();
+              this.refs.SixthInput.focus();
             }} 
           />
           <Text style={styles.fieldTitle}> Confirm Password </Text>
           <TextInput
-            ref='ThirdInput'
+            ref='SixthInput'
             autoCapitalize={'none'}
             autoCorrect={false}
             maxLength={16}
