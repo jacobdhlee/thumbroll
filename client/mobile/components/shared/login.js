@@ -46,68 +46,71 @@ class Login extends React.Component {
       this.setState({
         isLoading: true
       });
-      // API FUNCTION RETURNS PROMIS
-      // api.login(this.state.username, this.state.password)
-      // .then((response) => {
-      //   if(response.status === 500){
-      //     this.setState({
-      //        error: 'Username or password is incorrect',
-      //        isLoading: false
-      //      });
-      //   } else {
-      //     var body = JSON.parse(response.body);
-      //     if(body.type === 'teacher') {
-      //       this.props.navigator.push({
-      //         component: StartClassView,
-      //         classes: body.classes,
-      //         sceneConfig: {
-      //           ...Navigator.SceneConfigs.FloatFromBottom,
-      //           gestures: {}
-      //         }
-      //       });
-      //     } else if (body.type === 'student') {
-      //       this.props.navigator.push({
-      //         component: JoinClassView,
-      //         classes: body.classes,
-              // userId: 'USERIDWILLGOHERE',
-      //         sceneConfig: {
-      //           ...Navigator.SceneConfigs.FloatFromBottom,
-      //           gestures: {}
-      //         }
-      //       });
-      //     }
-      //   }
-      // })
-      // .catch((err) => {
-      //   this.setState({
-      //      error: 'User not found' + err,
-      //      isLoading: false
-      //    });
-      // }
       
-      // for time being, hardcoded teacher and student
-      if(this.state.username === 'teacher') {
-        this.props.navigator.push({
-          component: StartClassView,
-          sceneConfig: {
-            ...Navigator.SceneConfigs.FloatFromBottom,
-            gestures: {}
+      api.login(this.state.username, this.state.password)
+      .then((response) => {
+        if(response.status === 400){
+          this.setState({
+             error: 'Username or password is incorrect',
+             isLoading: false
+           });
+        } else if (response.status === 200) {
+          var body = JSON.parse(response._bodyText);
+          if(body.teacher) {
+            this.props.navigator.push({
+              component: StartClassView,
+              classes: body.teacher.classes,
+              sceneConfig: {
+                ...Navigator.SceneConfigs.FloatFromBottom,
+                gestures: {}
+              }
+            });
+          } else if (body.student) {
+            this.props.navigator.push({
+              component: JoinClassView,
+              classes: body.student.classes,
+              userId: body.student.uid,
+              sceneConfig: {
+                ...Navigator.SceneConfigs.FloatFromBottom,
+                gestures: {}
+              }
+            });
           }
-        });
-      } else if(this.state.username === 'student') {
-        this.props.navigator.push({
-          component: JoinClassView,
-          userId: 1,
-          sceneConfig: {
-            ...Navigator.SceneConfigs.FloatFromBottom,
-            gestures: {}
-          }
-        });
-      } else {
+        }
+      })
+      .catch((err) => {
         this.setState({
-          error: 'Invalid Username'
-        })
-      }
+           error: 'User not found' + err,
+           isLoading: false
+         });
+      });
+      
+
+
+
+      // // for time being, hardcoded teacher and student
+      // if(this.state.username === 'teacher') {
+      //   this.props.navigator.push({
+      //     component: StartClassView,
+      //     sceneConfig: {
+      //       ...Navigator.SceneConfigs.FloatFromBottom,
+      //       gestures: {}
+      //     }
+      //   });
+      // } else if(this.state.username === 'student') {
+      //   this.props.navigator.push({
+      //     component: JoinClassView,
+      //     userId: 1,
+      //     sceneConfig: {
+      //       ...Navigator.SceneConfigs.FloatFromBottom,
+      //       gestures: {}
+      //     }
+      //   });
+      // } else {
+      //   this.setState({
+      //     error: 'Invalid Username'
+      //   })
+      // }
       this.setState({
         isLoading: false,
         username: '',
