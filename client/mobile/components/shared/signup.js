@@ -19,11 +19,12 @@ class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: '',
-      confirmedPassword: '',
       firstName: '',
       lastName: '',
+      username: '',
+      email: '',
+      password: '',
+      confirmedPassword: '',
       accountType: 'student',
       isLoading: false,
       error: false,
@@ -46,6 +47,12 @@ class Signup extends React.Component {
   handleUsernameChange(event) {
     this.setState({
       username: event.nativeEvent.text
+    });
+  }
+
+  handleEmailChange(event) {
+    this.setState({
+      email: event.nativeEvent.text
     });
   }
 
