@@ -16,7 +16,7 @@ module.exports = {
       });
   },
 
-  signup: (username, password, teacherOrStudent) => {
+  signup: (username, password, firstName, lastName, teacherOrStudent) => {
     return fetch(server + '/signup', {
         method: 'POST',
         headers: {
@@ -25,6 +25,8 @@ module.exports = {
         },
         // add firstName and lastName
         body: JSON.stringify({
+          firstName: firstName,
+          lastName: lastName,
           username: username,
           password: password,
           accountType: teacherOrStudent
