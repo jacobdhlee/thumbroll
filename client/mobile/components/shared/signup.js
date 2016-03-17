@@ -52,61 +52,49 @@ class Signup extends React.Component {
         isLoading: true,
         passwordError: false
       });
-      // api.signup(this.state.username, this.state.password, this.state.accountType)
-      // .then((response) => {
-      //   if(response.status === 500){
-      //     this.setState({
-      //       error: 'User already exists',
-      //       isLoading: false
-      //     });
-      //   } else {
-      //     //keychain stuff?
-      //     var body = JSON.parse(response.body);
-      //     if(body.type === 'teacher') {
-      //       this.props.navigator.push({
-      //         component: StartClassView,
-      //         classes: body.classes,
-      //         sceneConfig: {
-      //           ...Navigator.SceneConfigs.FloatFromBottom,
-      //           gestures: {}
-      //         }
-      //       });
-      //     } else if (body.type === 'student') {
-      //       this.props.navigator.push({
-      //         component: JoinClassView,
-      //         classes: body.classes,
-      //         sceneConfig: {
-      //           ...Navigator.SceneConfigs.FloatFromBottom,
-      //           gestures: {}
-      //         }
-      //       });
-      //     }
-      //   }
-      // })
-      // .catch((err) => {
-      //   this.setState({
-      //     error: 'User already exists' + err,
-      //     isLoading: false
-      //   });
-      // }
-      //for time being, this is hardcoded:
-      this.props.navigator.push({
-        component: StartClassView,
-        userId: 'aUserId',
-        username: this.state.username,
-      });
-      this.setState({
-        isLoading: false,
-        error: false,
-        username: '',
-        password: ''
-      });
+      api.signup(this.state.username, this.state.password, this.state.accountType)
+      .then((response) => {
+        if(response.status === 500){
+          this.setState({
+            error: 'User already exists',
+            isLoading: false
+          });
+        } else {
+          //keychain stuff?
+          var body = JSON.parse(response.body);
+          if(body.type === 'teacher') {
+            this.props.navigator.push({
+              component: StartClassView,
+              classes: body.classes,
+              sceneConfig: {
+                ...Navigator.SceneConfigs.FloatFromBottom,
+                gestures: {}
+              }
+            });
+          } else if (body.type === 'student') {
+            this.props.navigator.push({
+              component: JoinClassView,
+              classes: body.classes,
+              sceneConfig: {
+                ...Navigator.SceneConfigs.FloatFromBottom,
+                gestures: {}
+              }
+            });
+          }
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          error: 'User already exists' + err,
+          isLoading: false
+        });
+      }
     } else {
       this.setState({
-        error: false,
-        passwordError: 'Passwords dont match',
         isLoading: false,
-        password: ''
+        password: '',
+        confirmedPassword: '',
+        passwordError: 'passwords do not match'
       });
     }
   }
