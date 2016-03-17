@@ -8,7 +8,7 @@
     "port":"5432"
   },
   "development":{
-    "username":"iandeboisblanc",
+    "username":"<<postgres username here>>",
     "password":"",
     "database":"thumbroll",
     "host":"127.0.0.1",
