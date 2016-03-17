@@ -186,7 +186,7 @@ class Signup extends React.Component {
             ref='FourthInput'
             autoCapitalize={'none'}
             autoCorrect={false}
-            maxLength={16}
+            maxLength={25}
             style={styles.userInput}
             value={this.state.email}
             returnKeyType={'next'}
