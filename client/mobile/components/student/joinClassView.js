@@ -17,20 +17,19 @@ class JoinClassView extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      enrolledClasses: ['Quick class','CS101', 'CS201'],
+      enrolledClasses: [{id: 1, name:'Quick Class'}, {id:2, name:'CS 101'}, {id:3, name: 'CS 201'}],
       userId: this.props.route.userId
     }
   }
 
   selectedClass(cls) {
-    console.log(cls);
     //perhaps pass class as part of url to socket
-    this.socket = io(server, {jsonp: false});
+    this.socket = io(server + '/' + cls.id, {jsonp: false});
     this.socket.emit('studentConnect', this.state.userId);
 
     this.props.navigator.push({
       component: ClassStandbyView,
-      className: cls,
+      className: cls.name,
       userId: this.state.userId,
       socket: this.socket,
       sceneConfig: {
@@ -45,7 +44,7 @@ class JoinClassView extends React.Component {
       return (
         <View style={styles.buttonsContainer} key={index}>
           <TouchableOpacity onPress={this.selectedClass.bind(this, cls)}style={styles.buttonContainer}>
-            <Text>{cls}</Text>
+            <Text>{cls.name}</Text>
           </TouchableOpacity>
         </View>
       )
