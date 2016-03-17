@@ -24,18 +24,18 @@ class FeedbackView extends React.Component {
       height: height,
       width: width,
       socket: this.props.route.socket,
-      studentData: this.props.route.studentData,
-      mock: [1,2,3,4,25,62,13,6,4,5,7,7,7,4]
+      studentData: {
+        data: []
+      }
     };
 
     this.state.socket.on('studentResponseForTeacher', (studentData) => {
-      var currentStudentData = this.state.studentData.slice();
-      console.log(currentStudentData);
-      currentStudentData.push(studentData);
+      var currentStudentData = this.state.studentData.data.slice();
+      currentStudentData.push(studentData.answer);
       this.setState({
-        studentData : currentStudentData
+        studentData : {data : currentStudentData}
       });
-      console.log('we have new student data! >>>', studentData);
+      this.renderChart.call(this);
     });
 
   }
@@ -49,7 +49,7 @@ class FeedbackView extends React.Component {
     if(this.state.feedbackOption.id === 1) {
       return (
         <View style={{ width: this.state.width, height: this.state.height * 0.7, backgroundColor: 'red'}}>
-          {React.createElement(PercentageChart, this.state.mock)}
+          {React.createElement(PercentageChart, this.state.studentData)}
         </View>
       )
     } else if(this.state.feedbackOption.id === 2) {
@@ -73,7 +73,7 @@ class FeedbackView extends React.Component {
         </View>
           <View style={styles.titleContainer}>
             <Text style={styles.pageText}> {this.state.feedbackOption.name} </Text>
-            <Text>Student responses: {this.state.studentData.length}</Text>
+            <Text>Student response average: {this.state.studentData.data.length ? Math.floor(this.state.studentData.data.reduce((x,y) => x + y) / this.state.studentData.data.length) : 0}</Text>
           </View>
           {this.renderChart.bind(this)()}
         </View>
