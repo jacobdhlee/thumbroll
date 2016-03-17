@@ -1,5 +1,5 @@
 var React = require('react-native');
-var RequestFeedbackView = require('./requestFeedbackView');
+var SelectLessonView = require('./selectLessonView');
 var api = require('./../../utils/api');
 require('./../../utils/userAgent');
 var io =require('socket.io-client/socket.io');
@@ -20,54 +20,46 @@ class StartClassView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      //classes: this.props.route.classes
       classes: ['Quick Class', 'CS 101', 'CS 201', 'CS 401'],
     };
   }
 
   selectClass(classId) {
-    console.log(classId);
-    // if(classId === /*whatever is quick class*/) {
-    //   // socket emit class is open
-    //   this.props.navigator.push({
-    //     component: RequestFeedbackView,
-    //     lessonId: 'default',
-        // socket: this.state.socket,
-    //     sceneConfig: {
-    //       ...Navigator.SceneConfigs.FloatFromRight,
-    //       gestures: {}
-    //     }
-    //   });
-    // } else {
-    //   // once including lessons, will need to fetch lesson data when selecting lesson
-    //     //pass lesson data through navigator
-    //   api.getLessons(classId)
-    //   .then((response) => {
-    //     var body = JSON.parse(response.body);
+    // api.getLessons(classId)
+    // .then((response) => {
+    //   if(response.status === 500){
+    //     console.error('err getting class data');
+    //   } else if(response.status === 200) {
+    //     var body = JSON.parse(response._bodyText);
+
+    //     this.socket = io(server, {jsonp: false});
+
+    //     this.socket.emit('teacherConnect');
+
     //     this.props.navigator.push({
-    //       component: SelectLessonsView,
-    //       lessons: body.lessons
+    //       component: SelectLessonView,
     //       classId: classId,
-          // socket: this.state.socket,
+    //       lessons: body.lessons,
+    //       socket: this.socket,
     //       sceneConfig: {
     //         ...Navigator.SceneConfigs.FloatFromRight,
     //         gestures: {}
     //       }
-    //     });  
-    //   })
-    // }
-    
-    //currently skipping lessons
-    //open socket for class (to allow attendence, messages, etc)
-    // pass with url for class?
+    //     });
+    //   }
+    // })
+    // .catch((err) => {
+    //   console.error(err);
+    // });
+
     this.socket = io(server, {jsonp: false});
 
     this.socket.emit('teacherConnect');
 
     this.props.navigator.push({
-      component: RequestFeedbackView,
+      component: SelectLessonView,
       classId: classId,
-      lessonId: 1,
+      lessons: ['lesson 1', 'Test1', 'lesson 2'],
       socket: this.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromRight,
@@ -90,8 +82,6 @@ class StartClassView extends React.Component {
 
   render() {
     return (
-      //need back/logout button
-      //will want to show loading symbol until classes are pulled from DB
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <View style={styles.viewContainer}>
           <View style={styles.titleContainer}>

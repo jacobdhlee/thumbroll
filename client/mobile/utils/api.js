@@ -34,6 +34,21 @@ module.exports = {
       });
   },
 
+  addLesson: (classId) => {
+    return fetch(server + '/teachers/lessons', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        pollObject: pollObject,
+        classId: classId
+      })
+    }); 
+  },
+
+
   getLessons: (classId) => {
     return fetch(server + '/teachers/lessons/' + classId);
   },
@@ -43,17 +58,17 @@ module.exports = {
   },
   
   startPoll: (pollObject, lessonId) => {    
-      return fetch(server + '/teachers/polls', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          pollObject: pollObject,
-          lessonId: lessonId
-        })
-      });
+    return fetch(server + '/teachers/polls', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        pollObject: pollObject,
+        lessonId: lessonId
+      })
+    });
   }
 }
 
