@@ -6,17 +6,37 @@ class PercentageChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data : this.props.mock
+      data : this.props.mock,
+      chartData: [
+        {
+          name: 'BarChart',
+          type: 'bar',
+          color: '#219dff',
+          widthPercent: 0.6,
+          data: [10, 12, 14, 25]
+        },
+        {
+          name: 'LineChart',
+          color: '#ededed',
+          lineWidth: 2,
+          highlightIndices: [1, 2, 6, 9], // The data points at indexes 1 and 2 will be orange 
+          highlightColor: 'orange',
+          showDataPoint: true,
+          data: [10, 12, 14, 25],
+        }
+      ],
+      xLabels: ['0','1','2','3']
     }
+
   }
 
   render() {
     return (
       <View style={styles.container}>
         <RNChart style={styles.chart}
-          chartData={chartData}
+          chartData={this.state.chartData}
           verticalGridStep={5}
-          xLabels={xLabels}
+          xLabels={this.state.xLabels}
          />
       </View>
     );
@@ -30,7 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ededed',
+    backgroundColor: 'white',
   },
   chart: {
     position: 'absolute',
@@ -40,26 +60,6 @@ const styles = StyleSheet.create({
     right: 16,
   }
 });
- 
-const chartData = [
-  {
-    name: 'BarChart',
-    type: 'bar',
-    color: '#219dff',
-    widthPercent: 0.6,
-    data: [10, 12, 14, 25, 31, 52, 41, 31, 52, 66, 22, 11]
-  },
-  {
-    name: 'LineChart',
-    color: '#ededed',
-    lineWidth: 2,
-    highlightIndices: [1, 2, 6, 9], // The data points at indexes 1 and 2 will be orange 
-    highlightColor: 'orange',
-    showDataPoint: true,
-    data: [10, 12, 14, 25, 31, 52, 41, 31, 52, 66, 22, 11],
-  }
-];
- 
-const xLabels = ['0','1','2','3','4','5','6','7','8','9','10','11'];
 
 module.exports = PercentageChart;
+
