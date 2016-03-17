@@ -27,7 +27,7 @@ class StartClassView extends React.Component {
   selectClass(classId) {
     // api.getLessons(classId)
     // .then((response) => {
-    //   if(response.status === 400){
+    //   if(response.status === 500){
     //     console.error('err getting class data');
     //   } else if(response.status === 200) {
     //     var body = JSON.parse(response._bodyText);

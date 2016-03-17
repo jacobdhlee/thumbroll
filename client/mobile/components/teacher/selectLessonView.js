@@ -36,6 +36,21 @@ class SelectLessonView extends React.Component {
     });
   }
 
+  addLessons(){
+    api.addLesson()
+    .then((response) => {
+      if(response.status === 500){
+        console.error('err getting from data')
+      } else if(response.status === 200){
+        var lessonId = JSON.parse(response._bodyText).lessonId;
+        this.selectLesson(lessonId);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }
+
   renderLessons(lessons) {
     return lessons.map((lessonName, index) => {
       return (
@@ -59,6 +74,11 @@ class SelectLessonView extends React.Component {
             <View style={styles.buttonsContainer}>
               {this.renderLessons(this.state.lessons)}
             </View>
+
+            <TouchableOpacity  onPress={this.addLessons().bind(this)} style={styles.button}>
+              <Text style={styles.buttonText}> Add Lesson </Text>
+            </TouchableOpacity>
+
           </ScrollView>
         </View>
       </View>
