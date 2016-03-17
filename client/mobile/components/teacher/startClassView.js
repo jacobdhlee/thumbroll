@@ -20,60 +20,44 @@ class StartClassView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      classes: ['Quick Class', 'CS 101', 'CS 201', 'CS 401'],
+      classes: [{id: 1, name:'Quick Class'}, {id:2, name:'CS 101'}, {id:3, name: 'CS 201'}],
     };
   }
 
   selectClass(classId) {
-    // api.getLessons(classId)
-    // .then((response) => {
-    //   if(response.status === 500){
-    //     console.error('err getting class data');
-    //   } else if(response.status === 200) {
-    //     var body = JSON.parse(response._bodyText);
+    api.getLessons(classId)
+    .then((response) => {
+      if(response.status === 500){
+        console.error('err getting class data');
+      } else if(response.status === 200) {
+        var lessons = JSON.parse(response._bodyText);
 
-    //     this.socket = io(server, {jsonp: false});
-
-    //     this.socket.emit('teacherConnect');
-
-    //     this.props.navigator.push({
-    //       component: SelectLessonView,
-    //       classId: classId,
-    //       lessons: body.lessons,
-    //       socket: this.socket,
-    //       sceneConfig: {
-    //         ...Navigator.SceneConfigs.FloatFromRight,
-    //         gestures: {}
-    //       }
-    //     });
-    //   }
-    // })
-    // .catch((err) => {
-    //   console.error(err);
-    // });
-
-    this.socket = io(server, {jsonp: false});
-
-    this.socket.emit('teacherConnect');
-
-    this.props.navigator.push({
-      component: SelectLessonView,
-      classId: classId,
-      lessons: ['lesson 1', 'Test1', 'lesson 2'],
-      socket: this.socket,
-      sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromRight,
-        gestures: {}
+        this.socket = io(server, {jsonp: false});
+        this.socket.emit('teacherConnect');
+        
+        this.props.navigator.push({
+          component: SelectLessonView,
+          classId: classId,
+          lessons: lessons,
+          socket: this.socket,
+          sceneConfig: {
+            ...Navigator.SceneConfigs.FloatFromRight,
+            gestures: {}
+          }
+        });
       }
+    })
+    .catch((err) => {
+      console.error(err);
     });
   }
 
   renderClasses(classes) {
-    return classes.map((className, index) => {
+    return classes.map((cls, index) => {
       return (
         <View style={styles.buttonContainer} key={index}>
-          <TouchableOpacity onPress={this.selectClass.bind(this, className)} style={styles.button}>
-            <Text style={styles.buttonText}> {className} </Text>
+          <TouchableOpacity onPress={this.selectClass.bind(this, cls.id)} style={styles.button}>
+            <Text style={styles.buttonText}> {cls.name} </Text>
           </TouchableOpacity>
         </View>
       )
