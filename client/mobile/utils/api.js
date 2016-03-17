@@ -42,7 +42,6 @@ module.exports = {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        pollObject: pollObject,
         classId: classId
       })
     }); 

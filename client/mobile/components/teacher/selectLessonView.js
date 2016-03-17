@@ -37,19 +37,18 @@ class SelectLessonView extends React.Component {
   }
 
   addLesson(){
-    // api.addLesson()
-    // .then((response) => {
-    //   if(response.status === 500){
-    //     console.error('err getting from data')
-    //   } else if(response.status === 200){
-    //     var lessonId = JSON.parse(response._bodyText).lessonId;
-    //     this.selectLesson(lessonId);
-    //   }
-    // })
-    // .catch((err) => {
-    //   console.error(err);
-    // })
-    this.selectLesson(1)
+    api.addLesson()
+    .then((response) => {
+      if(response.status === 500){
+        console.error('err getting from data')
+      } else if(response.status === 200){
+        var lessonId = JSON.parse(response._bodyText).lessonId;
+        this.selectLesson(lessonId);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    });
   }
 
   renderLessons(lessons) {

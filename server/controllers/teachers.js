@@ -33,7 +33,7 @@ module.exports = {
     })
     .then(function(data) {
       var body = {lessonId: data.dataValues.id};
-      res.status(201).send(body);
+      res.status(200).send(body);
     })
     .catch(function(err) {
       console.error('Error saving lesson to DB:', err);
