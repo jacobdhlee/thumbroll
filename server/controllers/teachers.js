@@ -23,6 +23,24 @@ module.exports = {
     });
   },
 
+  addClassLesson: function(req, res, next) {
+    var classId = req.body.classId;
+    var date = new Date();
+    models.lessons.create({
+      name: 'New Lesson: ' + date.toLocaleDateString(),
+      date: date,
+      class_id: classId
+    })
+    .then(function(data) {
+      var body = {lessonId: data.dataValues.id};
+      res.status(200).send(body);
+    })
+    .catch(function(err) {
+      console.error('Error saving lesson to DB:', err);
+      res.status(500).send(err);
+    });
+  },
+
   getLessonPolls: function(req, res, next) {
     var lessonId = req.params.lessonId;
     models.polls.findAll({ where: {

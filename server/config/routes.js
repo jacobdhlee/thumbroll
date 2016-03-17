@@ -12,6 +12,7 @@ module.exports = function(app, io) {
   app.get('/teachers/polls/:lessonId', teachersController.getLessonPolls);  
   
   app.get('/teachers/lessons/:classId', teachersController.getClassLessons);
+  app.post('/teachers/lessons', teachersController.addClassLesson);
 
   app.post('/students/ready', studentsController.readyStage.bind(null, io));
 };
