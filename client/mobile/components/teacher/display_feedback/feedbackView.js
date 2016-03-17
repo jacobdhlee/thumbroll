@@ -34,10 +34,10 @@ class FeedbackView extends React.Component {
       currentStudentData.push(studentData.answer);
       this.setState({
         studentData : {data : currentStudentData}
+      }, () => {
+        this.renderChart();
       });
-      this.renderChart.call(this);
     });
-
   }
 
   exitPage() {
@@ -75,7 +75,7 @@ class FeedbackView extends React.Component {
             <Text style={styles.pageText}> {this.state.feedbackOption.name} </Text>
             <Text>Student response average: {this.state.studentData.data.length ? Math.floor(this.state.studentData.data.reduce((x,y) => x + y) / this.state.studentData.data.length) : 0}</Text>
           </View>
-          {this.renderChart.bind(this)()}
+          {this.renderChart.call(this)}
         </View>
       </View>
     )

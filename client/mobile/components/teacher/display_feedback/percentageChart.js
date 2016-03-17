@@ -6,13 +6,14 @@ class PercentageChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      studentData: [],
       chartData: [
         {
           name: 'BarChart',
           type: 'bar',
           color: '#219dff',
           widthPercent: 0.6,
-          data: this.props.data,
+          data: [],
         },
         // {
         //   name: 'LineChart',
@@ -29,19 +30,48 @@ class PercentageChart extends Component {
 
   }
 
-  componentWillReceiveProps() {
-    updatedChartData = this.state.chartData.slice();
-    updatedChartData[0].data = this.props.data;
+  // componentWillUpdate() {
+  //   console.log('yup!');
+  //   if(this.props.data.length === 1 && flag) {
+  //     flag = false;
+  //     updatedStudentData = this.state.chartData.slice();
+  //     updatedChartData[0].data = this.props.data;
+  //     this.setState({
+  //       chartData : updatedChartData
+  //     });
+  //     return (
+  //       <View style={styles.container}>
+  //         {console.log(this.props.data)}  
+  //         <RNChart style={styles.chart}
+  //           chartData={this.state.chartData}
+  //           verticalGridStep={5}
+  //           xLabels={this.state.xLabels}
+  //          />
+  //       </View>
+  //     );
+  //   }
+  // }
+
+  componentWillReceiveProps(newData) {
+    console.log(this.state.studentData);
+    updatedStudentData = Array.isArray(this.state.studentData.length) === true ? this.state.studentData.data.slice() : this.state.studentData;
+    updatedStudentData = newData;
     this.setState({
-      chartData : updatedChartData
+      studentData : updatedStudentData
     });
     return (
       <View style={styles.container}>
-        {console.log(this.props.data.length)}  
+        {console.log(newData)}  
         <RNChart style={styles.chart}
-          chartData={this.state.chartData}
+          chartData={[{
+          name: 'BarChart',
+          type: 'bar',
+          color: '#219dff',
+          widthPercent: 0.6,
+          data: newData.data,
+        }]}
           verticalGridStep={5}
-          xLabels={this.state.xLabels}
+          xLabels={['0','1','2','3']}
          />
       </View>
     );
@@ -50,9 +80,15 @@ class PercentageChart extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {console.log(this.state.chartData)}  
+      {console.log(this.state.studentData)}
         <RNChart style={styles.chart}
-          chartData={this.state.chartData}
+          chartData={[{
+          name: 'BarChart',
+          type: 'bar',
+          color: '#219dff',
+          widthPercent: 0.6,
+          data: this.state.studentData.data
+        }]}
           verticalGridStep={5}
           xLabels={this.state.xLabels}
          />
@@ -61,7 +97,7 @@ class PercentageChart extends Component {
   }
 }
 
-console.log(this.state);
+const flag = true;
 
 const styles = StyleSheet.create({
   container: {
