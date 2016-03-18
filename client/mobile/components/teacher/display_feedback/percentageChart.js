@@ -12,66 +12,35 @@ class PercentageChart extends Component {
           name: 'BarChart',
           type: 'bar',
           color: '#219dff',
-          widthPercent: 0.6,
+          widthPercent: 1,
           data: [],
-        },
-        // {
-        //   name: 'LineChart',
-        //   color: '#ededed',
-        //   lineWidth: 2,
-        //   highlightIndices: [1, 2, 6, 9], // The data points at indexes 1 and 2 will be orange 
-        //   highlightColor: 'orange',
-        //   showDataPoint: true,
-        //   data: [10, 12, 14, 25],
-        // }
+        }
       ],
-      xLabels: ['0','1','2','3']
+      xLabels: ['Average Student Response']
     }
 
   }
 
-  // componentWillUpdate() {
-  //   console.log('yup!');
-  //   if(this.props.data.length === 1 && flag) {
-  //     flag = false;
-  //     updatedStudentData = this.state.chartData.slice();
-  //     updatedChartData[0].data = this.props.data;
-  //     this.setState({
-  //       chartData : updatedChartData
-  //     });
-  //     return (
-  //       <View style={styles.container}>
-  //         {console.log(this.props.data)}  
-  //         <RNChart style={styles.chart}
-  //           chartData={this.state.chartData}
-  //           verticalGridStep={5}
-  //           xLabels={this.state.xLabels}
-  //          />
-  //       </View>
-  //     );
-  //   }
-  // }
 
   componentWillReceiveProps(newData) {
     console.log(this.state.studentData);
-    updatedStudentData = Array.isArray(this.state.studentData.length) === true ? this.state.studentData.data.slice() : this.state.studentData;
-    updatedStudentData = newData;
+    console.log(newData);
+    updatedStudentData = newData.average;
     this.setState({
       studentData : updatedStudentData
     });
     return (
       <View style={styles.container}>
-        {console.log(newData)}  
         <RNChart style={styles.chart}
           chartData={[{
           name: 'BarChart',
           type: 'bar',
           color: '#219dff',
-          widthPercent: 0.6,
-          data: newData.data,
+          widthPercent: 1,
+          data: newData.average,
         }]}
           verticalGridStep={5}
-          xLabels={['0','1','2','3']}
+          xLabels={['Average Student Response']}
          />
       </View>
     );
@@ -86,8 +55,8 @@ class PercentageChart extends Component {
           name: 'BarChart',
           type: 'bar',
           color: '#219dff',
-          widthPercent: 0.6,
-          data: this.state.studentData.data
+          widthPercent: 1,
+          data: this.state.studentData
         }]}
           verticalGridStep={5}
           xLabels={this.state.xLabels}
