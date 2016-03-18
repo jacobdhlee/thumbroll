@@ -10,19 +10,22 @@ module.exports = function(io) {
   };
 
   io.on('connection', function(client){
-
     //TEACHER CODE
-      
-    client.on('studentConnect', function(data) {
-      // FRONTEND-LISTENER: client.on('newStudentConnected', (studentInfo) => {display(studentCount++ and studentInfo);});
-      
-      //TODO: DB.write('newStudentConnected', data);
-      console.log('Student connected');
+    client.on('teacherConnect', function(data) {
+      var classId = data.classId;
+      client.join('room' + classId);
+      console.log('Teacher connected to room', 'room' + classId);
     });
 
     client.on('studentResponse', function(data) {
       console.log('INCOMING STUDENT RESPONSE:', data);
-      io.sockets.emit('studentResponseForTeacher', data);
+      var room;
+      for(key in client.rooms) {
+        if(key.substring(0,4) === 'room') {
+          room = key;
+        }
+      }
+      io.sockets.to(room).emit('studentResponseForTeacher', data);
 
       //TODO: only save if not quick class?
       models.poll_responses.create({
@@ -35,12 +38,22 @@ module.exports = function(io) {
       });
     });
 
-    client.on('teacherConnect', function(data) {
-      console.log('Teacher connected');
+    //STUDENT CODE
+    client.on('studentConnect', function(data) {
+      // FRONTEND-LISTENER: client.on('newStudentConnected', (studentInfo) => {display(studentCount++ and studentInfo);});
+      var userId = data.userId;
+      var classId = data.classId;
+      client.join('room' + classId);
+      console.log('Student', userId, 'connected to', 'room' + classId);
+      //TODO: DB.write('newStudentConnected', data);
     });
 
-
-    //STUDENT CODE
+    client.on('studentLeavingClass', function(data) {
+      var userId = data.userId;
+      var classId = data.classId;
+      client.leave('room' + classId);
+      console.log('Student', userId, 'leaving', 'room' + classId);
+    });
 
   });
 };

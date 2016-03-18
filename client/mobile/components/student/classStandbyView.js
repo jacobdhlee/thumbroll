@@ -14,7 +14,8 @@ class ClassStandbyView extends React.Component {
     super(props);
     this.state = {
       socket: this.props.route.socket,
-      userId: this.props.route.userId
+      userId: this.props.route.userId,
+      class: this.props.route.class
     };
     var that = this;
     this.state.socket.on('teacherConnect', () => {
@@ -58,6 +59,7 @@ class ClassStandbyView extends React.Component {
   }
 
   previousSection() {
+    this.state.socket.emit('studentLeavingClass', {userId: this.state.userId, classId:this.state.class.id});
     this.props.navigator.pop();
   }
 
@@ -65,7 +67,7 @@ class ClassStandbyView extends React.Component {
     return(
       <View style={styles.topStyle}>
         <View>
-         <Text style={styles.textSize}>{this.props.route.className}</Text>
+         <Text style={styles.textSize}>{this.state.class.name}</Text>
         </View>
         <View>
          <Text style={styles.textSize} onPress={this.previousSection.bind(this)}>Go Back</Text>

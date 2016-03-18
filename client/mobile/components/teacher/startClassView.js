@@ -33,7 +33,7 @@ class StartClassView extends React.Component {
         var lessons = JSON.parse(response._bodyText);
 
         this.socket = io(server, {jsonp: false});
-        this.socket.emit('teacherConnect');
+        this.socket.emit('teacherConnect' , {classId: classId});
         
         this.props.navigator.push({
           component: SelectLessonView,
