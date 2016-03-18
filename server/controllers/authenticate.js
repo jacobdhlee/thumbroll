@@ -40,6 +40,7 @@ module.exports = {
                         uid: matchedUser.dataValues.id,
                         firstName: matchedUser.dataValues.firstname,
                         lastName: matchedUser.dataValues.lastname,
+                        email: matchedUser.dataValues.email,
                         classes: classes
                       }
                     };
@@ -66,6 +67,7 @@ module.exports = {
                     uid: matchedUser.dataValues.id,
                     firstName: matchedUser.dataValues.firstname,
                     lastName: matchedUser.dataValues.lastname,
+                    email: matchedUser.dataValues.email,
                     classes: classes
                   }
                 };
@@ -86,6 +88,7 @@ module.exports = {
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
     var username = req.body.username;
+    var email = req.body.email;
     var password = req.body.password;
     var accountType = req.body.accountType;
 
@@ -109,6 +112,7 @@ module.exports = {
                     firstname: firstName,
                     lastname: lastName,
                     username: username,
+                    email: email,
                     password: hash
                   });
                 })
@@ -122,6 +126,7 @@ module.exports = {
                         uid: user.dataValues.id,
                         firstName: user.dataValues.firstname,
                         lastName: user.dataValues.lastname,
+                        email: user.dataValues.email,
                         classes: []
                       }
                     };
@@ -152,6 +157,7 @@ module.exports = {
                     firstname: firstName,
                     lastname: lastName,
                     username: username,
+                    email: email,
                     password: hash
                   });
                 })
@@ -165,6 +171,7 @@ module.exports = {
                         uid: user.dataValues.id,
                         firstName: user.dataValues.firstname,
                         lastName: user.dataValues.lastname,
+                        email: user.dataValues.email,
                         classes: []
                       }
                     };
