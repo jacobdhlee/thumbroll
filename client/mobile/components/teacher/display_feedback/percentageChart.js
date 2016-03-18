@@ -1,6 +1,79 @@
 import React, { StyleSheet, View, Component } from 'react-native';
 import RNChart from 'react-native-chart';
 
+ 
+class PercentageChart extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      studentData: [],
+      chartData: [
+        {
+          name: 'BarChart',
+          type: 'bar',
+          color: '#219dff',
+          widthPercent: 1,
+          data: [],
+        }
+      ],
+      xLabels: ['Average Student Response']
+    }
+
+  }
+
+
+  componentWillReceiveProps(newData) {
+    updatedStudentData = newData.average;
+    var updatedColor;
+    if(updatedStudentData[0] > 80) {
+      updatedColor = 'green';
+    } else if(updatedStudentData[0] > 40) {
+      updatedColor = 'yellow';
+    } else {
+      updatedColor = 'red';
+    }
+    this.setState({
+      studentData : updatedStudentData,
+      color: updatedColor
+    });
+    return (
+      <View style={styles.container}>
+        <RNChart style={styles.chart}
+          chartData={[{
+          name: 'BarChart',
+          type: 'bar',
+          color: this.state.color,
+          widthPercent: 1,
+          data: newData.average,
+        }]}
+          verticalGridStep={5}
+          xLabels={['Average Student Response']}
+         />
+      </View>
+    );
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <RNChart style={styles.chart}
+          chartData={[{
+          name: 'BarChart',
+          type: 'bar',
+          color: this.state.color,
+          widthPercent: 1,
+          data: this.state.studentData
+        }]}
+          verticalGridStep={5}
+          xLabels={this.state.xLabels}
+         />
+      </View>
+    );
+  }
+}
+
+const flag = true;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -16,40 +89,6 @@ const styles = StyleSheet.create({
     right: 16,
   }
 });
- 
-const chartData = [
-  {
-    name: 'BarChart',
-    type: 'bar',
-    color:'#219dff',
-    widthPercent: 0.6,
-    data: [30, 1, 1, 2, 3, 5, 21, 13, 21, 34, 55, 30],
-  },
-  {
-    name: 'LineChart',
-    color: 'gray',
-    lineWidth: 2,
-    highlightIndices: [1, 2], // The data points at indexes 1 and 2 will be orange 
-    highlightColor: 'orange',
-    showDataPoint: true,
-    data: [10, 12, 14, 25, 31, 52, 41, 31, 52, 66, 22, 11],
-  }
-];
- 
-const xLabels = ['0','1','2','3','4','5','6','7','8','9','10','11'];
- 
-class PercentageChart extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <RNChart style={styles.chart}
-          chartData={chartData}
-          verticalGridStep={5}
-          xLabels={xLabels}
-         />
-      </View>
-    );
-  }
-}
 
 module.exports = PercentageChart;
+

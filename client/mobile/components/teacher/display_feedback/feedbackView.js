@@ -24,19 +24,25 @@ class FeedbackView extends React.Component {
       height: height,
       width: width,
       socket: this.props.route.socket,
-      studentData: this.props.route.studentData
+      studentData: {
+        data: [],
+        average: 0
+      }
     };
 
     this.state.socket.on('studentResponseForTeacher', (studentData) => {
-      var currentStudentData = this.state.studentData.slice();
+      var currentStudentData = this.state.studentData.data.slice();
+      currentStudentData.push(studentData.answer);
       console.log(currentStudentData);
-      currentStudentData.push(studentData);
       this.setState({
-        studentData : currentStudentData
+        studentData : {
+          data : currentStudentData,
+          average: [currentStudentData.length ? Math.floor(currentStudentData.reduce((x,y) => {return x + y}) / currentStudentData.length) : 0]
+        }
+        }, () => {
+          this.renderChart();
       });
-      console.log('we have new student data! >>>', studentData);
     });
-
   }
 
   exitPage() {
@@ -48,7 +54,7 @@ class FeedbackView extends React.Component {
     if(this.state.feedbackOption.id === 1) {
       return (
         <View style={{ width: this.state.width, height: this.state.height * 0.7, backgroundColor: 'red'}}>
-          {React.createElement(PercentageChart)}
+          {React.createElement(PercentageChart, this.state.studentData)}
         </View>
       )
     } else if(this.state.feedbackOption.id === 2) {
@@ -72,9 +78,9 @@ class FeedbackView extends React.Component {
         </View>
           <View style={styles.titleContainer}>
             <Text style={styles.pageText}> {this.state.feedbackOption.name} </Text>
-            <Text>Student responses: {this.state.studentData.length}</Text>
+            <Text>Student response average: {this.state.studentData.data.length ? Math.floor(this.state.studentData.data.reduce((x,y) => x + y) / this.state.studentData.data.length) : 0}</Text>
           </View>
-          {this.renderChart.bind(this)()}
+          {this.renderChart.call(this)}
         </View>
       </View>
     )
