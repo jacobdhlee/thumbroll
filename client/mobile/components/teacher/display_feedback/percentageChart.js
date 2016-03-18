@@ -23,11 +23,18 @@ class PercentageChart extends Component {
 
 
   componentWillReceiveProps(newData) {
-    console.log(this.state.studentData);
-    console.log(newData);
     updatedStudentData = newData.average;
+    var updatedColor;
+    if(updatedStudentData[0] > 80) {
+      updatedColor = 'green';
+    } else if(updatedStudentData[0] > 40) {
+      updatedColor = 'yellow';
+    } else {
+      updatedColor = 'red';
+    }
     this.setState({
-      studentData : updatedStudentData
+      studentData : updatedStudentData,
+      color: updatedColor
     });
     return (
       <View style={styles.container}>
@@ -35,7 +42,7 @@ class PercentageChart extends Component {
           chartData={[{
           name: 'BarChart',
           type: 'bar',
-          color: '#219dff',
+          color: this.state.color,
           widthPercent: 1,
           data: newData.average,
         }]}
@@ -49,12 +56,11 @@ class PercentageChart extends Component {
   render() {
     return (
       <View style={styles.container}>
-      {console.log(this.state.studentData)}
         <RNChart style={styles.chart}
           chartData={[{
           name: 'BarChart',
           type: 'bar',
-          color: '#219dff',
+          color: this.state.color,
           widthPercent: 1,
           data: this.state.studentData
         }]}
