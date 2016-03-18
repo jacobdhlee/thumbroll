@@ -12,18 +12,20 @@ var {
   TouchableHighlight,
   Picker,
   ActivityIndicatorIOS,
-  Navigator
+  Navigator,
+  ScrollView
 } = React;
 
 class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      firstName: '',
+      lastName: '',
       username: '',
+      email: '',
       password: '',
       confirmedPassword: '',
-      firstName: 'Ian',
-      lastName: 'deBoisblanc',
       accountType: 'student',
       isLoading: false,
       error: false,
@@ -31,9 +33,27 @@ class Signup extends React.Component {
     };
   }
 
+  handleFirstNameChange(event) {
+    this.setState({
+      firstName: event.nativeEvent.text
+    });
+  }
+
+  handleLastNameChange(event) {
+    this.setState({
+      lastName: event.nativeEvent.text
+    });
+  }
+
   handleUsernameChange(event) {
     this.setState({
       username: event.nativeEvent.text
+    });
+  }
+
+  handleEmailChange(event) {
+    this.setState({
+      email: event.nativeEvent.text
     });
   }
 
@@ -55,7 +75,8 @@ class Signup extends React.Component {
         isLoading: true,
         passwordError: false
       });
-      api.signup(this.state.username, this.state.password, this.state.firstName, this.state.lastName, this.state.accountType)
+      api.signup(this.state.firstName, this.state.lastName, this.state.username, 
+        this.state.email, this.state.password, this.state.accountType)
       .then((response) => {
         if(response.status === 500){
           this.setState({
@@ -118,80 +139,123 @@ class Signup extends React.Component {
       this.state.passwordError ? <Text style={styles.err}> {this.state.passwordError} </Text> : <View></View>
     );
     return (
-      <View style={{flex: 1, backgroundColor: 'white'}}> 
-        <View style={styles.mainContainer}>
-          <Text style={styles.fieldTitle}> Username </Text>
-          <TextInput
-            autoCapitalize={'none'}
-            autoCorrect={false}
-            maxLength={16}
-            style={styles.userInput}
-            value={this.state.username}
-            returnKeyType={'next'}
-            onChange={this.handleUsernameChange.bind(this)}
-            onSubmitEditing={(event) => {
-              this.refs.SecondInput.focus();
-            }} 
-          />
-          <Text style={styles.fieldTitle}> Password </Text>
-          <TextInput
-            ref='SecondInput'
-            autoCapitalize={'none'}
-            autoCorrect={false}
-            maxLength={16}
-            secureTextEntry={true}
-            style={styles.userInput}
-            value={this.state.password}
-            returnKeyType={'next'}
-            onChange={this.handlePasswordChange.bind(this)}
-            onSubmitEditing={(event) => {
-              this.refs.ThirdInput.focus();
-            }} 
-          />
-          <Text style={styles.fieldTitle}> Confirm Password </Text>
-          <TextInput
-            ref='ThirdInput'
-            autoCapitalize={'none'}
-            autoCorrect={false}
-            maxLength={16}
-            secureTextEntry={true}
-            style={styles.userInput}
-            value={this.state.confirmedPassword}
-            returnKeyType={'go'}
-            onSubmitEditing={this.handleSubmit.bind(this)}
-            onChange={this.handleConfirmedPasswordChange.bind(this)} 
-          />
-          <Text style={styles.fieldTitle}> Account Type </Text>
-          <Picker
-            style={styles.picker}
-            selectedValue={this.state.accountType}
-            onValueChange={(type) => this.setState({accountType: type})}>
-            <Picker.Item label="Student" value="student" />
-            <Picker.Item label="Teacher" value="teacher" />
-          </Picker>
-          <TouchableHighlight
-            style={styles.button}
-            onPress={this.handleSubmit.bind(this)}
-            underlayColor='#e66365'
-          >
-            <Text style={styles.buttonText}> Sign Up </Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            onPress={this.handleRedirect.bind(this)}
-            underlayColor='#ededed'
-          >
-            <Text style={styles.signin}> Already have an account? Sign in! </Text>
-          </TouchableHighlight>
-          <ActivityIndicatorIOS
-            animating= {this.state.isLoading}
-            size='large'
-            style={styles.loading}
-          />
-          {showErr}
-          {showPasswordErr}
+      <ScrollView>
+        <View style={{flex: 1, backgroundColor: 'white'}}> 
+          <View style={styles.mainContainer}>
+          <Text style={styles.fieldTitle}> First Name </Text>
+            <TextInput
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              maxLength={16}
+              style={styles.userInput}
+              value={this.state.firstName}
+              returnKeyType={'next'}
+              onChange={this.handleFirstNameChange.bind(this)}
+              onSubmitEditing={(event) => {
+                this.refs.SecondInput.focus();
+              }} 
+            />
+            <Text style={styles.fieldTitle}> Last Name </Text>
+            <TextInput
+              ref='SecondInput'
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              maxLength={16}
+              style={styles.userInput}
+              value={this.state.lastName}
+              returnKeyType={'next'}
+              onChange={this.handleLastNameChange.bind(this)}
+              onSubmitEditing={(event) => {
+                this.refs.ThirdInput.focus();
+              }} 
+            />
+            <Text style={styles.fieldTitle}> Username </Text>
+            <TextInput
+              ref='ThirdInput'
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              maxLength={16}
+              style={styles.userInput}
+              value={this.state.username}
+              returnKeyType={'next'}
+              onChange={this.handleUsernameChange.bind(this)}
+              onSubmitEditing={(event) => {
+                this.refs.FourthInput.focus();
+              }} 
+            />
+            <Text style={styles.fieldTitle}> Email </Text>
+            <TextInput
+              ref='FourthInput'
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              maxLength={25}
+              style={styles.userInput}
+              value={this.state.email}
+              returnKeyType={'next'}
+              onChange={this.handleEmailChange.bind(this)}
+              onSubmitEditing={(event) => {
+                this.refs.FifthInput.focus();
+              }} 
+            />
+            <Text style={styles.fieldTitle}> Password </Text>
+            <TextInput
+              ref='FifthInput'
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              maxLength={16}
+              secureTextEntry={true}
+              style={styles.userInput}
+              value={this.state.password}
+              returnKeyType={'next'}
+              onChange={this.handlePasswordChange.bind(this)}
+              onSubmitEditing={(event) => {
+                this.refs.SixthInput.focus();
+              }} 
+            />
+            <Text style={styles.fieldTitle}> Confirm Password </Text>
+            <TextInput
+              ref='SixthInput'
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              maxLength={16}
+              secureTextEntry={true}
+              style={styles.userInput}
+              value={this.state.confirmedPassword}
+              returnKeyType={'go'}
+              onSubmitEditing={this.handleSubmit.bind(this)}
+              onChange={this.handleConfirmedPasswordChange.bind(this)} 
+            />
+            <Text style={styles.fieldTitle}> Account Type </Text>
+            <Picker
+              style={styles.picker}
+              selectedValue={this.state.accountType}
+              onValueChange={(type) => this.setState({accountType: type})}>
+              <Picker.Item label="Student" value="student" />
+              <Picker.Item label="Teacher" value="teacher" />
+            </Picker>
+            <TouchableHighlight
+              style={styles.button}
+              onPress={this.handleSubmit.bind(this)}
+              underlayColor='#e66365'
+            >
+              <Text style={styles.buttonText}> Sign Up </Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              onPress={this.handleRedirect.bind(this)}
+              underlayColor='#ededed'
+            >
+              <Text style={styles.signin}> Already have an account? Sign in! </Text>
+            </TouchableHighlight>
+            <ActivityIndicatorIOS
+              animating= {this.state.isLoading}
+              size='large'
+              style={styles.loading}
+            />
+            {showErr}
+            {showPasswordErr}
+          </View>
         </View>
-
-      </View>
+      </ScrollView>
     );
   }
 }
