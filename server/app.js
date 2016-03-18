@@ -19,6 +19,16 @@ models.sequelize.sync({force: true}).then(function () {
   });
 
   // SAMPLE DB INSERTIONS
+
+  models.teachers.create({
+    firstname: 'Teacher',
+    lastname: 'Example',
+    username: 't',
+    // t
+    password: '$2a$10$l/UC8xusY/ae.2aGtm5iNOHC3m7wzKMNYmVZuU.aWsHpSG.jqpBNm',
+    email: 't@email.com'
+  });
+
   models.teachers.create({
     firstname: 'Jake',
     lastname: 'Pace',
@@ -37,6 +47,14 @@ models.sequelize.sync({force: true}).then(function () {
     email: 'ian@gmail.com'
   });
 
+  models.students.create({
+    firstname: 'Student',
+    lastname: 'Example',
+    username: 's',
+    // s
+    password: '$2a$10$UR9XmBRvc90YMA9bWuXxcOqPXLK2M1QWgr1FR65wkAaNABaMlMGie',
+    email: 's@email.com'
+  });
 
   models.students.create({
     firstname: 'Shane',
