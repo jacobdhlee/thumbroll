@@ -32,8 +32,8 @@ class StartClassView extends React.Component {
       } else if(response.status === 200) {
         var lessons = JSON.parse(response._bodyText);
 
-        this.socket = io(server + '/' + classId, {jsonp: false});
-        this.socket.emit('teacherConnect');
+        this.socket = io(server, {jsonp: false});
+        this.socket.emit('teacherConnect' , {classId: classId});
         
         this.props.navigator.push({
           component: SelectLessonView,
