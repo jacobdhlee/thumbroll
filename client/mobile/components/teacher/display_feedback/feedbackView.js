@@ -25,7 +25,8 @@ class FeedbackView extends React.Component {
       width: width,
       socket: this.props.route.socket,
       studentData: {
-        data: []
+        data: [],
+        average: 0
       }
     };
 
@@ -33,9 +34,12 @@ class FeedbackView extends React.Component {
       var currentStudentData = this.state.studentData.data.slice();
       currentStudentData.push(studentData.answer);
       this.setState({
-        studentData : {data : currentStudentData}
-      }, () => {
-        this.renderChart();
+        studentData : {
+          data : currentStudentData,
+          average: currentStudentData.length ? Math.floor(currentStudentData.reduce((x,y) => {return x + y}) / currentStudentData.length) : 0,
+        }
+        }, () => {
+          this.renderChart();
       });
     });
   }
