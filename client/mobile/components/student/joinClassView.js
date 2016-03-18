@@ -29,7 +29,7 @@ class JoinClassView extends React.Component {
 
     this.props.navigator.push({
       component: ClassStandbyView,
-      className: cls.name,
+      class: cls,
       userId: this.state.userId,
       socket: this.socket,
       sceneConfig: {

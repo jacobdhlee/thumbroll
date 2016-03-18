@@ -57,7 +57,7 @@ module.exports = {
     return fetch(server + '/teachers/polls/' + lessonId);
   },
   
-  startPoll: (pollObject, lessonId) => {    
+  startPoll: (pollObject, lessonId, classId) => {    
     return fetch(server + '/teachers/polls', {
       method: 'POST',
       headers: {
@@ -66,7 +66,8 @@ module.exports = {
       },
       body: JSON.stringify({
         pollObject: pollObject,
-        lessonId: lessonId
+        lessonId: lessonId,
+        classId: classId
       })
     });
   }

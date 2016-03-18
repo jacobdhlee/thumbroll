@@ -59,6 +59,7 @@ module.exports = {
 
   pollClass: function(io, req, res, next) {
     var lessonId = req.body.lessonId;
+    var classId = req.body.classId;
     var pollObject = req.body.pollObject;
     //TODO: query if preset. otherwise:
     var type = '';
@@ -79,7 +80,7 @@ module.exports = {
         pollObject: pollObject,
         pollId: data.dataValues.id
       }
-      io.sockets.emit('newPoll', pollInformation);
+      io.sockets.to('room' + classId).emit('newPoll', pollInformation);
       res.status(201).send('Poll sent... ' + pollInformation);
     })
     .catch(function(err) {

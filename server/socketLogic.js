@@ -44,8 +44,15 @@ module.exports = function(io) {
       var userId = data.userId;
       var classId = data.classId;
       client.join('room' + classId);
-      console.log('Student connected to room', 'room' + classId);
+      console.log('Student', userId, 'connected to', 'room' + classId);
       //TODO: DB.write('newStudentConnected', data);
+    });
+
+    client.on('studentLeavingClass', function(data) {
+      var userId = data.userId;
+      var classId = data.classId;
+      client.leave('room' + classId);
+      console.log('Student', userId, 'leaving', 'room' + classId);
     });
 
   });

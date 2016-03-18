@@ -15,6 +15,7 @@ class RequestFeedbackView extends React.Component {
     super(props);
     this.state = {
       lessonId: this.props.route.lessonId,
+      classId: this.props.route.classId,
       socket: this.props.route.socket,
       feedbackOptions: [
         {
@@ -43,7 +44,7 @@ class RequestFeedbackView extends React.Component {
   }
 
   selectFeebackOption(feedbackOption) {
-    api.startPoll(feedbackOption, this.state.lessonId)
+    api.startPoll(feedbackOption, this.state.lessonId, this.state.classId)
     .then((response) => {
       if(response.status === 500) {
         console.error('Server error', response);

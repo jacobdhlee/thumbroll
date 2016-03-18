@@ -27,6 +27,7 @@ class SelectLessonView extends React.Component {
     
     this.props.navigator.push({
       component: RequestFeedbackView,
+      classId: this.state.classId,
       lessonId: lessonId,
       socket: this.state.socket,
       sceneConfig: {
