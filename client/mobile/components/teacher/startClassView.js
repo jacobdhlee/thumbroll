@@ -24,6 +24,27 @@ class StartClassView extends React.Component {
     };
   }
 
+  startQuickClass() {
+    // generate modal with randomID
+    var randomId = '' + Math.floor(Math.random() * 10) 
+      + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10);
+    // send socket submission to server with id (to join room)
+    this.socket = io(server, {jsonp: false});
+    this.socket.emit('teacherQuickClass' , {classId: randomId});
+    // this.props.navigator.push({
+    //   component: RequestFeedbackView,
+    //   classId: 'Quick Class',
+    //   lessonId: 'Quick Class',
+    //   socket: this.state.socket,
+    //   sceneConfig: {
+    //     ...Navigator.SceneConfigs.FloatFromRight,
+    //     gestures: {}
+    //   }
+    // });
+    // on click 'ok'
+      // go directly to requestFeedbackView
+  }
+
   selectClass(classId) {
     api.getLessons(classId)
     .then((response) => {
@@ -73,8 +94,11 @@ class StartClassView extends React.Component {
           </View>
           <ScrollView>
             <View style={styles.buttonsContainer}>
-              {this.renderClasses(this.state.classes)}
+              <TouchableOpacity onPress={this.startQuickClass} style={styles.button}>
+                <Text style={styles.buttonText}> Start Quick Class </Text>
+              </TouchableOpacity>
             </View>
+              {this.renderClasses(this.state.classes)}
           </ScrollView>
         </View>
       </View>
