@@ -61,14 +61,8 @@ module.exports = {
     var lessonId = req.body.lessonId;
     var classId = req.body.classId;
     var pollObject = req.body.pollObject;
-    //TODO: query if preset. otherwise:
-    var type = '';
-    //TODO: should have backend/frontend consistency in how we identify different types
-    if(pollObject.id == 1) {
-      type = 'thumbs';
-    } else if(pollObject.id == 2) {
-      type = 'multiChoice';
-    }
+    
+    // quick class polls are not saved
     if(lessonId = 'Quick Class') {
       var pollInformation = {
         lessonId: lessonId,
@@ -77,7 +71,18 @@ module.exports = {
       };
       io.sockets.to('room' + classId).emit('newPoll', pollInformation);
       res.status(201).send('Quick poll sent... ' + pollInformation);
-    } else {
+    } 
+
+    //TODO: query if preset. otherwise:
+    var type = '';
+    //TODO: should have backend/frontend consistency in how we identify different types
+    if(pollObject.id == 1) {
+      type = 'thumbs';
+    } else if(pollObject.id == 2) {
+      type = 'multiChoice';
+    }
+    
+    else {
       models.polls.create({
         type: type,
         lesson_id: lessonId

@@ -50,7 +50,7 @@ class StartClassView extends React.Component {
     });
     this.props.navigator.push({
       component: RequestFeedbackView,
-      classId: 'QC:' + this.state.randomId,
+      classId: this.state.randomId,
       lessonId: 'Quick Class',
       socket: this.state.socket,
       sceneConfig: {
