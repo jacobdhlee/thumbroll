@@ -26,7 +26,9 @@ class FeedbackView extends React.Component {
       socket: this.props.route.socket,
       studentThumbsData: {
         data: [],
-        average: 0
+        average: 0,
+        lowest: 0,
+        highest: 0
       },
       studentMultiChoiceData: {
         data: [],
@@ -76,14 +78,18 @@ class FeedbackView extends React.Component {
         // Thumbs check case
         var currentStudentThumbsData = this.state.studentThumbsData.data.slice();
         currentStudentThumbsData.push(studentData.answer);
+        console.log(this.state.studentThumbsData);
         this.setState({
           studentThumbsData : {
             data : currentStudentThumbsData,
-            average: [currentStudentThumbsData.length ? Math.floor(currentStudentThumbsData.reduce((x,y) => {return x + y}) / currentStudentThumbsData.length) : 0]
+            lowest: currentStudentThumbsData.length ? Math.floor(currentStudentThumbsData.reduce((x,y) => {return x < y ? x : y})) : 0,
+            average: currentStudentThumbsData.length ? Math.floor(currentStudentThumbsData.reduce((x,y) => {return x + y}) / currentStudentThumbsData.length) : 0,
+            highest: currentStudentThumbsData.length ? Math.floor(currentStudentThumbsData.reduce((x,y) => {return x > y ? x : y})) : 0
           }
           }, () => {
             this.renderChart();
         });
+        console.log(this.state.studentThumbsData);
       }
     });
   }
@@ -121,7 +127,6 @@ class FeedbackView extends React.Component {
         </View>
           <View style={styles.titleContainer}>
             <Text style={styles.pageText}> {this.state.feedbackOption.name} </Text>
-            <Text>Student response average: {this.state.studentThumbsData.average ? this.state.studentThumbsData.average : 0}</Text>
           </View>
           {this.renderChart.call(this)}
         </View>

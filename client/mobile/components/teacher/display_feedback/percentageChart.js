@@ -1,4 +1,4 @@
-import React, { StyleSheet, View, Component } from 'react-native';
+import React, { StyleSheet, View, Component, Text } from 'react-native';
 import RNChart from 'react-native-chart';
 
  
@@ -16,15 +16,16 @@ class PercentageChart extends Component {
           data: [],
         }
       ],
-      xLabels: ['Average Student Response']
+      xLabels: ['Lowest', 'Average Student Response', 'Highest']
     }
 
   }
 
 
   componentWillReceiveProps(newData) {
-    updatedStudentData = newData.average;
+    updatedStudentData = [newData.lowest, newData.average, newData.highest];
     var updatedColor;
+    console.log('all data coming in:', updatedStudentData);
 
     // Change color based on average response
     if(updatedStudentData[0] > 80) {
@@ -36,8 +37,10 @@ class PercentageChart extends Component {
     }
     this.setState({
       studentData : updatedStudentData,
-      color: updatedColor
+      color: updatedColor,
+      xLabels : ['Lowest', 'Average Student Response: ' + newData.average, 'Highest']
     });
+
     return (
       <View style={styles.container}>
         <RNChart style={styles.chart}
@@ -49,7 +52,7 @@ class PercentageChart extends Component {
           data: newData.average,
         }]}
           verticalGridStep={5}
-          xLabels={['Average Student Response']}
+          xLabels={['Lowest', 'Average Student Response: ' + newData.average, 'Highest']}
          />
       </View>
     );
@@ -67,7 +70,7 @@ class PercentageChart extends Component {
           data: this.state.studentData
         }]}
           verticalGridStep={5}
-          xLabels={this.state.xLabels}
+          xLabels={['Lowest', 'Average', 'Highest']}
          />
       </View>
     );
