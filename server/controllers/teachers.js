@@ -64,6 +64,7 @@ module.exports = {
     
     // quick class polls are not saved
     if(lessonId === 'Quick Class') {
+      console.log('Incoming quick class poll for class', classId);
       var pollInformation = {
         lessonId: lessonId,
         pollObject: pollObject,
@@ -83,6 +84,7 @@ module.exports = {
     }
 
     if(lessonId !== 'Quick Class') {
+      console.log('Incoming poll for class', classId);
       models.polls.create({
         type: type,
         lesson_id: lessonId
