@@ -25,13 +25,16 @@ class PercentageChart extends Component {
   componentWillReceiveProps(newData) {
     updatedStudentData = newData.average;
     var updatedColor;
+
+    // Change color based on average response
     if(updatedStudentData[0] > 80) {
-      updatedColor = 'green';
+      updatedColor = '#66ff99';
     } else if(updatedStudentData[0] > 40) {
-      updatedColor = 'yellow';
+      updatedColor = '#fcfa8b';
     } else {
-      updatedColor = 'red';
+      updatedColor = '#ff4f4d';
     }
+
     this.setState({
       studentData : updatedStudentData,
       color: updatedColor
@@ -43,7 +46,7 @@ class PercentageChart extends Component {
           name: 'BarChart',
           type: 'bar',
           color: this.state.color,
-          widthPercent: 1,
+          widthPercent: .5,
           data: newData.average,
         }]}
           verticalGridStep={5}
@@ -61,7 +64,7 @@ class PercentageChart extends Component {
           name: 'BarChart',
           type: 'bar',
           color: this.state.color,
-          widthPercent: 1,
+          widthPercent: .5,
           data: this.state.studentData
         }]}
           verticalGridStep={5}
@@ -83,10 +86,10 @@ const styles = StyleSheet.create({
   },
   chart: {
     position: 'absolute',
-    top: 16,
-    left: 4,
+    top: 15,
+    left: 15,
     bottom: 4,
-    right: 16,
+    right: 15,
   }
 });
 
