@@ -40,26 +40,23 @@ class StartClassView extends React.Component {
       randomId: randomId,
       modalVisible: true
     });
-    // send socket submission to server with id (to join room)
     this.socket = io(server, {jsonp: false});
     this.socket.emit('teacherQuickClass' , {classId: randomId});
-    // this.props.navigator.push({
-    //   component: RequestFeedbackView,
-    //   classId: 'Quick Class',
-    //   lessonId: 'Quick Class',
-    //   socket: this.state.socket,
-    //   sceneConfig: {
-    //     ...Navigator.SceneConfigs.FloatFromRight,
-    //     gestures: {}
-    //   }
-    // });
-    // on click 'ok'
-      // go directly to requestFeedbackView
   }
 
   navigateFromModal() {
     this.setState({
       modalVisible: false
+    });
+    this.props.navigator.push({
+      component: RequestFeedbackView,
+      classId: 'QC:' + this.state.randomId,
+      lessonId: 'Quick Class',
+      socket: this.state.socket,
+      sceneConfig: {
+        ...Navigator.SceneConfigs.FloatFromRight,
+        gestures: {}
+      }
     });
   }
 
