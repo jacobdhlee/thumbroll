@@ -34,7 +34,7 @@ module.exports = function(io) {
       }
       io.sockets.to(room).emit('studentResponseForTeacher', data);
 
-      if(data.pollId !== 'Quick Class') {
+      if(data.pollId !== 'Quick Poll') {
         models.poll_responses.create({
           response_val: data.answer,
           student_id: data.userId,
