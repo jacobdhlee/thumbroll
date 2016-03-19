@@ -102,13 +102,15 @@ class FeedbackView extends React.Component {
   renderChart() {
     if(this.state.feedbackOption.id === 1) {
       return (
-        <View style={{ width: this.state.width, height: this.state.height * 0.7, backgroundColor: 'red'}}>
+        <View style={{ width: this.state.width, height: this.state.height * 0.7}}>
+          <Text style={styles.responseStatContainer}>Average Response: {this.state.studentThumbsData.average}</Text>
           {React.createElement(PercentageChart, this.state.studentThumbsData)}
         </View>
       )
     } else if(this.state.feedbackOption.id === 2) {
       return (
-        <View style={{ width: this.state.width, height: this.state.height * 0.7, backgroundColor: 'red'}}>
+        <View style={{ width: this.state.width, height: this.state.height * 0.7}}>
+          <Text style={styles.responseStatContainer}>Number of responses: {this.state.studentMultiChoiceData.data.length}</Text>
           {React.createElement(HistogramChart, this.state.studentMultiChoiceData)}
         </View>
       )
@@ -145,6 +147,12 @@ const styles = StyleSheet.create({
   backButtonText: {
 
   },
+  responseStatContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+    marginLeft: 115
+  },
   viewContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -155,7 +163,7 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   chartContainer: {
-    backgroundColor: 'red'
+    backgroundColor: '#F5FCFF'
   }
 });
 
