@@ -11,7 +11,9 @@ var {
   Text,
   StyleSheet,
   Navigator,
+  Modal,
   TouchableOpacity,
+  TouchableHighlight,
   ScrollView,
   ListView
 } = React;
@@ -21,6 +23,7 @@ class StartClassView extends React.Component {
     super(props);
     this.state = {
       classes: [{id: 1, name:'Quick Class'}, {id:2, name:'CS 101'}, {id:3, name: 'CS 201'}],
+      modalVisible: false,
     };
   }
 
@@ -28,6 +31,9 @@ class StartClassView extends React.Component {
     // generate modal with randomID
     var randomId = '' + Math.floor(Math.random() * 10) 
       + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10);
+    this.setState({
+      modalVisible: true
+    });
     // send socket submission to server with id (to join room)
     this.socket = io(server, {jsonp: false});
     this.socket.emit('teacherQuickClass' , {classId: randomId});
@@ -94,13 +100,21 @@ class StartClassView extends React.Component {
           </View>
           <ScrollView>
             <View style={styles.buttonsContainer}>
-              <TouchableOpacity onPress={this.startQuickClass} style={styles.button}>
+              <TouchableOpacity onPress={this.startQuickClass.bind(this)} style={styles.button}>
                 <Text style={styles.buttonText}> Start Quick Class </Text>
               </TouchableOpacity>
             </View>
               {this.renderClasses(this.state.classes)}
           </ScrollView>
         </View>
+        <Modal visible={this.state.modalVisible} transparent={true} animated={true} style={styles.modal}>
+          <View style={styles.modalBox}>
+            <Text> TEXT! </Text>
+            <TouchableHighlight>
+              <Text> Okay </Text>
+            </TouchableHighlight>
+          </View>
+        </Modal>
       </View>
     )
   }
@@ -127,6 +141,17 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 20
+  },
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalBox: {
+    height: 200,
+    width: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white'
   }
 });
 
