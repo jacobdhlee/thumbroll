@@ -71,9 +71,13 @@ class JoinClassView extends React.Component {
     this.setState({
       secretCode: ''
     });
+    var classObj = {
+      id: classCode,
+      name: 'Quick Class: ' + classCode 
+    };
     this.props.navigator.push({
       component: ClassStandbyView,
-      class: classCode,
+      class: classObj,
       userId: this.state.userId,
       socket: this.socket,
       sceneConfig: {
