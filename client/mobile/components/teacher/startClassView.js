@@ -1,5 +1,6 @@
 var React = require('react-native');
 var SelectLessonView = require('./selectLessonView');
+var RequestFeedbackView = require('./requestFeedbackView');
 var api = require('./../../utils/api');
 require('./../../utils/userAgent');
 var io =require('socket.io-client/socket.io');

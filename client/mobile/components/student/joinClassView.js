@@ -61,15 +61,19 @@ class JoinClassView extends React.Component {
   }
 
   handleModalSubmit() {
+    var code = this.state.secretCode;
     this.setState({
       modalVisible: false
     });
     //assuming code is valid:
     this.socket = io(server, {jsonp: false});
-    this.socket.emit('studentQuickClassConnect', {userId: this.state.userId, classId: this.state.secretCode});
+    this.socket.emit('studentQuickClassConnect', {userId: this.state.userId, classId: code});
+    this.setState({
+      secretCode: ''
+    });
     this.props.navigator.push({
       component: ClassStandbyView,
-      class: this.state.secretCode,
+      class: code,
       userId: this.state.userId,
       socket: this.socket,
       sceneConfig: {
@@ -122,6 +126,7 @@ class JoinClassView extends React.Component {
                   autoCapitalize={'none'}
                   autoCorrect={false}
                   maxLength={4}
+                  style={styles.userInput}
                   keyboardType='numeric'
                   value={this.state.secretCode}
                   returnKeyType={'done'}
@@ -173,6 +178,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white'
-  }
+  },
+  userInput: {
+    height: 50,
+    padding: 4,
+    fontSize: 18,
+    borderWidth: 1,
+    borderRadius: 4,
+  },
 })
 module.exports = JoinClassView;
