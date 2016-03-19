@@ -17,6 +17,13 @@ module.exports = function(io) {
       console.log('Teacher connected to room', 'room' + classId);
     });
 
+    //maybe not necessary since basically the same as above
+    client.on('teacherQuickClass', function(data) {
+      var classId = data.classId;
+      client.join('room' + classId);
+      console.log('Teacher connected to quick class room', 'room' + classId);
+    });
+
     client.on('studentResponse', function(data) {
       console.log('INCOMING STUDENT RESPONSE:', data);
       var room;

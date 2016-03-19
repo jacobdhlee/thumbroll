@@ -69,23 +69,32 @@ module.exports = {
     } else if(pollObject.id == 2) {
       type = 'multiChoice';
     }
-
-    models.polls.create({
-      type: type,
-      lesson_id: lessonId
-    })
-    .then(function(data) {
+    if(lessonId = 'Quick Class') {
       var pollInformation = {
         lessonId: lessonId,
         pollObject: pollObject,
-        pollId: data.dataValues.id
-      }
+        pollId: 'Quick Poll'
+      };
       io.sockets.to('room' + classId).emit('newPoll', pollInformation);
-      res.status(201).send('Poll sent... ' + pollInformation);
-    })
-    .catch(function(err) {
-      console.error('Error saving poll to DB:', err);
-      res.status(500).send(err);
-    });
+      res.status(201).send('Quick poll sent... ' + pollInformation);
+    } else {
+      models.polls.create({
+        type: type,
+        lesson_id: lessonId
+      })
+      .then(function(data) {
+        var pollInformation = {
+          lessonId: lessonId,
+          pollObject: pollObject,
+          pollId: data.dataValues.id
+        }
+        io.sockets.to('room' + classId).emit('newPoll', pollInformation);
+        res.status(201).send('Poll sent... ' + pollInformation);
+      })
+      .catch(function(err) {
+        console.error('Error saving poll to DB:', err);
+        res.status(500).send(err);
+      });
+    }
   },
 };
