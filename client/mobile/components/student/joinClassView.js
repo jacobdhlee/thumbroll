@@ -17,6 +17,16 @@ var {
   Navigator,
 } = React;
 
+class Button extends React.Component {
+  render () {
+    return (
+      <TouchableHighlight style={styles.buttons}>
+        {this.props.children}
+      </TouchableHighlight>
+    )
+  }
+}
+
 class JoinClassView extends React.Component {
   constructor(props){
     super(props);
@@ -98,9 +108,9 @@ class JoinClassView extends React.Component {
     return classes.map((cls, index) => {
       return (
         <View style={styles.buttonsContainer} key={index}>
-          <TouchableOpacity onPress={this.selectedClass.bind(this, cls)}style={styles.buttonContainer}>
+          <Button onPress={this.selectedClass.bind(this, cls)}style={styles.buttonContainer}>
             <Text>{cls.name}</Text>
-          </TouchableOpacity>
+          </Button>
         </View>
       )
     })
@@ -160,6 +170,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+  },
+  buttons: {
+    backgroundColor: 'white',
+    borderColor: '#333',
+    borderRadius: 0,
+    borderWidth: 3,
   },
   textSize: {
     fontSize: 20
