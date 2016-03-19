@@ -63,7 +63,8 @@ module.exports = {
     var pollObject = req.body.pollObject;
     
     // quick class polls are not saved
-    if(lessonId = 'Quick Class') {
+    if(lessonId === 'Quick Class') {
+      console.log('Incoming quick class poll for class', classId);
       var pollInformation = {
         lessonId: lessonId,
         pollObject: pollObject,
@@ -81,8 +82,9 @@ module.exports = {
     } else if(pollObject.id == 2) {
       type = 'multiChoice';
     }
-    
-    else {
+
+    if(lessonId !== 'Quick Class') {
+      console.log('Incoming poll for class', classId);
       models.polls.create({
         type: type,
         lesson_id: lessonId

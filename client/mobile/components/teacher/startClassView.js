@@ -29,6 +29,8 @@ class StartClassView extends React.Component {
       height: height,
       width: width,
       randomId: '',
+      socket: undefined,
+      classCode: '',
       modalVisible: false,
     };
   }
@@ -37,12 +39,16 @@ class StartClassView extends React.Component {
     // generate modal with randomID
     var randomId = '' + Math.floor(Math.random() * 10) 
       + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10);
+    var classCode = 'qc' + randomId;
+
+    this.socket = io(server, {jsonp: false});
+    this.socket.emit('teacherQuickClassConnect' , {classId: classCode});
     this.setState({
       randomId: randomId,
-      modalVisible: true
+      classCode: classCode, 
+      modalVisible: true,
+      socket: this.socket
     });
-    this.socket = io(server, {jsonp: false});
-    this.socket.emit('teacherQuickClassConnect' , {classId: randomId});
   }
 
   navigateFromModal() {
@@ -51,7 +57,7 @@ class StartClassView extends React.Component {
     });
     this.props.navigator.push({
       component: RequestFeedbackView,
-      classId: this.state.randomId,
+      classId: this.state.classCode,
       lessonId: 'Quick Class',
       socket: this.state.socket,
       sceneConfig: {

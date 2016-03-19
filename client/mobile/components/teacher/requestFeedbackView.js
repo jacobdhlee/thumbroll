@@ -58,6 +58,9 @@ class RequestFeedbackView extends React.Component {
       } else {
         console.error('Error getting poll data', response);
       }
+    })
+    .catch((err) => {
+      console.error('Error starting poll', err);
     });
   }
 

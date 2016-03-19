@@ -61,19 +61,19 @@ class JoinClassView extends React.Component {
   }
 
   handleModalSubmit() {
-    var code = this.state.secretCode;
+    var classCode = 'qc' + this.state.secretCode;
     this.setState({
       modalVisible: false
     });
     //assuming code is valid:
     this.socket = io(server, {jsonp: false});
-    this.socket.emit('studentQuickClassConnect', {userId: this.state.userId, classId: code});
+    this.socket.emit('studentQuickClassConnect', {userId: this.state.userId, classId: classCode});
     this.setState({
       secretCode: ''
     });
     this.props.navigator.push({
       component: ClassStandbyView,
-      class: code,
+      class: classCode,
       userId: this.state.userId,
       socket: this.socket,
       sceneConfig: {
