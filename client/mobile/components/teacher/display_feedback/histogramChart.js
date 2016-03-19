@@ -7,6 +7,7 @@ class HistogramChart extends Component {
     super(props);
     this.state = {
       studentData: [],
+      transformedData: [],
       chartData: [
         {
           name: 'BarChart',
@@ -16,29 +17,22 @@ class HistogramChart extends Component {
           data: [],
         }
       ],
-      xLabels: ['Average Student Response']
+      xLabels: ['A', 'B', 'C', 'D']
     }
-
   }
 
 
   componentWillReceiveProps(newData) {
-    updatedStudentData = newData.average;
+    var updatedStudentData = newData.data;
     var updatedColor;
-
-    // Change color based on average response
-    if(updatedStudentData[0] > 80) {
-      updatedColor = '#66ff99';
-    } else if(updatedStudentData[0] > 40) {
-      updatedColor = '#fcfa8b';
-    } else {
-      updatedColor = '#ff4f4d';
-    }
 
     this.setState({
       studentData : updatedStudentData,
-      color: updatedColor
+      transformedData: transformMultiChoiceData(updatedStudentData),
+      color: 'blue'
     });
+    
+    var displayData = transformMultiChoiceData(updatedStudentData);
     return (
       <View style={styles.container}>
         <RNChart style={styles.chart}
@@ -47,10 +41,10 @@ class HistogramChart extends Component {
           type: 'bar',
           color: this.state.color,
           widthPercent: .5,
-          data: newData.average,
+          data: this.state.transformedData
         }]}
           verticalGridStep={5}
-          xLabels={['Average Student Response']}
+          xLabels={['A', 'B', 'C', 'D']}
          />
       </View>
     );
@@ -65,7 +59,7 @@ class HistogramChart extends Component {
           type: 'bar',
           color: this.state.color,
           widthPercent: .5,
-          data: this.state.studentData
+          data: this.state.transformedData
         }]}
           verticalGridStep={5}
           xLabels={this.state.xLabels}
@@ -74,6 +68,17 @@ class HistogramChart extends Component {
     );
   }
 }
+
+var transformMultiChoiceData = (responses) => {
+  var allResponses = {};
+
+  responses.forEach((answer) => {
+    allResponses[answer] = allResponses[answer] || 0;
+    allResponses[answer]++;
+  });
+
+  return [allResponses['A'] || 0, allResponses['B'] || 0, allResponses['C'] || 0, allResponses['D'] || 0];
+};
 
 const flag = true;
 
