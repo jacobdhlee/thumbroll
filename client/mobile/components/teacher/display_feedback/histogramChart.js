@@ -23,7 +23,7 @@ class HistogramChart extends Component {
 
 
   componentWillReceiveProps(newData) {
-    updatedStudentData = newData.data;
+    var updatedStudentData = newData.data;
     var updatedColor;
 
     this.setState({

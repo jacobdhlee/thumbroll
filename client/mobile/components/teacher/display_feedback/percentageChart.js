@@ -23,14 +23,13 @@ class PercentageChart extends Component {
 
 
   componentWillReceiveProps(newData) {
-    updatedStudentData = [newData.lowest, newData.average, newData.highest];
+    var updatedStudentData = [newData.lowest, newData.average, newData.highest];
     var updatedColor;
-    console.log('all data coming in:', updatedStudentData);
 
     // Change color based on average response
-    if(updatedStudentData[0] > 80) {
+    if(updatedStudentData[1] > 80) {
       updatedColor = '#66ff99';
-    } else if(updatedStudentData[0] > 40) {
+    } else if(updatedStudentData[1] > 40) {
       updatedColor = '#fcfa8b';
     } else {
       updatedColor = '#ff4f4d';
@@ -38,7 +37,7 @@ class PercentageChart extends Component {
     this.setState({
       studentData : updatedStudentData,
       color: updatedColor,
-      xLabels : ['Lowest', 'Average Student Response: ' + newData.average, 'Highest']
+      xLabels : ['Lowest', 'Average', 'Highest']
     });
 
     return (
@@ -49,7 +48,7 @@ class PercentageChart extends Component {
           type: 'bar',
           color: this.state.color,
           widthPercent: .5,
-          data: newData.average,
+          data: this.state.studentData
         }]}
           verticalGridStep={5}
           xLabels={['Lowest', 'Average Student Response: ' + newData.average, 'Highest']}
