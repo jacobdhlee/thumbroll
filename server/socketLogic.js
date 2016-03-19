@@ -18,7 +18,7 @@ module.exports = function(io) {
     });
 
     //maybe not necessary since basically the same as above
-    client.on('teacherQuickClass', function(data) {
+    client.on('teacherQuickClassConnect', function(data) {
       var classId = data.classId;
       client.join('room' + classId);
       console.log('Teacher connected to quick class room', 'room' + classId);
@@ -53,6 +53,12 @@ module.exports = function(io) {
       client.join('room' + classId);
       console.log('Student', userId, 'connected to', 'room' + classId);
       //TODO: DB.write('newStudentConnected', data);
+    });
+
+    client.on('studentQuickClassConnect', function(data) {
+      var classId = data.classId;
+      client.join('room' + classId);
+      console.log('Student connected to quick class room', 'room' + classId);
     });
 
     client.on('studentLeavingClass', function(data) {

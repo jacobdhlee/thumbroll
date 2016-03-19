@@ -41,7 +41,7 @@ class StartClassView extends React.Component {
       modalVisible: true
     });
     this.socket = io(server, {jsonp: false});
-    this.socket.emit('teacherQuickClass' , {classId: randomId});
+    this.socket.emit('teacherQuickClassConnect' , {classId: randomId});
   }
 
   navigateFromModal() {
