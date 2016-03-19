@@ -17,6 +17,13 @@ module.exports = function(io) {
       console.log('Teacher connected to room', 'room' + classId);
     });
 
+    //maybe not necessary since basically the same as above
+    client.on('teacherQuickClassConnect', function(data) {
+      var classId = data.classId;
+      client.join('room' + classId);
+      console.log('Teacher connected to quick class room', 'room' + classId);
+    });
+
     client.on('studentResponse', function(data) {
       console.log('INCOMING STUDENT RESPONSE:', data);
       var room;
@@ -27,15 +34,16 @@ module.exports = function(io) {
       }
       io.sockets.to(room).emit('studentResponseForTeacher', data);
 
-      //TODO: only save if not quick class?
-      models.poll_responses.create({
-        response_val: data.answer,
-        student_id: data.userId,
-        poll_id: data.pollId
-      })
-      .catch(function(err) {
-        console.error('Error saving student', data.userId, 'poll response to DB:', err);
-      });
+      if(data.pollId !== 'Quick Poll') {
+        models.poll_responses.create({
+          response_val: data.answer,
+          student_id: data.userId,
+          poll_id: data.pollId
+        })
+        .catch(function(err) {
+          console.error('Error saving student', data.userId, 'poll response to DB:', err);
+        });
+      }
     });
 
     //STUDENT CODE
@@ -46,6 +54,12 @@ module.exports = function(io) {
       client.join('room' + classId);
       console.log('Student', userId, 'connected to', 'room' + classId);
       //TODO: DB.write('newStudentConnected', data);
+    });
+
+    client.on('studentQuickClassConnect', function(data) {
+      var classId = data.classId;
+      client.join('room' + classId);
+      console.log('Student connected to quick class room', 'room' + classId);
     });
 
     client.on('studentLeavingClass', function(data) {

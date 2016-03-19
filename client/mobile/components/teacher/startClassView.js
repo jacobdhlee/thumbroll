@@ -1,5 +1,6 @@
 var React = require('react-native');
 var SelectLessonView = require('./selectLessonView');
+var RequestFeedbackView = require('./requestFeedbackView');
 var api = require('./../../utils/api');
 require('./../../utils/userAgent');
 var io =require('socket.io-client/socket.io');
@@ -11,17 +12,53 @@ var {
   Text,
   StyleSheet,
   Navigator,
+  Modal,
+  Dimensions,
   TouchableOpacity,
+  TouchableHighlight,
   ScrollView,
   ListView
 } = React;
 
 class StartClassView extends React.Component {
   constructor(props) {
+    var {height, width} = Dimensions.get('window');
     super(props);
     this.state = {
       classes: [{id: 1, name:'Quick Class'}, {id:2, name:'CS 101'}, {id:3, name: 'CS 201'}],
+      height: height,
+      width: width,
+      randomId: '',
+      modalVisible: false,
     };
+  }
+
+  selectQuickClass() {
+    // generate modal with randomID
+    var randomId = '' + Math.floor(Math.random() * 10) 
+      + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10);
+    this.setState({
+      randomId: randomId,
+      modalVisible: true
+    });
+    this.socket = io(server, {jsonp: false});
+    this.socket.emit('teacherQuickClassConnect' , {classId: randomId});
+  }
+
+  navigateFromModal() {
+    this.setState({
+      modalVisible: false
+    });
+    this.props.navigator.push({
+      component: RequestFeedbackView,
+      classId: this.state.randomId,
+      lessonId: 'Quick Class',
+      socket: this.state.socket,
+      sceneConfig: {
+        ...Navigator.SceneConfigs.FloatFromRight,
+        gestures: {}
+      }
+    });
   }
 
   selectClass(classId) {
@@ -73,10 +110,26 @@ class StartClassView extends React.Component {
           </View>
           <ScrollView>
             <View style={styles.buttonsContainer}>
-              {this.renderClasses(this.state.classes)}
+              <TouchableOpacity onPress={this.selectQuickClass.bind(this)} style={styles.button}>
+                <Text style={styles.buttonText}> Start Quick Class </Text>
+              </TouchableOpacity>
             </View>
+              {this.renderClasses(this.state.classes)}
           </ScrollView>
         </View>
+        <Modal visible={this.state.modalVisible} transparent={true} animated={true}>
+          <View style={styles.modal}>
+            <View style={{height:this.state.height * 0.6, width:this.state.width * 0.8}}>
+              <View style={styles.modalBox}>
+                <Text> Your secret code is: </Text>
+                <Text> {this.state.randomId} </Text>
+                <TouchableHighlight onPress={this.navigateFromModal.bind(this)}>
+                  <Text> Okay </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     )
   }
@@ -103,6 +156,19 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 20
+  },
+  modal: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.8)',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalBox: {
+    flex: 1,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white'
   }
 });
 

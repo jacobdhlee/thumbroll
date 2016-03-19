@@ -61,6 +61,18 @@ module.exports = {
     var lessonId = req.body.lessonId;
     var classId = req.body.classId;
     var pollObject = req.body.pollObject;
+    
+    // quick class polls are not saved
+    if(lessonId = 'Quick Class') {
+      var pollInformation = {
+        lessonId: lessonId,
+        pollObject: pollObject,
+        pollId: 'Quick Poll'
+      };
+      io.sockets.to('room' + classId).emit('newPoll', pollInformation);
+      res.status(201).send('Quick poll sent... ' + pollInformation);
+    } 
+
     //TODO: query if preset. otherwise:
     var type = '';
     //TODO: should have backend/frontend consistency in how we identify different types
@@ -69,23 +81,25 @@ module.exports = {
     } else if(pollObject.id == 2) {
       type = 'multiChoice';
     }
-
-    models.polls.create({
-      type: type,
-      lesson_id: lessonId
-    })
-    .then(function(data) {
-      var pollInformation = {
-        lessonId: lessonId,
-        pollObject: pollObject,
-        pollId: data.dataValues.id
-      }
-      io.sockets.to('room' + classId).emit('newPoll', pollInformation);
-      res.status(201).send('Poll sent... ' + pollInformation);
-    })
-    .catch(function(err) {
-      console.error('Error saving poll to DB:', err);
-      res.status(500).send(err);
-    });
+    
+    else {
+      models.polls.create({
+        type: type,
+        lesson_id: lessonId
+      })
+      .then(function(data) {
+        var pollInformation = {
+          lessonId: lessonId,
+          pollObject: pollObject,
+          pollId: data.dataValues.id
+        }
+        io.sockets.to('room' + classId).emit('newPoll', pollInformation);
+        res.status(201).send('Poll sent... ' + pollInformation);
+      })
+      .catch(function(err) {
+        console.error('Error saving poll to DB:', err);
+        res.status(500).send(err);
+      });
+    }
   },
 };
