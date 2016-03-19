@@ -34,15 +34,16 @@ module.exports = function(io) {
       }
       io.sockets.to(room).emit('studentResponseForTeacher', data);
 
-      //TODO: only save if not quick class?
-      models.poll_responses.create({
-        response_val: data.answer,
-        student_id: data.userId,
-        poll_id: data.pollId
-      })
-      .catch(function(err) {
-        console.error('Error saving student', data.userId, 'poll response to DB:', err);
-      });
+      if(data.pollId !== 'Quick Class') {
+        models.poll_responses.create({
+          response_val: data.answer,
+          student_id: data.userId,
+          poll_id: data.pollId
+        })
+        .catch(function(err) {
+          console.error('Error saving student', data.userId, 'poll response to DB:', err);
+        });
+      }
     });
 
     //STUDENT CODE
