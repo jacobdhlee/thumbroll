@@ -24,24 +24,30 @@ class FeedbackView extends React.Component {
       height: height,
       width: width,
       socket: this.props.route.socket,
-      studentData: {
+      studentThumbsData: {
         data: [],
         average: 0
       }
     };
 
     this.state.socket.on('studentResponseForTeacher', (studentData) => {
-      var currentStudentData = this.state.studentData.data.slice();
-      currentStudentData.push(studentData.answer);
-      console.log(currentStudentData);
-      this.setState({
-        studentData : {
-          data : currentStudentData,
-          average: [currentStudentData.length ? Math.floor(currentStudentData.reduce((x,y) => {return x + y}) / currentStudentData.length) : 0]
-        }
-        }, () => {
-          this.renderChart();
-      });
+      
+      // MultiChoice case
+      if(typeof studentData.answer === 'string') {
+        
+      } else if(typeof studentData.answer === 'number'){
+        // Thumbs check case
+        var currentStudentThumbsData = this.state.studentThumbsData.data.slice();
+        currentStudentThumbsData.push(studentData.answer);
+        this.setState({
+          studentThumbsData : {
+            data : currentStudentThumbsData,
+            average: [currentStudentThumbsData.length ? Math.floor(currentStudentThumbsData.reduce((x,y) => {return x + y}) / currentStudentThumbsData.length) : 0]
+          }
+          }, () => {
+            this.renderChart();
+        });
+      }
     });
   }
 
@@ -54,7 +60,7 @@ class FeedbackView extends React.Component {
     if(this.state.feedbackOption.id === 1) {
       return (
         <View style={{ width: this.state.width, height: this.state.height * 0.7, backgroundColor: 'red'}}>
-          {React.createElement(PercentageChart, this.state.studentData)}
+          {React.createElement(PercentageChart, this.state.studentThumbsData)}
         </View>
       )
     } else if(this.state.feedbackOption.id === 2) {
@@ -78,7 +84,7 @@ class FeedbackView extends React.Component {
         </View>
           <View style={styles.titleContainer}>
             <Text style={styles.pageText}> {this.state.feedbackOption.name} </Text>
-            <Text>Student response average: {this.state.studentData.data.length ? Math.floor(this.state.studentData.data.reduce((x,y) => x + y) / this.state.studentData.data.length) : 0}</Text>
+            <Text>Student response average: {this.state.studentThumbsData.data.length ? Math.floor(this.state.studentThumbsData.data.reduce((x,y) => x + y) / this.state.studentThumbsData.data.length) : 0}</Text>
           </View>
           {this.renderChart.call(this)}
         </View>
