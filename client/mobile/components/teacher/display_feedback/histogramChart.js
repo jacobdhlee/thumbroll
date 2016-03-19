@@ -7,6 +7,7 @@ class HistogramChart extends Component {
     super(props);
     this.state = {
       studentData: [],
+      transformedData: [],
       chartData: [
         {
           name: 'BarChart',
@@ -16,7 +17,7 @@ class HistogramChart extends Component {
           data: [],
         }
       ],
-      xLabels: ['A', 'B', 'C', 'D']
+      xLabels: ['A']
     }
   }
 
@@ -27,23 +28,23 @@ class HistogramChart extends Component {
 
     this.setState({
       studentData : updatedStudentData,
+      transformedData: transformMultiChoiceData(updatedStudentData),
       color: 'blue'
     });
     
     var displayData = transformMultiChoiceData(updatedStudentData);
     return (
       <View style={styles.container}>
-      {console.log('rendering...')}
         <RNChart style={styles.chart}
           chartData={[{
           name: 'BarChart',
           type: 'bar',
           color: this.state.color,
           widthPercent: .5,
-          data: displayData
+          data: this.state.transformedData
         }]}
           verticalGridStep={5}
-          xLabels={['A', 'B', 'C', 'D']}
+          xLabels={['0']}
          />
       </View>
     );
@@ -58,7 +59,7 @@ class HistogramChart extends Component {
           type: 'bar',
           color: this.state.color,
           widthPercent: .5,
-          data: []
+          data: this.state.transformedData
         }]}
           verticalGridStep={5}
           xLabels={this.state.xLabels}
