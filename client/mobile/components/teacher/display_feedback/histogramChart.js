@@ -17,7 +17,7 @@ class HistogramChart extends Component {
           data: [],
         }
       ],
-      xLabels: ['A']
+      xLabels: ['A', 'B', 'C', 'D']
     }
   }
 
@@ -44,7 +44,7 @@ class HistogramChart extends Component {
           data: this.state.transformedData
         }]}
           verticalGridStep={5}
-          xLabels={['0']}
+          xLabels={['A', 'B', 'C', 'D']}
          />
       </View>
     );
