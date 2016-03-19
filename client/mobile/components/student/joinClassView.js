@@ -18,14 +18,17 @@ var {
 } = React;
 
 class Button extends React.Component {
+  
   render () {
     return (
-      <TouchableHighlight style={styles.buttons}>
-        {this.props.children}
-      </TouchableHighlight>
+      <TouchableOpacity style={styles.buttons} onPress={this.props.onPress}>
+        <Text style={{color: 'white'}}>
+          {this.props.children}
+        </Text>
+      </TouchableOpacity>
     )
   }
-}
+};
 
 class JoinClassView extends React.Component {
   constructor(props){
@@ -71,13 +74,13 @@ class JoinClassView extends React.Component {
   }
 
   handleModalSubmit() {
-    var classCode = 'qc' + this.state.secretCode;
+    var code = this.state.secretCode;
     this.setState({
       modalVisible: false
     });
     //assuming code is valid:
     this.socket = io(server, {jsonp: false});
-    this.socket.emit('studentQuickClassConnect', {userId: this.state.userId, classId: classCode});
+    this.socket.emit('studentQuickClassConnect', {userId: this.state.userId, classId: code});
     this.setState({
       secretCode: ''
     });
@@ -108,7 +111,7 @@ class JoinClassView extends React.Component {
     return classes.map((cls, index) => {
       return (
         <View style={styles.buttonsContainer} key={index}>
-          <Button onPress={this.selectedClass.bind(this, cls)}style={styles.buttonContainer}>
+          <Button onPress={this.selectedClass.bind(this, cls)} style={styles.buttonContainer}>
             <Text>{cls.name}</Text>
           </Button>
         </View>
@@ -124,9 +127,9 @@ class JoinClassView extends React.Component {
         </View>
 
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity onPress={this.selectQuickClass.bind(this)} style={styles.button}>
+          <Button onPress={this.selectQuickClass.bind(this)} style={styles.button}>
             <Text style={styles.buttonText}> Join Quick Class </Text>
-          </TouchableOpacity>
+          </Button>
         </View>
 
         {this.eachClasses(this.state.enrolledClasses)}
@@ -172,10 +175,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   buttons: {
-    backgroundColor: 'white',
-    borderColor: '#333',
-    borderRadius: 0,
-    borderWidth: 3,
+    height: 70,
+    width: 300,
+    backgroundColor:'#6FC3D1',
+    borderColor: '#6FC3D1',
+    borderWidth: 2,
+    borderRadius: 10,
+    marginTop: 5,
+    marginBottom: 5,
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   textSize: {
     fontSize: 20
@@ -184,13 +193,13 @@ const styles = StyleSheet.create({
     padding: 20
   },
   buttonContainer: {
-    margin: 20
+    backgroundColor:'#59AF70',
   },
   modal: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.8)',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   modalBox: {
     flex: 1,
