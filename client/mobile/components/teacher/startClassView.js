@@ -29,6 +29,7 @@ class StartClassView extends React.Component {
       height: height,
       width: width,
       randomId: '',
+      socket: undefined,
       classCode: '',
       modalVisible: false,
     };
@@ -38,13 +39,16 @@ class StartClassView extends React.Component {
     // generate modal with randomID
     var randomId = '' + Math.floor(Math.random() * 10) 
       + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10);
+    var classCode = 'qc' + randomId;
+
+    this.socket = io(server, {jsonp: false});
+    this.socket.emit('teacherQuickClassConnect' , {classId: classCode});
     this.setState({
       randomId: randomId,
-      classCode: 'qc' + randomId, 
-      modalVisible: true
+      classCode: classCode, 
+      modalVisible: true,
+      socket: this.socket
     });
-    this.socket = io(server, {jsonp: false});
-    this.socket.emit('teacherQuickClassConnect' , {classId: this.state.classCode});
   }
 
   navigateFromModal() {
