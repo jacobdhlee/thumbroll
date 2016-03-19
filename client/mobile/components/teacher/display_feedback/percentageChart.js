@@ -34,7 +34,6 @@ class PercentageChart extends Component {
     } else {
       updatedColor = '#ff4f4d';
     }
-    console.log('updatedStudentData', updatedStudentData);
     this.setState({
       studentData : updatedStudentData,
       color: updatedColor
