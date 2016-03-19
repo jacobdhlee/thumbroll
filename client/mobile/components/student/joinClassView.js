@@ -67,7 +67,7 @@ class JoinClassView extends React.Component {
     });
     //assuming code is valid:
     this.socket = io(server, {jsonp: false});
-    this.socket.emit('studentQuickClassConnect', {userId: this.state.userId, classId: code});
+    this.socket.emit('studentQuickClassConnect', {userId: this.state.userId, classId: 'qc' + code});
     this.setState({
       secretCode: ''
     });
