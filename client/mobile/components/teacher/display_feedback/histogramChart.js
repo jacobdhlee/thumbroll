@@ -29,7 +29,7 @@ class HistogramChart extends Component {
     this.setState({
       studentData : updatedStudentData,
       transformedData: transformMultiChoiceData(updatedStudentData),
-      color: 'blue'
+      color: '#219dff'
     });
     
     var displayData = transformMultiChoiceData(updatedStudentData);
