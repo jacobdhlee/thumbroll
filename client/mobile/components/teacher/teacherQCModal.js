@@ -18,20 +18,15 @@ class TeacherQCModal extends React.Component {
   constructor(props) {
     super(props);
     var {height, width} = Dimensions.get('window');
-    var randomId = '' + Math.floor(Math.random() * 10) 
-      + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10);
-    var classCode = 'qc' + randomId;
-
-    this.socket = io(server, {jsonp: false});
-    this.socket.emit('teacherQuickClassConnect' , {classId: classCode});
 
     this.state = {
-      randomId: randomId,
-      classId: classCode,
       height: height,
       width: width,
-      socket: this.socket
     };
+  }
+
+  handleEnter() {
+    this.props.onEnter.call(null)
   }
 
   render() {
@@ -41,8 +36,8 @@ class TeacherQCModal extends React.Component {
           <View style={{height:this.state.height * 0.6, width:this.state.width * 0.8}}>
             <View style={styles.modalBox}>
               <Text> Your secret code is: </Text>
-              <Text> {this.state.randomId} </Text>
-              <TouchableHighlight onPress={this.props.onEnter.bind(null, this.state.classId, this.state.socket)}>
+              <Text> {this.props.randomId} </Text>
+              <TouchableHighlight onPress={this.handleEnter.bind(this)}>
                 <Text> Okay </Text>
               </TouchableHighlight>
             </View>

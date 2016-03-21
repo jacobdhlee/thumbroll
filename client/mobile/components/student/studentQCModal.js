@@ -35,6 +35,16 @@ class StudentQCModal extends React.Component {
     this.props.onCancel();
   }
 
+  handleEnter() {
+    var secretCode = this.state.secretCode;
+    this.setState({
+      secretCode: ''
+    });
+    this.props.onCancel();
+    this.props.onEnter.call(null, secretCode)
+  }
+
+
   render() {
     return (
       <Modal visible={this.props.visible} transparent={true} animated={true}>
@@ -53,7 +63,7 @@ class StudentQCModal extends React.Component {
                 onChange={this.handleCodeChange.bind(this)}
                 onSubmitEditing={this.props.onEnter.bind(null, this.state.secretCode)}
               />
-              <TouchableHighlight onPress={this.props.onEnter.bind(null, this.state.secretCode)}>
+              <TouchableHighlight onPress={this.handleEnter.bind(this)}>
                 <Text> Enter </Text>
               </TouchableHighlight>
               <TouchableHighlight onPress={this.handleCancel.bind(this)}>
