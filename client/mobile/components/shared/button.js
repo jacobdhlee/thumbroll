@@ -1,10 +1,15 @@
 var React = require('react-native');
 
 var {
+  View,
   Text,
   StyleSheet,
-  View,
-  Navigator
+  TouchableHighlight,
+  Modal,
+  Dimensions,
+  TextInput,
+  TouchableOpacity,
+  Navigator,
 } = React;
 
 class Button extends React.Component {
@@ -12,7 +17,7 @@ class Button extends React.Component {
   render () {
     return (
       <TouchableOpacity style={styles.buttons} onPress={this.props.onPress}>
-        <Text style={{color: 'white'}}>
+        <Text style={styles.textSize}>
           {this.props.children}
         </Text>
       </TouchableOpacity>
@@ -35,6 +40,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     justifyContent: 'center',
     alignSelf: 'center',
+    color: 'white'
   },
   
 })

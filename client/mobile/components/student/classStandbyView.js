@@ -2,6 +2,7 @@ var React = require('react-native');
 var ThumbCheck =  require('./responses/thumbCheck.js');
 var MultiChoice =  require('./responses/multiChoice.js');
 var NavBar = require('./../shared/navbar');
+var Button = require('./../shared/button');
 
 var {
   Text,

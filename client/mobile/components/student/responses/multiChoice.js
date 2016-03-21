@@ -1,5 +1,6 @@
 var React = require('react-native');
 var NavBar = require('./../../shared/navbar');
+var Button = require('./../../shared/button');
 
 var {
   View,
@@ -45,7 +46,7 @@ class MultiChoice extends React.Component {
   logout(){
     this.props.navigator.popToTop();
   }
-  
+
   submitAnswer(answer) {
     console.log('Student',this.state.userId,'answered',answer,'to poll',this.state.pollInfo.pollId);
     // send socket with answer
@@ -60,9 +61,9 @@ class MultiChoice extends React.Component {
 
   renderButton(value) {
     return (
-      <TouchableHighlight underlayColor='#FF0000' style={styles.button} onPress={this.submitAnswer.bind(this, value)}>
+      <Button underlayColor='#FF0000' style={styles.button} onPress={this.submitAnswer.bind(this, value)}>
         <Text>{value}</Text>
-      </TouchableHighlight>
+      </Button>
     )
   }
 
@@ -71,12 +72,6 @@ class MultiChoice extends React.Component {
       <View style={styles.container}>
         <View>
           <NavBar onBack={this.previousPage.bind(this)} onOut={this.logout.bind(this)}>MultiChoice</NavBar>
-        </View>
-        <View style={styles.halfHeight1}>
-          <Text onPress={this.previousPage.bind(this)}>back</Text>
-        </View>
-        <View style={styles.halfHeight}>
-          <Text>MultiChoice</Text>
         </View>
         {this.renderButton("A")}
         {this.renderButton("B")}

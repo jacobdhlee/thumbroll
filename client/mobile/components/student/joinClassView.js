@@ -3,6 +3,7 @@ var ClassStandbyView = require('./classStandbyView.js');
 require('./../../utils/userAgent');
 var io =require('socket.io-client/socket.io');
 var NavBar = require('./../shared/navbar');
+var Button = require('./../shared/button');
 var env = require('./../../utils/environment');
 
 var server = env.server + ':' + env.port;
@@ -181,18 +182,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  buttons: {
-    height: 70,
-    width: 300,
-    backgroundColor:'#6FC3D1',
-    borderColor: '#6FC3D1',
-    borderWidth: 2,
-    borderRadius: 10,
-    marginTop: 5,
-    marginBottom: 5,
-    justifyContent: 'center',
-    alignSelf: 'center',
   },
   textSize: {
     fontSize: 20
