@@ -21,7 +21,6 @@ var {
   ActivityIndicatorIOS,
   Navigator,
   Switch,
-  Modal,
   Dimensions
 } = React;
 
@@ -35,7 +34,6 @@ class Login extends React.Component {
       error: false,
       accountType: 'student',
       switchState: false,
-      secretCode: '',
       modalVisible: false,
       teacherModalId: '',
       teacherModalClassId: '',
@@ -150,12 +148,13 @@ class Login extends React.Component {
 
   handleStudentModalSubmit(secretCode) {
     var classCode = 'qc' + secretCode;
+    var userId = null;
     this.setState({
       modalVisible: false
     });
     //assuming code is valid:
     this.socket = io(server, {jsonp: false});
-    this.socket.emit('studentQuickClassConnect', {userId: undefined, classId: classCode});
+    this.socket.emit('studentQuickClassConnect', {userId: userId, classId: classCode});
     var classObj = {
       id: classCode,
       name: 'Quick Class: ' + classCode 
@@ -163,7 +162,7 @@ class Login extends React.Component {
     this.props.navigator.push({
       component: ClassStandbyView,
       class: classObj,
-      userId: undefined,
+      userId: userId,
       socket: this.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromBottom,
@@ -361,19 +360,6 @@ const styles = StyleSheet.create({
   switchContainer: {
     flexDirection: 'row',
     justifyContent: 'center'
-  },
-  modal: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.8)',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  modalBox: {
-    flex: 1,
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white'
   }
 });
 

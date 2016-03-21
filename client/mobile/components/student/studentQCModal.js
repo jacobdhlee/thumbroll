@@ -40,7 +40,6 @@ class StudentQCModal extends React.Component {
     this.setState({
       secretCode: ''
     });
-    this.props.onCancel();
     this.props.onEnter.call(null, secretCode)
   }
 
