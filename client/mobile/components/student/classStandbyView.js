@@ -1,6 +1,7 @@
 var React = require('react-native');
 var ThumbCheck =  require('./responses/thumbCheck.js');
 var MultiChoice =  require('./responses/multiChoice.js');
+var NavBar = require('./../shared/navbar');
 
 var {
   Text,
@@ -58,6 +59,10 @@ class ClassStandbyView extends React.Component {
     })
   }
 
+  logout(){
+    this.props.navigator.popToTop();
+  }
+
   previousSection() {
     this.state.socket.emit('studentLeavingClass', {userId: this.state.userId, classId:this.state.class.id});
     this.props.navigator.pop();
@@ -65,12 +70,12 @@ class ClassStandbyView extends React.Component {
 
   render(){
     return(
-      <View style={styles.topStyle}>
+      <View>
         <View>
-         <Text style={styles.textSize}>{this.state.class.name}</Text>
+          <NavBar onBack={this.previousSection.bind(this)} onOut={this.logout.bind(this)}>Enrollled Classes</NavBar>
         </View>
         <View>
-         <Text style={styles.textSize} onPress={this.previousSection.bind(this)}>Go Back</Text>
+         <Text style={styles.textSize}>{this.state.class.name}</Text>
         </View>
         <View>
           <Text onPress={this.thumbcheckPage.bind(this)} >ThumbCheck</Text>

@@ -30,6 +30,14 @@ class ThumbCheck extends React.Component {
     this.props.navigator.pop();
   }
 
+  previousPage() {
+    this.props.navigator.pop();
+  }
+
+  logout(){
+    this.props.navigator.popToTop();
+  }
+
   valueChange(value) {
     this.setState({value: Math.floor(value)})
   }

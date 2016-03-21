@@ -2,7 +2,9 @@ var React = require('react-native');
 var ClassStandbyView = require('./classStandbyView.js');
 require('./../../utils/userAgent');
 var io =require('socket.io-client/socket.io');
+var NavBar = require('./../shared/navbar');
 var env = require('./../../utils/environment');
+
 var server = env.server + ':' + env.port;
 import NavigationBar from 'react-native-navigation-bar';
 
@@ -19,36 +21,7 @@ var {
 } = React;
 
 //textAlign enum('auto', 'left', 'right', 'center', 'justify')
-class NavBar extends React.Component {
-  render () {
-    return (
-      <View style={styles.nav}>
-        <TouchableOpacity onPress={this.props.onBack}>
-          <Text style={styles.textSize}>Back</Text>
-        </TouchableOpacity>
-         <View>
-          <Text style={styles.textSize}>{this.props.children}</Text>
-        </View>
-         <TouchableOpacity onPress={this.props.onOut}>
-          <Text style={styles.textSize}>Logout</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-}
 
-class Button extends React.Component {
-  
-  render () {
-    return (
-      <TouchableOpacity style={styles.buttons} onPress={this.props.onPress}>
-        <Text style={{color: 'white'}}>
-          {this.props.children}
-        </Text>
-      </TouchableOpacity>
-    )
-  }
-};
 
 class JoinClassView extends React.Component {
   constructor(props){
@@ -139,7 +112,7 @@ class JoinClassView extends React.Component {
     })
   }
 
-   previousPage() {
+  previousPage() {
     this.props.navigator.pop();
   }
 

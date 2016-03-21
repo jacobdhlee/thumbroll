@@ -1,4 +1,5 @@
 var React = require('react-native');
+var NavBar = require('./../../shared/navbar');
 
 var {
   View,
@@ -41,6 +42,10 @@ class MultiChoice extends React.Component {
     this.props.navigator.pop();
   }
 
+  logout(){
+    this.props.navigator.popToTop();
+  }
+  
   submitAnswer(answer) {
     console.log('Student',this.state.userId,'answered',answer,'to poll',this.state.pollInfo.pollId);
     // send socket with answer
@@ -64,6 +69,9 @@ class MultiChoice extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <View>
+          <NavBar onBack={this.previousPage.bind(this)} onOut={this.logout.bind(this)}>MultiChoice</NavBar>
+        </View>
         <View style={styles.halfHeight1}>
           <Text onPress={this.previousPage.bind(this)}>back</Text>
         </View>
