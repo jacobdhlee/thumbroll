@@ -98,7 +98,8 @@ class App extends React.Component {
     return (
 
       <div>
-       <Signup />
+        <h1>Thumbroll</h1>
+        <Classes teacherData={this.state.classes}/>
       </div>
       );
     // if user has a session, render components below
@@ -122,6 +123,10 @@ class App extends React.Component {
 
     // else, return login
 
+  }
+
+  componentWillMount(){
+    //fetch classes from the DB and update the state to be passed down to Classes
   }
 
   componentWillMount(){
