@@ -37,9 +37,9 @@ class Login extends React.Component {
       switchState: false,
       secretCode: '',
       modalVisible: false,
-      randomId: '',
-      classId: '',
-      socket: '',
+      teacherModalId: '',
+      teacherModalClassId: '',
+      teacherModalSocket: '',
     };
     // Check keychain for saved credentials
       // if so, move forward to next scene
@@ -138,9 +138,9 @@ class Login extends React.Component {
       this.socket = io(server, {jsonp: false});
       this.socket.emit('teacherQuickClassConnect' , {classId: classCode});
       this.setState({
-        randomId: randomId,
-        classId: classCode,
-        socket: this.socket
+        teacherModalId: randomId,
+        teacherModalClassId: classCode,
+        teacherModalSocket: this.socket
       });
     }
     this.setState({
@@ -178,9 +178,9 @@ class Login extends React.Component {
     });
     this.props.navigator.push({
       component: RequestFeedbackView,
-      classId: this.state.classId,
+      classId: this.state.teacherModalClassId,
       lessonId: 'Quick Class',
-      socket: this.state.socket,
+      socket: this.state.teacherModalSocket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromRight,
         gestures: {}
@@ -280,7 +280,7 @@ class Login extends React.Component {
         />
         <TeacherQCModal visible={this.state.modalVisible && this.state.accountType=='teacher'} 
           onEnter={this.handleTeacherModalSubmit.bind(this)}
-          randomId={this.state.randomId}
+          randomId={this.state.teacherModalId}
         />
 
       </View>
