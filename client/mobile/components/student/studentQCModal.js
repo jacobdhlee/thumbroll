@@ -1,5 +1,4 @@
 var React = require('react-native');
-var JoinClassView = require('./../student/joinClassView');
 
 var {
   View,
@@ -92,11 +91,4 @@ const styles = StyleSheet.create({
 });
 
 module.exports = StudentQCModal;
-
-
-
-
-
-
-
 

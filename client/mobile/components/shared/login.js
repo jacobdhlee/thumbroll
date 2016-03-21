@@ -1,15 +1,16 @@
 var React = require('react-native');
 var JoinClassView = require('./../student/joinClassView');
+var ClassStandbyView = require('./../student/classStandbyView');
 var StartClassView = require('./../teacher/startClassView');
-var StudentQCModal = require('./../student/studentQCModal')
+var RequestFeedbackView = require('./../teacher/requestFeedbackView');
+var StudentQCModal = require('./../student/studentQCModal');
+var TeacherQCModal = require('./../teacher/teacherQCModal');
 var Signup = require('./signup');
 var api = require('./../../utils/api');
 require('./../../utils/userAgent');
 var io =require('socket.io-client/socket.io');
 var env = require('./../../utils/environment');
 var server = env.server + ':' + env.port;
-// var NavigationBar = require('react-native-navbar');
-// var Keychain = require('react-native-keychain');
 
 var {
   View,
@@ -54,7 +55,7 @@ class Login extends React.Component {
     });
   }
 
-  handleSubmit(){
+  handleLoginSubmit(){
       this.setState({
         isLoading: true
       });
@@ -154,15 +155,15 @@ class Login extends React.Component {
     });
   }
 
-  handleTeacherModalSubmit() {
+  handleTeacherModalSubmit(classId, socket) {
     this.setState({
       modalVisible: false
     });
     this.props.navigator.push({
       component: RequestFeedbackView,
-      classId: this.state.classCode,
+      classId: classId,
       lessonId: 'Quick Class',
-      socket: this.state.socket,
+      socket: socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromRight,
         gestures: {}
@@ -214,10 +215,10 @@ class Login extends React.Component {
             value={this.state.password}
             returnKeyType={'go'}
             onChange={this.handlePasswordChange.bind(this)} 
-            onSubmitEditing={this.handleSubmit.bind(this)}/>
+            onSubmitEditing={this.handleLoginSubmit.bind(this)}/>
           <TouchableHighlight
             style={styles[this.state.accountType + 'Button']}
-            onPress={this.handleSubmit.bind(this)}
+            onPress={this.handleLoginSubmit.bind(this)}
             underlayColor='#e66365'>
             <Text style={styles.buttonText}> {this.state.accountType[0].toUpperCase() + this.state.accountType.slice(1)
             + ' Sign In'} </Text>
@@ -257,8 +258,11 @@ class Login extends React.Component {
 
         </View>
 
-        <StudentQCModal visible={this.state.modalVisible} onEnter={this.handleStudentModalSubmit.bind(this)} 
-          onCancel={this.handleModalCancel.bind(this)}
+        <StudentQCModal visible={this.state.modalVisible && this.state.accountType=='student'} 
+          onEnter={this.handleStudentModalSubmit.bind(this)} onCancel={this.handleModalCancel.bind(this)}
+        />
+        <TeacherQCModal visible={this.state.modalVisible && this.state.accountType=='teacher'} 
+          onEnter={this.handleTeacherModalSubmit.bind(this)} onCancel={this.handleModalCancel.bind(this)}
         />
 
       </View>
