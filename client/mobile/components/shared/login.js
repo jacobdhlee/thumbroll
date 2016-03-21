@@ -122,6 +122,13 @@ class Login extends React.Component {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <View style={styles.loginContainer}>
+
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerText}>
+              Header Will Go Here
+            </Text>
+          </View>
+
           <Text style={styles.fieldTitle}> Username </Text>
           <TextInput
             autoCapitalize={'none'}
@@ -148,11 +155,21 @@ class Login extends React.Component {
             onChange={this.handlePasswordChange.bind(this)} 
             onSubmitEditing={this.handleSubmit.bind(this)}/>
           <TouchableHighlight
-            style={styles.button}
+            style={styles[this.state.accountType + 'Button']}
             onPress={this.handleSubmit.bind(this)}
             underlayColor='#e66365'>
             <Text style={styles.buttonText}> {this.state.accountType[0].toUpperCase() + this.state.accountType.slice(1)
             + ' Sign In'} </Text>
+          </TouchableHighlight>
+
+          <Text style={{alignSelf:'center', marginTop: 20}}> -or- </Text>
+
+          <TouchableHighlight
+            style={styles[this.state.accountType + 'Button']}
+            onPress={this.handleSubmit.bind(this)}
+            underlayColor='#e66365'>
+            <Text style={styles.buttonText}> 
+            {this.state.accountType == 'student' ? 'Join Quick Class' : 'Start Quick Class'} </Text>
           </TouchableHighlight>
 
           <TouchableHighlight
@@ -167,6 +184,7 @@ class Login extends React.Component {
             size='large' 
             style={styles.loading} />
           {showErr}
+
           <View style={styles.switchContainer}>
             <Text> Student </Text>
             <Switch
@@ -175,6 +193,7 @@ class Login extends React.Component {
             />
             <Text> Teacher </Text>
           </View>
+
         </View>
       </View>
     )
@@ -182,6 +201,14 @@ class Login extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    justifyContent: 'center',
+    marginBottom: 30
+  },
+  headerText: {
+    fontSize: 18,
+    alignSelf: 'center'
+  },
   loginContainer: {
     flex: 1,
     padding: 30,
@@ -202,10 +229,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
   },
-  button: {
+  studentButton: {
     height: 45,
     flexDirection: 'row',
     backgroundColor: '#219dff',
+    borderColor: 'transparent',
+    borderWidth: 1,
+    borderRadius: 4,
+    marginBottom: 10,
+    marginTop: 30,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
+  teacherButton: {
+    height: 45,
+    flexDirection: 'row',
+    backgroundColor: 'red',
     borderColor: 'transparent',
     borderWidth: 1,
     borderRadius: 4,
