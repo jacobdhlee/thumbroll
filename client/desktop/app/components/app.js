@@ -6,12 +6,26 @@ import Lessons from './teacher/classes/lessons/lessonData'
 import Students from './teacher/classes/students/studentData'
 
 class App extends React.Component {
-  // constructor(props) {
-  //   super(props);
+  constructor(props) {
+    super(props);
 
-  //   this.state = {
-  //   };
-  // }
+    this.state = {
+      classes: [
+        {
+          id: {
+            type: 1,
+          },
+          name: 'CS201'
+        },
+        {
+          id: {
+            type: 1,
+          },
+          name: 'CS101'
+        },
+      ]
+    };
+  }
 
   //events here
 
@@ -19,9 +33,13 @@ class App extends React.Component {
     return (
       <div>
         <h1>Thumbroll</h1>
-        <Classes />
+        <Classes teacherData={this.state.classes}/>
       </div>
     );
+  }
+
+  componentWillMount(){
+    //fetch classes from the DB and update the state to be passed down to Classes
   }
 }
 
