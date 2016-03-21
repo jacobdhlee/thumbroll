@@ -113,7 +113,6 @@ class Login extends React.Component {
       switchState: value,
       accountType: accountType
     });
-    console.log('ACCOUNT TYPE:',this.state.accountType);
   }
 
   render() {
@@ -152,13 +151,15 @@ class Login extends React.Component {
             style={styles.button}
             onPress={this.handleSubmit.bind(this)}
             underlayColor='#e66365'>
-            <Text style={styles.buttonText}> Sign In </Text>
+            <Text style={styles.buttonText}> {this.state.accountType[0].toUpperCase() + this.state.accountType.slice(1)
+            + ' Sign In'} </Text>
           </TouchableHighlight>
 
           <TouchableHighlight
             onPress={this.handleSignupRedirect.bind(this)}
             underlayColor='#ededed'>
-            <Text style={styles.signup}> {"Don't have an account yet? Sign Up!"}  </Text>
+            <Text style={styles.signup}> {"Don't have an account yet? Click here to create a " 
+            + this.state.accountType + " account!"}  </Text>
           </TouchableHighlight>
 
           <ActivityIndicatorIOS
@@ -231,7 +232,8 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   switchContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent: 'center'
   }
 });
 
