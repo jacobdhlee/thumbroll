@@ -10,7 +10,6 @@ var {
   StyleSheet,
   TextInput,
   TouchableHighlight,
-  Picker,
   ActivityIndicatorIOS,
   Navigator,
   ScrollView
@@ -26,7 +25,7 @@ class Signup extends React.Component {
       email: '',
       password: '',
       confirmedPassword: '',
-      accountType: 'student',
+      accountType: this.props.route.accountType,
       isLoading: false,
       error: false,
       passwordError: false
@@ -225,14 +224,7 @@ class Signup extends React.Component {
               onSubmitEditing={this.handleSubmit.bind(this)}
               onChange={this.handleConfirmedPasswordChange.bind(this)} 
             />
-            <Text style={styles.fieldTitle}> Account Type </Text>
-            <Picker
-              style={styles.picker}
-              selectedValue={this.state.accountType}
-              onValueChange={(type) => this.setState({accountType: type})}>
-              <Picker.Item label="Student" value="student" />
-              <Picker.Item label="Teacher" value="teacher" />
-            </Picker>
+           
             <TouchableHighlight
               style={styles.button}
               onPress={this.handleSubmit.bind(this)}

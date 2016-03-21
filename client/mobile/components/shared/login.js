@@ -107,7 +107,8 @@ class Login extends React.Component {
   handleSignupRedirect() {
     this.props.navigator.push({
       component: Signup,
-      sceneConfig: Navigator.SceneConfigs.FloatFromRight
+      sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+      accountType: this.state.accountType
     });
     this.setState({
       isLoading: false,
@@ -262,7 +263,7 @@ class Login extends React.Component {
           onEnter={this.handleStudentModalSubmit.bind(this)} onCancel={this.handleModalCancel.bind(this)}
         />
         <TeacherQCModal visible={this.state.modalVisible && this.state.accountType=='teacher'} 
-          onEnter={this.handleTeacherModalSubmit.bind(this)} onCancel={this.handleModalCancel.bind(this)}
+          onEnter={this.handleTeacherModalSubmit.bind(this)}
         />
 
       </View>
