@@ -10,7 +10,6 @@ var {
   StyleSheet,
   TextInput,
   TouchableHighlight,
-  Picker,
   ActivityIndicatorIOS,
   Navigator,
   ScrollView
@@ -26,7 +25,7 @@ class Signup extends React.Component {
       email: '',
       password: '',
       confirmedPassword: '',
-      accountType: 'student',
+      accountType: this.props.route.accountType,
       isLoading: false,
       error: false,
       passwordError: false
@@ -142,8 +141,13 @@ class Signup extends React.Component {
       <ScrollView>
         <View style={{flex: 1, backgroundColor: 'white'}}> 
           <View style={styles.mainContainer}>
-          <Text style={styles.fieldTitle}> First Name </Text>
+            <View style={styles.headerContainer}>
+              <Text style={styles.headerText}>
+                {this.state.accountType[0].toUpperCase() + this.state.accountType.slice(1) + ' Sign Up'}
+              </Text>
+            </View>
             <TextInput
+              placeholder='First Name'
               autoCapitalize={'none'}
               autoCorrect={false}
               maxLength={16}
@@ -155,9 +159,9 @@ class Signup extends React.Component {
                 this.refs.SecondInput.focus();
               }} 
             />
-            <Text style={styles.fieldTitle}> Last Name </Text>
             <TextInput
               ref='SecondInput'
+              placeholder='Last Name'
               autoCapitalize={'none'}
               autoCorrect={false}
               maxLength={16}
@@ -169,9 +173,9 @@ class Signup extends React.Component {
                 this.refs.ThirdInput.focus();
               }} 
             />
-            <Text style={styles.fieldTitle}> Username </Text>
             <TextInput
               ref='ThirdInput'
+              placeholder='Username'
               autoCapitalize={'none'}
               autoCorrect={false}
               maxLength={16}
@@ -183,9 +187,9 @@ class Signup extends React.Component {
                 this.refs.FourthInput.focus();
               }} 
             />
-            <Text style={styles.fieldTitle}> Email </Text>
             <TextInput
               ref='FourthInput'
+              placeholder='Email'
               autoCapitalize={'none'}
               autoCorrect={false}
               maxLength={25}
@@ -197,9 +201,9 @@ class Signup extends React.Component {
                 this.refs.FifthInput.focus();
               }} 
             />
-            <Text style={styles.fieldTitle}> Password </Text>
             <TextInput
               ref='FifthInput'
+              placeholder='Password'
               autoCapitalize={'none'}
               autoCorrect={false}
               maxLength={16}
@@ -212,9 +216,9 @@ class Signup extends React.Component {
                 this.refs.SixthInput.focus();
               }} 
             />
-            <Text style={styles.fieldTitle}> Confirm Password </Text>
             <TextInput
               ref='SixthInput'
+              placeholder='Confirm Password'
               autoCapitalize={'none'}
               autoCorrect={false}
               maxLength={16}
@@ -225,14 +229,7 @@ class Signup extends React.Component {
               onSubmitEditing={this.handleSubmit.bind(this)}
               onChange={this.handleConfirmedPasswordChange.bind(this)} 
             />
-            <Text style={styles.fieldTitle}> Account Type </Text>
-            <Picker
-              style={styles.picker}
-              selectedValue={this.state.accountType}
-              onValueChange={(type) => this.setState({accountType: type})}>
-              <Picker.Item label="Student" value="student" />
-              <Picker.Item label="Teacher" value="teacher" />
-            </Picker>
+           
             <TouchableHighlight
               style={styles.button}
               onPress={this.handleSubmit.bind(this)}
@@ -267,12 +264,13 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
   },
-  fieldTitle: {
-    marginTop: 10,
-    marginBottom: 15,
+  headerContainer: {
+    justifyContent: 'center',
+    marginBottom: 30
+  },
+  headerText: {
     fontSize: 18,
-    textAlign: 'center',
-    color: '#616161'
+    alignSelf: 'center'
   },
   userInput: {
     height: 50,
@@ -281,7 +279,8 @@ var styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#616161',
     borderRadius: 4,
-    color: '#616161'
+    color: '#616161',
+    margin: 10
   },
   picker: {
     bottom: 70,

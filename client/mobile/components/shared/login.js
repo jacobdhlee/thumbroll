@@ -1,10 +1,16 @@
 var React = require('react-native');
 var JoinClassView = require('./../student/joinClassView');
+var ClassStandbyView = require('./../student/classStandbyView');
 var StartClassView = require('./../teacher/startClassView');
+var RequestFeedbackView = require('./../teacher/requestFeedbackView');
+var StudentQCModal = require('./../student/studentQCModal');
+var TeacherQCModal = require('./../teacher/teacherQCModal');
 var Signup = require('./signup');
 var api = require('./../../utils/api');
-// var NavigationBar = require('react-native-navbar');
-// var Keychain = require('react-native-keychain');
+require('./../../utils/userAgent');
+var io =require('socket.io-client/socket.io');
+var env = require('./../../utils/environment');
+var server = env.server + ':' + env.port;
 
 var {
   View,
@@ -13,7 +19,9 @@ var {
   TextInput,
   TouchableHighlight,
   ActivityIndicatorIOS,
-  Navigator
+  Navigator,
+  Switch,
+  Dimensions
 } = React;
 
 class Login extends React.Component {
@@ -23,7 +31,13 @@ class Login extends React.Component {
       username: '',
       password: '',
       isLoading: false,
-      error: false
+      error: false,
+      accountType: 'student',
+      switchState: false,
+      modalVisible: false,
+      teacherModalId: '',
+      teacherModalClassId: '',
+      teacherModalSocket: '',
     };
     // Check keychain for saved credentials
       // if so, move forward to next scene
@@ -42,7 +56,7 @@ class Login extends React.Component {
     });
   }
 
-  handleSubmit(){
+  handleLoginSubmit(){
       this.setState({
         isLoading: true
       });
@@ -84,33 +98,6 @@ class Login extends React.Component {
            isLoading: false
          });
       });
-      
-
-
-
-      // // for time being, hardcoded teacher and student
-      // if(this.state.username === 'teacher') {
-      //   this.props.navigator.push({
-      //     component: StartClassView,
-      //     sceneConfig: {
-      //       ...Navigator.SceneConfigs.FloatFromBottom,
-      //       gestures: {}
-      //     }
-      //   });
-      // } else if(this.state.username === 'student') {
-      //   this.props.navigator.push({
-      //     component: JoinClassView,
-      //     userId: 1,
-      //     sceneConfig: {
-      //       ...Navigator.SceneConfigs.FloatFromBottom,
-      //       gestures: {}
-      //     }
-      //   });
-      // } else {
-      //   this.setState({
-      //     error: 'Invalid Username'
-      //   })
-      // }
       this.setState({
         isLoading: false,
         username: '',
@@ -121,13 +108,88 @@ class Login extends React.Component {
   handleSignupRedirect() {
     this.props.navigator.push({
       component: Signup,
-      sceneConfig: Navigator.SceneConfigs.FloatFromRight
+      sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+      accountType: this.state.accountType
     });
     this.setState({
       isLoading: false,
       error: false,
       username: '',
       password: ''
+    });
+  }
+
+  handleSwitch(value) {
+    var accountType = value ? 'teacher' : 'student';
+    this.setState({
+      switchState: value,
+      accountType: accountType
+    });
+  }
+
+  selectQuickClass() {
+    if(this.state.accountType=='teacher') {
+      var randomId = '' + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10) 
+          + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10);
+      var classCode = 'qc' + randomId;
+
+      this.socket = io(server, {jsonp: false});
+      this.socket.emit('teacherQuickClassConnect' , {classId: classCode});
+      this.setState({
+        teacherModalId: randomId,
+        teacherModalClassId: classCode,
+        teacherModalSocket: this.socket
+      });
+    }
+    this.setState({
+      modalVisible: true
+    });
+  }
+
+  handleStudentModalSubmit(secretCode) {
+    var classCode = 'qc' + secretCode;
+    var userId = null;
+    this.setState({
+      modalVisible: false
+    });
+    //assuming code is valid:
+    this.socket = io(server, {jsonp: false});
+    this.socket.emit('studentQuickClassConnect', {userId: userId, classId: classCode});
+    var classObj = {
+      id: classCode,
+      name: 'Quick Class: ' + classCode 
+    };
+    this.props.navigator.push({
+      component: ClassStandbyView,
+      class: classObj,
+      userId: userId,
+      socket: this.socket,
+      sceneConfig: {
+        ...Navigator.SceneConfigs.FloatFromBottom,
+        gestures: {}
+      }
+    });
+  }
+
+  handleTeacherModalSubmit() {
+    this.setState({
+      modalVisible: false
+    });
+    this.props.navigator.push({
+      component: RequestFeedbackView,
+      classId: this.state.teacherModalClassId,
+      lessonId: 'Quick Class',
+      socket: this.state.teacherModalSocket,
+      sceneConfig: {
+        ...Navigator.SceneConfigs.FloatFromRight,
+        gestures: {}
+      }
+    });
+  }
+
+  handleModalCancel() {
+    this.setState({
+      modalVisible: false
     });
   }
 
@@ -138,6 +200,13 @@ class Login extends React.Component {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <View style={styles.loginContainer}>
+
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerText}>
+              Header Will Go Here
+            </Text>
+          </View>
+
           <Text style={styles.fieldTitle}> Username </Text>
           <TextInput
             autoCapitalize={'none'}
@@ -162,18 +231,30 @@ class Login extends React.Component {
             value={this.state.password}
             returnKeyType={'go'}
             onChange={this.handlePasswordChange.bind(this)} 
-            onSubmitEditing={this.handleSubmit.bind(this)}/>
+            onSubmitEditing={this.handleLoginSubmit.bind(this)}/>
           <TouchableHighlight
-            style={styles.button}
-            onPress={this.handleSubmit.bind(this)}
+            style={styles[this.state.accountType + 'Button']}
+            onPress={this.handleLoginSubmit.bind(this)}
             underlayColor='#e66365'>
-            <Text style={styles.buttonText}> Sign In </Text>
+            <Text style={styles.buttonText}> {this.state.accountType[0].toUpperCase() + this.state.accountType.slice(1)
+            + ' Sign In'} </Text>
+          </TouchableHighlight>
+
+          <Text style={{alignSelf:'center', marginTop: 20}}> -or- </Text>
+
+          <TouchableHighlight
+            style={styles[this.state.accountType + 'Button']}
+            onPress={this.selectQuickClass.bind(this)}
+            underlayColor='#e66365'>
+            <Text style={styles.buttonText}> 
+            {this.state.accountType == 'student' ? 'Join Quick Class' : 'Start Quick Class'} </Text>
           </TouchableHighlight>
 
           <TouchableHighlight
             onPress={this.handleSignupRedirect.bind(this)}
             underlayColor='#ededed'>
-            <Text style={styles.signup}> {"Don't have an account yet? Sign Up!"}  </Text>
+            <Text style={styles.signup}> {"Don't have an account yet? Click here to create a " 
+            + this.state.accountType + " account!"}  </Text>
           </TouchableHighlight>
 
           <ActivityIndicatorIOS
@@ -181,13 +262,40 @@ class Login extends React.Component {
             size='large' 
             style={styles.loading} />
           {showErr}
+
+          <View style={styles.switchContainer}>
+            <Text> Student </Text>
+            <Switch
+              onValueChange={(value) => {this.handleSwitch(value)}}
+              value={this.state.switchState} 
+            />
+            <Text> Teacher </Text>
+          </View>
+
         </View>
+
+        <StudentQCModal visible={this.state.modalVisible && this.state.accountType=='student'} 
+          onEnter={this.handleStudentModalSubmit.bind(this)} onCancel={this.handleModalCancel.bind(this)}
+        />
+        <TeacherQCModal visible={this.state.modalVisible && this.state.accountType=='teacher'} 
+          onEnter={this.handleTeacherModalSubmit.bind(this)}
+          randomId={this.state.teacherModalId}
+        />
+
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    justifyContent: 'center',
+    marginBottom: 30
+  },
+  headerText: {
+    fontSize: 18,
+    alignSelf: 'center'
+  },
   loginContainer: {
     flex: 1,
     padding: 30,
@@ -208,10 +316,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
   },
-  button: {
+  studentButton: {
     height: 45,
     flexDirection: 'row',
     backgroundColor: '#219dff',
+    borderColor: 'transparent',
+    borderWidth: 1,
+    borderRadius: 4,
+    marginBottom: 10,
+    marginTop: 30,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
+  teacherButton: {
+    height: 45,
+    flexDirection: 'row',
+    backgroundColor: 'red',
     borderColor: 'transparent',
     borderWidth: 1,
     borderRadius: 4,
@@ -236,6 +356,10 @@ const styles = StyleSheet.create({
   err: {
     fontSize: 14,
     textAlign: 'center'
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center'
   }
 });
 
