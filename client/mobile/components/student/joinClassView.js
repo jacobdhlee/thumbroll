@@ -4,6 +4,7 @@ require('./../../utils/userAgent');
 var io =require('socket.io-client/socket.io');
 var env = require('./../../utils/environment');
 var server = env.server + ':' + env.port;
+import NavigationBar from 'react-native-navigation-bar';
 
 var {
   View,
@@ -17,18 +18,19 @@ var {
   Navigator,
 } = React;
 
+//textAlign enum('auto', 'left', 'right', 'center', 'justify')
 class NavBar extends React.Component {
   render () {
     return (
-      <View style={{flex: 0.2, justifyContent: 'center'}}>
+      <View style={styles.nav}>
         <TouchableOpacity onPress={this.props.onBack}>
-          <Text>Back</Text>
+          <Text style={styles.textSize}>Back</Text>
         </TouchableOpacity>
          <View>
-          <Text>{this.props.children}</Text>
+          <Text style={styles.textSize}>{this.props.children}</Text>
         </View>
-         <TouchableOpacity >
-          <Text onPress={this.props.onOut}>Logout</Text>
+         <TouchableOpacity onPress={this.props.onOut}>
+          <Text style={styles.textSize}>Logout</Text>
         </TouchableOpacity>
       </View>
     )
@@ -147,9 +149,10 @@ class JoinClassView extends React.Component {
 
   render() {
     return (
-      <View style={{flex: 1, justifyContent: 'center', backgroundColor: '#ededed'}}>
-        <NavBar onBack={this.previousPage.bind(this)} onOut={this.logout.bind(this)}>Enrollled Classes</NavBar>
-          <Text style={styles.textSize}>Enrollled Classes</Text>
+      <View>
+        <View>
+          <NavBar onBack={this.previousPage.bind(this)} onOut={this.logout.bind(this)}>Enrollled Classes</NavBar>
+        </View>
         <View>
           <Button onPress={this.selectQuickClass.bind(this)}>
             <Text style={styles.buttonText}> Join Quick Class </Text>
@@ -192,8 +195,16 @@ class JoinClassView extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  nav: {
+    flex: 0.2,
+    marginTop: 20,
+    height: 40,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '#59CA7C',
+  },
   textHeader: {
-    flex: 1,
+    flex: 0.9,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
