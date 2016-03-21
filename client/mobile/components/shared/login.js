@@ -13,7 +13,8 @@ var {
   TextInput,
   TouchableHighlight,
   ActivityIndicatorIOS,
-  Navigator
+  Navigator,
+  Switch
 } = React;
 
 class Login extends React.Component {
@@ -23,7 +24,9 @@ class Login extends React.Component {
       username: '',
       password: '',
       isLoading: false,
-      error: false
+      error: false,
+      accountType: 'student',
+      switchState: false
     };
     // Check keychain for saved credentials
       // if so, move forward to next scene
@@ -84,33 +87,6 @@ class Login extends React.Component {
            isLoading: false
          });
       });
-      
-
-
-
-      // // for time being, hardcoded teacher and student
-      // if(this.state.username === 'teacher') {
-      //   this.props.navigator.push({
-      //     component: StartClassView,
-      //     sceneConfig: {
-      //       ...Navigator.SceneConfigs.FloatFromBottom,
-      //       gestures: {}
-      //     }
-      //   });
-      // } else if(this.state.username === 'student') {
-      //   this.props.navigator.push({
-      //     component: JoinClassView,
-      //     userId: 1,
-      //     sceneConfig: {
-      //       ...Navigator.SceneConfigs.FloatFromBottom,
-      //       gestures: {}
-      //     }
-      //   });
-      // } else {
-      //   this.setState({
-      //     error: 'Invalid Username'
-      //   })
-      // }
       this.setState({
         isLoading: false,
         username: '',
@@ -129,6 +105,15 @@ class Login extends React.Component {
       username: '',
       password: ''
     });
+  }
+
+  handleSwitch(value) {
+    var accountType = value ? 'teacher' : 'student';
+    this.setState({
+      switchState: value,
+      accountType: accountType
+    });
+    console.log('ACCOUNT TYPE:',this.state.accountType);
   }
 
   render() {
@@ -181,6 +166,14 @@ class Login extends React.Component {
             size='large' 
             style={styles.loading} />
           {showErr}
+          <View style={styles.switchContainer}>
+            <Text> Student </Text>
+            <Switch
+              onValueChange={(value) => {this.handleSwitch(value)}}
+              value={this.state.switchState} 
+            />
+            <Text> Teacher </Text>
+          </View>
         </View>
       </View>
     )
@@ -236,6 +229,9 @@ const styles = StyleSheet.create({
   err: {
     fontSize: 14,
     textAlign: 'center'
+  },
+  switchContainer: {
+    flexDirection: 'row'
   }
 });
 
