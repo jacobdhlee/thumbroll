@@ -17,6 +17,24 @@ var {
   Navigator,
 } = React;
 
+class NavBar extends React.Component {
+  render () {
+    return (
+      <View style={{flex: 0.2, justifyContent: 'center'}}>
+        <TouchableOpacity onPress={this.props.onBack}>
+          <Text>Back</Text>
+        </TouchableOpacity>
+         <View>
+          <Text>{this.props.children}</Text>
+        </View>
+         <TouchableOpacity >
+          <Text onPress={this.props.onOut}>Logout</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+}
+
 class Button extends React.Component {
   
   render () {
@@ -111,28 +129,34 @@ class JoinClassView extends React.Component {
     return classes.map((cls, index) => {
       return (
         <View style={styles.buttonsContainer} key={index}>
-          <Button onPress={this.selectedClass.bind(this, cls)} style={styles.buttonContainer}>
+          <Button onPress={this.selectedClass.bind(this, cls)}>
             <Text>{cls.name}</Text>
           </Button>
         </View>
       )
     })
   }
+
+   previousPage() {
+    this.props.navigator.pop();
+  }
+
+  logout(){
+    this.props.navigator.popToTop();
+  }
+
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: '#ededed'}}>
-
-        <View style={styles.textHeader}>
+      <View style={{flex: 1, justifyContent: 'center', backgroundColor: '#ededed'}}>
+        <NavBar onBack={this.previousPage.bind(this)} onOut={this.logout.bind(this)}>Enrollled Classes</NavBar>
           <Text style={styles.textSize}>Enrollled Classes</Text>
-        </View>
-
-        <View style={styles.buttonsContainer}>
-          <Button onPress={this.selectQuickClass.bind(this)} style={styles.button}>
+        <View>
+          <Button onPress={this.selectQuickClass.bind(this)}>
             <Text style={styles.buttonText}> Join Quick Class </Text>
           </Button>
+          {this.eachClasses(this.state.enrolledClasses)}
         </View>
-
-        {this.eachClasses(this.state.enrolledClasses)}
+        
 
         <Modal visible={this.state.modalVisible} transparent={true} animated={true}>
           <View style={styles.modal}>
