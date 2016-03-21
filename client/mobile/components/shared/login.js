@@ -1,8 +1,13 @@
 var React = require('react-native');
 var JoinClassView = require('./../student/joinClassView');
 var StartClassView = require('./../teacher/startClassView');
+var StudentQCModal = require('./../student/studentQCModal')
 var Signup = require('./signup');
 var api = require('./../../utils/api');
+require('./../../utils/userAgent');
+var io =require('socket.io-client/socket.io');
+var env = require('./../../utils/environment');
+var server = env.server + ':' + env.port;
 // var NavigationBar = require('react-native-navbar');
 // var Keychain = require('react-native-keychain');
 
@@ -14,7 +19,9 @@ var {
   TouchableHighlight,
   ActivityIndicatorIOS,
   Navigator,
-  Switch
+  Switch,
+  Modal,
+  Dimensions
 } = React;
 
 class Login extends React.Component {
@@ -26,7 +33,9 @@ class Login extends React.Component {
       isLoading: false,
       error: false,
       accountType: 'student',
-      switchState: false
+      switchState: false,
+      secretCode: '',
+      modalVisible: false
     };
     // Check keychain for saved credentials
       // if so, move forward to next scene
@@ -115,6 +124,58 @@ class Login extends React.Component {
     });
   }
 
+  selectQuickClass() {
+    this.setState({
+      modalVisible: true
+    })
+  }
+
+  handleStudentModalSubmit(secretCode) {
+    var classCode = 'qc' + secretCode;
+    this.setState({
+      modalVisible: false
+    });
+    //assuming code is valid:
+    this.socket = io(server, {jsonp: false});
+    this.socket.emit('studentQuickClassConnect', {userId: undefined, classId: classCode});
+    var classObj = {
+      id: classCode,
+      name: 'Quick Class: ' + classCode 
+    };
+    this.props.navigator.push({
+      component: ClassStandbyView,
+      class: classObj,
+      userId: undefined,
+      socket: this.socket,
+      sceneConfig: {
+        ...Navigator.SceneConfigs.FloatFromBottom,
+        gestures: {}
+      }
+    });
+  }
+
+  handleTeacherModalSubmit() {
+    this.setState({
+      modalVisible: false
+    });
+    this.props.navigator.push({
+      component: RequestFeedbackView,
+      classId: this.state.classCode,
+      lessonId: 'Quick Class',
+      socket: this.state.socket,
+      sceneConfig: {
+        ...Navigator.SceneConfigs.FloatFromRight,
+        gestures: {}
+      }
+    });
+  }
+
+  handleModalCancel() {
+    this.setState({
+      modalVisible: false
+    });
+  }
+
   render() {
     var showErr = (
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
@@ -166,7 +227,7 @@ class Login extends React.Component {
 
           <TouchableHighlight
             style={styles[this.state.accountType + 'Button']}
-            onPress={this.handleSubmit.bind(this)}
+            onPress={this.selectQuickClass.bind(this)}
             underlayColor='#e66365'>
             <Text style={styles.buttonText}> 
             {this.state.accountType == 'student' ? 'Join Quick Class' : 'Start Quick Class'} </Text>
@@ -195,6 +256,11 @@ class Login extends React.Component {
           </View>
 
         </View>
+
+        <StudentQCModal visible={this.state.modalVisible} onEnter={this.handleStudentModalSubmit.bind(this)} 
+          onCancel={this.handleModalCancel.bind(this)}
+        />
+
       </View>
     )
   }
@@ -273,6 +339,19 @@ const styles = StyleSheet.create({
   switchContainer: {
     flexDirection: 'row',
     justifyContent: 'center'
+  },
+  modal: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.8)',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalBox: {
+    flex: 1,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white'
   }
 });
 
