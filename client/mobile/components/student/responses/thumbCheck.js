@@ -47,7 +47,7 @@ class ThumbCheck extends React.Component {
           </View>
           <View style={styles.bodyContainer}>
             <View style={styles.thumbRollContainer}>
-              <ThumbRoll/>
+              <ThumbRoll onUpdate={(value)=>{this.valueChange(value);}}/>
             </View>
             <View>
               <Text onPress={this.submitResponse.bind(this)}>Submit</Text>
