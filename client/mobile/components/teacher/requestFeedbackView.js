@@ -69,13 +69,9 @@ class RequestFeedbackView extends React.Component {
   renderFeedbackOptions(feedbackOptions) {
     return feedbackOptions.map((feedbackOption, index) => {
       return (      
-        <Button key={index} onPress={this.selectFeebackOption.bind(this, feedbackOption)} style={styles.button} text={feedbackOption.name} />
+        <Button key={index} onPress={this.selectFeebackOption.bind(this, feedbackOption)} text={feedbackOption.name} />
       )
     })
-  }
-
-  previousSection() {
-    this.props.navigator.pop();
   }
 
   render() {
@@ -83,11 +79,9 @@ class RequestFeedbackView extends React.Component {
 
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
-        <View>
-          <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)}>Request Feedback</NavBar>
-        </View>
+        <NavBar navi={this.props.navigator}>Request Feedback</NavBar>
         <View style={styles.viewContainer}>
-          <Button onPress={this.dismissClass.bind(this)} style={styles.dismissButton} text={'Dismiss Class'}/>
+          <Button onPress={this.dismissClass.bind(this)} text={'Dismiss Class'}/>
           {this.renderFeedbackOptions(this.state.feedbackOptions)}
         </View>
       </View>
@@ -96,36 +90,12 @@ class RequestFeedbackView extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  dismissContainer: {
-
-  },
-  dismissButton: {
-
-  },
-  dismissText: {
-
-  },
   viewContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  pageText: {
-    fontSize: 20
-  },
-  buttonsContainer: {
-    padding: 20
-  },
-  buttonContainer: {
-    margin: 20
-  },
-  button: {
-
-  },
-  buttonText: {
-    fontSize: 20
-  }
 });
 
 module.exports = RequestFeedbackView;

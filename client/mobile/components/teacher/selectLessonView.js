@@ -69,9 +69,7 @@ class SelectLessonView extends React.Component {
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
-        <View>
-          <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)}>Your Lessons</NavBar>
-        </View>
+        <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)}>Your Lessons</NavBar>
         <View style={styles.viewContainer}>
           <ScrollView>
             <View style={styles.buttonsContainer}>

@@ -105,22 +105,16 @@ class StartClassView extends React.Component {
     })
   }
 
-  previousSection() {
-    this.props.navigator.pop();
-  }
-
   render() {
     return (
       <View style={{flex: 1}}> 
-        <View>
-          <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)}>Your Classes</NavBar>
-        </View>
-            <ScrollView>
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-              <Button onPress={this.selectQuickClass.bind(this)} text={'Start Quick Class'} />
-              {this.renderClasses(this.state.classes)}
-            </View>
-            </ScrollView>
+        <NavBar navi={this.props.navigator}>Your Classes</NavBar>
+        <ScrollView>
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Button onPress={this.selectQuickClass.bind(this)} text={'Start Quick Class'} />
+            {this.renderClasses(this.state.classes)}
+          </View>
+        </ScrollView>
         <Modal visible={this.state.modalVisible} transparent={true} animated={true}>
           <View style={styles.modal}>
             <View style={{height:this.state.height * 0.6, width:this.state.width * 0.8}}>

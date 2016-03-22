@@ -7,7 +7,6 @@ var Button = require('./../shared/button');
 var env = require('./../../utils/environment');
 
 var server = env.server + ':' + env.port;
-import NavigationBar from 'react-native-navigation-bar';
 
 var {
   View,
@@ -112,16 +111,10 @@ class JoinClassView extends React.Component {
     })
   }
 
-  previousPage() {
-    this.props.navigator.pop();
-  }
-
   render() {
     return (
       <View style={{flex:1}}>
-        <View>
-          <NavBar navi={this.props.navigator} onBack={this.previousPage.bind(this)}>Enrollled Classes</NavBar>
-        </View>
+        <NavBar navi={this.props.navigator}>Enrollled Classes</NavBar>
         <ScrollView>
           <View style={styles.container}>
             <Button onPress={this.selectQuickClass.bind(this)} text={'Join Quick Class'}/>

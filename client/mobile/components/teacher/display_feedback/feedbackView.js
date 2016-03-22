@@ -123,14 +123,12 @@ class FeedbackView extends React.Component {
     //need back/cancle button
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
-      <View>
         <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)}>{this.state.feedbackOption.name}</NavBar>
-      </View>
         <View style={styles.viewContainer}>
-        {this.renderChart.call(this)}
-        <View style={styles.backButtonContainer}>
-          <Button onPress={this.previousSection .bind(this)} style={styles.backButton} text={'Save and Exit'} />
-        </View>
+          {this.renderChart.call(this)}
+          <View style={styles.backButtonContainer}>
+            <Button onPress={this.previousSection .bind(this)} style={styles.backButton} text={'Close poll'} />
+          </View>
         </View>
       </View>
     )

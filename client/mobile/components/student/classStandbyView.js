@@ -68,9 +68,7 @@ class ClassStandbyView extends React.Component {
   render(){
     return(
       <View>
-        <View>
-          <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)}>{this.state.class.name}</NavBar>
-        </View>
+        <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)}>{this.state.class.name}</NavBar>
         <View>
           <Text onPress={this.thumbcheckPage.bind(this)} >ThumbCheck</Text>
         </View>

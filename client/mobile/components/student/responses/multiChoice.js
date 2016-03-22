@@ -37,10 +37,6 @@ class MultiChoice extends React.Component {
     };
   }  
 
-  previousPage() {
-    this.props.navigator.pop();
-  }
-
   submitAnswer(answer) {
     console.log('Student',this.state.userId,'answered',answer,'to poll',this.state.pollInfo.pollId);
     // send socket with answer
@@ -62,9 +58,7 @@ class MultiChoice extends React.Component {
   render() {
     return (
       <View style={{flex:1}}>
-        <View>
-          <NavBar navi={this.props.navigator} onBack={this.previousPage.bind(this)}>MultiChoice</NavBar>
-        </View>
+        <NavBar navi={this.props.navigator}>MultiChoice</NavBar>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           {this.renderButton("A")}
           {this.renderButton("B")}

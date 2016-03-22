@@ -4,12 +4,7 @@ var {
   View,
   Text,
   StyleSheet,
-  TouchableHighlight,
-  Modal,
-  Dimensions,
-  TextInput,
   TouchableOpacity,
-  Navigator,
 } = React;
 
 class Button extends React.Component {
