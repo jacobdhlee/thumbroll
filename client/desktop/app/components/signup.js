@@ -62,11 +62,6 @@ class Signup extends React.Component {
           } else if(response.status === 200) {
               response.json().then(function(body){
                 console.log("body", body);
-                this.setState({
-                 error: false,
-                 isLoading: false
-                });
-
               // pass these to teacher dashboard component:
               // classes: body.teacher.classes,
               // userId: body.teacher.uid
