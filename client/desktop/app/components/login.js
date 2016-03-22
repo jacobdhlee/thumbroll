@@ -33,8 +33,7 @@ class Login extends React.Component {
            });
           console.log(this.state.error);
         } else if (response.status === 200) {
-          response.json().then(function(json){
-            var body = json.body;
+          response.json().then(function(body){
             console.log(body);
             this.setState({
              error: false,

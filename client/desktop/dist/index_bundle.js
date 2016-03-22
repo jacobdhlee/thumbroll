@@ -19770,7 +19770,7 @@
 	          'Thumbroll'
 	        ),
 	        _react2.default.createElement(Nav, null),
-	        _react2.default.createElement(_login2.default, null),
+	        _react2.default.createElement(_signup2.default, null),
 	        _react2.default.createElement(_Classes2.default, { teacherData: this.state.classes }),
 	        _react2.default.createElement(
 	          'div',
@@ -19896,8 +19896,7 @@
 	          });
 	          console.log(_this2.state.error);
 	        } else if (response.status === 200) {
-	          response.json().then(function (json) {
-	            var body = json.body;
+	          response.json().then(function (body) {
 	            console.log(body);
 	            this.setState({
 	              error: false,
@@ -20153,7 +20152,6 @@
 	          isLoading: true,
 	          passwordError: false
 	        });
-	        console.log(this.state);
 	        _api2.default.signup(this.state.firstName, this.state.lastName, this.state.username, this.state.email, this.state.password, this.state.accountType).then(function (response) {
 	          if (response.status === 500) {
 	            _this2.setState({
@@ -20163,26 +20161,32 @@
 	              isLoading: false
 	            });
 	          } else if (response.status === 200) {
-	            //keychain stuff?
-	            var body = JSON.parse(response._bodyText);
-	            // pass these to teacher dashboard component:
-	            // classes: body.teacher.classes,
-	            // userId: body.teacher.uid
+	            response.json().then(function (body) {
+	              console.log("body", body);
+	              this.setState({
+	                error: false,
+	                isLoading: false
+	              });
 
-	            // Redirect to teacher dashboard
+	              // pass these to teacher dashboard component:
+	              // classes: body.teacher.classes,
+	              // userId: body.teacher.uid
+
+	              // Redirect to teacher dashboard
+	            }).catch(function (err) {
+	              _this2.setState({
+	                error: 'User already exists' + err,
+	                isLoading: false
+	              });
+	            });
+	          } else {
+	            _this2.setState({
+	              isLoading: false,
+	              password: '',
+	              confirmedPassword: '',
+	              passwordError: 'passwords do not match'
+	            });
 	          }
-	        }).catch(function (err) {
-	          _this2.setState({
-	            error: 'User already exists' + err,
-	            isLoading: false
-	          });
-	        });
-	      } else {
-	        this.setState({
-	          isLoading: false,
-	          password: '',
-	          confirmedPassword: '',
-	          passwordError: 'passwords do not match'
 	        });
 	      }
 	    }
@@ -20194,19 +20198,19 @@
 	    key: 'render',
 	    value: function render() {
 	      var showErr = this.state.error ? _react2.default.createElement(
-	        Text,
-	        { style: styles.err },
+	        'div',
+	        null,
 	        ' ',
 	        this.state.error,
 	        ' '
-	      ) : _react2.default.createElement(View, null);
+	      ) : _react2.default.createElement('div', null);
 	      var showPasswordErr = this.state.passwordError ? _react2.default.createElement(
-	        Text,
-	        { style: styles.err },
+	        'div',
+	        null,
 	        ' ',
 	        this.state.passwordError,
 	        ' '
-	      ) : _react2.default.createElement(View, null);
+	      ) : _react2.default.createElement('div', null);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -20309,7 +20313,9 @@
 	          'button',
 	          { type: 'button', onClick: this.handleSubmit.bind(this) },
 	          'Submit'
-	        )
+	        ),
+	        showErr,
+	        showPasswordErr
 	      );
 	    }
 	  }]);

@@ -49,7 +49,6 @@ class Signup extends React.Component {
           isLoading: true,
           passwordError: false
         });
-        console.log(this.state);
         api.signup(this.state.firstName, this.state.lastName, this.state.username, 
           this.state.email, this.state.password, this.state.accountType)
         .then((response) => {
@@ -61,15 +60,19 @@ class Signup extends React.Component {
               isLoading: false
             });
           } else if(response.status === 200) {
-            //keychain stuff?
-            var body = JSON.parse(response._bodyText);
+              response.json().then(function(body){
+                console.log("body", body);
+                this.setState({
+                 error: false,
+                 isLoading: false
+                });
+
               // pass these to teacher dashboard component:
               // classes: body.teacher.classes,
               // userId: body.teacher.uid
 
               // Redirect to teacher dashboard
-          }
-        })
+          })
         .catch((err) => {
           this.setState({
             error: 'User already exists' + err,
@@ -84,19 +87,16 @@ class Signup extends React.Component {
           passwordError: 'passwords do not match'
         });
       }
-    }
+    });}
+  }
 
 
 //TODO: Add missing fields
 //TODO: Add selector for student/teacher
 
   render(){
-    var showErr = (
-      this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
-    );
-    var showPasswordErr = (
-      this.state.passwordError ? <Text style={styles.err}> {this.state.passwordError} </Text> : <View></View>
-    );
+    var showErr = this.state.error ? <div> {this.state.error} </div> : <div></div>;
+    var showPasswordErr = this.state.passwordError ? <div> {this.state.passwordError} </div> : <div></div>;
     return (
       <div>
         <h1>Signup</h1>
@@ -157,6 +157,8 @@ class Signup extends React.Component {
         <button type="button" onClick={this.handleSubmit.bind(this)}>
         Submit
         </button>
+        {showErr}
+        {showPasswordErr}
       </div>
     );
   }
