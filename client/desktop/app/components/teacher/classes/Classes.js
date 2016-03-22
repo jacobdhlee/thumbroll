@@ -7,7 +7,6 @@ class Classes extends React.Component {
     super(props);
     
     this.state = {
-      display: this.props.display,
       displayListener: this.props.displayListener,
       classes : this.props.teacherData.map((specificClass) => {
         return (<li style={{cursor: 'default'}} onClickCapture={(event) => {
@@ -22,18 +21,8 @@ class Classes extends React.Component {
     };
   }
 
-  checkDisplaySettings(){
-    if(this.props.display !== this.state.display) {
-      this.setState({
-        display: this.props.display
-      });
-    }
-  }
-
   render(){
-    this.checkDisplaySettings();
-    console.log('state: ', this.state.display, 'props', this.props.display)
-    if(this.state.display === 'home'){
+    if(this.props.display === 'home'){
       return (
         <div>
           <h2>Classes</h2>
@@ -50,15 +39,17 @@ class Classes extends React.Component {
               </div>
             </form>
           </div>
+          <h2>Today's Lessons</h2>
+          <p>There are no lessons today.</p>
         <div>
-          <Lessons display={this.state.display} displayListener={this.state.displayListener.bind(this)} className={this.state.currentClass}/>
+          <Lessons display={this.props.display} displayListener={this.state.displayListener.bind(this)} className={this.state.currentClass}/>
         </div>
       </div>
     );
    } else {
       return (
         <div>
-          <Lessons display={this.state.display} displayListener={this.state.displayListener.bind(this)} className={this.state.currentClass}/>
+          <Lessons display={this.props.display} displayListener={this.state.displayListener.bind(this)} className={this.state.currentClass}/>
         </div>
       )
     }

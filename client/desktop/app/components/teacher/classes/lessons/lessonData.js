@@ -5,14 +5,13 @@ class LessonData extends React.Component {
     super(props);
     
     this.state = {
-      display: this.props.display,
       displayListener: this.props.displayListener,
       // polls
     };
   }
 
   render(){
-    if(this.state.display === 'lessons') {
+    if(this.props.display === 'lessons') {
       console.log('true from lessonsdata.js');
       return (<div>
         <h2>{this.props.className}</h2>
