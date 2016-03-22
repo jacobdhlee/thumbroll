@@ -19863,7 +19863,9 @@
 
 	    _this.state = {
 	      username: '',
-	      password: ''
+	      password: '',
+	      error: false,
+	      isLoading: false
 	    };
 	    return _this;
 	  }
@@ -19892,21 +19894,30 @@
 	            error: 'Username or password is incorrect',
 	            isLoading: false
 	          });
+	          console.log(_this2.state.error);
 	        } else if (response.status === 200) {
-	          var body = JSON.parse(response._bodyText);
-	          // pass these to teacher dashboard component:
-	          // classes: body.teacher.classes,
-	          // userId: body.teacher.uid
+	          response.json().then(function (json) {
+	            var body = json.body;
+	            console.log(body);
+	            this.setState({
+	              error: false,
+	              isLoading: false
+	            });
+	            // pass these to teacher dashboard component:
+	            // classes: body.teacher.classes,
+	            // userId: body.teacher.uid
 
-	          // Redirect to teacher dashboard
-	          // userId: body.teacher.uid
-	          // classes: body.teacher.classes,
+	            // Redirect to teacher dashboard
+	            // userId: body.teacher.uid
+	            // classes: body.teacher.classes,
+	          });
 	        }
 	      }).catch(function (err) {
 	        _this2.setState({
 	          error: 'User not found' + err,
 	          isLoading: false
 	        });
+	        console.log(_this2.state.error);
 	      });
 	      this.setState({
 	        isLoading: false,
@@ -19917,6 +19928,13 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var showErr = this.state.error ? _react2.default.createElement(
+	        'div',
+	        null,
+	        ' ',
+	        this.state.error,
+	        ' '
+	      ) : _react2.default.createElement('div', null);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -19941,7 +19959,8 @@
 	          'button',
 	          { type: 'button', onClick: this.handleSubmit.bind(this) },
 	          'Submit'
-	        )
+	        ),
+	        showErr
 	      );
 	    }
 	  }]);

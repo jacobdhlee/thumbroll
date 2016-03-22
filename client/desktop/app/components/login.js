@@ -6,7 +6,9 @@ class Login extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      error: false,
+      isLoading: false
     };
   }
 
@@ -29,8 +31,15 @@ class Login extends React.Component {
              error: 'Username or password is incorrect',
              isLoading: false
            });
+          console.log(this.state.error);
         } else if (response.status === 200) {
-          var body = JSON.parse(response._bodyText);
+          response.json().then(function(json){
+            var body = json.body;
+            console.log(body);
+            this.setState({
+             error: false,
+             isLoading: false
+           });
             // pass these to teacher dashboard component:
             // classes: body.teacher.classes,
             // userId: body.teacher.uid
@@ -38,13 +47,15 @@ class Login extends React.Component {
             // Redirect to teacher dashboard
             // userId: body.teacher.uid
             // classes: body.teacher.classes,
-          }
+          });
+        }
       })
       .catch((err) => {
         this.setState({
            error: 'User not found' + err,
            isLoading: false
          });
+        console.log(this.state.error)
       });
       this.setState({
         isLoading: false,
@@ -54,6 +65,7 @@ class Login extends React.Component {
   }
 
   render(){
+    var showErr = this.state.error ? <div> {this.state.error} </div> : <div></div>;
     return (
       <div>
         <h1>Login</h1>
@@ -72,6 +84,7 @@ class Login extends React.Component {
         <button type="button" onClick={this.handleSubmit.bind(this)}>
         Submit
         </button>
+        {showErr}
       </div>
     );
   }
