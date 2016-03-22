@@ -7,43 +7,25 @@ var {
   Text,
 } = React;
 
-// class ToggleButton extends React.Component {
-//   constructor(props)
-//   submitAnswer(answer) {
-//     // send socket with answer
-//     this.socket.emit('studentConnect', {
-//       userId: this.state.userId,
-
-//     })
-//       this.props.navigator.pop();
-//     // go to previous page
-//   }
-//   render() {
-//     return (
-//       <TouchableHighlight underlayColor='#FF0000' style={styles.button} onPress={this.submitAnswer.bind(this, this.props.label)}>
-//         <Text>{this.props.label}</Text>
-//       </TouchableHighlight>
-//     )
-//   }
-// }
-
 class MultiChoice extends React.Component {
   constructor (props){
     super(props);
-    this.state = {
-      pollInfo: this.props.route.pollInfo,
-      userId: this.props.route.userId,
-      socket: this.props.route.socket
-    };
+    this.socket = this.props.route.socket;
+    this.userId = this.props.route.userId;
+    this.pollInfo = this.props.route.pollInfo;
+
+    this.socket.on('closePoll', function(data) {
+      this.props.navigator.pop();
+    });
   }  
 
   submitAnswer(answer) {
-    console.log('Student',this.state.userId,'answered',answer,'to poll',this.state.pollInfo.pollId);
+    console.log('Student',this.userId,'answered',answer,'to poll',this.pollInfo.pollId);
     // send socket with answer
-    this.state.socket.emit('studentResponse', {
-      userId: this.state.userId,
+    this.socket.emit('studentResponse', {
+      userId: this.userId,
       answer: answer,
-      pollId: this.state.pollInfo.pollId
+      pollId: this.pollInfo.pollId
     })
     this.props.navigator.pop();
     // go to previous page
