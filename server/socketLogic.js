@@ -48,7 +48,7 @@ module.exports = function(io) {
     });
 
     client.on('teacherClosePoll', function(data) {
-      // var pollId = data.pollId;
+      var pollId = data.pollId;
       // var classId = data.classId;
       var room;
       for(key in client.rooms) {
@@ -56,6 +56,7 @@ module.exports = function(io) {
           room = key;
         }
       }
+      console.log('teacher closing poll', pollId, 'in room', room);
       io.sockets.to(room).emit('closePoll', data);
     });
 
