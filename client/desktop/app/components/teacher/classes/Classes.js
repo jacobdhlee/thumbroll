@@ -22,7 +22,7 @@ class Classes extends React.Component {
   }
 
   render(){
-    if(this.props.display === 'home'){
+    if(this.props.display[0] === 'home'){
       return (
         <div>
           <h2>Classes</h2>
@@ -62,7 +62,10 @@ class Classes extends React.Component {
       var classesCopy = this.state.classes.slice();
       classesCopy.push(<li 
         style={{cursor: 'default'}} 
-        onClickCapture={(event) => this.setState({currentClass: event.target.innerText})} 
+        onClickCapture={(event) => {
+          this.setState({currentClass: event.target.innerText});
+          this.state.displayListener('lessons');
+        }} 
         key={this.state.newClassName}>
         {this.state.newClassName}
       </li>);
