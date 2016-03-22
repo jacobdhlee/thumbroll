@@ -2,7 +2,8 @@ import React from 'react'
 import Login from './login'
 import Signup from './signup'
 import Classes from './teacher/classes/Classes'
-import Lessons from './teacher/classes/lessons/lessonData'
+import Lessons from './teacher/classes/lessons/Lessons'
+import LessonsData from './teacher/classes/lessons/lessonData'
 import Students from './teacher/classes/students/studentData'
 
 class App extends React.Component {
@@ -31,8 +32,10 @@ class App extends React.Component {
 
   render(){
     return (
+
       <div>
         <h1>Thumbroll</h1>
+        <Nav />
         <Classes teacherData={this.state.classes}/>
       </div>
     );
@@ -42,5 +45,37 @@ class App extends React.Component {
     //fetch classes from the DB and update the state to be passed down to Classes
   }
 }
+
+
+//////////////////////////
+// FOR DEBUGGING EVENTS //
+//////////////////////////
+
+// console.shallowCloneLog = function(){
+//   var typeString = Function.prototype.call.bind(Object.prototype.toString)
+//   console.log.apply(console, Array.prototype.map.call(arguments, function(x){
+//     switch (typeString(x).slice(8, -1)) {
+//       case 'Number': case 'String': case 'Undefined': case 'Null': case 'Boolean': return x;
+//       case 'Array': return x.slice();
+//       default: 
+//         var out = Object.create(Object.getPrototypeOf(x));
+//         out.constructor = x.constructor;
+//         for (var key in x) {
+//           out[key] = x[key];
+//         }
+//         Object.defineProperty(out, 'constructor', {value: x.constructor});
+//         return out;
+//     }
+//   }));
+// }
+
+var Nav = () => (
+  <nav className="navbar">
+    <div>
+      <li>Settings</li>
+      <li>Logout</li>      
+    </div>
+  </nav>
+);
 
 module.exports = App;
