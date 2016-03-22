@@ -5,6 +5,7 @@ import Classes from './teacher/classes/Classes'
 import Lessons from './teacher/classes/lessons/Lessons'
 import LessonsData from './teacher/classes/lessons/lessonData'
 import Students from './teacher/classes/students/studentData'
+import Settings from './Settings'
 
 class App extends React.Component {
   constructor(props) {
@@ -48,20 +49,33 @@ class App extends React.Component {
           },
           name: 'AA971'
         },
-      ]
+      ],
+      displayTeacherSettings: false
     };
   }
 
   //events here
+  displaySettings(event){
+    var currentDisplaySetting = this.state.displayTeacherSettings;
+    this.setState({
+      displayTeacherSettings: !currentDisplaySetting
+    });
+  }
 
   render(){
     return (
 
       <div>
-        <h1>Thumbroll</h1>
-        <Nav />
-        <Classes teacherData={this.state.classes}/>
-        <div>
+        <div className='header'>
+          <h1>Thumbroll</h1>
+          <Nav displaySetting={this.state.displayTeacherSettings} listener={this.displaySettings.bind(this)}/>
+        </div>
+
+        <div className='body'>
+          <Classes teacherData={this.state.classes}/>
+        </div>
+
+        <div className='footer'>
           Thumbroll 2016. 
         </div>
       </div>
@@ -96,12 +110,13 @@ class App extends React.Component {
 //   }));
 // }
 
-var Nav = () => (
-  <nav className="navbar">
+var Nav = (props) => {
+  return (<nav className="navbar">
     <div>
-      <li style={{cursor: 'default'}}>Settings</li>
+      <li onClick={props.listener} style={{cursor: 'default'}}>Settings</li>
+      <Settings display={props.displaySetting}/>
     </div>
   </nav>
-);
+)};
 
 module.exports = App;
