@@ -10,22 +10,32 @@ var {
 class MultiChoice extends React.Component {
   constructor (props){
     super(props);
-    this.socket = this.props.route.socket;
-    this.userId = this.props.route.userId;
-    this.pollInfo = this.props.route.pollInfo;
-
-    this.socket.on('closePoll', function(data) {
-      this.props.navigator.pop();
-    });
+    this.state = {
+      socket: this.props.route.socket,
+      userId: this.props.route.userId,
+      pollInfo: this.props.route.pollInfo,
+      pageActive: true
+    }
+    this.state.socket.on('closePoll', function(data) {
+      if(this.state.pageActive) {
+        this.setState({
+          pageActive: false
+        });
+        this.props.navigator.pop();
+      }
+    }.bind(this));
   }  
 
   submitAnswer(answer) {
-    console.log('Student',this.userId,'answered',answer,'to poll',this.pollInfo.pollId);
+    console.log('Student',this.state.userId,'answered',answer,'to poll',this.state.pollInfo.pollId);
     // send socket with answer
-    this.socket.emit('studentResponse', {
-      userId: this.userId,
+    this.setState({
+      pageActive: false
+    });
+    this.state.socket.emit('studentResponse', {
+      userId: this.state.userId,
       answer: answer,
-      pollId: this.pollInfo.pollId
+      pollId: this.state.pollInfo.pollId
     })
     this.props.navigator.pop();
     // go to previous page
