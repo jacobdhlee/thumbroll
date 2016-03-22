@@ -19,6 +19,7 @@ class Classes extends React.Component {
     return (
       <div>
         <h2>Classes</h2>
+        {this.state.classes}
         <div>
           <form onSubmit={this.addClass.bind(this)}>
             <input className='newClassForm' type='text' value={this.state.newClassName} onChange={(event) => {
@@ -31,7 +32,6 @@ class Classes extends React.Component {
             </div>
           </form>
         </div>
-        {this.state.classes}
         <div>
           <Lessons className={this.state.currentClass}/>
         </div>
@@ -42,7 +42,7 @@ class Classes extends React.Component {
   addClass(e){
     e.preventDefault();
     // update state with new list item
-    if(!!this.state.newClassName){
+    if(!!this.state.newClassName.trim()){
       var classesCopy = this.state.classes.slice();
       classesCopy.push(<li 
         style={{cursor: 'default'}} 
