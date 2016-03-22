@@ -11,8 +11,7 @@ class LessonData extends React.Component {
   }
 
   render(){
-    if(this.props.display === 'lessons') {
-      console.log('true from lessonsdata.js');
+    if(this.props.display[0] === 'lessons') {
       return (<div>
         <h2>{this.props.className}</h2>
         <p style={this.props.className === '' ? {display:'none'} : {}}>Polls for {this.props.className}</p>
@@ -26,10 +25,8 @@ class LessonData extends React.Component {
         <AddPoll hide={!this.props.className}/>
       </div>)
     } else {
-      console.log('false from lessonsdata.js');
       return (
         <div>
-
         </div>
       )
     }
