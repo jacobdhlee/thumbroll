@@ -20,8 +20,8 @@ class FeedbackView extends React.Component {
 
     var {height, width} = Dimensions.get('window');
     this.state = {
-      classId: this.props.classId,
-      lessonId: this.props.lessonId,
+      classId: this.props.route.classId,
+      lessonId: this.props.route.lessonId,
       feedbackOption: this.props.route.feedbackOption,
       height: height,
       width: width,
