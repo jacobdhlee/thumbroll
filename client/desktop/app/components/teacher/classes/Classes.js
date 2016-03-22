@@ -8,7 +8,7 @@ class Classes extends React.Component {
     
     this.state = {
       classes : this.props.teacherData.map((specificClass) => {
-        return <li style={{cursor: 'pointer'}} onClickCapture={(event) => this.setState({currentClass: event.target.innerText})} key={specificClass.name}>{specificClass.name}</li>
+        return <li style={{cursor: 'default'}} onClickCapture={(event) => this.setState({currentClass: event.target.innerText})} key={specificClass.name}>{specificClass.name}</li>
       }),
       newClassName : '',
       currentClass: ''
@@ -20,8 +20,16 @@ class Classes extends React.Component {
       <div>
         <h2>Classes</h2>
         <div>
-          <input type='text' onChange={(event) => this.setState({newClassName: event.target.value})} />
-          <button onClick={this.addClass.bind(this)}>Add new class</button>
+          <form onSubmit={this.addClass.bind(this)}>
+            <input className='newClassForm' type='text' value={this.state.newClassName} onChange={(event) => {
+              this.setState({
+                newClassName: event.target.value
+              });
+            }} />
+            <div>
+              <button type='submit'>Add new class</button>
+            </div>
+          </form>
         </div>
         {this.state.classes}
         <div>
@@ -31,19 +39,23 @@ class Classes extends React.Component {
     );
   }
 
-  addClass(){
-    // update state
-    var classesCopy = this.state.classes.slice();
-    classesCopy.push(<li 
-      style={{cursor: 'pointer'}} 
-      onClickCapture={(event) => this.setState({currentClass: event.target.innerText})} 
-      key={this.state.newClassName}>
-      {this.state.newClassName}
-    </li>);
+  addClass(e){
+    e.preventDefault();
+    // update state with new list item
+    if(!!this.state.newClassName){
+      var classesCopy = this.state.classes.slice();
+      classesCopy.push(<li 
+        style={{cursor: 'default'}} 
+        onClickCapture={(event) => this.setState({currentClass: event.target.innerText})} 
+        key={this.state.newClassName}>
+        {this.state.newClassName}
+      </li>);
 
-    this.setState({
-      classes: classesCopy
-    });
+      this.setState({
+        classes: classesCopy,
+        newClassName: ''
+      });
+    }
 
     // post to DB with teacher associated
   }
