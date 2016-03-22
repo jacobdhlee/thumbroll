@@ -10,9 +10,11 @@ class Settings extends React.Component {
   render(){
     if(this.props.display) {
       return (<div>
-        <h2>Your Profile</h2>
-        <h2>Your Classes</h2>
-        <h2>Logout</h2>
+        <ul>
+          <li>Your Profile</li>
+          <li>Your Classes</li>
+          <li>Logout</li>
+        </ul>
       </div>)
     } else{
       return (<div></div>)
