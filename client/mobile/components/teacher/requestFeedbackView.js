@@ -47,9 +47,11 @@ class RequestFeedbackView extends React.Component {
       if(response.status === 500) {
         console.error('Server error', response);
       } else if(response.status === 201) {
+        var pollId = JSON.parse(response._bodyText).pollId;
         this.props.navigator.push({
           component: FeedbackView,
           lessonId: this.state.lessonId,
+          pollId: pollId,
           feedbackOption: feedbackOption,
           socket: this.state.socket,
           sceneConfig: {
