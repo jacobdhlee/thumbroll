@@ -16,11 +16,13 @@ class Button extends React.Component {
   
   render () {
     return (
-      <TouchableOpacity style={styles.buttons} onPress={this.props.onPress}>
-        <Text style={styles.textSize}>
-          {this.props.children}
-        </Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.buttons} onPress={this.props.onPress}>
+          <Text style={styles.textSize}>
+            {this.props.text}
+          </Text>
+        </TouchableOpacity>
+      </View>
     )
   }
 }
@@ -35,10 +37,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 5,
     marginBottom: 5,
+    justifyContent: 'center',
+  },
+  buttonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   textSize: {
-    fontSize: 20,
-    justifyContent: 'center',
+    fontSize: 25,
     alignSelf: 'center',
     color: 'white'
   },

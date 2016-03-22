@@ -9,6 +9,15 @@ var {
 
 
 class NavBar extends React.Component {
+  constructor(props){
+    super(props);
+  }
+
+  logout(){
+    //socker closed
+    // this.state.socket.emit('studentLeavingClass', {userId: this.state.userId, classId:this.state.class.id});
+    this.props.navi.popToTop();
+  }
   render () {
     return (
       <View style={styles.nav}>
@@ -16,9 +25,9 @@ class NavBar extends React.Component {
           <Text style={styles.textSize}>Back</Text>
         </TouchableOpacity>
          <View>
-          <Text style={styles.textSize}>{this.props.children}</Text>
+          <Text style={styles.textSizeOne}>{this.props.children}</Text>
         </View>
-         <TouchableOpacity onPress={this.props.onOut}>
+         <TouchableOpacity onPress={this.logout.bind(this)}>
           <Text style={styles.textSize}>Logout</Text>
         </TouchableOpacity>
       </View>
@@ -35,7 +44,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#59CA7C',
   },
   textSize: {
-    fontSize: 15
+    justifyContent: 'center',
+    fontSize: 16
+  },
+  textSizeOne: {
+    justifyContent: 'center',
+    fontSize: 20
   },
 })
 

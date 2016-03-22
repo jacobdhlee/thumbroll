@@ -60,10 +60,6 @@ class ClassStandbyView extends React.Component {
     })
   }
 
-  logout(){
-    this.props.navigator.popToTop();
-  }
-
   previousSection() {
     this.state.socket.emit('studentLeavingClass', {userId: this.state.userId, classId:this.state.class.id});
     this.props.navigator.pop();
@@ -73,16 +69,16 @@ class ClassStandbyView extends React.Component {
     return(
       <View>
         <View>
-          <NavBar onBack={this.previousSection.bind(this)} onOut={this.logout.bind(this)}>Enrollled Classes</NavBar>
-        </View>
-        <View>
-         <Text style={styles.textSize}>{this.state.class.name}</Text>
+          <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)}>{this.state.class.name}</NavBar>
         </View>
         <View>
           <Text onPress={this.thumbcheckPage.bind(this)} >ThumbCheck</Text>
         </View>
         <View>
           <Text onPress={this.multiPage.bind(this)} >MutipleChoice</Text>
+        </View>
+        <View style={styles.container}>
+          <Text style={styles.textSizeOne}>Waiting for Teacher!</Text>
         </View>
       </View>
     )
@@ -99,6 +95,19 @@ const styles = StyleSheet.create({
 
   textSize: {
     fontSize : 20
+  },
+  container:{
+    flex: 1,
+    width: null,
+    height: null,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  textSizeOne: {
+    fontSize : 35,
+    fontWeight: 'bold',
   }
 })
 module.exports = ClassStandbyView;

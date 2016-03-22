@@ -68,13 +68,13 @@ class JoinClassView extends React.Component {
   }
 
   handleModalSubmit() {
-    var code = this.state.secretCode;
+    var classCode = 'qc' + this.state.secretCode;
     this.setState({
       modalVisible: false
     });
     //assuming code is valid:
     this.socket = io(server, {jsonp: false});
-    this.socket.emit('studentQuickClassConnect', {userId: this.state.userId, classId: code});
+    this.socket.emit('studentQuickClassConnect', {userId: this.state.userId, classId: classCode});
     this.setState({
       secretCode: ''
     });
@@ -104,10 +104,8 @@ class JoinClassView extends React.Component {
   eachClasses(classes){
     return classes.map((cls, index) => {
       return (
-        <View style={styles.buttonsContainer} key={index}>
-          <Button onPress={this.selectedClass.bind(this, cls)}>
-            <Text>{cls.name}</Text>
-          </Button>
+        <View key={index}>
+          <Button onPress={this.selectedClass.bind(this, cls)} text={cls.name} />
         </View>
       )
     })
@@ -117,20 +115,14 @@ class JoinClassView extends React.Component {
     this.props.navigator.pop();
   }
 
-  logout(){
-    this.props.navigator.popToTop();
-  }
-
   render() {
     return (
       <View>
         <View>
-          <NavBar onBack={this.previousPage.bind(this)} onOut={this.logout.bind(this)}>Enrollled Classes</NavBar>
+          <NavBar navi={this.props.navigator} onBack={this.previousPage.bind(this)}>Enrollled Classes</NavBar>
         </View>
-        <View>
-          <Button onPress={this.selectQuickClass.bind(this)}>
-            <Text style={styles.buttonText}> Join Quick Class </Text>
-          </Button>
+        <View style={styles.container}>
+          <Button onPress={this.selectQuickClass.bind(this)} text={'Join Quick Class'}/>
           {this.eachClasses(this.state.enrolledClasses)}
         </View>
         
@@ -169,28 +161,13 @@ class JoinClassView extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  nav: {
-    flex: 0.2,
-    marginTop: 20,
-    height: 40,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: '#59CA7C',
-  },
-  textHeader: {
-    flex: 0.9,
-    justifyContent: 'center',
+  container: {
+    backgroundColor: '#76B251',
+    flex:1,
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  textSize: {
-    fontSize: 20
-  },
-  buttonsContainer: {
-    padding: 20
-  },
-  buttonContainer: {
-    backgroundColor:'#59AF70',
+    flexDirection: 'column',
+    width: null,
+    height: null,
   },
   modal: {
     flex: 1,

@@ -43,10 +43,6 @@ class MultiChoice extends React.Component {
     this.props.navigator.pop();
   }
 
-  logout(){
-    this.props.navigator.popToTop();
-  }
-
   submitAnswer(answer) {
     console.log('Student',this.state.userId,'answered',answer,'to poll',this.state.pollInfo.pollId);
     // send socket with answer
@@ -61,9 +57,7 @@ class MultiChoice extends React.Component {
 
   renderButton(value) {
     return (
-      <Button underlayColor='#FF0000' style={styles.button} onPress={this.submitAnswer.bind(this, value)}>
-        <Text>{value}</Text>
-      </Button>
+      <Button underlayColor='#FF0000' style={styles.button} onPress={this.submitAnswer.bind(this, value)} text={value} />
     )
   }
 
@@ -71,7 +65,7 @@ class MultiChoice extends React.Component {
     return (
       <View style={styles.container}>
         <View>
-          <NavBar onBack={this.previousPage.bind(this)} onOut={this.logout.bind(this)}>MultiChoice</NavBar>
+          <NavBar navi={this.props.navigator} onBack={this.previousPage.bind(this)}>MultiChoice</NavBar>
         </View>
         {this.renderButton("A")}
         {this.renderButton("B")}
