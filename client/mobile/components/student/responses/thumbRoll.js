@@ -5,20 +5,19 @@ var Progress = require('react-native-progress');
 var {
   View,
   Text,
-  StyleSheet,
   PanResponder,
   Dimensions
 } = React;
 
-class ThumbCheck2 extends React.Component {
+class ThumbRoll extends React.Component {
   constructor(props) {
     super(props)
     var {height, width} = Dimensions.get('window');
     this.width = width;
-    this.circleSize = 200;
+    this.circleSize = 300;
+    this.padding = 40;
     this._panResponder = {};
     this.circleCenter = {};
-    // this.circleCenter = {x: this.width/2, y:0};
 
     this.state = {
       value: 0,
@@ -26,7 +25,6 @@ class ThumbCheck2 extends React.Component {
   }
 
   componentWillMount() {
-    console.log('about to mount');
     this._panResponder = PanResponder.create({
       // Ask to be the responder:
       onStartShouldSetPanResponder: (evt, gestureState) => true,
@@ -36,17 +34,55 @@ class ThumbCheck2 extends React.Component {
 
       onPanResponderGrant: (evt, gestureState) => {
         this.refs.circle.measure( (fx, fy, width, height, px, py) => {
-          this.circleCenter.y = py + this.circleSize / 2;
+          this.circleCenter.y = py + this.circleSize / 2 + this.padding;
           this.circleCenter.x = width / 2;
           console.log(this.circleCenter);
-        }); 
+          var xPos = gestureState.x0 - this.circleCenter.x;
+          var yPos = this.circleCenter.y - gestureState.y0;
+          var theta = Math.atan2(xPos, yPos);
+          var percent = theta / (2 * Math.PI);
+          if(xPos < 0) {
+            percent = 1 + percent;
+          }
+          if(this.state.fullLoop) {
+            percent = 1;
+          }
+          this.setState({
+            value: percent
+          });
+        });
+        this.setState({
+          fullLoop: false
+        })
       },
       onPanResponderMove: (evt, gestureState) => {
         // The most recent move distance is gestureState.move{X,Y}
 
         // The accumulated gesture distance since becoming responder is
         // gestureState.d{x,y}
-        console.log('MOVEMENT!:',gestureState.x0, gestureState.y0, gestureState.moveX, gestureState.moveY);
+        var xPos = gestureState.moveX - this.circleCenter.x;
+        var yPos = this.circleCenter.y - gestureState.moveY;
+        var theta = Math.atan2(xPos, yPos);
+        var percent = theta / (2 * Math.PI);
+        if(xPos < 0) {
+          percent = 1 + percent;
+        }
+        if(percent > 0.99) {
+          this.setState({
+            fullLoop: true
+          });
+        }
+        if(percent < 0.99 && percent > 0.2) {
+          this.setState({
+            fullLoop: false
+          });
+        }
+        if(this.state.fullLoop) {
+          percent = 1;
+        }
+        this.setState({
+          value: percent
+        });
       },
       onPanResponderRelease: (evt, gestureState) => {
         // The user has released all touches while this view is the
@@ -70,25 +106,14 @@ class ThumbCheck2 extends React.Component {
   
   render() {
     return (
-      <View style={styles.container}>
-        <View ref='circle' style={{alignItems: 'center', padding:20}}>
-          <Progress.Circle size={this.circleSize} progress={this.state.value / 100} showsText={true}
-            {...this._panResponder.panHandlers}
-          />
-        </View>
+      <View ref='circle' style={{alignItems: 'center', padding:this.padding}} {...this._panResponder.panHandlers}>
+        <Progress.Circle size={this.circleSize} progress={this.state.value} showsText={true} thickness={15}/>
       </View>
     )
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'flex-start',
-    alignItems: 'stretch',
-  }
-});
-
-module.exports = ThumbCheck2;
+module.exports = ThumbRoll;
 
 
 

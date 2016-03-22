@@ -1,5 +1,7 @@
 var React = require('react-native');
 var Slider = require('react-native-slider');
+var ThumbRoll = require('./thumbRoll');
+
 var {
   View,
   Text,
@@ -9,6 +11,7 @@ var {
 
 class ThumbCheck extends React.Component {
   constructor(props) {
+    console.log('YO!');
     super(props)
     this.state = {
       value: 0,
@@ -36,17 +39,10 @@ class ThumbCheck extends React.Component {
     return (
       <View style={styles.mainDiv}>
         <View>
-          <Text>Hi</Text>
+          <Text> Enter Percentage </Text>
         </View>
         <View style={styles.container}>
-          <Slider
-            trackStyle={customStyles.track}
-            thumbStyle={customStyles.thumb}
-            minimumTrackTintColor='#30a935'
-            value={this.state.value}
-            maximumValue={100}
-            onValueChange={this.valueChange.bind(this)} />
-          <Text>Value: {this.state.value}</Text>
+          <ThumbRoll/>
         </View>
         <View>
           <Text onPress={this.submitResponse.bind(this)}>Submit</Text>
@@ -58,8 +54,6 @@ class ThumbCheck extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 20,
-    paddingBottom: 20,
     justifyContent: 'flex-start',
     alignItems: 'stretch',
   },
