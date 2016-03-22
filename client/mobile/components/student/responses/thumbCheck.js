@@ -37,15 +37,19 @@ class ThumbCheck extends React.Component {
   
   render() {
     return (
-      <View style={styles.mainDiv}>
-        <View>
-          <Text> Enter Percentage </Text>
-        </View>
-        <View style={styles.container}>
-          <ThumbRoll/>
-        </View>
-        <View>
-          <Text onPress={this.submitResponse.bind(this)}>Submit</Text>
+      <View style={styles.sceneContainer}>
+        <View style={styles.contentContainer}>
+          <View style={styles.titleContainer}>
+            <Text> Enter Percentage </Text>
+          </View>
+          <View style={styles.bodyContainer}>
+            <View style={styles.thumbRollContainer}>
+              <ThumbRoll/>
+            </View>
+            <View>
+              <Text onPress={this.submitResponse.bind(this)}>Submit</Text>
+            </View>
+          </View>
         </View>
       </View>
     )
@@ -53,23 +57,30 @@ class ThumbCheck extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'flex-start',
+  sceneContainer: {
+    flex: 1,
+    flexDirection: 'column',
     alignItems: 'stretch',
+    backgroundColor: '#6ECFBF',
+    // justifyContent: 'flex-start'
+  },
+  contentContainer: {
+    marginTop: 20,
+    // flex: 1,
+    // alignItems: 'center',
+    // justifyContent: 'center'
   },
   titleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
   },
-  value: {
-    flex: 1,
-    textAlign: 'right',
-    marginLeft: 10,
+  bodyContainer: {
+    // flex: 1,
+    // justifyContent: 'center',
+    alignItems: 'center'
   },
-  mainDiv: {
-    backgroundColor: '#6ECFBF',
-  }
+  thumbRollContainer: {
+    alignItems: 'stretch',
+  },
 })
 
 var customStyles = StyleSheet.create({
