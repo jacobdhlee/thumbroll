@@ -117,7 +117,7 @@ class JoinClassView extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={{flex:1}}>
         <View>
           <NavBar navi={this.props.navigator} onBack={this.previousPage.bind(this)}>Enrollled Classes</NavBar>
         </View>
@@ -153,9 +153,7 @@ class JoinClassView extends React.Component {
             </View>
           </View>
         </Modal>
-
       </View>
-
     )
   }
 }
@@ -165,9 +163,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#76B251',
     flex:1,
     alignItems: 'center',
-    flexDirection: 'column',
-    width: null,
-    height: null,
+    justifyContent: 'center',
   },
   modal: {
     flex: 1,
