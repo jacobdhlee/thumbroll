@@ -21,6 +21,7 @@ class FeedbackView extends React.Component {
     this.feedbackOption = this.props.route.feedbackOption;
     this.classId = this.props.route.classId;
     this.lessonId = this.props.route.lessonId;
+    this.pollId = this.props.route.pollId;
 
     var {height, width} = Dimensions.get('window');
     this.state = {
@@ -97,8 +98,7 @@ class FeedbackView extends React.Component {
   }
 
   previousSection() {
-    // console.log('%%%%%%%',this.feedbackOption);
-    this.socket.emit('closePoll', this.feedbackOption)
+    this.socket.emit('teacherClosePoll', {lessonId: this.lessonId, pollId: this.pollId});
     this.props.navigator.pop();
   }
 

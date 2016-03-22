@@ -44,6 +44,19 @@ module.exports = function(io) {
           console.error('Error saving student', data.userId, 'poll response to DB:', err);
         });
       }
+
+    });
+
+    client.on('teacherClosePoll', function(data) {
+      // var pollId = data.pollId;
+      // var classId = data.classId;
+      var room;
+      for(key in client.rooms) {
+        if(key.substring(0,4) === 'room') {
+          room = key;
+        }
+      }
+      io.sockets.to(room).emit('closePoll', data);
     });
 
     //STUDENT CODE
