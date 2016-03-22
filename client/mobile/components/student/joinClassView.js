@@ -2,7 +2,10 @@ var React = require('react-native');
 var ClassStandbyView = require('./classStandbyView.js');
 require('./../../utils/userAgent');
 var io =require('socket.io-client/socket.io');
+var NavBar = require('./../shared/navbar');
+var Button = require('./../shared/button');
 var env = require('./../../utils/environment');
+
 var server = env.server + ':' + env.port;
 
 var {
@@ -15,7 +18,11 @@ var {
   TextInput,
   TouchableOpacity,
   Navigator,
+  ScrollView,
 } = React;
+
+//textAlign enum('auto', 'left', 'right', 'center', 'justify')
+
 
 class JoinClassView extends React.Component {
   constructor(props){
@@ -97,29 +104,24 @@ class JoinClassView extends React.Component {
   eachClasses(classes){
     return classes.map((cls, index) => {
       return (
-        <View style={styles.buttonsContainer} key={index}>
-          <TouchableOpacity onPress={this.selectedClass.bind(this, cls)}style={styles.buttonContainer}>
-            <Text>{cls.name}</Text>
-          </TouchableOpacity>
+        <View key={index}>
+          <Button onPress={this.selectedClass.bind(this, cls)} text={cls.name} />
         </View>
       )
     })
   }
+
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: '#ededed'}}>
-
-        <View style={styles.textHeader}>
-          <Text style={styles.textSize}>Enrollled Classes</Text>
-        </View>
-
-        <View style={styles.buttonsContainer}>
-          <TouchableOpacity onPress={this.selectQuickClass.bind(this)} style={styles.button}>
-            <Text style={styles.buttonText}> Join Quick Class </Text>
-          </TouchableOpacity>
-        </View>
-
-        {this.eachClasses(this.state.enrolledClasses)}
+      <View style={{flex:1}}>
+        <NavBar navi={this.props.navigator}>Enrollled Classes</NavBar>
+        <ScrollView>
+          <View style={styles.container}>
+            <Button onPress={this.selectQuickClass.bind(this)} text={'Join Quick Class'}/>
+            {this.eachClasses(this.state.enrolledClasses)}
+          </View>
+        </ScrollView>
+        
 
         <Modal visible={this.state.modalVisible} transparent={true} animated={true}>
           <View style={styles.modal}>
@@ -147,34 +149,22 @@ class JoinClassView extends React.Component {
             </View>
           </View>
         </Modal>
-
       </View>
-
     )
   }
 }
 
 const styles = StyleSheet.create({
-  textHeader: {
-    flex: 1,
-    justifyContent: 'center',
+  container: {
+    flex:1,
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  textSize: {
-    fontSize: 20
-  },
-  buttonsContainer: {
-    padding: 20
-  },
-  buttonContainer: {
-    margin: 20
+    justifyContent: 'center',
   },
   modal: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.8)',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   modalBox: {
     flex: 1,

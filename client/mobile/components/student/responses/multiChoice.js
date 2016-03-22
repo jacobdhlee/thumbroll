@@ -1,10 +1,10 @@
 var React = require('react-native');
+var NavBar = require('./../../shared/navbar');
+var Button = require('./../../shared/button');
 
 var {
   View,
   Text,
-  StyleSheet,
-  TouchableHighlight,
 } = React;
 
 // class ToggleButton extends React.Component {
@@ -37,10 +37,6 @@ class MultiChoice extends React.Component {
     };
   }  
 
-  previousPage() {
-    this.props.navigator.pop();
-  }
-
   submitAnswer(answer) {
     console.log('Student',this.state.userId,'answered',answer,'to poll',this.state.pollInfo.pollId);
     // send socket with answer
@@ -55,54 +51,23 @@ class MultiChoice extends React.Component {
 
   renderButton(value) {
     return (
-      <TouchableHighlight underlayColor='#FF0000' style={styles.button} onPress={this.submitAnswer.bind(this, value)}>
-        <Text>{value}</Text>
-      </TouchableHighlight>
+      <Button onPress={this.submitAnswer.bind(this, value)} text={value} />
     )
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.halfHeight1}>
-          <Text onPress={this.previousPage.bind(this)}>back</Text>
+      <View style={{flex:1}}>
+        <NavBar navi={this.props.navigator}>MultiChoice</NavBar>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          {this.renderButton("A")}
+          {this.renderButton("B")}
+          {this.renderButton("C")}
+          {this.renderButton("D")}
         </View>
-        <View style={styles.halfHeight}>
-          <Text>MultiChoice</Text>
-        </View>
-        {this.renderButton("A")}
-        {this.renderButton("B")}
-        {this.renderButton("C")}
-        {this.renderButton("D")}
       </View>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1, 
-    flexDirection: 'column'
-  },
-  halfHeight1: {
-    flex: .1, 
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#E8A30C'
-  },
-  halfHeight: {
-    flex: .1, 
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FF3366',
-  },
-  button:{
-    flex: .2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#70D1C1',
-  },
-})
-
 
 module.exports = MultiChoice;

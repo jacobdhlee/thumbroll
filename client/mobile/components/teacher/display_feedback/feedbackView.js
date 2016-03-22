@@ -1,6 +1,8 @@
 var React = require('react-native');
 var PercentageChart = require('./percentageChart');
 var HistogramChart = require('./histogramChart');
+var NavBar = require('./../../shared/navbar');
+var Button = require('./../../shared/button');
 // var api = require('../Utils/api');
 
 var {
@@ -94,7 +96,7 @@ class FeedbackView extends React.Component {
     });
   }
 
-  exitPage() {
+  previousSection() {
     // emit socket disconnect
     this.props.navigator.pop();
   }
@@ -121,16 +123,12 @@ class FeedbackView extends React.Component {
     //need back/cancle button
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
+        <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)}>{this.state.feedbackOption.name}</NavBar>
         <View style={styles.viewContainer}>
-        <View style={styles.backButtonContainer}>
-          <TouchableOpacity onPress={this.exitPage.bind(this)} style={styles.backButton}>
-            <Text style={styles.backButtonText}> Save and Exit </Text>
-          </TouchableOpacity>
-        </View>
-          <View style={styles.titleContainer}>
-            <Text style={styles.pageText}> {this.state.feedbackOption.name} </Text>
-          </View>
           {this.renderChart.call(this)}
+          <View style={styles.backButtonContainer}>
+            <Button onPress={this.previousSection .bind(this)} style={styles.backButton} text={'Close poll'} />
+          </View>
         </View>
       </View>
     )

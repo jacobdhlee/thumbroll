@@ -1,6 +1,8 @@
 var React = require('react-native');
 var ThumbCheck =  require('./responses/thumbCheck.js');
 var MultiChoice =  require('./responses/multiChoice.js');
+var NavBar = require('./../shared/navbar');
+var Button = require('./../shared/button');
 
 var {
   Text,
@@ -65,18 +67,16 @@ class ClassStandbyView extends React.Component {
 
   render(){
     return(
-      <View style={styles.topStyle}>
-        <View>
-         <Text style={styles.textSize}>{this.state.class.name}</Text>
-        </View>
-        <View>
-         <Text style={styles.textSize} onPress={this.previousSection.bind(this)}>Go Back</Text>
-        </View>
+      <View>
+        <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)}>{this.state.class.name}</NavBar>
         <View>
           <Text onPress={this.thumbcheckPage.bind(this)} >ThumbCheck</Text>
         </View>
         <View>
           <Text onPress={this.multiPage.bind(this)} >MutipleChoice</Text>
+        </View>
+        <View style={styles.container}>
+          <Text style={styles.textSizeOne}>Waiting for Teacher!</Text>
         </View>
       </View>
     )
@@ -93,6 +93,19 @@ const styles = StyleSheet.create({
 
   textSize: {
     fontSize : 20
+  },
+  container:{
+    flex: 1,
+    width: null,
+    height: null,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  textSizeOne: {
+    fontSize : 35,
+    fontWeight: 'bold',
   }
 })
 module.exports = ClassStandbyView;

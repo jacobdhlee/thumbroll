@@ -1,6 +1,8 @@
 var React = require('react-native');
 var FeedbackView = require('./display_feedback/feedbackView');
 var api = require('./../../utils/api');
+var NavBar = require('./../shared/navbar');
+var Button = require('./../shared/button');
 
 var {
   View,
@@ -66,12 +68,8 @@ class RequestFeedbackView extends React.Component {
 
   renderFeedbackOptions(feedbackOptions) {
     return feedbackOptions.map((feedbackOption, index) => {
-      return (
-        <View style={styles.buttonContainer} key={index}>
-          <TouchableOpacity onPress={this.selectFeebackOption.bind(this, feedbackOption)} style={styles.button}>
-            <Text style={styles.buttonText}> {feedbackOption.name} </Text>
-          </TouchableOpacity>
-        </View>
+      return (      
+        <Button key={index} onPress={this.selectFeebackOption.bind(this, feedbackOption)} text={feedbackOption.name} />
       )
     })
   }
@@ -81,18 +79,10 @@ class RequestFeedbackView extends React.Component {
 
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
+        <NavBar navi={this.props.navigator}>Request Feedback</NavBar>
         <View style={styles.viewContainer}>
-        <View style={styles.dismissContainer}>
-          <TouchableOpacity onPress={this.dismissClass.bind(this)} style={styles.dismissButton}>
-            <Text style={styles.dismissText}> Dismiss Class </Text>
-          </TouchableOpacity>
-        </View>
-          <View style={styles.titleContainer}>
-            <Text style={styles.pageText}> Request Feedback: </Text>
-          </View>
-          <View style={styles.buttonsContainer}>
-            {this.renderFeedbackOptions(this.state.feedbackOptions)}
-          </View>
+          <Button onPress={this.dismissClass.bind(this)} text={'Dismiss Class'}/>
+          {this.renderFeedbackOptions(this.state.feedbackOptions)}
         </View>
       </View>
     )
@@ -100,36 +90,12 @@ class RequestFeedbackView extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  dismissContainer: {
-
-  },
-  dismissButton: {
-
-  },
-  dismissText: {
-
-  },
   viewContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  pageText: {
-    fontSize: 20
-  },
-  buttonsContainer: {
-    padding: 20
-  },
-  buttonContainer: {
-    margin: 20
-  },
-  button: {
-
-  },
-  buttonText: {
-    fontSize: 20
-  }
 });
 
 module.exports = RequestFeedbackView;
