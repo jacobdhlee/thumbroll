@@ -50,15 +50,23 @@ class App extends React.Component {
           name: 'AA971'
         },
       ],
-      displayTeacherSettings: false
+      displayTeacherSettings: false,
+      display: 'home'
     };
   }
 
   //events here
-  displaySettings(event){
+  showSettings(event){
     var currentDisplaySetting = this.state.displayTeacherSettings;
     this.setState({
       displayTeacherSettings: !currentDisplaySetting
+    });
+  }
+
+  manipulateDisplays(newDisplay){
+    var currentDisplay = this.state.display;
+    this.setState({
+      display: newDisplay
     });
   }
 
@@ -67,12 +75,12 @@ class App extends React.Component {
 
       <div>
         <div className='header'>
-          <h1>Thumbroll</h1>
-          <Nav displaySetting={this.state.displayTeacherSettings} listener={this.displaySettings.bind(this)}/>
+          <h1 onClick={this.manipulateDisplays.bind(this, 'home')}>Thumbroll</h1>
+          <Nav goHome={this.manipulateDisplays.bind(this, 'home')} displaySetting={this.state.displayTeacherSettings} listener={this.showSettings.bind(this)}/>
         </div>
 
         <div className='body'>
-          <Classes teacherData={this.state.classes}/>
+          <Classes displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} teacherData={this.state.classes}/>
         </div>
 
         <div className='footer'>
@@ -111,12 +119,14 @@ class App extends React.Component {
 // }
 
 var Nav = (props) => {
-  return (<nav className="navbar">
+  return (<div>
+    <nav className="navbar">
     <div>
       <li onClick={props.listener} style={{cursor: 'default'}}>Settings</li>
       <Settings display={props.displaySetting}/>
     </div>
   </nav>
+  </div>
 )};
 
 module.exports = App;
