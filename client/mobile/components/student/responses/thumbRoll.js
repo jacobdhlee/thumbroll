@@ -83,6 +83,7 @@ class ThumbRoll extends React.Component {
         this.setState({
           value: percent
         });
+        this.props.onUpdate(Math.floor(percent * 100));
       },
       onPanResponderRelease: (evt, gestureState) => {
         // The user has released all touches while this view is the
@@ -98,10 +99,6 @@ class ThumbRoll extends React.Component {
         return true;
       },
     });
-  }
-
-  valueChange(value) {
-    this.setState({value: Math.floor(value)})
   }
   
   render() {
