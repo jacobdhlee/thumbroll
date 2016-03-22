@@ -51,7 +51,7 @@ class App extends React.Component {
         },
       ],
       displayTeacherSettings: false,
-      display: 'home'
+      display: ['home']
     };
   }
 
@@ -64,23 +64,32 @@ class App extends React.Component {
   }
 
   manipulateDisplays(newDisplay){
-    var currentDisplay = this.state.display;
+    var currentDisplay = this.state.display.slice();
+    currentDisplay.unshift(newDisplay);
     this.setState({
-      display: newDisplay
+      display: currentDisplay
+    });
+  }
+
+  goBack(){
+    var currentDisplayArray = this.state.display.slice();
+    currentDisplayArray.shift();
+    this.setState({
+      display: currentDisplayArray
     });
   }
 
   render(){
     return (
-
       <div>
         <div className='header'>
           <h1 onClick={this.manipulateDisplays.bind(this, 'home')}>Thumbroll</h1>
           <Nav goHome={this.manipulateDisplays.bind(this, 'home')} displaySetting={this.state.displayTeacherSettings} listener={this.showSettings.bind(this)}/>
         </div>
+        <button style={this.state.display.length > 1 ? {} : {display:'none'}} onClick={this.goBack.bind(this)}>Go back</button>
 
         <div className='body'>
-          <Classes displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} teacherData={this.state.classes}/>
+          <Classes goBack={this.goBack.bind(this)} displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} teacherData={this.state.classes}/>
         </div>
 
         <div className='footer'>
