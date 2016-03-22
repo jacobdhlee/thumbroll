@@ -29,14 +29,14 @@ class Button extends React.Component {
 
 const styles = StyleSheet.create({
   buttons: {
-    height: 45,
-    width: 300,
+    height: 80,
+    width: 365,
     backgroundColor:'#6FC3D1',
     borderColor: '#6FC3D1',
     borderWidth: 2,
     borderRadius: 10,
-    marginTop: 5,
-    marginBottom: 5,
+    marginTop: 20,
+    marginBottom: 20,
     justifyContent: 'center',
   },
   buttonContainer: {
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textSize: {
-    fontSize: 18,
+    fontSize: 30,
     alignSelf: 'center',
     color: 'white'
   },

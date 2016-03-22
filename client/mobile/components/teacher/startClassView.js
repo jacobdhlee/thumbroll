@@ -115,12 +115,12 @@ class StartClassView extends React.Component {
         <View>
           <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)}>Your Classes</NavBar>
         </View>
-          <ScrollView>
+            <ScrollView>
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
               <Button onPress={this.selectQuickClass.bind(this)} text={'Start Quick Class'} />
               {this.renderClasses(this.state.classes)}
             </View>
-          </ScrollView>
+            </ScrollView>
         <Modal visible={this.state.modalVisible} transparent={true} animated={true}>
           <View style={styles.modal}>
             <View style={{height:this.state.height * 0.6, width:this.state.width * 0.8}}>

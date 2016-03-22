@@ -38,18 +38,18 @@ const styles = StyleSheet.create({
   nav: {
     flex: 0.2,
     marginTop: 20,
-    height: 40,
+    height: 50,
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#59CA7C',
   },
   textSize: {
     justifyContent: 'center',
-    fontSize: 16
+    fontSize: 20
   },
   textSizeOne: {
+    fontSize: 25,
     justifyContent: 'center',
-    fontSize: 20
   },
 })
 

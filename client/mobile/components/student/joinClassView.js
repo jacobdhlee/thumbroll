@@ -19,6 +19,7 @@ var {
   TextInput,
   TouchableOpacity,
   Navigator,
+  ScrollView,
 } = React;
 
 //textAlign enum('auto', 'left', 'right', 'center', 'justify')
@@ -121,10 +122,12 @@ class JoinClassView extends React.Component {
         <View>
           <NavBar navi={this.props.navigator} onBack={this.previousPage.bind(this)}>Enrollled Classes</NavBar>
         </View>
-        <View style={styles.container}>
-          <Button onPress={this.selectQuickClass.bind(this)} text={'Join Quick Class'}/>
-          {this.eachClasses(this.state.enrolledClasses)}
-        </View>
+        <ScrollView>
+          <View style={styles.container}>
+            <Button onPress={this.selectQuickClass.bind(this)} text={'Join Quick Class'}/>
+            {this.eachClasses(this.state.enrolledClasses)}
+          </View>
+        </ScrollView>
         
 
         <Modal visible={this.state.modalVisible} transparent={true} animated={true}>
@@ -160,7 +163,6 @@ class JoinClassView extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#76B251',
     flex:1,
     alignItems: 'center',
     justifyContent: 'center',
