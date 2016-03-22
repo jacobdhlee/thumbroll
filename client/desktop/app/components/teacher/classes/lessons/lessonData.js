@@ -6,9 +6,8 @@ class LessonData extends React.Component {
     
     this.state = {
       // state here
-      // lessons data
+  
       // polls
-      newPollSelected: false
     };
   }
 
@@ -23,7 +22,7 @@ class LessonData extends React.Component {
       <li style={this.props.className === '' ? {display:'none'} : {}}>Little Bobby Tables</li>
       <li style={this.props.className === '' ? {display:'none'} : {}}>Suzie CSS</li>
       <li style={this.props.className === '' ? {display:'none'} : {}}>Edison</li>
-      <AddPoll newPollSelected={this.state.newPollSelected}/>
+      <AddPoll />
     </div>
   }
 
@@ -34,7 +33,7 @@ const AddPoll = () => {
   // add to state
 
   // post to DB
-  
+
   return (
     <div>
       <h2>Add new poll</h2>
