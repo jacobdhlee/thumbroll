@@ -19,6 +19,7 @@ class RequestFeedbackView extends React.Component {
       lessonId: this.props.route.lessonId,
       classId: this.props.route.classId,
       socket: this.props.route.socket,
+      modal: false,
       feedbackOptions: [
         {
           id: 1,
@@ -30,9 +31,17 @@ class RequestFeedbackView extends React.Component {
           name: 'Multiple Choice'
         }
       ],
+      numberOfStudentHands: 0,
     };
-
     //populate feedbackOptions with anything custom from lesson
+    this.state.socket.on('raiseHand', function(student){
+      var numberOfStudentHands = this.state.numberOfStudentHands + 1;
+      console.log('userId >>>>>>>>>>>>', student.userId);
+      this.setState({numberOfStudentHands: numberOfStudentHands});
+      this.numberOfRaiseHand(this.state.numberOfStudentHands);
+      console.log('numberOfRaiseHand >>>>>>>>>>>>>>>',this.numberOfRaiseHands)
+    }.bind(this))
+
   }
 
   dismissClass() {
@@ -40,6 +49,11 @@ class RequestFeedbackView extends React.Component {
     this.state.socket.emit('dismiss');
     this.props.navigator.pop();
   }
+
+  selectRaiseHands() {
+
+  }
+
 
   selectFeebackOption(feedbackOption) {
     api.startPoll(feedbackOption, this.state.lessonId, this.state.classId)
@@ -86,6 +100,15 @@ class RequestFeedbackView extends React.Component {
           <Button onPress={this.dismissClass.bind(this)} text={'Dismiss Class'}/>
           {this.renderFeedbackOptions(this.state.feedbackOptions)}
         </View>
+        <View style={{flexDirection: 'column', height:60, width: null}}>
+          <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column', backgroundColor:'yellow', height:60, width: 100, alignSelf:'flex-end'}}>
+            <TouchableOpacity>
+              <Text style={styles.textSize}>
+                {this.state.numberOfStudentHands}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     )
   }
@@ -98,6 +121,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
+  textSize: {
+    fontSize : 25,
+    fontWeight: 'bold',
+  }
 });
 
 module.exports = RequestFeedbackView;

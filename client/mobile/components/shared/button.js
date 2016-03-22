@@ -24,8 +24,8 @@ class Button extends React.Component {
 
 const styles = StyleSheet.create({
   buttons: {
-    height: 80,
-    width: 365,
+    height: 60,
+    width: 340,
     backgroundColor:'#6FC3D1',
     borderColor: '#6FC3D1',
     borderWidth: 2,
