@@ -11,7 +11,6 @@ var {
 
 class ThumbCheck extends React.Component {
   constructor(props) {
-    console.log('YO!');
     super(props)
     this.state = {
       value: 0,
