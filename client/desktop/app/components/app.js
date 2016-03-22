@@ -1,4 +1,3 @@
-<<<<<<< f913e58b1ef9b59bb2d52c3991ba1e876e1da6d0
 import React from 'react'
 import Login from './login'
 import Signup from './signup'
@@ -7,7 +6,6 @@ import Lessons from './teacher/classes/ClassData/ClassData'
 import LessonsData from './teacher/classes/ClassData/LessonData'
 import Students from './teacher/classes/students/StudentData'
 import Settings from './Settings'
-
 
 class App extends React.Component {
   constructor(props) {
@@ -99,6 +97,7 @@ class App extends React.Component {
 
       <div>
         <h1>Thumbroll</h1>
+        <Nav />
         <Classes teacherData={this.state.classes}/>
       </div>
       );
