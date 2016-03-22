@@ -98,7 +98,7 @@ class App extends React.Component {
     return (
 
       <div>
-       <Login />
+       <Signup />
       </div>
       );
     // if user has a session, render components below
