@@ -1,4 +1,5 @@
 import React from 'react';
+import api from '../utils/api';
 
 class Signup extends React.Component {
   constructor(props) {
@@ -11,7 +12,10 @@ class Signup extends React.Component {
       password: '',
       confirmedPassword: '',
       // Desktop app is currently for teachers only
-      accountType: 'teacher'
+      accountType: 'teacher',
+      isLoading: false,
+      error: false,
+      passwordError: false
     };
   }
 
@@ -39,23 +43,60 @@ class Signup extends React.Component {
     this.setState({confirmedPassword: event.target.value});
   }
 
+  handleSubmit() {
+      if (this.state.password === this.state.confirmedPassword) {
+        this.setState({
+          isLoading: true,
+          passwordError: false
+        });
+        console.log(this.state);
+        api.signup(this.state.firstName, this.state.lastName, this.state.username, 
+          this.state.email, this.state.password, this.state.accountType)
+        .then((response) => {
+          if(response.status === 500){
+            this.setState({
+              error: 'User already exists',
+              password: '',
+              confirmedPassword: '',
+              isLoading: false
+            });
+          } else if(response.status === 200) {
+            //keychain stuff?
+            var body = JSON.parse(response._bodyText);
+              // pass these to teacher dashboard component:
+              // classes: body.teacher.classes,
+              // userId: body.teacher.uid
 
-
-  handleSubmit(){
-    // If passwords match, submit
-    if (this.state.password === this.state.confirmedPassword) {
-      // Invoke controller to send POST request with this.state.firstName, this.state.lastName, this.state.username
-      console.log(this.state.firstName, this.state.lastName, this.state.username, this.state.email, this.state.password);
-    } else {
-      // Show error
+              // Redirect to teacher dashboard
+          }
+        })
+        .catch((err) => {
+          this.setState({
+            error: 'User already exists' + err,
+            isLoading: false
+          });
+        });
+      } else {
+        this.setState({
+          isLoading: false,
+          password: '',
+          confirmedPassword: '',
+          passwordError: 'passwords do not match'
+        });
+      }
     }
-  }
 
 
 //TODO: Add missing fields
 //TODO: Add selector for student/teacher
 
   render(){
+    var showErr = (
+      this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
+    );
+    var showPasswordErr = (
+      this.state.passwordError ? <Text style={styles.err}> {this.state.passwordError} </Text> : <View></View>
+    );
     return (
       <div>
         <h1>Signup</h1>

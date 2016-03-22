@@ -19684,23 +19684,23 @@
 
 	var _login2 = _interopRequireDefault(_login);
 
-	var _signup = __webpack_require__(162);
+	var _signup = __webpack_require__(164);
 
 	var _signup2 = _interopRequireDefault(_signup);
 
-	var _Classes = __webpack_require__(163);
+	var _Classes = __webpack_require__(165);
 
 	var _Classes2 = _interopRequireDefault(_Classes);
 
-	var _Lessons = __webpack_require__(164);
+	var _Lessons = __webpack_require__(166);
 
 	var _Lessons2 = _interopRequireDefault(_Lessons);
 
-	var _lessonData = __webpack_require__(165);
+	var _lessonData = __webpack_require__(167);
 
 	var _lessonData2 = _interopRequireDefault(_lessonData);
 
-	var _studentData = __webpack_require__(166);
+	var _studentData = __webpack_require__(168);
 
 	var _studentData2 = _interopRequireDefault(_studentData);
 
@@ -19770,7 +19770,7 @@
 	          'Thumbroll'
 	        ),
 	        _react2.default.createElement(Nav, null),
-	        _react2.default.createElement(_signup2.default, null),
+	        _react2.default.createElement(_login2.default, null),
 	        _react2.default.createElement(_Classes2.default, { teacherData: this.state.classes }),
 	        _react2.default.createElement(
 	          'div',
@@ -19841,6 +19841,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _api = __webpack_require__(162);
+
+	var _api2 = _interopRequireDefault(_api);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -19877,8 +19881,38 @@
 	  }, {
 	    key: 'handleSubmit',
 	    value: function handleSubmit() {
+	      var _this2 = this;
+
 	      // Invoke controller to send POST request
-	      console.log(this.state.username, this.state.password);
+	      console.log(this.state);
+
+	      _api2.default.login(this.state.username, this.state.password).then(function (response) {
+	        if (response.status === 400) {
+	          _this2.setState({
+	            error: 'Username or password is incorrect',
+	            isLoading: false
+	          });
+	        } else if (response.status === 200) {
+	          var body = JSON.parse(response._bodyText);
+	          // pass these to teacher dashboard component:
+	          // classes: body.teacher.classes,
+	          // userId: body.teacher.uid
+
+	          // Redirect to teacher dashboard
+	          // userId: body.teacher.uid
+	          // classes: body.teacher.classes,
+	        }
+	      }).catch(function (err) {
+	        _this2.setState({
+	          error: 'User not found' + err,
+	          isLoading: false
+	        });
+	      });
+	      this.setState({
+	        isLoading: false,
+	        username: '',
+	        password: ''
+	      });
 	    }
 	  }, {
 	    key: 'render',
@@ -19923,11 +19957,110 @@
 
 	'use strict';
 
+	var env = __webpack_require__(163);
+	var server = env.server + ':' + env.port;
+
+	module.exports = {
+	  login: function login(username, password) {
+	    return fetch(server + '/login', {
+	      method: 'POST',
+	      headers: {
+	        'Accept': 'application/json',
+	        'Content-Type': 'application/json'
+	      },
+	      body: JSON.stringify({
+	        username: username,
+	        password: password
+	      })
+	    });
+	  },
+
+	  signup: function signup(firstName, lastName, username, email, password, teacherOrStudent) {
+	    return fetch(server + '/signup', {
+	      method: 'POST',
+	      headers: {
+	        'Accept': 'application/json',
+	        'Content-Type': 'application/json'
+	      },
+	      // add firstName and lastName
+	      body: JSON.stringify({
+	        firstName: firstName,
+	        lastName: lastName,
+	        username: username,
+	        email: email,
+	        password: password,
+	        accountType: teacherOrStudent
+	      })
+	    });
+	  },
+
+	  addLesson: function addLesson(classId) {
+	    return fetch(server + '/teachers/lessons', {
+	      method: 'POST',
+	      headers: {
+	        'Accept': 'application/json',
+	        'Content-Type': 'application/json'
+	      },
+	      body: JSON.stringify({
+	        classId: classId
+	      })
+	    });
+	  },
+
+	  getLessons: function getLessons(classId) {
+	    return fetch(server + '/teachers/lessons/' + classId);
+	  },
+
+	  getLessonData: function getLessonData(lessonId) {
+	    return fetch(server + '/teachers/polls/' + lessonId);
+	  },
+
+	  startPoll: function startPoll(pollObject, lessonId, classId) {
+	    return fetch(server + '/teachers/polls', {
+	      method: 'POST',
+	      headers: {
+	        'Accept': 'application/json',
+	        'Content-Type': 'application/json'
+	      },
+	      body: JSON.stringify({
+	        pollObject: pollObject,
+	        lessonId: lessonId,
+	        classId: classId
+	      })
+	    });
+	  }
+	};
+
+/***/ },
+/* 163 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var environments = {
+	  devLocal: { server: 'http://localhost', port: 3000 },
+	  devDocker: { server: 'http://192.168.99.100', port: 3000 },
+	  devDeployed: { server: 'http://45.55.171.230', port: 3000 },
+	  production: { server: 'http://45.55.134.204', port: 3000 }
+	};
+
+	module.exports = environments.devLocal;
+
+/***/ },
+/* 164 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _api = __webpack_require__(162);
+
+	var _api2 = _interopRequireDefault(_api);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19953,7 +20086,10 @@
 	      password: '',
 	      confirmedPassword: '',
 	      // Desktop app is currently for teachers only
-	      accountType: 'teacher'
+	      accountType: 'teacher',
+	      isLoading: false,
+	      error: false,
+	      passwordError: false
 	    };
 	    return _this;
 	  }
@@ -19991,12 +20127,44 @@
 	  }, {
 	    key: 'handleSubmit',
 	    value: function handleSubmit() {
-	      // If passwords match, submit
+	      var _this2 = this;
+
 	      if (this.state.password === this.state.confirmedPassword) {
-	        // Invoke controller to send POST request with this.state.firstName, this.state.lastName, this.state.username
-	        console.log(this.state.firstName, this.state.lastName, this.state.username, this.state.email, this.state.password);
+	        this.setState({
+	          isLoading: true,
+	          passwordError: false
+	        });
+	        console.log(this.state);
+	        _api2.default.signup(this.state.firstName, this.state.lastName, this.state.username, this.state.email, this.state.password, this.state.accountType).then(function (response) {
+	          if (response.status === 500) {
+	            _this2.setState({
+	              error: 'User already exists',
+	              password: '',
+	              confirmedPassword: '',
+	              isLoading: false
+	            });
+	          } else if (response.status === 200) {
+	            //keychain stuff?
+	            var body = JSON.parse(response._bodyText);
+	            // pass these to teacher dashboard component:
+	            // classes: body.teacher.classes,
+	            // userId: body.teacher.uid
+
+	            // Redirect to teacher dashboard
+	          }
+	        }).catch(function (err) {
+	          _this2.setState({
+	            error: 'User already exists' + err,
+	            isLoading: false
+	          });
+	        });
 	      } else {
-	        // Show error
+	        this.setState({
+	          isLoading: false,
+	          password: '',
+	          confirmedPassword: '',
+	          passwordError: 'passwords do not match'
+	        });
 	      }
 	    }
 
@@ -20006,6 +20174,20 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var showErr = this.state.error ? _react2.default.createElement(
+	        Text,
+	        { style: styles.err },
+	        ' ',
+	        this.state.error,
+	        ' '
+	      ) : _react2.default.createElement(View, null);
+	      var showPasswordErr = this.state.passwordError ? _react2.default.createElement(
+	        Text,
+	        { style: styles.err },
+	        ' ',
+	        this.state.passwordError,
+	        ' '
+	      ) : _react2.default.createElement(View, null);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -20119,7 +20301,7 @@
 	module.exports = Signup;
 
 /***/ },
-/* 163 */
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20130,7 +20312,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Lessons = __webpack_require__(164);
+	var _Lessons = __webpack_require__(166);
 
 	var _Lessons2 = _interopRequireDefault(_Lessons);
 
@@ -20248,7 +20430,7 @@
 	module.exports = Classes;
 
 /***/ },
-/* 164 */
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20259,7 +20441,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _lessonData = __webpack_require__(165);
+	var _lessonData = __webpack_require__(167);
 
 	var _lessonData2 = _interopRequireDefault(_lessonData);
 
@@ -20316,7 +20498,7 @@
 	module.exports = Lessons;
 
 /***/ },
-/* 165 */
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20436,7 +20618,7 @@
 	module.exports = LessonData;
 
 /***/ },
-/* 166 */
+/* 168 */
 /***/ function(module, exports) {
 
 	"use strict";
