@@ -17,16 +17,15 @@ var {
 class FeedbackView extends React.Component {
   constructor(props) {
     super(props);
-    this.socket = this.props.route.socket;
-    this.feedbackOption = this.props.route.feedbackOption;
-    this.classId = this.props.route.classId;
-    this.lessonId = this.props.route.lessonId;
-    this.pollId = this.props.route.pollId;
 
     var {height, width} = Dimensions.get('window');
     this.state = {
+      classId: this.props.classId,
+      lessonId: this.props.lessonId,
+      feedbackOption: this.props.route.feedbackOption,
       height: height,
       width: width,
+      socket: this.props.route.socket,
       studentThumbsData: {
         data: [],
         average: 0,
@@ -39,7 +38,7 @@ class FeedbackView extends React.Component {
       }
     };
 
-    this.socket.on('studentResponseForTeacher', (studentData) => {
+    this.state.socket.on('studentResponseForTeacher', (studentData) => {
       
       // MultiChoice case
       if(typeof studentData.answer === 'string') {
@@ -98,19 +97,19 @@ class FeedbackView extends React.Component {
   }
 
   previousSection() {
-    this.socket.emit('teacherClosePoll', {lessonId: this.lessonId, pollId: this.pollId});
+    this.state.socket.emit('teacherClosePoll', {lessonId: this.state.lessonId, pollId: this.state.pollId});
     this.props.navigator.pop();
   }
 
   renderChart() {
-    if(this.feedbackOption.id === 1) {
+    if(this.state.feedbackOption.id === 1) {
       return (
         <View style={{ width: this.state.width, height: this.state.height * 0.7}}>
           <Text style={styles.responseStatContainer}>Average Response: {this.state.studentThumbsData.average}</Text>
           {React.createElement(PercentageChart, this.state.studentThumbsData)}
         </View>
       )
-    } else if(this.feedbackOption.id === 2) {
+    } else if(this.state.feedbackOption.id === 2) {
       return (
         <View style={{ width: this.state.width, height: this.state.height * 0.7}}>
           <Text style={styles.responseStatContainer}>Number of responses: {this.state.studentMultiChoiceData.data.length}</Text>
@@ -123,11 +122,11 @@ class FeedbackView extends React.Component {
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
-        <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)}>{this.feedbackOption.name}</NavBar>
+        <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)}>{this.state.feedbackOption.name}</NavBar>
         <View style={styles.viewContainer}>
           {this.renderChart.call(this)}
           <View style={styles.backButtonContainer}>
-            <Button onPress={this.previousSection .bind(this)} style={styles.backButton} text={'Close poll'} />
+            <Button onPress={this.previousSection.bind(this)} style={styles.backButton} text={'Close poll'} />
           </View>
         </View>
       </View>
