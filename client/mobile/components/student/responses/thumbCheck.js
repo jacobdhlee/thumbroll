@@ -11,13 +11,22 @@ var {
 
 class ThumbCheck extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       value: 0,
       pollInfo: this.props.route.pollInfo,
       socket: this.props.route.socket,
       userId: this.props.route.userId,
+      pageActive: true
     }
+    this.state.socket.on('closePoll', function(data) {
+      if(this.state.pageActive) {
+        this.setState({
+          pageActive: false
+        });
+        this.props.navigator.pop();
+      }
+    }.bind(this));
   }
 
   submitResponse() {
@@ -31,6 +40,9 @@ class ThumbCheck extends React.Component {
   }
 
   previousPage() {
+    this.setState({
+      pageActive: false
+    });
     this.props.navigator.pop();
   }
 

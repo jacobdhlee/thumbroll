@@ -7,39 +7,31 @@ var {
   Text,
 } = React;
 
-// class ToggleButton extends React.Component {
-//   constructor(props)
-//   submitAnswer(answer) {
-//     // send socket with answer
-//     this.socket.emit('studentConnect', {
-//       userId: this.state.userId,
-
-//     })
-//       this.props.navigator.pop();
-//     // go to previous page
-//   }
-//   render() {
-//     return (
-//       <TouchableHighlight underlayColor='#FF0000' style={styles.button} onPress={this.submitAnswer.bind(this, this.props.label)}>
-//         <Text>{this.props.label}</Text>
-//       </TouchableHighlight>
-//     )
-//   }
-// }
-
 class MultiChoice extends React.Component {
   constructor (props){
     super(props);
     this.state = {
-      pollInfo: this.props.route.pollInfo,
+      socket: this.props.route.socket,
       userId: this.props.route.userId,
-      socket: this.props.route.socket
-    };
+      pollInfo: this.props.route.pollInfo,
+      pageActive: true
+    }
+    this.state.socket.on('closePoll', function(data) {
+      if(this.state.pageActive) {
+        this.setState({
+          pageActive: false
+        });
+        this.props.navigator.pop();
+      }
+    }.bind(this));
   }  
 
   submitAnswer(answer) {
     console.log('Student',this.state.userId,'answered',answer,'to poll',this.state.pollInfo.pollId);
     // send socket with answer
+    this.setState({
+      pageActive: false
+    });
     this.state.socket.emit('studentResponse', {
       userId: this.state.userId,
       answer: answer,

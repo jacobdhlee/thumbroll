@@ -97,7 +97,7 @@ class FeedbackView extends React.Component {
   }
 
   previousSection() {
-    // emit socket disconnect
+    this.state.socket.emit('teacherClosePoll', {lessonId: this.state.lessonId, pollId: this.state.pollId});
     this.props.navigator.pop();
   }
 
@@ -120,14 +120,13 @@ class FeedbackView extends React.Component {
   }
 
   render() {
-    //need back/cancle button
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)}>{this.state.feedbackOption.name}</NavBar>
         <View style={styles.viewContainer}>
           {this.renderChart.call(this)}
           <View style={styles.backButtonContainer}>
-            <Button onPress={this.previousSection .bind(this)} style={styles.backButton} text={'Close poll'} />
+            <Button onPress={this.previousSection.bind(this)} style={styles.backButton} text={'Close poll'} />
           </View>
         </View>
       </View>
@@ -136,15 +135,6 @@ class FeedbackView extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  backButtonContainer: {
-
-  },
-  backButton: {
-
-  },
-  backButtonText: {
-
-  },
   responseStatContainer: {
     justifyContent: 'center',
     alignItems: 'center',

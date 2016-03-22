@@ -71,7 +71,7 @@ module.exports = {
         pollId: 'Quick Poll'
       };
       io.sockets.to('room' + classId).emit('newPoll', pollInformation);
-      res.status(201).send('Quick poll sent... ' + pollInformation);
+      res.status(201).send(pollInformation);
     } 
 
     //TODO: query if preset. otherwise:
@@ -96,7 +96,7 @@ module.exports = {
           pollId: data.dataValues.id
         }
         io.sockets.to('room' + classId).emit('newPoll', pollInformation);
-        res.status(201).send('Poll sent... ' + pollInformation);
+        res.status(201).send(pollInformation);
       })
       .catch(function(err) {
         console.error('Error saving poll to DB:', err);
