@@ -24,6 +24,30 @@ class App extends React.Component {
           },
           name: 'CS101'
         },
+        {
+          id: {
+            type: 1,
+          },
+          name: 'HIST301'
+        },
+        {
+          id: {
+            type: 1,
+          },
+          name: 'CS440'
+        },
+        {
+          id: {
+            type: 1,
+          },
+          name: 'ENGR501'
+        },
+        {
+          id: {
+            type: 1,
+          },
+          name: 'AA971'
+        },
       ]
     };
   }
@@ -37,6 +61,9 @@ class App extends React.Component {
         <h1>Thumbroll</h1>
         <Nav />
         <Classes teacherData={this.state.classes}/>
+        <div>
+          Thumbroll 2016. 
+        </div>
       </div>
     );
   }
@@ -72,8 +99,7 @@ class App extends React.Component {
 var Nav = () => (
   <nav className="navbar">
     <div>
-      <li>Settings</li>
-      <li>Logout</li>      
+      <li style={{cursor: 'default'}}>Settings</li>
     </div>
   </nav>
 );
