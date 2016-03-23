@@ -1,6 +1,7 @@
 var models = require('../models');
 var sequelize = require('../db/sequelize-connection');
 var bcrypt = require('bcrypt');
+var session = require('express-session');
 
 // TODO: Remove globalTeacherCode
 var globalTeacherCode = 123;
