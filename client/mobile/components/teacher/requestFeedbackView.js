@@ -44,7 +44,7 @@ class RequestFeedbackView extends React.Component {
     //populate feedbackOptions with anything custom from lesson
     this.state.socket.on('studentRaisedHand', function(student){
       var numberOfStudentHands = this.state.numberOfStudentHands + 1;
-      var raisedHandList = this.state.raisedHandList;
+      var raisedHandList = this.state.raisedHandList.slice();
       console.log('userId >>>>>>>>>>>>', student.userId);
       this.setState({
         numberOfStudentHands: numberOfStudentHands,
