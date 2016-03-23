@@ -29,6 +29,10 @@ module.exports = function(io) {
       io.sockets.to(room).emit('closePoll', data);
     });
 
+    client.on('callOnStudent', function(data) {
+      io.sockets.to(room).emit('teacherCalledOnStudent', data);
+    });
+
     client.on('teacherLeavingClass', function(data) {
       // var classId = data.classId;
       console.log('teacher leaving class', data.classId);
@@ -41,7 +45,7 @@ module.exports = function(io) {
     //STUDENT CODE
     client.on('studentConnect', function(data) {
       // FRONTEND-LISTENER: client.on('newStudentConnected', (studentInfo) => {display(studentCount++ and studentInfo);});
-      var userId = data.userId;
+      var userId = data.user.uid;
       room = 'room' + data.classId;
       client.join(room);
       data.userCount = io.sockets.adapter.rooms[room].length;
@@ -66,23 +70,23 @@ module.exports = function(io) {
       if(data.pollId !== 'Quick Poll') {
         models.poll_responses.create({
           response_val: data.answer,
-          student_id: data.userId,
+          student_id: data.user.uid,
           poll_id: data.pollId
         })
         .catch(function(err) {
-          console.error('Error saving student', data.userId, 'poll response to DB:', err);
+          console.error('Error saving student', data.user.uid, 'poll response to DB:', err);
         });
       }
 
     });
 
     client.on('raiseHand', function(data) {
-      console.log('Student', data.userId, 'raised hand');
+      console.log('Student', data.user.uid, 'raised hand');
       io.sockets.to(room).emit('studentRaisedHand', data);
     });
 
     client.on('studentLeavingClass', function(data) {
-      var userId = data.userId;
+      var userId = data.user.uid;
       // var classId = data.classId;
       client.leave(room);
       data.userCount = io.sockets.adapter.rooms[room].length;
