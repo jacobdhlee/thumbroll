@@ -8,12 +8,15 @@ class Settings extends React.Component {
   }
 
   render(){
-    if(this.props.display) {
+    var that = this;
+    if(that.props.display) {
       return (<div>
         <ul>
           <li>Your Profile</li>
           <li>Your Classes</li>
-          <li>Logout</li>
+          <li onClick={()=>{
+            that.props.displayListener('auth');
+          }} style={{cursor: 'default'}}>Logout</li>
         </ul>
       </div>)
     } else{
