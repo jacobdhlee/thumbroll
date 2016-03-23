@@ -100,9 +100,13 @@ class RequestFeedbackView extends React.Component {
     var index = Math.floor(Math.random() * keys.length);
     var randomKey = keys[index];
     var student = studentsObj[randomKey];
-    console.log('Calling on:', studentsObj[randomKey]);
+    console.log('Calling on:', student);
     this.state.socket.emit('callOnStudent', student);
-    Alert.alert('Called on', student.firstName + ' ' + student.lastName);
+    if(student.firstName) {
+      Alert.alert('Called on', student.firstName + ' ' + student.lastName);
+    } else {
+      Alert.alert('Called on student', student.uid);
+    }
   }
 
   selectFeebackOption(feedbackOption) {

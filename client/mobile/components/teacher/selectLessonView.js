@@ -26,7 +26,6 @@ class SelectLessonView extends React.Component {
   }
 
   selectLesson(lessonId) {
-    console.log('activeStudents', this.props.route.getActiveStudents());
     this.props.navigator.push({
       component: RequestFeedbackView,
       classId: this.state.classId,

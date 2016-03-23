@@ -208,7 +208,7 @@ class Login extends React.Component {
     this.props.navigator.push({
       component: RequestFeedbackView,
       classId: this.state.teacherModalClassId,
-      activeStudents: this.state.activeStudents,
+      getActiveStudents: this.getActiveStudents.bind(this),
       lessonId: 'Quick Class',
       socket: this.state.teacherModalSocket,
       sceneConfig: {
@@ -222,6 +222,10 @@ class Login extends React.Component {
     this.setState({
       modalVisible: false
     });
+  }
+
+  getActiveStudents() {
+    return this.state.activeStudents;
   }
 
   render() {

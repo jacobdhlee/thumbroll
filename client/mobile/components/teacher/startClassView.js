@@ -82,7 +82,7 @@ class StartClassView extends React.Component {
       component: RequestFeedbackView,
       classId: this.state.classCode,
       lessonId: 'Quick Class',
-      activeStudents: this.state.activeStudents,
+      getActiveStudents: this.getActiveStudents.bind(this),
       socket: this.state.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromRight,
