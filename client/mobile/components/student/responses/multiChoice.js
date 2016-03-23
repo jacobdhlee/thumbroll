@@ -37,6 +37,10 @@ class MultiChoice extends React.Component {
     this.props.navigator.pop();
   }
 
+  beforeLogout() {
+    this.state.socket.emit('studentLoggingOut', {user:this.state.user});
+  }
+
   renderButton(value) {
     return (
       <Button onPress={this.submitAnswer.bind(this, value)} text={value} />
@@ -46,7 +50,7 @@ class MultiChoice extends React.Component {
   render() {
     return (
       <View style={{flex:1}}>
-        <NavBar navi={this.props.navigator} socket={this.state.socket} onBack={this.onBack.bind(this)}>
+        <NavBar navi={this.props.navigator} beforeLogout={this.beforeLogout.bind(this)} onBack={this.onBack.bind(this)}>
           MultiChoice
         </NavBar>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>

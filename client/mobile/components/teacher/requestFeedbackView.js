@@ -54,6 +54,12 @@ class RequestFeedbackView extends React.Component {
 
   }
 
+  clickRaisedHand() {
+    this.setState({
+      modal: !this.state.modal,
+    })
+  }
+
   dismissClass() {
     // emit socket dismissClass
     this.state.socket.emit('dismiss');
@@ -64,10 +70,8 @@ class RequestFeedbackView extends React.Component {
     this.props.navigator.pop();
   }
 
-  clickRaisedHand() {
-    this.setState({
-      modal: !this.state.modal,
-    })
+  beforeLogout() {
+    this.state.socket.emit('teacherLoggingOut');
   }
 
   listStudent(list) {
@@ -125,7 +129,8 @@ class RequestFeedbackView extends React.Component {
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
-        <NavBar navi={this.props.navigator} socket={this.state.socket} onBack={this.dismissClass.bind(this)}>
+        <NavBar navi={this.props.navigator} beforeLogout={this.beforeLogout.bind(this)} 
+          onBack={this.dismissClass.bind(this)}>
           Request Feedback
         </NavBar>
         <View style={styles.viewContainer}>

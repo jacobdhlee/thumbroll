@@ -96,6 +96,10 @@ class FeedbackView extends React.Component {
     this.props.navigator.pop();
   }
 
+  beforeLogout() {
+    this.state.socket.emit('teacherLoggingOut');
+  }
+
   renderChart() {
     if(this.state.feedbackOption.id === 1) {
       return (
@@ -119,8 +123,7 @@ class FeedbackView extends React.Component {
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <NavBar navi={this.props.navigator} 
           onBack={this.previousSection.bind(this)}
-          socket={this.state.socket}
-        >
+          beforeLogout={this.beforeLogout.bind(this)}>
           {this.state.feedbackOption.name}
         </NavBar>
         <View style={styles.viewContainer}>

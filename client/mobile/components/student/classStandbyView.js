@@ -74,10 +74,15 @@ class ClassStandbyView extends React.Component {
     this.props.navigator.pop();
   }
 
+  beforeLogout() {
+    this.state.socket.emit('studentLoggingOut', {user:this.state.user});
+  }
+
   render(){
     return(
       <View style={{flex:1}}>
-        <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)} socket={this.state.socket}>
+        <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)} 
+          beforeLogout={this.beforeLogout.bind(this)}>
           {this.state.class.name}
         </NavBar>
         <View>
