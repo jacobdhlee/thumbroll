@@ -23,10 +23,6 @@ class MultiChoice extends React.Component {
 
   submitAnswer(answer) {
     console.log('Student',this.state.userId,'answered',answer,'to poll',this.state.pollInfo.pollId);
-    // send socket with answer
-    this.setState({
-      pageActive: false
-    });
     this.state.socket.emit('studentResponse', {
       userId: this.state.userId,
       answer: answer,
@@ -34,7 +30,11 @@ class MultiChoice extends React.Component {
     })
     this.state.socket.removeListener('closePoll');
     this.props.navigator.pop();
-    // go to previous page
+  }
+
+  onBack() {
+    this.state.socket.removeListener('closePoll');
+    this.props.navigator.pop();
   }
 
   renderButton(value) {
@@ -46,7 +46,7 @@ class MultiChoice extends React.Component {
   render() {
     return (
       <View style={{flex:1}}>
-        <NavBar navi={this.props.navigator} socket={this.state.socket}>
+        <NavBar navi={this.props.navigator} socket={this.state.socket} onBack={this.onBack.bind(this)}>
           MultiChoice
         </NavBar>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
