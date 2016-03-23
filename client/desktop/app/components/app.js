@@ -12,6 +12,18 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      students: [
+        {
+          id: {
+            type: 1,
+          },
+          firstname: 'Little Bobby',
+          lastname: 'Tables',
+          email: 'bobby@droptables.com',
+          username: 'DROP*',
+          password: 'tables'
+        }
+      ],
       classes: [
         {
           id: {
