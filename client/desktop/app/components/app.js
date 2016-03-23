@@ -24,50 +24,22 @@ class App extends React.Component {
           password: 'tables'
         }
       ],
-      classes: [
-        {
-          id: {
-            type: 1,
-          },
-          name: 'CS201'
-        },
-        {
-          id: {
-            type: 1,
-          },
-          name: 'CS101'
-        },
-        {
-          id: {
-            type: 1,
-          },
-          name: 'HIST301'
-        },
-        {
-          id: {
-            type: 1,
-          },
-          name: 'CS440'
-        },
-        {
-          id: {
-            type: 1,
-          },
-          name: 'ENGR501'
-        },
-        {
-          id: {
-            type: 1,
-          },
-          name: 'AA971'
-        },
-      ],
+      classes: [],
       displayTeacherSettings: false,
-      display: ['home']
+      display: ['auth']
     };
   }
 
   //events here
+
+  loadTeacherData(teacherObject){
+    this.setState({
+      classes: teacherObject.classes
+    });
+  }
+
+
+
   showSettings(event){
     var currentDisplaySetting = this.state.displayTeacherSettings;
     this.setState({
@@ -76,11 +48,22 @@ class App extends React.Component {
   }
 
   manipulateDisplays(newDisplay){
-    var currentDisplay = this.state.display.slice();
-    currentDisplay.unshift(newDisplay);
-    this.setState({
-      display: currentDisplay
-    });
+    if(newDisplay === 'auth') {
+      this.setState({
+        display: ['auth'],
+        displayTeacherSettings: false
+      });
+      //fire request to destroy
+    } else {
+      var currentDisplay = this.state.display.slice();
+
+      if(currentDisplay[0] !== newDisplay){
+        currentDisplay.unshift(newDisplay);
+      }
+      this.setState({
+        display: currentDisplay
+      });
+    }
   }
 
   goBack(){
@@ -94,14 +77,18 @@ class App extends React.Component {
   render(){
     return (
       <div>
+        
         <div className='header'>
-          <h1 onClick={this.manipulateDisplays.bind(this, 'home')}>Thumbroll</h1>
-          <Nav goHome={this.manipulateDisplays.bind(this, 'home')} displaySetting={this.state.displayTeacherSettings} listener={this.showSettings.bind(this)}/>
+          <h1 onClick={this.state.display[0] !== 'auth' ? this.manipulateDisplays.bind(this, 'home') : ()=>{}}>Thumbroll</h1>
+          <Nav displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} showSettings={this.state.displayTeacherSettings} listener={this.showSettings.bind(this)}/>
         </div>
-        <button style={this.state.display.length > 1 ? {} : {display:'none'}} onClick={this.goBack.bind(this)}>Go back</button>
+
+        <Login loadTeacherData={this.loadTeacherData.bind(this)} displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} />
+
+        <button style={this.state.display[0] !== 'home' && this.state.display[0] !== 'auth' ? {} : {display:'none'}} onClick={this.goBack.bind(this)}>Go back</button>
 
         <div className='body'>
-          <Classes goBack={this.goBack.bind(this)} displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} studentData={this.state.students} classData={this.state.classes}/>
+          <Classes displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} studentData={this.state.students} classData={this.state.classes}/>
         </div>
 
         <div className='footer'>
@@ -111,9 +98,10 @@ class App extends React.Component {
     );
   }
 
-  componentWillMount(){
+  componentDidMount(){
     //fetch classes from the DB and update the state to be passed down to Classes
   }
+
 }
 
 
@@ -140,14 +128,18 @@ class App extends React.Component {
 // }
 
 var Nav = (props) => {
-  return (<div>
-    <nav className="navbar">
-    <div>
-      <li onClick={props.listener} style={{cursor: 'default'}}>Settings</li>
-      <Settings display={props.displaySetting}/>
-    </div>
-  </nav>
-  </div>
-)};
+  if(props.display[0] !== 'auth'){ 
+    return (<div>
+      <nav className="navbar">
+      <div>
+        <li onClick={props.listener} style={{cursor: 'default'}}>Settings</li>
+        <Settings displayListener={props.displayListener} display={props.showSettings}/>
+      </div>
+    </nav>
+    </div> )
+  } else {
+    return (<div></div>)
+  }
+};
 
 module.exports = App;

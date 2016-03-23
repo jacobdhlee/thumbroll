@@ -1,6 +1,8 @@
 var models = require('../models');
 var sequelize = require('../db/sequelize-connection');
 var bcrypt = require('bcrypt');
+var session = require('express-session');
+var utils = require('../utils/utils');
 
 // TODO: Remove globalTeacherCode
 var globalTeacherCode = 123;
@@ -29,6 +31,9 @@ module.exports = {
               // if user is a student, compare stored password with provided password
               bcrypt.compare(password, matchedUser.dataValues.password, function(err, match) {
                 if (match) {
+                  // generate a session on the response object
+                  utils.createSession(req, res, username);
+
                   // Find all classes student is enrolled in (via student_classes table)
                   // Attach them to response object
                   models.students_classes.findAll({
@@ -58,6 +63,9 @@ module.exports = {
           // if user is a teacher, compare stored password with provided password
           bcrypt.compare(password, matchedUser.dataValues.password, function(err, match) {
             if (match) {
+              // generate a session on the response object
+              utils.createSession(req, res, username);
+
               // pull teacher's classes from db and attach them to response object
               models.classes.findAll({
                 where: {'teacher_id': matchedUser.dataValues.id}
@@ -130,6 +138,9 @@ module.exports = {
                         classes: []
                       }
                     };
+                    // generate a session on the response object
+                    utils.createSession(req, res, username);
+
                     // SUCCESS: Account created -> client redirects to '/teacher'
                     res.status(200).send(teacherObj);
                   });
@@ -175,6 +186,9 @@ module.exports = {
                         classes: []
                       }
                     };
+                    // generate a session on the response object
+                    utils.createSession(req, res, username);
+
                     // SUCCESS -> client redirects to '/student'
                     res.status(200).send(studentObj);
                   });                  

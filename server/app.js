@@ -4,11 +4,21 @@ var io = require('socket.io').listen(server);
 var models = require("./models");
 var socketLogic = require("./socketLogic");
 var bodyParser = require("body-parser");
+var session = require('express-session');
 
 var PORT = process.env.PORT || 3000;
-
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(session({
+  secret: "Bueller",
+  resave: false,
+  saveUninitialized: true
+}));
 
 models.sequelize.sync({force: true}).then(function () {
   require('./config/routes.js')(app, io);
