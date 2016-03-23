@@ -19704,6 +19704,10 @@
 
 	var _studentData2 = _interopRequireDefault(_studentData);
 
+	var _Settings = __webpack_require__(169);
+
+	var _Settings2 = _interopRequireDefault(_Settings);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -19751,30 +19755,71 @@
 	          type: 1
 	        },
 	        name: 'AA971'
-	      }]
+	      }],
+	      displayTeacherSettings: false,
+	      display: ['home']
 	    };
 	    return _this;
 	  }
 
 	  //events here
 
+
 	  _createClass(App, [{
+	    key: 'showSettings',
+	    value: function showSettings(event) {
+	      var currentDisplaySetting = this.state.displayTeacherSettings;
+	      this.setState({
+	        displayTeacherSettings: !currentDisplaySetting
+	      });
+	    }
+	  }, {
+	    key: 'manipulateDisplays',
+	    value: function manipulateDisplays(newDisplay) {
+	      var currentDisplay = this.state.display.slice();
+	      currentDisplay.unshift(newDisplay);
+	      this.setState({
+	        display: currentDisplay
+	      });
+	    }
+	  }, {
+	    key: 'goBack',
+	    value: function goBack() {
+	      var currentDisplayArray = this.state.display.slice();
+	      currentDisplayArray.shift();
+	      this.setState({
+	        display: currentDisplayArray
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'Thumbroll'
+	          'div',
+	          { className: 'header' },
+	          _react2.default.createElement(
+	            'h1',
+	            { onClick: this.manipulateDisplays.bind(this, 'home') },
+	            'Thumbroll'
+	          ),
+	          _react2.default.createElement(Nav, { goHome: this.manipulateDisplays.bind(this, 'home'), displaySetting: this.state.displayTeacherSettings, listener: this.showSettings.bind(this) })
 	        ),
-	        _react2.default.createElement(Nav, null),
-	        _react2.default.createElement(_signup2.default, null),
-	        _react2.default.createElement(_Classes2.default, { teacherData: this.state.classes }),
+	        _react2.default.createElement(
+	          'button',
+	          { style: this.state.display.length > 1 ? {} : { display: 'none' }, onClick: this.goBack.bind(this) },
+	          'Go back'
+	        ),
 	        _react2.default.createElement(
 	          'div',
-	          null,
+	          { className: 'body' },
+	          _react2.default.createElement(_Classes2.default, { goBack: this.goBack.bind(this), displayListener: this.manipulateDisplays.bind(this), display: this.state.display, teacherData: this.state.classes })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'footer' },
 	          'Thumbroll 2016.'
 	        )
 	      );
@@ -19811,17 +19856,22 @@
 	//   }));
 	// }
 
-	var Nav = function Nav() {
+	var Nav = function Nav(props) {
 	  return _react2.default.createElement(
-	    'nav',
-	    { className: 'navbar' },
+	    'div',
+	    null,
 	    _react2.default.createElement(
-	      'div',
-	      null,
+	      'nav',
+	      { className: 'navbar' },
 	      _react2.default.createElement(
-	        'li',
-	        { style: { cursor: 'default' } },
-	        'Settings'
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'li',
+	          { onClick: props.listener, style: { cursor: 'default' } },
+	          'Settings'
+	        ),
+	        _react2.default.createElement(_Settings2.default, { display: props.displaySetting })
 	      )
 	    )
 	  );
@@ -20354,11 +20404,15 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Classes).call(this, props));
 
 	    _this.state = {
+	      displayListener: _this.props.displayListener,
 	      classes: _this.props.teacherData.map(function (specificClass) {
 	        return _react2.default.createElement(
 	          'li',
 	          { style: { cursor: 'default' }, onClickCapture: function onClickCapture(event) {
-	              return _this.setState({ currentClass: event.target.innerText });
+	              _this.setState({
+	                currentClass: event.target.innerText
+	              });
+	              _this.state.displayListener('lessons');
 	            }, key: specificClass.name },
 	          specificClass.name
 	        );
@@ -20374,43 +20428,61 @@
 	    value: function render() {
 	      var _this2 = this;
 
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'h2',
-	          null,
-	          'Classes'
-	        ),
-	        _react2.default.createElement(
+	      if (this.props.display[0] === 'home') {
+	        return _react2.default.createElement(
 	          'div',
 	          null,
 	          _react2.default.createElement(
-	            'form',
-	            { onSubmit: this.addClass.bind(this) },
-	            _react2.default.createElement('input', { className: 'newClassForm', type: 'text', value: this.state.newClassName, onChange: function onChange(event) {
-	                _this2.setState({
-	                  newClassName: event.target.value
-	                });
-	              } }),
+	            'h2',
+	            null,
+	            'Classes'
+	          ),
+	          this.state.classes,
+	          _react2.default.createElement(
+	            'div',
+	            null,
 	            _react2.default.createElement(
-	              'div',
-	              null,
+	              'form',
+	              { onSubmit: this.addClass.bind(this) },
+	              _react2.default.createElement('input', { className: 'newClassForm', type: 'text', value: this.state.newClassName, onChange: function onChange(event) {
+	                  _this2.setState({
+	                    newClassName: event.target.value
+	                  });
+	                } }),
 	              _react2.default.createElement(
-	                'button',
-	                { type: 'submit' },
-	                'Add new class'
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                  'button',
+	                  { type: 'submit' },
+	                  'Add new class'
+	                )
 	              )
 	            )
+	          ),
+	          _react2.default.createElement(
+	            'h2',
+	            null,
+	            'Today\'s Lessons'
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'There are no lessons today.'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(_Lessons2.default, { display: this.props.display, displayListener: this.state.displayListener.bind(this), className: this.state.currentClass })
 	          )
-	        ),
-	        this.state.classes,
-	        _react2.default.createElement(
+	        );
+	      } else {
+	        return _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement(_Lessons2.default, { className: this.state.currentClass })
-	        )
-	      );
+	          _react2.default.createElement(_Lessons2.default, { display: this.props.display, displayListener: this.state.displayListener.bind(this), className: this.state.currentClass })
+	        );
+	      }
 	    }
 	  }, {
 	    key: 'addClass',
@@ -20419,14 +20491,15 @@
 
 	      e.preventDefault();
 	      // update state with new list item
-	      if (!!this.state.newClassName) {
+	      if (!!this.state.newClassName.trim()) {
 	        var classesCopy = this.state.classes.slice();
 	        classesCopy.push(_react2.default.createElement(
 	          'li',
 	          {
 	            style: { cursor: 'default' },
 	            onClickCapture: function onClickCapture(event) {
-	              return _this3.setState({ currentClass: event.target.innerText });
+	              _this3.setState({ currentClass: event.target.innerText });
+	              _this3.state.displayListener('lessons');
 	            },
 	            key: this.state.newClassName },
 	          this.state.newClassName
@@ -20483,6 +20556,7 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Lessons).call(this, props));
 
 	    _this.state = {
+	      displayListener: _this.props.displayListener,
 	      className: _this.props.className
 	    };
 	    return _this;
@@ -20495,21 +20569,15 @@
 	    // students?
 
 	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'h2',
+	      if (this.props.display[0] === 'lessons') {
+	        return _react2.default.createElement(
+	          'div',
 	          null,
-	          'Today\'s Lessons'
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'There are no lessons today.'
-	        ),
-	        _react2.default.createElement(_lessonData2.default, { className: this.props.className })
-	      );
+	          _react2.default.createElement(_lessonData2.default, { display: this.props.display, displayListener: this.state.displayListener.bind(this), className: this.props.className })
+	        );
+	      } else {
+	        return _react2.default.createElement('div', null);
+	      }
 	    }
 	  }]);
 
@@ -20547,70 +20615,73 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LessonData).call(this, props));
 
 	    _this.state = {
-	      // state here
-
-	      // polls
+	      displayListener: _this.props.displayListener
 	    };
 	    return _this;
 	  }
 
 	  _createClass(LessonData, [{
 	    key: 'render',
+	    // polls
 	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'h2',
+	      if (this.props.display[0] === 'lessons') {
+	        return _react2.default.createElement(
+	          'div',
 	          null,
-	          this.props.className
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          { style: this.props.className === '' ? { display: 'none' } : {} },
-	          'Polls for ',
-	          this.props.className
-	        ),
-	        _react2.default.createElement(
-	          'li',
-	          { style: this.props.className === '' ? { display: 'none' } : {} },
-	          'January 1, 1970'
-	        ),
-	        _react2.default.createElement(
-	          'li',
-	          { style: this.props.className === '' ? { display: 'none' } : {} },
-	          'March 31, 2034'
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          { style: this.props.className === '' ? { display: 'none' } : {} },
-	          'Students in ',
-	          this.props.className
-	        ),
-	        _react2.default.createElement(
-	          'li',
-	          { style: this.props.className === '' ? { display: 'none' } : {} },
-	          'Little Bobby Tables'
-	        ),
-	        _react2.default.createElement(
-	          'li',
-	          { style: this.props.className === '' ? { display: 'none' } : {} },
-	          'Suzie CSS'
-	        ),
-	        _react2.default.createElement(
-	          'li',
-	          { style: this.props.className === '' ? { display: 'none' } : {} },
-	          'Edison'
-	        ),
-	        _react2.default.createElement(AddPoll, null)
-	      );
+	          _react2.default.createElement(
+	            'h2',
+	            null,
+	            this.props.className
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            { style: this.props.className === '' ? { display: 'none' } : {} },
+	            'Polls for ',
+	            this.props.className
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            { style: this.props.className === '' ? { display: 'none' } : {} },
+	            'January 1, 1970'
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            { style: this.props.className === '' ? { display: 'none' } : {} },
+	            'March 31, 2034'
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            { style: this.props.className === '' ? { display: 'none' } : {} },
+	            'Students in ',
+	            this.props.className
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            { style: this.props.className === '' ? { display: 'none' } : {} },
+	            'Little Bobby Tables'
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            { style: this.props.className === '' ? { display: 'none' } : {} },
+	            'Suzie CSS'
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            { style: this.props.className === '' ? { display: 'none' } : {} },
+	            'Edison'
+	          ),
+	          _react2.default.createElement(AddPoll, { hide: !this.props.className })
+	        );
+	      } else {
+	        return _react2.default.createElement('div', null);
+	      }
 	    }
 	  }]);
 
 	  return LessonData;
 	}(_react2.default.Component);
 
-	var AddPoll = function AddPoll() {
+	var AddPoll = function AddPoll(hide) {
 	  // add to state
 
 	  // post to DB
@@ -20620,17 +20691,17 @@
 	    null,
 	    _react2.default.createElement(
 	      'h2',
-	      null,
+	      { style: hide === true ? { display: 'none' } : {} },
 	      'Add new poll'
 	    ),
 	    _react2.default.createElement(
 	      'button',
-	      null,
+	      { style: hide === true ? { display: 'none' } : {} },
 	      'Thumbs Check'
 	    ),
 	    _react2.default.createElement(
 	      'button',
-	      null,
+	      { style: hide === true ? { display: 'none' } : {} },
 	      'Multiple Choice'
 	    )
 	  );
@@ -20643,6 +20714,76 @@
 /***/ function(module, exports) {
 
 	"use strict";
+
+/***/ },
+/* 169 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Settings = function (_React$Component) {
+	  _inherits(Settings, _React$Component);
+
+	  function Settings(props) {
+	    _classCallCheck(this, Settings);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Settings).call(this, props));
+
+	    _this.state = {};
+	    return _this;
+	  }
+
+	  _createClass(Settings, [{
+	    key: 'render',
+	    value: function render() {
+	      if (this.props.display) {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'ul',
+	            null,
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              'Your Profile'
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              'Your Classes'
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              'Logout'
+	            )
+	          )
+	        );
+	      } else {
+	        return _react2.default.createElement('div', null);
+	      }
+	    }
+	  }]);
+
+	  return Settings;
+	}(_react2.default.Component);
+
+	module.exports = Settings;
 
 /***/ }
 /******/ ]);
