@@ -19692,19 +19692,19 @@
 
 	var _Classes2 = _interopRequireDefault(_Classes);
 
-	var _Lessons = __webpack_require__(166);
+	var _ClassData = __webpack_require__(166);
 
-	var _Lessons2 = _interopRequireDefault(_Lessons);
+	var _ClassData2 = _interopRequireDefault(_ClassData);
 
-	var _lessonData = __webpack_require__(167);
+	var _LessonData = __webpack_require__(167);
 
-	var _lessonData2 = _interopRequireDefault(_lessonData);
+	var _LessonData2 = _interopRequireDefault(_LessonData);
 
-	var _studentData = __webpack_require__(168);
+	var _StudentData = __webpack_require__(169);
 
-	var _studentData2 = _interopRequireDefault(_studentData);
+	var _StudentData2 = _interopRequireDefault(_StudentData);
 
-	var _Settings = __webpack_require__(169);
+	var _Settings = __webpack_require__(170);
 
 	var _Settings2 = _interopRequireDefault(_Settings);
 
@@ -19725,6 +19725,16 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this, props));
 
 	    _this.state = {
+	      students: [{
+	        id: {
+	          type: 1
+	        },
+	        firstname: 'Little Bobby',
+	        lastname: 'Tables',
+	        email: 'bobby@droptables.com',
+	        username: 'DROP*',
+	        password: 'tables'
+	      }],
 	      classes: [{
 	        id: {
 	          type: 1
@@ -19794,35 +19804,32 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'header' },
-	          _react2.default.createElement(
-	            'h1',
-	            { onClick: this.manipulateDisplays.bind(this, 'home') },
-	            'Thumbroll'
-	          ),
-	          _react2.default.createElement(Nav, { goHome: this.manipulateDisplays.bind(this, 'home'), displaySetting: this.state.displayTeacherSettings, listener: this.showSettings.bind(this) })
-	        ),
-	        _react2.default.createElement(
-	          'button',
-	          { style: this.state.display.length > 1 ? {} : { display: 'none' }, onClick: this.goBack.bind(this) },
-	          'Go back'
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'body' },
-	          _react2.default.createElement(_Classes2.default, { goBack: this.goBack.bind(this), displayListener: this.manipulateDisplays.bind(this), display: this.state.display, teacherData: this.state.classes })
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'footer' },
-	          'Thumbroll 2016.'
-	        )
+	        _react2.default.createElement(_login2.default, null)
 	      );
+	      // if user has a session, render components below
+	      // return (
+	      //   <div>
+	      //     <div className='header'>
+	      //       <h1 onClick={this.manipulateDisplays.bind(this, 'home')}>Thumbroll</h1>
+	      //       <Nav goHome={this.manipulateDisplays.bind(this, 'home')} displaySetting={this.state.displayTeacherSettings} listener={this.showSettings.bind(this)}/>
+	      //     </div>
+	      //     <button style={this.state.display.length > 1 ? {} : {display:'none'}} onClick={this.goBack.bind(this)}>Go back</button>
+
+	      //     <div className='body'>
+	      //       <Classes goBack={this.goBack.bind(this)} displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} studentData={this.state.students} classData={this.state.classes}/>
+	      //     </div>
+
+	      //     <div className='footer'>
+	      //       Thumbroll 2016.
+	      //     </div>
+	      //   </div>
+	      // );
+
+	      // else, return login
 	    }
 	  }, {
 	    key: 'componentWillMount',
@@ -20383,9 +20390,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Lessons = __webpack_require__(166);
+	var _ClassData = __webpack_require__(166);
 
-	var _Lessons2 = _interopRequireDefault(_Lessons);
+	var _ClassData2 = _interopRequireDefault(_ClassData);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20405,20 +20412,36 @@
 
 	    _this.state = {
 	      displayListener: _this.props.displayListener,
-	      classes: _this.props.teacherData.map(function (specificClass) {
+
+	      classes: _this.props.classData.map(function (specificClass) {
 	        return _react2.default.createElement(
 	          'li',
 	          { style: { cursor: 'default' }, onClickCapture: function onClickCapture(event) {
 	              _this.setState({
 	                currentClass: event.target.innerText
 	              });
-	              _this.state.displayListener('lessons');
+	              _this.state.displayListener('class');
 	            }, key: specificClass.name },
 	          specificClass.name
 	        );
 	      }),
+
+	      students: _this.props.studentData.map(function (specificStudent) {
+	        return _react2.default.createElement(
+	          'li',
+	          { style: { cursor: 'default' }, onClickCapture: function onClickCapture(event) {
+	              _this.setState({
+	                currentStudent: event.target.innerText
+	              });
+	              _this.state.displayListener('student');
+	            }, key: specificStudent.firstname },
+	          specificStudent.firstname
+	        );
+	      }),
+
 	      newClassName: '',
-	      currentClass: ''
+	      currentClass: '',
+	      currentStudent: ''
 	    };
 	    return _this;
 	  }
@@ -20473,14 +20496,14 @@
 	          _react2.default.createElement(
 	            'div',
 	            null,
-	            _react2.default.createElement(_Lessons2.default, { display: this.props.display, displayListener: this.state.displayListener.bind(this), className: this.state.currentClass })
+	            _react2.default.createElement(_ClassData2.default, { students: this.state.students, display: this.props.display, displayListener: this.state.displayListener.bind(this), className: this.state.currentClass })
 	          )
 	        );
 	      } else {
 	        return _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement(_Lessons2.default, { display: this.props.display, displayListener: this.state.displayListener.bind(this), className: this.state.currentClass })
+	          _react2.default.createElement(_ClassData2.default, { students: this.state.students, display: this.props.display, displayListener: this.state.displayListener.bind(this), className: this.state.currentClass })
 	        );
 	      }
 	    }
@@ -20535,9 +20558,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _lessonData = __webpack_require__(167);
+	var _LessonData = __webpack_require__(167);
 
-	var _lessonData2 = _interopRequireDefault(_lessonData);
+	var _LessonData2 = _interopRequireDefault(_LessonData);
+
+	var _StudentData = __webpack_require__(168);
+
+	var _StudentData2 = _interopRequireDefault(_StudentData);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20547,13 +20574,13 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Lessons = function (_React$Component) {
-	  _inherits(Lessons, _React$Component);
+	var ClassData = function (_React$Component) {
+	  _inherits(ClassData, _React$Component);
 
-	  function Lessons(props) {
-	    _classCallCheck(this, Lessons);
+	  function ClassData(props) {
+	    _classCallCheck(this, ClassData);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Lessons).call(this, props));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ClassData).call(this, props));
 
 	    _this.state = {
 	      displayListener: _this.props.displayListener,
@@ -20562,18 +20589,20 @@
 	    return _this;
 	  }
 
-	  _createClass(Lessons, [{
+	  _createClass(ClassData, [{
 	    key: 'render',
 	    //state here
 	    // polls?
 	    // students?
 
 	    value: function render() {
-	      if (this.props.display[0] === 'lessons') {
+	      if (this.props.display[0] === 'class') {
 	        return _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement(_lessonData2.default, { display: this.props.display, displayListener: this.state.displayListener.bind(this), className: this.props.className })
+	          _react2.default.createElement(_LessonData2.default, { display: this.props.display, displayListener: this.state.displayListener.bind(this), className: this.props.className }),
+	          _react2.default.createElement(_StudentData2.default, { display: this.props.display, displayListener: this.state.displayListener.bind(this), className: this.props.className }),
+	          this.props.students
 	        );
 	      } else {
 	        return _react2.default.createElement('div', null);
@@ -20581,10 +20610,10 @@
 	    }
 	  }]);
 
-	  return Lessons;
+	  return ClassData;
 	}(_react2.default.Component);
 
-	module.exports = Lessons;
+	module.exports = ClassData;
 
 /***/ },
 /* 167 */
@@ -20624,7 +20653,7 @@
 	    key: 'render',
 	    // polls
 	    value: function render() {
-	      if (this.props.display[0] === 'lessons') {
+	      if (this.props.display[0] === 'class') {
 	        return _react2.default.createElement(
 	          'div',
 	          null,
@@ -20648,27 +20677,6 @@
 	            'li',
 	            { style: this.props.className === '' ? { display: 'none' } : {} },
 	            'March 31, 2034'
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            { style: this.props.className === '' ? { display: 'none' } : {} },
-	            'Students in ',
-	            this.props.className
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            { style: this.props.className === '' ? { display: 'none' } : {} },
-	            'Little Bobby Tables'
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            { style: this.props.className === '' ? { display: 'none' } : {} },
-	            'Suzie CSS'
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            { style: this.props.className === '' ? { display: 'none' } : {} },
-	            'Edison'
 	          ),
 	          _react2.default.createElement(AddPoll, { hide: !this.props.className })
 	        );
@@ -20711,12 +20719,118 @@
 
 /***/ },
 /* 168 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var StudentData = function (_React$Component) {
+	  _inherits(StudentData, _React$Component);
+
+	  function StudentData(props) {
+	    _classCallCheck(this, StudentData);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(StudentData).call(this, props));
+
+	    _this.state = {};
+	    return _this;
+	  }
+
+	  _createClass(StudentData, [{
+	    key: 'render',
+	    value: function render() {
+	      if (this.props.display[0] === 'student') {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            'Student Data from Bobby here'
+	          )
+	        );
+	      } else {
+	        return _react2.default.createElement('div', null);
+	      }
+	    }
+	  }]);
+
+	  return StudentData;
+	}(_react2.default.Component);
+
+	module.exports = StudentData;
 
 /***/ },
 /* 169 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var StudentData = function (_React$Component) {
+	  _inherits(StudentData, _React$Component);
+
+	  function StudentData(props) {
+	    _classCallCheck(this, StudentData);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(StudentData).call(this, props));
+
+	    _this.state = {};
+	    return _this;
+	  }
+
+	  _createClass(StudentData, [{
+	    key: 'render',
+	    value: function render() {
+	      if (this.props.display[0] === 'student') {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            'Student Data from Bobby here'
+	          )
+	        );
+	      } else {
+	        return _react2.default.createElement('div', null);
+	      }
+	    }
+	  }]);
+
+	  return StudentData;
+	}(_react2.default.Component);
+
+	module.exports = StudentData;
+
+/***/ },
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

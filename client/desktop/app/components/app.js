@@ -92,23 +92,33 @@ class App extends React.Component {
   }
 
   render(){
+
     return (
-      <div>
-        <div className='header'>
-          <h1 onClick={this.manipulateDisplays.bind(this, 'home')}>Thumbroll</h1>
-          <Nav goHome={this.manipulateDisplays.bind(this, 'home')} displaySetting={this.state.displayTeacherSettings} listener={this.showSettings.bind(this)}/>
-        </div>
-        <button style={this.state.display.length > 1 ? {} : {display:'none'}} onClick={this.goBack.bind(this)}>Go back</button>
-
-        <div className='body'>
-          <Classes goBack={this.goBack.bind(this)} displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} studentData={this.state.students} classData={this.state.classes}/>
-        </div>
-
-        <div className='footer'>
-          Thumbroll 2016. 
-        </div>
+      <div> 
+      <Login />
       </div>
-    );
+      );
+    // if user has a session, render components below
+    // return (
+    //   <div>
+    //     <div className='header'>
+    //       <h1 onClick={this.manipulateDisplays.bind(this, 'home')}>Thumbroll</h1>
+    //       <Nav goHome={this.manipulateDisplays.bind(this, 'home')} displaySetting={this.state.displayTeacherSettings} listener={this.showSettings.bind(this)}/>
+    //     </div>
+    //     <button style={this.state.display.length > 1 ? {} : {display:'none'}} onClick={this.goBack.bind(this)}>Go back</button>
+
+    //     <div className='body'>
+    //       <Classes goBack={this.goBack.bind(this)} displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} studentData={this.state.students} classData={this.state.classes}/>
+    //     </div>
+
+    //     <div className='footer'>
+    //       Thumbroll 2016. 
+    //     </div>
+    //   </div>
+    // );
+
+    // else, return login
+
   }
 
   componentWillMount(){
