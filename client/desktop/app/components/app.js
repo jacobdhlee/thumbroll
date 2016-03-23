@@ -76,21 +76,22 @@ class App extends React.Component {
   }
 
   manipulateDisplays(newDisplay){
-    var currentDisplay = this.state.display.slice();
     if(newDisplay === 'auth') {
       this.setState({
         display: ['auth'],
         displayTeacherSettings: false
       });
       //fire request to destroy
-    }
+    } else {
+      var currentDisplay = this.state.display.slice();
 
-    if(currentDisplay[0] !== newDisplay){
-      currentDisplay.unshift(newDisplay);
+      if(currentDisplay[0] !== newDisplay){
+        currentDisplay.unshift(newDisplay);
+      }
+      this.setState({
+        display: currentDisplay
+      });
     }
-    this.setState({
-      display: currentDisplay
-    });
   }
 
   goBack(){
