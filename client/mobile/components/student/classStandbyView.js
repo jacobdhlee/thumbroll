@@ -22,8 +22,8 @@ class ClassStandbyView extends React.Component {
       class: this.props.route.class,
     };
     var that = this;
-    this.state.socket.on('teacherConnect', () => {
-      console.log('Class is in sesson');
+    this.state.socket.on('teacherJoinedRoom', () => {
+      this.state.socket.emit('studentConnect', {user: this.state.user, classId: this.state.class.id})
     });
 
     this.state.socket.on('newPoll', function(pollInfo) {
