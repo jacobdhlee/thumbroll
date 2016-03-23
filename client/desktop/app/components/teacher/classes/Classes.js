@@ -1,5 +1,6 @@
 import React from 'react'
 import Lessons from './lessons/Lessons'
+import Students from './students/Students'
 
 
 class Classes extends React.Component {
@@ -13,7 +14,7 @@ class Classes extends React.Component {
           this.setState({
             currentClass: event.target.innerText,
           });
-          this.state.displayListener('lessons');
+          this.state.displayListener('class');
         }} key={specificClass.name}>{specificClass.name}</li>)
       }),
       newClassName : '',
@@ -43,6 +44,7 @@ class Classes extends React.Component {
           <p>There are no lessons today.</p>
         <div>
           <Lessons display={this.props.display} displayListener={this.state.displayListener.bind(this)} className={this.state.currentClass}/>
+          <Students display={this.props.display} displayListener={this.state.displayListener.bind(this)} className={this.state.currentClass}/>
         </div>
       </div>
     );
