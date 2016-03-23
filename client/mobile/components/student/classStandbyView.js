@@ -9,17 +9,24 @@ var {
   Text,
   StyleSheet,
   View,
+  Modal,
+  Dimensions,
   Navigator,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInput
 } = React;
 
 class ClassStandbyView extends React.Component {
   constructor(props){ 
+    var {height, width} = Dimensions.get('window');
     super(props);
     this.state = {
+      height: height,
+      width: width,
       socket: this.props.route.socket,
       user: this.props.route.user,
       class: this.props.route.class,
+      modal: false,
     };
     var that = this;
     this.state.socket.on('teacherJoinedRoom', () => {
@@ -77,6 +84,20 @@ class ClassStandbyView extends React.Component {
   beforeLogout() {
     this.state.socket.emit('studentLoggingOut', {user:this.state.user});
   }
+  askQuestion() {
+    this.setState({
+      modal: true,
+    })
+  }
+
+  closeQuestion() {
+    this.setState({
+      modal: false,
+    })
+    return (
+      Alert.alert('Question submit', 'Wating for the teacher response')
+    )
+  }
 
   render(){
     return(
@@ -94,7 +115,32 @@ class ClassStandbyView extends React.Component {
         <View style={styles.container}>
           <Text style={styles.textSizeOne}>Waiting for Teacher!</Text>
           <Button onPress={this.raiseHand.bind(this)} text={'RaiseHand'}/>
+          <Button onPress={this.askQuestion.bind(this)}text={'Ask short Question'} />
         </View>
+
+        <Modal visible={this.state.modal} transparent={true} animated={true}>
+          <View style={styles.modal}>
+            <View style={{height:this.state.height * 0.9, width:this.state.width * 0.9}}>
+              <View style={styles.modalBox}>
+                <Text> Enter your Question </Text>
+                <TextInput
+                  autoCapitalize={'sentences'}
+                  autoCorrect={true}
+                  style={styles.userInput}
+                  keyboardType='default'
+                  returnKeyType={'done'}
+                  keyboardAppearance='dark'
+                  clearTextOnFocus={true}
+                  multiline={true}
+                />
+                <TouchableOpacity>
+                  <Button onPress={this.closeQuestion.bind(this)} text={'submit'} />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
       </View>
     )
   }
@@ -108,9 +154,33 @@ const styles = StyleSheet.create({
     backgroundColor: '#ededed'
   },
 
+  modal: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.8)',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  modalBox: {
+    flex: 1,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white'
+  },
+
   textSize: {
     fontSize : 20
   },
+
+  userInput: {
+    height: 300,
+    padding: 4,
+    fontSize: 18,
+    borderWidth: 1,
+    borderRadius: 4,
+  },
+
   container:{
     flex: 1,
     width: null,
