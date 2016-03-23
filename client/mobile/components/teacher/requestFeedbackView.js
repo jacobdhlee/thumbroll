@@ -120,7 +120,9 @@ class RequestFeedbackView extends React.Component {
 
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
-        <NavBar navi={this.props.navigator}>Request Feedback</NavBar>
+        <NavBar navi={this.props.navigator} socket={this.state.socket}>
+          Request Feedback
+        </NavBar>
         <View style={styles.viewContainer}>
           <Button onPress={this.dismissClass.bind(this)} text={'Dismiss Class'}/>
           {this.renderFeedbackOptions(this.state.feedbackOptions)}
