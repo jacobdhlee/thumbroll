@@ -63,6 +63,7 @@ class SelectLessonView extends React.Component {
   }
 
   previousSection() {
+    this.state.socket.disconnect();
     this.props.navigator.pop();
   }
 

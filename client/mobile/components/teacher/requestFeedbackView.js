@@ -59,6 +59,10 @@ class RequestFeedbackView extends React.Component {
   dismissClass() {
     // emit socket dismissClass
     this.state.socket.emit('dismiss');
+    // if quickClass, need to disconnect from socket
+    if(this.state.lessonId = 'Quick Class') {
+      this.state.socket.disconnect();
+    }
     this.props.navigator.pop();
   }
 
