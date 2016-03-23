@@ -15,7 +15,9 @@ class Students extends React.Component {
     if(this.props.display[0] === 'class') {
       return (
         <div>
+          {}
           <StudentData display={this.props.display} displayListener={this.state.displayListener.bind(this)} className={this.props.className}/>
+          
         </div>
       )
     } else {

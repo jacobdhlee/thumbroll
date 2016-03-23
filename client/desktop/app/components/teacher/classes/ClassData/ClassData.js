@@ -1,7 +1,8 @@
 import React from 'react'
-import LessonData from './lessonData'
+import LessonData from './LessonData'
+import StudentData from './StudentData'
 
-class Lessons extends React.Component {
+class ClassData extends React.Component {
   constructor(props){
     super(props);
     
@@ -20,6 +21,8 @@ class Lessons extends React.Component {
       return (
         <div>
           <LessonData display={this.props.display} displayListener={this.state.displayListener.bind(this)} className={this.props.className}/>
+          <StudentData display={this.props.display} displayListener={this.state.displayListener.bind(this)} className={this.props.className}/>  
+          {this.props.students}
         </div>
       )
     } else {
@@ -31,4 +34,4 @@ class Lessons extends React.Component {
   }
 }
 
-module.exports = Lessons;
+module.exports = ClassData;

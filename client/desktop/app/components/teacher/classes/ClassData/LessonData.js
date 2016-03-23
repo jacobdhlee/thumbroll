@@ -11,17 +11,12 @@ class LessonData extends React.Component {
   }
 
   render(){
-    if(this.props.display[0] === 'lessons') {
+    if(this.props.display[0] === 'class') {
       return (<div>
         <h2>{this.props.className}</h2>
         <p style={this.props.className === '' ? {display:'none'} : {}}>Polls for {this.props.className}</p>
         <li style={this.props.className === '' ? {display:'none'} : {}}>January 1, 1970</li>
         <li style={this.props.className === '' ? {display:'none'} : {}}>March 31, 2034</li>
-
-        <p style={this.props.className === '' ? {display:'none'} : {}}>Students in {this.props.className}</p>
-        <li style={this.props.className === '' ? {display:'none'} : {}}>Little Bobby Tables</li>
-        <li style={this.props.className === '' ? {display:'none'} : {}}>Suzie CSS</li>
-        <li style={this.props.className === '' ? {display:'none'} : {}}>Edison</li>
         <AddPoll hide={!this.props.className}/>
       </div>)
     } else {

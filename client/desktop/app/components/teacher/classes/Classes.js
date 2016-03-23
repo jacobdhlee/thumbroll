@@ -1,6 +1,5 @@
 import React from 'react'
-import Lessons from './lessons/Lessons'
-import Students from './students/Students'
+import Lessons from './ClassData/ClassData'
 
 
 class Classes extends React.Component {
@@ -9,6 +8,7 @@ class Classes extends React.Component {
     
     this.state = {
       displayListener: this.props.displayListener,
+
       classes : this.props.classData.map((specificClass) => {
         return (<li style={{cursor: 'default'}} onClickCapture={(event) => {
           this.setState({
@@ -17,6 +17,7 @@ class Classes extends React.Component {
           this.state.displayListener('class');
         }} key={specificClass.name}>{specificClass.name}</li>)
       }),
+
       students : this.props.studentData.map((specificStudent) => {
         return (<li style={{cursor: 'default'}} onClickCapture={(event) => {
           this.setState({
@@ -25,6 +26,7 @@ class Classes extends React.Component {
           this.state.displayListener('student');
         }} key={specificStudent.firstname}>{specificStudent.firstname}</li>)
       }),
+
       newClassName : '',
       currentClass: '',
       currentStudent: ''
@@ -53,15 +55,13 @@ class Classes extends React.Component {
           <p>There are no lessons today.</p>
         <div>
           <Lessons students={this.state.students} display={this.props.display} displayListener={this.state.displayListener.bind(this)} className={this.state.currentClass}/>
-          <Students students={this.state.students} display={this.props.display} displayListener={this.state.displayListener.bind(this)} className={this.state.currentClass}/>
         </div>
       </div>
     );
    } else {
       return (
         <div>
-          <Lessons display={this.props.display} displayListener={this.state.displayListener.bind(this)} className={this.state.currentClass}/>
-          <Students students={this.state.students} display={this.props.display} displayListener={this.state.displayListener.bind(this)} className={this.state.currentClass}/>
+          <Lessons students={this.state.students} display={this.props.display} displayListener={this.state.displayListener.bind(this)} className={this.state.currentClass}/>
         </div>
       )
     }
