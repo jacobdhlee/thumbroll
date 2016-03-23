@@ -49,6 +49,7 @@ class Signup extends React.Component {
           isLoading: true,
           passwordError: false
         });
+
         api.signup(this.state.firstName, this.state.lastName, this.state.username, 
           this.state.email, this.state.password, this.state.accountType)
         .then((response) => {
@@ -59,6 +60,7 @@ class Signup extends React.Component {
               confirmedPassword: '',
               isLoading: false
             });
+            
           } else if(response.status === 200) {
               response.json().then(function(body){
                 console.log("body", body);
@@ -67,12 +69,14 @@ class Signup extends React.Component {
               // userId: body.teacher.uid
 
               // Redirect to teacher dashboard
-          })
-        .catch((err) => {
-          this.setState({
-            error: 'User already exists' + err,
-            isLoading: false
-          });
+              })
+              .catch((err) => {
+                this.setState({
+                  error: 'User already exists' + err,
+                  isLoading: false
+                });
+              });
+            }
         });
       } else {
         this.setState({
@@ -82,7 +86,6 @@ class Signup extends React.Component {
           passwordError: 'passwords do not match'
         });
       }
-    });}
   }
 
 

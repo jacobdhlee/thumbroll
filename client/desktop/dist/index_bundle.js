@@ -20152,6 +20152,7 @@
 	          isLoading: true,
 	          passwordError: false
 	        });
+
 	        _api2.default.signup(this.state.firstName, this.state.lastName, this.state.username, this.state.email, this.state.password, this.state.accountType).then(function (response) {
 	          if (response.status === 500) {
 	            _this2.setState({
@@ -20174,14 +20175,14 @@
 	                isLoading: false
 	              });
 	            });
-	          } else {
-	            _this2.setState({
-	              isLoading: false,
-	              password: '',
-	              confirmedPassword: '',
-	              passwordError: 'passwords do not match'
-	            });
 	          }
+	        });
+	      } else {
+	        this.setState({
+	          isLoading: false,
+	          password: '',
+	          confirmedPassword: '',
+	          passwordError: 'passwords do not match'
 	        });
 	      }
 	    }
