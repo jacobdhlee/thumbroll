@@ -1,13 +1,6 @@
 var models = require("./models");
 
 module.exports = function(io) {
-  
-  var poll = {
-    responseId: 1,
-    type: 'thumbs',
-    datetime: new Date(),
-    lessonId: 13,
-  };
 
   io.on('connection', function(client){
     var room;
@@ -15,14 +8,18 @@ module.exports = function(io) {
     client.on('teacherConnect', function(data) {
       room = 'room' + data.classId;
       client.join(room);
+      data.userCount = io.sockets.clients(room);
       console.log('Teacher connected to', room);
+      io.sockets.to(room).emit('teacherJoinedRoom', data);
     });
 
     //maybe not necessary since basically the same as above
     client.on('teacherQuickClassConnect', function(data) {
       room = 'room' + data.classId;
       client.join(room);
+      data.userCount = io.sockets.clients(room);
       console.log('Teacher connected to quick class', room);
+      io.sockets.to(room).emit('teacherJoinedRoom', data);
     });
 
     client.on('teacherClosePoll', function(data) {
@@ -36,6 +33,7 @@ module.exports = function(io) {
       // var classId = data.classId;
       console.log('teacher leaving class', data.classId);
       client.leave(room);
+      data.userCount = io.sockets.clients(room);
       io.sockets.to(room).emit('teacherLeftClass', data);
       room = undefined;
     });
@@ -46,6 +44,7 @@ module.exports = function(io) {
       var userId = data.userId;
       room = 'room' + data.classId;
       client.join(room);
+      data.userCount = io.sockets.clients(room);
       console.log('Student', userId, 'connected to', room);
       io.sockets.to(room).emit('studentJoinedRoom', data);
       //TODO: DB.write('newStudentConnected', data);
@@ -54,12 +53,14 @@ module.exports = function(io) {
     client.on('studentQuickClassConnect', function(data) {
       room = 'room' + data.classId;
       client.join(room);
+      data.userCount = io.sockets.clients(room);
       console.log('Student connected to quick class', room);
       io.sockets.to(room).emit('studentJoinedRoom', data);
     });
 
     client.on('studentResponse', function(data) {
       console.log('INCOMING STUDENT RESPONSE:', data);
+      data.userCount = io.sockets.clients(room);
       io.sockets.to(room).emit('studentResponseForTeacher', data);
 
       if(data.pollId !== 'Quick Poll') {
@@ -84,6 +85,7 @@ module.exports = function(io) {
       var userId = data.userId;
       // var classId = data.classId;
       client.leave(room);
+      data.userCount = io.sockets.clients(room);
       console.log('Student', userId, 'leaving', room);
       io.sockets.to(room).emit('studentLeftRoom', data);
       room = undefined;
