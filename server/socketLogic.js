@@ -18,7 +18,6 @@ module.exports = function(io) {
       room = 'room' + data.classId;
       client.join(room);
       data.userCount = io.sockets.adapter.rooms[room].length;
-      console.log(data.userCount);
       console.log('Teacher connected to quick class', room);
       io.sockets.to(room).emit('teacherJoinedRoom', data);
     });
@@ -56,7 +55,6 @@ module.exports = function(io) {
       client.join(room);
       data.userCount = io.sockets.adapter.rooms[room].length;
       console.log('Student connected to quick class', room);
-      console.log(data.userCount);
       io.sockets.to(room).emit('studentJoinedRoom', data);
     });
 
