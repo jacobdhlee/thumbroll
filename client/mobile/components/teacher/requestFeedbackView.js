@@ -12,6 +12,7 @@ var {
   TouchableOpacity,
   TouchableHighlight,
   Modal,
+  Alert,
   TextInput,
   Dimensions,
 } = React;
@@ -94,7 +95,14 @@ class RequestFeedbackView extends React.Component {
   }
 
   callOnStudent() {
-    console.log(this.props.route.getActiveStudents());
+    var studentsObj = this.props.route.getActiveStudents();
+    var keys = Object.keys(studentsObj);
+    var index = Math.floor(Math.random() * keys.length);
+    var randomKey = keys[index];
+    var student = studentsObj[randomKey];
+    console.log('Calling on:', studentsObj[randomKey]);
+    this.state.socket.emit('callOnStudent', student);
+    Alert.alert('Called on', student.firstName + ' ' + student.lastName);
   }
 
   selectFeebackOption(feedbackOption) {
