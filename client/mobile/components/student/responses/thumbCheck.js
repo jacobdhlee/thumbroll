@@ -36,10 +36,6 @@ class ThumbCheck extends React.Component {
       answer: this.state.value,
       pollId: this.state.pollInfo.pollId
     })
-    this.props.navigator.pop();
-  }
-
-  previousPage() {
     this.setState({
       pageActive: false
     });
