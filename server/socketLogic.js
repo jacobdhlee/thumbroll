@@ -105,7 +105,7 @@ module.exports = function(io) {
     });
 
     client.on('studentLoggingOut', function(data) {
-      var userId = data.user.uid;
+      var userId = data.user.uid; 
       // var classId = data.classId;
       client.leave(room);
       data.userCount = io.sockets.adapter.rooms[room].length;
