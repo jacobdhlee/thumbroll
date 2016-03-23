@@ -101,7 +101,7 @@ class App extends React.Component {
         <button style={this.state.display.length > 1 ? {} : {display:'none'}} onClick={this.goBack.bind(this)}>Go back</button>
 
         <div className='body'>
-          <Classes goBack={this.goBack.bind(this)} displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} teacherData={this.state.classes}/>
+          <Classes goBack={this.goBack.bind(this)} displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} studentData={this.state.students} classData={this.state.classes}/>
         </div>
 
         <div className='footer'>
