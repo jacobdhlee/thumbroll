@@ -50,6 +50,7 @@ class ThumbRoll extends React.Component {
           this.setState({
             value: percent
           });
+          this.props.onUpdate(Math.floor(percent * 100));
         });
         this.setState({
           fullLoop: false
