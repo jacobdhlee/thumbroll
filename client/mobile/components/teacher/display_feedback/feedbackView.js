@@ -98,6 +98,7 @@ class FeedbackView extends React.Component {
 
   previousSection() {
     this.state.socket.emit('teacherClosePoll', {lessonId: this.state.lessonId, pollId: this.state.pollId});
+    this.state.socket.removeListener('studentResponseForTeacher');
     this.props.navigator.pop();
   }
 
@@ -122,7 +123,12 @@ class FeedbackView extends React.Component {
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
-        <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)}>{this.state.feedbackOption.name}</NavBar>
+        <NavBar navi={this.props.navigator} 
+          onBack={this.previousSection.bind(this)}
+          socket={this.state.socket}
+        >
+          {this.state.feedbackOption.name}
+        </NavBar>
         <View style={styles.viewContainer}>
           {this.renderChart.call(this)}
           <View style={styles.backButtonContainer}>

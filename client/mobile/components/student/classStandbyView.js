@@ -69,13 +69,17 @@ class ClassStandbyView extends React.Component {
   }
   previousSection() {
     this.state.socket.emit('studentLeavingClass', {userId: this.state.userId, classId:this.state.class.id});
+    // this.state.socket.removeListener('newPoll');
+    this.state.socket.disconnect();
     this.props.navigator.pop();
   }
 
   render(){
     return(
       <View style={{flex:1}}>
-        <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)}>{this.state.class.name}</NavBar>
+        <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)} socket={this.state.socket}>
+          {this.state.class.name}
+        </NavBar>
         <View>
           <Text onPress={this.thumbcheckPage.bind(this)} >ThumbCheck</Text>
         </View>

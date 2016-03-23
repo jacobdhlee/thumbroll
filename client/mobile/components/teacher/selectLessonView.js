@@ -63,13 +63,16 @@ class SelectLessonView extends React.Component {
   }
 
   previousSection() {
+    this.state.socket.disconnect();
     this.props.navigator.pop();
   }
 
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
-        <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)}>Your Lessons</NavBar>
+        <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)} socket={this.state.socket}>
+          Your Lessons
+        </NavBar>
         <View style={styles.viewContainer}>
           <ScrollView>
             <View style={styles.buttonsContainer}>

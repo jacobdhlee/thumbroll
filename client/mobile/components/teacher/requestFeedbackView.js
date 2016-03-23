@@ -59,6 +59,10 @@ class RequestFeedbackView extends React.Component {
   dismissClass() {
     // emit socket dismissClass
     this.state.socket.emit('dismiss');
+    // if quickClass, need to disconnect from socket
+    if(this.state.lessonId = 'Quick Class') {
+      this.state.socket.disconnect();
+    }
     this.props.navigator.pop();
   }
 
@@ -116,11 +120,11 @@ class RequestFeedbackView extends React.Component {
   }
 
   render() {
-    //need end class / back button
-
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
-        <NavBar navi={this.props.navigator}>Request Feedback</NavBar>
+        <NavBar navi={this.props.navigator} socket={this.state.socket} onBack={this.dismissClass.bind(this)}>
+          Request Feedback
+        </NavBar>
         <View style={styles.viewContainer}>
           <Button onPress={this.dismissClass.bind(this)} text={'Dismiss Class'}/>
           {this.renderFeedbackOptions(this.state.feedbackOptions)}
