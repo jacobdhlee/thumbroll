@@ -62,7 +62,6 @@ class StartClassView extends React.Component {
       this.setState({
         activeStudents: activeCopy
       });
-      console.log(this.state.activeStudents);
     }.bind(this));
 
     this.socket.on('studentLeftRoom', function(data) {
@@ -118,7 +117,6 @@ class StartClassView extends React.Component {
           this.setState({
             activeStudents: activeCopy
           });
-          console.log(this.state.activeStudents);
         }.bind(this));
 
         this.socket.on('studentLeftRoom', function(data) {
