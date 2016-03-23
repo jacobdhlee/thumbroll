@@ -32,7 +32,7 @@ module.exports = {
               bcrypt.compare(password, matchedUser.dataValues.password, function(err, match) {
                 if (match) {
                   // generate a session on the response object
-                  utils.createSession(req, res);
+                  utils.createSession(req, res, username);
 
                   // Find all classes student is enrolled in (via student_classes table)
                   // Attach them to response object
@@ -64,7 +64,7 @@ module.exports = {
           bcrypt.compare(password, matchedUser.dataValues.password, function(err, match) {
             if (match) {
               // generate a session on the response object
-              utils.createSession(req, res);
+              utils.createSession(req, res, username);
 
               // pull teacher's classes from db and attach them to response object
               models.classes.findAll({
@@ -139,7 +139,7 @@ module.exports = {
                       }
                     };
                     // generate a session on the response object
-                    utils.createSession(req, res);
+                    utils.createSession(req, res, username);
 
                     // SUCCESS: Account created -> client redirects to '/teacher'
                     res.status(200).send(teacherObj);
@@ -187,8 +187,8 @@ module.exports = {
                       }
                     };
                     // generate a session on the response object
-                    utils.createSession(req, res);
-                    
+                    utils.createSession(req, res, username);
+
                     // SUCCESS -> client redirects to '/student'
                     res.status(200).send(studentObj);
                   });                  
