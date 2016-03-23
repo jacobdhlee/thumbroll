@@ -17,15 +17,10 @@ class ThumbCheck extends React.Component {
       pollInfo: this.props.route.pollInfo,
       socket: this.props.route.socket,
       userId: this.props.route.userId,
-      pageActive: true
     }
     this.state.socket.on('closePoll', function(data) {
-      if(this.state.pageActive) {
-        this.setState({
-          pageActive: false
-        });
-        this.props.navigator.pop();
-      }
+      this.state.socket.removeListener('closePoll');
+      this.props.navigator.pop();
     }.bind(this));
   }
 
@@ -36,9 +31,7 @@ class ThumbCheck extends React.Component {
       answer: this.state.value,
       pollId: this.state.pollInfo.pollId
     })
-    this.setState({
-      pageActive: false
-    });
+    this.state.socket.removeListener('closePoll');
     this.props.navigator.pop();
   }
 

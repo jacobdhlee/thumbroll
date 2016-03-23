@@ -14,15 +14,10 @@ class MultiChoice extends React.Component {
       socket: this.props.route.socket,
       userId: this.props.route.userId,
       pollInfo: this.props.route.pollInfo,
-      pageActive: true
     }
     this.state.socket.on('closePoll', function(data) {
-      if(this.state.pageActive) {
-        this.setState({
-          pageActive: false
-        });
-        this.props.navigator.pop();
-      }
+      this.state.socket.removeListener('closePoll');
+      this.props.navigator.pop();
     }.bind(this));
   }  
 
@@ -37,6 +32,7 @@ class MultiChoice extends React.Component {
       answer: answer,
       pollId: this.state.pollInfo.pollId
     })
+    this.state.socket.removeListener('closePoll');
     this.props.navigator.pop();
     // go to previous page
   }
