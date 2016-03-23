@@ -38,6 +38,7 @@ class Login extends React.Component {
       teacherModalId: '',
       teacherModalClassId: '',
       teacherModalSocket: '',
+      activeStudents: {}
     };
     // Check keychain for saved credentials
       // if so, move forward to next scene
@@ -141,6 +142,25 @@ class Login extends React.Component {
         teacherModalClassId: classCode,
         teacherModalSocket: this.socket
       });
+      this.socket.on('studentJoinedRoom', function(data) {
+        var userCount = data.userCount;
+        var activeCopy = JSON.parse(JSON.stringify(this.state.activeStudents));
+        var studentObj = {uid: data.user.uid, firstName: data.user.firstName, lastName: data.user.lastName};
+        activeCopy[studentObj.uid] = studentObj;
+        this.setState({
+          activeStudents: activeCopy
+        });
+        console.log(this.state.activeStudents);
+      }.bind(this));
+
+      this.socket.on('studentLeftRoom', function(data) {
+        var userCount = data.userCount;
+        var activeCopy = JSON.parse(JSON.stringify(this.state.activeStudents));
+        delete activeCopy[data.user.uid];
+        this.setState({
+          activeStudents: activeCopy
+        });
+      }.bind(this));
     }
     this.setState({
       modalVisible: true
@@ -149,21 +169,28 @@ class Login extends React.Component {
 
   handleStudentModalSubmit(secretCode) {
     var classCode = 'qc' + secretCode;
-    var userId = null;
+    //create random userId:
+    var randomNum = '' + Math.floor(Math.random()*10) + Math.floor(Math.random()*10) 
+      + Math.floor(Math.random()*10) + Math.floor(Math.random()*10) + Math.floor(Math.random()*10) 
+      + Math.floor(Math.random()*10) + Math.floor(Math.random()*10) + Math.floor(Math.random()*10);
+    var userId = 'QC_User_' + randomNum;
+    var user = {uid: userId};
+
     this.setState({
       modalVisible: false
     });
     //assuming code is valid:
     this.socket = io(server, {jsonp: false});
-    this.socket.emit('studentQuickClassConnect', {userId: userId, classId: classCode});
+    this.socket.emit('studentQuickClassConnect', {user: user, classId: classCode});
     var classObj = {
       id: classCode,
       name: 'Quick Class: ' + classCode 
     };
+
     this.props.navigator.push({
       component: ClassStandbyView,
       class: classObj,
-      userId: userId,
+      user: user,
       socket: this.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromBottom,

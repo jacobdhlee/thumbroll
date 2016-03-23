@@ -34,6 +34,7 @@ class StartClassView extends React.Component {
       socket: undefined,
       classCode: '',
       modalVisible: false,
+      activeStudents: {}
     };
   }
 
@@ -51,9 +52,26 @@ class StartClassView extends React.Component {
       modalVisible: true,
       socket: this.socket
     });
+
     this.socket.on('studentJoinedRoom', function(data) {
-      var userCount = data.userCount
-    });
+      var userCount = data.userCount;
+      var activeCopy = JSON.parse(JSON.stringify(this.state.activeStudents));
+      var studentObj = {uid: data.user.uid, firstName: data.user.firstName, lastName: data.user.lastName};
+      activeCopy[studentObj.uid] = studentObj;
+      this.setState({
+        activeStudents: activeCopy
+      });
+      console.log(this.state.activeStudents);
+    }.bind(this));
+
+    this.socket.on('studentLeftRoom', function(data) {
+      var userCount = data.userCount;
+      var activeCopy = JSON.parse(JSON.stringify(this.state.activeStudents));
+      delete activeCopy[data.user.uid];
+      this.setState({
+        activeStudents: activeCopy
+      });
+    }.bind(this));
   }
 
   navigateFromModal() {
@@ -82,11 +100,32 @@ class StartClassView extends React.Component {
 
         this.socket = io(server, {jsonp: false});
         this.socket.emit('teacherConnect' , {classId: classId});
+
+        this.socket.on('studentJoinedRoom', function(data) {
+          var userCount = data.userCount;
+          var activeCopy = JSON.parse(JSON.stringify(this.state.activeStudents));
+          var studentObj = {uid: data.user.uid, firstName: data.user.firstName, lastName: data.user.lastName};
+          activeCopy[studentObj.uid] = studentObj;
+          this.setState({
+            activeStudents: activeCopy
+          });
+          console.log(this.state.activeStudents);
+        }.bind(this));
+
+        this.socket.on('studentLeftRoom', function(data) {
+          var userCount = data.userCount;
+          var activeCopy = JSON.parse(JSON.stringify(this.state.activeStudents));
+          delete activeCopy[data.user.uid];
+          this.setState({
+            activeStudents: activeCopy
+          });
+        }.bind(this));
         
         this.props.navigator.push({
           component: SelectLessonView,
           classId: classId,
           lessons: lessons,
+          activeStudents: this.state.activeStudents,
           socket: this.socket,
           sceneConfig: {
             ...Navigator.SceneConfigs.FloatFromRight,
