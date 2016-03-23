@@ -8,20 +8,29 @@ var bodyParser = require("body-parser");
 var session = require('express-session');
 var path = require('path');
 var express = require('express');
+var cookieParser = require('cookie-parser')
 
 var PORT = process.env.PORT || 3000;
+
+// CORS handling
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
+// Session handling
+app.use(cookieParser());
 app.use(session({
   secret: "Bueller",
   resave: false,
   saveUninitialized: true
 }));
+
+// Serve bundled index.html
 app.use(express.static(__dirname + '/../client/desktop/dist'));
 
 app.use(express.static(path.join(__dirname, '../client/desktop/dist')));
