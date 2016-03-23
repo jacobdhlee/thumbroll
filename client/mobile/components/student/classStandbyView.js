@@ -18,7 +18,7 @@ class ClassStandbyView extends React.Component {
     super(props);
     this.state = {
       socket: this.props.route.socket,
-      userId: this.props.route.userId,
+      user: this.props.route.user,
       class: this.props.route.class,
     };
     var that = this;
@@ -40,7 +40,7 @@ class ClassStandbyView extends React.Component {
     this.props.navigator.push({
       component: ThumbCheck,
       pollInfo: pollInfo,
-      userId: this.state.userId,
+      user: this.state.user,
       socket: this.state.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromBottom,
@@ -53,7 +53,7 @@ class ClassStandbyView extends React.Component {
     this.props.navigator.push({
       component: MultiChoice,
       pollInfo: pollInfo,
-      userId: this.state.userId,
+      user: this.state.user,
       socket: this.state.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromBottom,
@@ -62,13 +62,13 @@ class ClassStandbyView extends React.Component {
     })
   }
   raiseHand() {
-    this.state.socket.emit('raiseHand', {userId: this.state.userId});
+    this.state.socket.emit('raiseHand', {user: this.state.user});
     Alert.alert('Raise Hand', 'Wating for the teacher response')
     console.log('raiseHand');
 
   }
   previousSection() {
-    this.state.socket.emit('studentLeavingClass', {userId: this.state.userId, classId:this.state.class.id});
+    this.state.socket.emit('studentLeavingClass', {user: this.state.user, classId:this.state.class.id});
     // this.state.socket.removeListener('newPoll');
     this.state.socket.disconnect();
     this.props.navigator.pop();

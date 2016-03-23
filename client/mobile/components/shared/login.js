@@ -74,6 +74,7 @@ class Login extends React.Component {
             this.props.navigator.push({
               component: StartClassView,
               classes: body.teacher.classes,
+              user: body.teacher,
               sceneConfig: {
                 ...Navigator.SceneConfigs.FloatFromBottom,
                 gestures: {}
@@ -83,7 +84,7 @@ class Login extends React.Component {
             this.props.navigator.push({
               component: JoinClassView,
               classes: body.student.classes,
-              userId: body.student.uid,
+              user: body.student,
               sceneConfig: {
                 ...Navigator.SceneConfigs.FloatFromBottom,
                 gestures: {}

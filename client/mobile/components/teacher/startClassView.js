@@ -51,6 +51,9 @@ class StartClassView extends React.Component {
       modalVisible: true,
       socket: this.socket
     });
+    this.socket.on('studentJoinedRoom', function(data) {
+      var userCount = data.userCount
+    });
   }
 
   navigateFromModal() {

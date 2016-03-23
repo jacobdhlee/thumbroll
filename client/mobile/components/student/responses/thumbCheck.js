@@ -16,7 +16,7 @@ class ThumbCheck extends React.Component {
       value: 0,
       pollInfo: this.props.route.pollInfo,
       socket: this.props.route.socket,
-      userId: this.props.route.userId,
+      user: this.props.route.user,
     }
     this.state.socket.on('closePoll', function(data) {
       this.state.socket.removeListener('closePoll');
@@ -27,7 +27,7 @@ class ThumbCheck extends React.Component {
   submitResponse() {
     console.log('Student',this.state.userId,'answered',this.state.value,'to poll',this.state.pollInfo.pollId);
     this.state.socket.emit('studentResponse', {
-      userId: this.state.userId,
+      user: this.state.user,
       answer: this.state.value,
       pollId: this.state.pollInfo.pollId
     })

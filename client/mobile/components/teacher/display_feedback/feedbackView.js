@@ -47,26 +47,20 @@ class FeedbackView extends React.Component {
         
         var calculateLeader = (responses) => {
           var leader = [];
-
           responses.forEach(() => {
             //do this
           });
-
           return leader.sort();
         };
 
         var transformMultiChoiceData = (responses) => {
           var allResponses = {};
-
           responses.forEach((answer) => {
             allResponses[answer] = allResponses[answer] || 0;
             allResponses[answer]++;
           });
-
           return [allResponses['A'], allResponses['B'], allResponses['C'], allResponses['D']];
         }
-
-
 
         this.setState({
             studentMultiChoiceData : {

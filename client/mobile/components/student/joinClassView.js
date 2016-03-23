@@ -30,7 +30,7 @@ class JoinClassView extends React.Component {
     var {height, width} = Dimensions.get('window');
     this.state = {
       enrolledClasses: [{id: 1, name:'Quick Class'}, {id:2, name:'CS 101'}, {id:3, name: 'CS 201'}],
-      userId: this.props.route.userId,
+      user: this.props.route.user,
       secretCode: '',
       height: height,
       width: width,
@@ -41,12 +41,12 @@ class JoinClassView extends React.Component {
   selectedClass(cls) {
     //perhaps pass class as part of url to socket
     this.socket = io(server, {jsonp: false});
-    this.socket.emit('studentConnect', {userId: this.state.userId, classId: cls.id});
+    this.socket.emit('studentConnect', {user: this.state.user, classId: cls.id});
 
     this.props.navigator.push({
       component: ClassStandbyView,
       class: cls,
-      userId: this.state.userId,
+      user: this.state.user,
       socket: this.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromBottom,
@@ -74,7 +74,7 @@ class JoinClassView extends React.Component {
     });
     //assuming code is valid:
     this.socket = io(server, {jsonp: false});
-    this.socket.emit('studentQuickClassConnect', {userId: this.state.userId, classId: classCode});
+    this.socket.emit('studentQuickClassConnect', {user: this.state.user, classId: classCode});
     this.setState({
       secretCode: ''
     });
@@ -85,7 +85,7 @@ class JoinClassView extends React.Component {
     this.props.navigator.push({
       component: ClassStandbyView,
       class: classObj,
-      userId: this.state.userId,
+      user: this.state.user,
       socket: this.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromBottom,

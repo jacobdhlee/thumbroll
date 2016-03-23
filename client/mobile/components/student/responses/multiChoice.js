@@ -12,7 +12,7 @@ class MultiChoice extends React.Component {
     super(props);
     this.state = {
       socket: this.props.route.socket,
-      userId: this.props.route.userId,
+      user: this.props.route.user,
       pollInfo: this.props.route.pollInfo,
     }
     this.state.socket.on('closePoll', function(data) {
@@ -24,7 +24,7 @@ class MultiChoice extends React.Component {
   submitAnswer(answer) {
     console.log('Student',this.state.userId,'answered',answer,'to poll',this.state.pollInfo.pollId);
     this.state.socket.emit('studentResponse', {
-      userId: this.state.userId,
+      user: this.state.user,
       answer: answer,
       pollId: this.state.pollInfo.pollId
     })
