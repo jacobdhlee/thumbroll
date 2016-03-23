@@ -48,7 +48,7 @@ class RequestFeedbackView extends React.Component {
       console.log('userId >>>>>>>>>>>>', student.userId);
       this.setState({
         numberOfStudentHands: numberOfStudentHands,
-        raisedHandList: raisedHandList.push(student)
+        raisedHandList: raisedHandList.push(student),
       });
       this.numberOfRaiseHand(this.state.numberOfStudentHands);
       console.log('numberOfRaiseHand >>>>>>>>>>>>>>>',this.numberOfRaiseHands)
@@ -67,6 +67,7 @@ class RequestFeedbackView extends React.Component {
       modal: !this.state.modal,
     })
   }
+
   listStudent(list) {
     return list.map((student, index) => {
       return (
@@ -74,7 +75,7 @@ class RequestFeedbackView extends React.Component {
           <Text style={styles.studentTextSize}>
             {student}
           </Text>
-        </View>
+        </View>     
       )
     })
   }
