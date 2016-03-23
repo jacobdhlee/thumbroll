@@ -23,7 +23,7 @@ class Login extends React.Component {
   handleSubmit(){
     // Invoke controller to send POST request
     console.log(this.state);
-
+    var that = this;
     api.login(this.state.username, this.state.password)
       .then((response) => {
         if(response.status === 400){
@@ -34,11 +34,15 @@ class Login extends React.Component {
           console.log(this.state.error);
         } else if (response.status === 200) {
           response.json().then(function(body){
-            console.log(body);
-            this.setState({
-             error: false,
-             isLoading: false
-           });
+            console.log('body',body);
+
+            that.setState({
+              error: false,
+              isLoading: false
+            });
+
+            that.props.displayListener('home');
+
             // pass these to teacher dashboard component:
             // classes: body.teacher.classes,
             // userId: body.teacher.uid
@@ -50,13 +54,13 @@ class Login extends React.Component {
         }
       })
       .catch((err) => {
-        this.setState({
+        that.setState({
            error: 'User not found' + err,
            isLoading: false
          });
         console.log(this.state.error)
       });
-      this.setState({
+      that.setState({
         isLoading: false,
         username: '',
         password: ''
@@ -65,27 +69,31 @@ class Login extends React.Component {
 
   render(){
     var showErr = this.state.error ? <div> {this.state.error} </div> : <div></div>;
-    return (
-      <div>
-        <h1>Login</h1>
-        <input
-        type="text" 
-        placeholder="Username" 
-        value={this.state.username} 
-        onChange={this.handleUsernameChange.bind(this)} 
-        />
-        <input
-        type="password" 
-        placeholder="Password" 
-        value={this.state.password} 
-        onChange={this.handlePasswordChange.bind(this)} 
-        />
-        <button type="button" onClick={this.handleSubmit.bind(this)}>
-        Submit
-        </button>
-        {showErr}
-      </div>
-    );
+    if(this.props.display[0] === 'auth') {
+      return (
+        <div>
+          <h1>Login</h1>
+          <input
+          type="text" 
+          placeholder="Username" 
+          value={this.state.username} 
+          onChange={this.handleUsernameChange.bind(this)} 
+          />
+          <input
+          type="password" 
+          placeholder="Password" 
+          value={this.state.password} 
+          onChange={this.handlePasswordChange.bind(this)} 
+          />
+          <button type="button" onClick={this.handleSubmit.bind(this)}>
+          Submit
+          </button>
+          {showErr}
+        </div>
+      );
+    } else {
+      return (<div></div>);
+    }
   }
 }
 
