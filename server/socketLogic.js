@@ -42,6 +42,15 @@ module.exports = function(io) {
       room = undefined;
     });
 
+    client.on('teacherLoggingOut', function(data) {
+      // var classId = data.classId;
+      console.log('teacher logging out from class', data.classId);
+      client.leave(room);
+      data.userCount = io.sockets.adapter.rooms[room].length;
+      io.sockets.to(room).emit('teacherLeftClass', data);
+      room = undefined;
+    });
+
     //STUDENT CODE
     client.on('studentConnect', function(data) {
       // FRONTEND-LISTENER: client.on('newStudentConnected', (studentInfo) => {display(studentCount++ and studentInfo);});
@@ -86,6 +95,16 @@ module.exports = function(io) {
     });
 
     client.on('studentLeavingClass', function(data) {
+      var userId = data.user.uid;
+      // var classId = data.classId;
+      client.leave(room);
+      data.userCount = io.sockets.adapter.rooms[room].length;
+      console.log('Student', userId, 'leaving', room);
+      io.sockets.to(room).emit('studentLeftRoom', data);
+      room = undefined;
+    });
+
+    client.on('studentLoggingOut', function(data) {
       var userId = data.user.uid;
       // var classId = data.classId;
       client.leave(room);
