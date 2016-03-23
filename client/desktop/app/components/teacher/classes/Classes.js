@@ -1,5 +1,5 @@
 import React from 'react'
-import Lessons from './lessons/Lessons'
+import Lessons from './ClassData/ClassData'
 
 
 class Classes extends React.Component {
@@ -7,43 +7,86 @@ class Classes extends React.Component {
     super(props);
     
     this.state = {
-      classes : this.props.teacherData.map((specificClass) => {
-        return <li style={{cursor: 'pointer'}} onClickCapture={(event) => this.setState({currentClass: event.target.innerText})} key={specificClass.name}>{specificClass.name}</li>
+      displayListener: this.props.displayListener,
+
+      classes : this.props.classData.map((specificClass) => {
+        return (<li style={{cursor: 'default'}} onClickCapture={(event) => {
+          this.setState({
+            currentClass: event.target.innerText,
+          });
+          this.state.displayListener('class');
+        }} key={specificClass.name}>{specificClass.name}</li>)
       }),
+
+      students : this.props.studentData.map((specificStudent) => {
+        return (<li style={{cursor: 'default'}} onClickCapture={(event) => {
+          this.setState({
+            currentStudent: event.target.innerText,
+          });
+          this.state.displayListener('student');
+        }} key={specificStudent.firstname}>{specificStudent.firstname}</li>)
+      }),
+
       newClassName : '',
-      currentClass: ''
+      currentClass: '',
+      currentStudent: ''
     };
   }
 
   render(){
-    return (
-      <div>
-        <h2>Classes</h2>
+    if(this.props.display[0] === 'home'){
+      return (
         <div>
-          <input type='text' onChange={(event) => this.setState({newClassName: event.target.value})} />
-          <button onClick={this.addClass.bind(this)}>Add new class</button>
-        </div>
-        {this.state.classes}
+          <h2>Classes</h2>
+          {this.state.classes}
+          <div>
+            <form onSubmit={this.addClass.bind(this)}>
+              <input className='newClassForm' type='text' value={this.state.newClassName} onChange={(event) => {
+                this.setState({
+                  newClassName: event.target.value
+                });
+              }} />
+              <div>
+                <button type='submit'>Add new class</button>
+              </div>
+            </form>
+          </div>
+          <h2>Today's Lessons</h2>
+          <p>There are no lessons today.</p>
         <div>
-          <Lessons className={this.state.currentClass}/>
+          <Lessons students={this.state.students} display={this.props.display} displayListener={this.state.displayListener.bind(this)} className={this.state.currentClass}/>
         </div>
       </div>
     );
+   } else {
+      return (
+        <div>
+          <Lessons students={this.state.students} display={this.props.display} displayListener={this.state.displayListener.bind(this)} className={this.state.currentClass}/>
+        </div>
+      )
+    }
   }
 
-  addClass(){
-    // update state
-    var classesCopy = this.state.classes.slice();
-    classesCopy.push(<li 
-      style={{cursor: 'pointer'}} 
-      onClickCapture={(event) => this.setState({currentClass: event.target.innerText})} 
-      key={this.state.newClassName}>
-      {this.state.newClassName}
-    </li>);
+  addClass(e){
+    e.preventDefault();
+    // update state with new list item
+    if(!!this.state.newClassName.trim()){
+      var classesCopy = this.state.classes.slice();
+      classesCopy.push(<li 
+        style={{cursor: 'default'}} 
+        onClickCapture={(event) => {
+          this.setState({currentClass: event.target.innerText});
+          this.state.displayListener('lessons');
+        }} 
+        key={this.state.newClassName}>
+        {this.state.newClassName}
+      </li>);
 
-    this.setState({
-      classes: classesCopy
-    });
+      this.setState({
+        classes: classesCopy,
+        newClassName: ''
+      });
+    }
 
     // post to DB with teacher associated
   }
