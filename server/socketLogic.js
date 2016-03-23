@@ -32,6 +32,14 @@ module.exports = function(io) {
       io.sockets.to(room).emit('closePoll', data);
     });
 
+    client.on('teacherLeavingClass', function(data) {
+      // var classId = data.classId;
+      console.log('teacher leaving class', data.classId);
+      client.leave(room);
+      io.sockets.to(room).emit('teacherLeftClass', data);
+      room = undefined;
+    });
+
     //STUDENT CODE
     client.on('studentConnect', function(data) {
       // FRONTEND-LISTENER: client.on('newStudentConnected', (studentInfo) => {display(studentCount++ and studentInfo);});
@@ -47,6 +55,7 @@ module.exports = function(io) {
       room = 'room' + data.classId;
       client.join(room);
       console.log('Student connected to quick class', room);
+      io.sockets.to(room).emit('studentJoinedRoom', data);
     });
 
     client.on('studentResponse', function(data) {
