@@ -199,5 +199,20 @@ module.exports = {
         });
       }
     });
+  },
+
+  logout: function(req, res, next) {
+    if (req.session) {
+      req.session.destroy(function(err) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(200).send("user logged out");
+        }
+      });
+    } else {
+      console.log("no session to destroy");
+      res.status(400).send("no user to log out");
+    }
   }
 };
