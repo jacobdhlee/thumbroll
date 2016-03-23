@@ -98,6 +98,7 @@ class FeedbackView extends React.Component {
 
   previousSection() {
     this.state.socket.emit('teacherClosePoll', {lessonId: this.state.lessonId, pollId: this.state.pollId});
+    this.state.socket.removeListener('studentResponseForTeacher');
     this.props.navigator.pop();
   }
 
