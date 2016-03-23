@@ -5,10 +5,12 @@ var NavBar = require('./../shared/navbar');
 var Button = require('./../shared/button');
 
 var {
+  Alert,
   Text,
   StyleSheet,
   View,
-  Navigator
+  Navigator,
+  TouchableOpacity
 } = React;
 
 class ClassStandbyView extends React.Component {
@@ -17,7 +19,7 @@ class ClassStandbyView extends React.Component {
     this.state = {
       socket: this.props.route.socket,
       userId: this.props.route.userId,
-      class: this.props.route.class
+      class: this.props.route.class,
     };
     var that = this;
     this.state.socket.on('teacherConnect', () => {
@@ -59,7 +61,12 @@ class ClassStandbyView extends React.Component {
       }
     })
   }
+  raiseHand() {
+    this.state.socket.emit('raiseHand', {userId: this.state.userId});
+    Alert.alert('Raise Hand', 'Wating for the teacher response')
+    console.log('raiseHand');
 
+  }
   previousSection() {
     this.state.socket.emit('studentLeavingClass', {userId: this.state.userId, classId:this.state.class.id});
     this.props.navigator.pop();
@@ -67,7 +74,7 @@ class ClassStandbyView extends React.Component {
 
   render(){
     return(
-      <View>
+      <View style={{flex:1}}>
         <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)}>{this.state.class.name}</NavBar>
         <View>
           <Text onPress={this.thumbcheckPage.bind(this)} >ThumbCheck</Text>
@@ -77,6 +84,7 @@ class ClassStandbyView extends React.Component {
         </View>
         <View style={styles.container}>
           <Text style={styles.textSizeOne}>Waiting for Teacher!</Text>
+          <Button onPress={this.raiseHand.bind(this)} text={'RaiseHand'}/>
         </View>
       </View>
     )
