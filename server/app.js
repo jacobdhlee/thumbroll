@@ -7,6 +7,7 @@ var socketLogic = require("./socketLogic");
 var bodyParser = require("body-parser");
 var session = require('express-session');
 var path = require('path');
+var express = require('express');
 
 var PORT = process.env.PORT || 3000;
 app.use(function(req, res, next) {
@@ -21,6 +22,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+app.use(express.static(__dirname + '/../client/desktop/dist'));
 
 app.use(express.static(path.join(__dirname, '../client/desktop/dist')));
 

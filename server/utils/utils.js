@@ -9,7 +9,11 @@ exports.createSession = function(req, res, newUser) {
 };
 
 exports.checkUser = function(req, res, next) {
-  // Set property on body indicating whether user has a session
-  res.body.hasNoSession = !exports.isLoggedIn(req);
-  res.status(401).send('user is not logged in');
+  // if (!exports.isLoggedIn(req)){
+  //   // Set property on body indicating whether user has no session
+    res.body.hasNoSession = !exports.isLoggedIn(req);
+  //   res.status(401).send('user is not logged in');
+  // } else {
+  //   next();
+  // }
 };

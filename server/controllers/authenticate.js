@@ -4,9 +4,6 @@ var bcrypt = require('bcrypt');
 var session = require('express-session');
 var utils = require('../utils/utils');
 
-// TODO: Remove globalTeacherCode
-var globalTeacherCode = 123;
-
 module.exports = {
   login: function(req, res, next) {
     var username = req.body.username;
@@ -149,9 +146,7 @@ module.exports = {
             });
           }
         });
-      }
-      // if no teacher code provided, assume user is student
-      else {
+      } else {
         models.students.findOne({
            where: {'username': username}
          })
