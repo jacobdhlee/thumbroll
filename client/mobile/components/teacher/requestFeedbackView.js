@@ -40,7 +40,8 @@ class RequestFeedbackView extends React.Component {
         }
       ],
       numberOfStudentHands: 0,
-      raisedHandList: ['A','B','C'],
+      raisedHandList: [{student:'A', active: true},{student:'B', active: true},{student:'C', active: true}],
+      count: 0,
     };
     //populate feedbackOptions with anything custom from lesson
     this.state.socket.on('studentRaisedHand', function(data){
@@ -76,14 +77,32 @@ class RequestFeedbackView extends React.Component {
   }
 
   listStudent(list) {
-    return list.map((student, index) => {
+    if(list.length === 0) {
       return (
-        <View key={index}>
-          <Text style={styles.studentTextSize}>
-            {student}
-          </Text>
-        </View>     
+        <Text>No one raised hand yet</Text>
       )
+    }
+    return list.map((student, index) => {
+      if(!this.state.modal && this.state.count > 0 && this.state.count % 2 === 0) {
+        student.active = false
+      }
+      if(student.active){
+        return (
+          <View key={index}>
+            <Text style={styles.studentName}>
+              {student.student}
+            </Text>
+          </View>     
+        )
+      } else {
+        return (
+          <View key={index}>
+            <Text style={styles.studentNameChange}>
+              {student.student}
+            </Text>
+          </View>     
+        )
+      }
     })
   }
 
@@ -208,9 +227,14 @@ const styles = StyleSheet.create({
     fontSize : 20,
     fontWeight: 'bold',
   },
-  studentTextSize: {
+  studentName: {
     fontSize: 35,
     fontWeight: 'bold',
+  },
+  studentNameChange:{
+    fontSize: 35,
+    fontWeight: 'bold',
+    color: '#C6C7C3',
   },
   textSize: {
     fontSize : 25,
