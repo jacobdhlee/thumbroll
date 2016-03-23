@@ -134,7 +134,7 @@ $ createdb thumbroll
 __Step 4: Startup Postgres__
 
 ```
-$ createdb postgres -D /usr/local/var/postgres
+$ postgres -D /usr/local/var/postgres
 ```
 
 __Step 5: Install dependencies__ 
