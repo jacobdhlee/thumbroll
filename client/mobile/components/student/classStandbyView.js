@@ -69,7 +69,8 @@ class ClassStandbyView extends React.Component {
   }
   previousSection() {
     this.state.socket.emit('studentLeavingClass', {userId: this.state.userId, classId:this.state.class.id});
-    this.state.socket.removeListener('newPoll');
+    // this.state.socket.removeListener('newPoll');
+    this.state.socket.disconnect();
     this.props.navigator.pop();
   }
 
