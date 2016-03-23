@@ -12,6 +12,7 @@ var {
   TouchableOpacity,
   TouchableHighlight,
   Modal,
+  Alert,
   TextInput,
   Dimensions,
 } = React;
@@ -42,16 +43,22 @@ class RequestFeedbackView extends React.Component {
       raisedHandList: ['A','B','C'],
     };
     //populate feedbackOptions with anything custom from lesson
-    this.state.socket.on('studentRaisedHand', function(student){
+    this.state.socket.on('studentRaisedHand', function(data){
       var numberOfStudentHands = this.state.numberOfStudentHands + 1;
       var raisedHandList = this.state.raisedHandList.slice();
-      raisedHandList.push(student.userId);
+      raisedHandList.push(data.user.uid);
       this.setState({
         numberOfStudentHands: numberOfStudentHands,
         raisedHandList: raisedHandList
       });
     }.bind(this))
 
+  }
+
+  clickRaisedHand() {
+    this.setState({
+      modal: !this.state.modal,
+    })
   }
 
   dismissClass() {
@@ -64,10 +71,8 @@ class RequestFeedbackView extends React.Component {
     this.props.navigator.pop();
   }
 
-  clickRaisedHand() {
-    this.setState({
-      modal: !this.state.modal,
-    })
+  beforeLogout() {
+    this.state.socket.emit('teacherLoggingOut');
   }
 
   listStudent(list) {
@@ -81,12 +86,29 @@ class RequestFeedbackView extends React.Component {
       )
     })
   }
+
   clearList() {
     this.setState({
       raisedHandList: [],
       numberOfStudentHands: 0
     })
   }
+
+  callOnStudent() {
+    var studentsObj = this.props.route.getActiveStudents();
+    var keys = Object.keys(studentsObj);
+    var index = Math.floor(Math.random() * keys.length);
+    var randomKey = keys[index];
+    var student = studentsObj[randomKey];
+    console.log('Calling on:', student);
+    this.state.socket.emit('callOnStudent', student);
+    if(student.firstName) {
+      Alert.alert('Called on', student.firstName + ' ' + student.lastName);
+    } else {
+      Alert.alert('Called on student', student.uid);
+    }
+  }
+
   selectFeebackOption(feedbackOption) {
     api.startPoll(feedbackOption, this.state.lessonId, this.state.classId)
     .then((response) => {
@@ -125,12 +147,14 @@ class RequestFeedbackView extends React.Component {
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
-        <NavBar navi={this.props.navigator} socket={this.state.socket} onBack={this.dismissClass.bind(this)}>
+        <NavBar navi={this.props.navigator} beforeLogout={this.beforeLogout.bind(this)} 
+          onBack={this.dismissClass.bind(this)}>
           Request Feedback
         </NavBar>
         <View style={styles.viewContainer}>
           <Button onPress={this.dismissClass.bind(this)} text={'Dismiss Class'}/>
           {this.renderFeedbackOptions(this.state.feedbackOptions)}
+          <Button onPress={this.callOnStudent.bind(this)} text={'Call On Student'}/>
         </View>
         <View style={{flexDirection: 'column', height:60, width: null}}>
           <TouchableOpacity onPress={this.clickRaisedHand.bind(this)} style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column', backgroundColor:'yellow', height:60, width: 100, alignSelf:'flex-end'}}>

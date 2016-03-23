@@ -22,8 +22,8 @@ class NavBar extends React.Component {
   }
   logout(){
     // this.state.socket.emit('studentLeavingClass', {userId: this.state.userId, classId:this.state.class.id});
-    if(this.props.socket) {
-      this.props.socket.disconnect();
+    if(this.props.beforeLogout) {
+      this.props.beforeLogout();
     }
     this.props.navi.popToTop();
   }

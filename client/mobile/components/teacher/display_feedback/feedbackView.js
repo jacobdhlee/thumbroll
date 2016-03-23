@@ -47,26 +47,20 @@ class FeedbackView extends React.Component {
         
         var calculateLeader = (responses) => {
           var leader = [];
-
           responses.forEach(() => {
             //do this
           });
-
           return leader.sort();
         };
 
         var transformMultiChoiceData = (responses) => {
           var allResponses = {};
-
           responses.forEach((answer) => {
             allResponses[answer] = allResponses[answer] || 0;
             allResponses[answer]++;
           });
-
           return [allResponses['A'], allResponses['B'], allResponses['C'], allResponses['D']];
         }
-
-
 
         this.setState({
             studentMultiChoiceData : {
@@ -102,6 +96,10 @@ class FeedbackView extends React.Component {
     this.props.navigator.pop();
   }
 
+  beforeLogout() {
+    this.state.socket.emit('teacherLoggingOut');
+  }
+
   renderChart() {
     if(this.state.feedbackOption.id === 1) {
       return (
@@ -125,8 +123,7 @@ class FeedbackView extends React.Component {
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <NavBar navi={this.props.navigator} 
           onBack={this.previousSection.bind(this)}
-          socket={this.state.socket}
-        >
+          beforeLogout={this.beforeLogout.bind(this)}>
           {this.state.feedbackOption.name}
         </NavBar>
         <View style={styles.viewContainer}>

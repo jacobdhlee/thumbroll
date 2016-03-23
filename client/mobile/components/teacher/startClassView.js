@@ -34,6 +34,7 @@ class StartClassView extends React.Component {
       socket: undefined,
       classCode: '',
       modalVisible: false,
+      activeStudents: {}
     };
   }
 
@@ -49,8 +50,28 @@ class StartClassView extends React.Component {
       randomId: randomId,
       classCode: classCode, 
       modalVisible: true,
-      socket: this.socket
+      socket: this.socket,
+      activeStudents: {}
     });
+
+    this.socket.on('studentJoinedRoom', function(data) {
+      var userCount = data.userCount;
+      var activeCopy = JSON.parse(JSON.stringify(this.state.activeStudents));
+      var studentObj = {uid: data.user.uid, firstName: data.user.firstName, lastName: data.user.lastName};
+      activeCopy[studentObj.uid] = studentObj;
+      this.setState({
+        activeStudents: activeCopy
+      });
+    }.bind(this));
+
+    this.socket.on('studentLeftRoom', function(data) {
+      var userCount = data.userCount;
+      var activeCopy = JSON.parse(JSON.stringify(this.state.activeStudents));
+      delete activeCopy[data.user.uid];
+      this.setState({
+        activeStudents: activeCopy
+      });
+    }.bind(this));
   }
 
   navigateFromModal() {
@@ -61,12 +82,17 @@ class StartClassView extends React.Component {
       component: RequestFeedbackView,
       classId: this.state.classCode,
       lessonId: 'Quick Class',
+      getActiveStudents: this.getActiveStudents.bind(this),
       socket: this.state.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromRight,
         gestures: {}
       }
     });
+  }
+
+  getActiveStudents() {
+    return this.state.activeStudents;
   }
 
   selectClass(classId) {
@@ -78,12 +104,35 @@ class StartClassView extends React.Component {
         var lessons = JSON.parse(response._bodyText);
 
         this.socket = io(server, {jsonp: false});
+        this.setState({
+          activeStudents: {}
+        });
         this.socket.emit('teacherConnect' , {classId: classId});
+
+        this.socket.on('studentJoinedRoom', function(data) {
+          var userCount = data.userCount;
+          var activeCopy = JSON.parse(JSON.stringify(this.state.activeStudents));
+          var studentObj = {uid: data.user.uid, firstName: data.user.firstName, lastName: data.user.lastName};
+          activeCopy[studentObj.uid] = studentObj;
+          this.setState({
+            activeStudents: activeCopy
+          });
+        }.bind(this));
+
+        this.socket.on('studentLeftRoom', function(data) {
+          var userCount = data.userCount;
+          var activeCopy = JSON.parse(JSON.stringify(this.state.activeStudents));
+          delete activeCopy[data.user.uid];
+          this.setState({
+            activeStudents: activeCopy
+          });
+        }.bind(this));
         
         this.props.navigator.push({
           component: SelectLessonView,
           classId: classId,
           lessons: lessons,
+          getActiveStudents: this.getActiveStudents.bind(this),
           socket: this.socket,
           sceneConfig: {
             ...Navigator.SceneConfigs.FloatFromRight,

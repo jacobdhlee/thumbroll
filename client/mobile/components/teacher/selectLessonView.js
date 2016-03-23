@@ -26,10 +26,10 @@ class SelectLessonView extends React.Component {
   }
 
   selectLesson(lessonId) {
-    
     this.props.navigator.push({
       component: RequestFeedbackView,
       classId: this.state.classId,
+      getActiveStudents: this.props.route.getActiveStudents,
       lessonId: lessonId,
       socket: this.state.socket,
       sceneConfig: {
@@ -67,10 +67,15 @@ class SelectLessonView extends React.Component {
     this.props.navigator.pop();
   }
 
+  beforeLogout() {
+    this.state.socket.emit('teacherLoggingOut');
+  }
+
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
-        <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)} socket={this.state.socket}>
+        <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)} 
+          beforeLogout={this.beforeLogout.bind(this)}>
           Your Lessons
         </NavBar>
         <View style={styles.viewContainer}>
