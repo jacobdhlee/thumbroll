@@ -50,7 +50,8 @@ class StartClassView extends React.Component {
       randomId: randomId,
       classCode: classCode, 
       modalVisible: true,
-      socket: this.socket
+      socket: this.socket,
+      activeStudents: {}
     });
 
     this.socket.on('studentJoinedRoom', function(data) {
@@ -82,6 +83,7 @@ class StartClassView extends React.Component {
       component: RequestFeedbackView,
       classId: this.state.classCode,
       lessonId: 'Quick Class',
+      activeStudents: this.state.activeStudents,
       socket: this.state.socket,
       sceneConfig: {
         ...Navigator.SceneConfigs.FloatFromRight,
@@ -99,6 +101,9 @@ class StartClassView extends React.Component {
         var lessons = JSON.parse(response._bodyText);
 
         this.socket = io(server, {jsonp: false});
+        this.setState({
+          activeStudents: {}
+        });
         this.socket.emit('teacherConnect' , {classId: classId});
 
         this.socket.on('studentJoinedRoom', function(data) {

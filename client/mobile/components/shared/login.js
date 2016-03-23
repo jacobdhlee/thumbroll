@@ -140,8 +140,10 @@ class Login extends React.Component {
       this.setState({
         teacherModalId: randomId,
         teacherModalClassId: classCode,
-        teacherModalSocket: this.socket
+        teacherModalSocket: this.socket,
+        activeStudents: {}
       });
+
       this.socket.on('studentJoinedRoom', function(data) {
         var userCount = data.userCount;
         var activeCopy = JSON.parse(JSON.stringify(this.state.activeStudents));
@@ -206,6 +208,7 @@ class Login extends React.Component {
     this.props.navigator.push({
       component: RequestFeedbackView,
       classId: this.state.teacherModalClassId,
+      activeStudents: this.state.activeStudents,
       lessonId: 'Quick Class',
       socket: this.state.teacherModalSocket,
       sceneConfig: {
