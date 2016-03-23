@@ -41,10 +41,6 @@ class Login extends React.Component {
               isLoading: false
             });
 
-            that.props.loadTeacherData(body.teacher);
-            
-
-            that.props.displayListener('home');
 
             // pass these to teacher dashboard component:
             // classes: body.teacher.classes,
@@ -72,33 +68,28 @@ class Login extends React.Component {
 
   render(){
     var showErr = this.state.error ? <div> {this.state.error} </div> : <div></div>;
-    if(this.props.display[0] === 'auth') {
-      return (
-        <div>
-          <h1>Login</h1>
-          <input
-          type="text" 
-          placeholder="Username" 
-          value={this.state.username} 
-          onChange={this.handleUsernameChange.bind(this)} 
-          />
-          <input
-          type="password" 
-          placeholder="Password" 
-          value={this.state.password} 
-          onChange={this.handlePasswordChange.bind(this)} 
-          />
-          <button type="button" onClick={this.handleSubmit.bind(this)}>
-          Submit
-          </button>
-          {showErr}
-        </div>
-      );
-    } else {
-      return (<div></div>);
-    }
+    return (
+      <div>
+        <h1>Login</h1>
+        <input
+        type="text" 
+        placeholder="Username" 
+        value={this.state.username} 
+        onChange={this.handleUsernameChange.bind(this)} 
+        />
+        <input
+        type="password" 
+        placeholder="Password" 
+        value={this.state.password} 
+        onChange={this.handlePasswordChange.bind(this)} 
+        />
+        <button type="button" onClick={this.handleSubmit.bind(this)}>
+        Submit
+        </button>
+        {showErr}
+      </div>
+    );
   }
-
 }
 
 module.exports = Login;
