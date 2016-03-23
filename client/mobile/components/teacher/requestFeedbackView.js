@@ -85,12 +85,18 @@ class RequestFeedbackView extends React.Component {
       )
     })
   }
+
   clearList() {
     this.setState({
       raisedHandList: [],
       numberOfStudentHands: 0
     })
   }
+
+  callOnStudent() {
+    console.log(this.props.route.getActiveStudents());
+  }
+
   selectFeebackOption(feedbackOption) {
     api.startPoll(feedbackOption, this.state.lessonId, this.state.classId)
     .then((response) => {
@@ -136,6 +142,7 @@ class RequestFeedbackView extends React.Component {
         <View style={styles.viewContainer}>
           <Button onPress={this.dismissClass.bind(this)} text={'Dismiss Class'}/>
           {this.renderFeedbackOptions(this.state.feedbackOptions)}
+          <Button onPress={this.callOnStudent.bind(this)} text={'Call On Student'}/>
         </View>
         <View style={{flexDirection: 'column', height:60, width: null}}>
           <TouchableOpacity onPress={this.clickRaisedHand.bind(this)} style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column', backgroundColor:'yellow', height:60, width: 100, alignSelf:'flex-end'}}>

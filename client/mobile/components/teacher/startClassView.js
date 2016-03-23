@@ -92,6 +92,10 @@ class StartClassView extends React.Component {
     });
   }
 
+  getActiveStudents() {
+    return this.state.activeStudents;
+  }
+
   selectClass(classId) {
     api.getLessons(classId)
     .then((response) => {
@@ -130,7 +134,7 @@ class StartClassView extends React.Component {
           component: SelectLessonView,
           classId: classId,
           lessons: lessons,
-          activeStudents: this.state.activeStudents,
+          getActiveStudents: this.getActiveStudents.bind(this),
           socket: this.socket,
           sceneConfig: {
             ...Navigator.SceneConfigs.FloatFromRight,
