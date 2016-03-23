@@ -24,50 +24,22 @@ class App extends React.Component {
           password: 'tables'
         }
       ],
-      classes: [
-        {
-          id: {
-            type: 1,
-          },
-          name: 'CS201'
-        },
-        {
-          id: {
-            type: 1,
-          },
-          name: 'CS101'
-        },
-        {
-          id: {
-            type: 1,
-          },
-          name: 'HIST301'
-        },
-        {
-          id: {
-            type: 1,
-          },
-          name: 'CS440'
-        },
-        {
-          id: {
-            type: 1,
-          },
-          name: 'ENGR501'
-        },
-        {
-          id: {
-            type: 1,
-          },
-          name: 'AA971'
-        },
-      ],
+      classes: [],
       displayTeacherSettings: false,
       display: ['auth']
     };
   }
 
   //events here
+
+  loadTeacherData(teacherObject){
+    this.setState({
+      classes: teacherObject.classes
+    });
+  }
+
+
+
   showSettings(event){
     var currentDisplaySetting = this.state.displayTeacherSettings;
     this.setState({
@@ -111,9 +83,9 @@ class App extends React.Component {
           <Nav displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} showSettings={this.state.displayTeacherSettings} listener={this.showSettings.bind(this)}/>
         </div>
 
-        <Login displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} />
+        <Login loadTeacherData={this.loadTeacherData.bind(this)} displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} />
 
-        <button style={this.state.display[0] !== 'home' ? {} : {display:'none'}} onClick={this.goBack.bind(this)}>Go back</button>
+        <button style={this.state.display[0] !== 'home' && this.state.display[0] !== 'auth' ? {} : {display:'none'}} onClick={this.goBack.bind(this)}>Go back</button>
 
         <div className='body'>
           <Classes displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} studentData={this.state.students} classData={this.state.classes}/>
@@ -126,13 +98,10 @@ class App extends React.Component {
     );
   }
 
-  componentWillMount(){
+  componentDidMount(){
     //fetch classes from the DB and update the state to be passed down to Classes
   }
 
-  componentWillMount(){
-    //fetch classes from the DB and update the state to be passed down to Classes
-  }
 }
 
 

@@ -91,7 +91,20 @@ class Classes extends React.Component {
     // post to DB with teacher associated
   }
 
-  showClass(){
+  componentWillReceiveProps(props){
+
+    var allClasses = props.classData.map((specificClass) => {
+      return (<li style={{cursor: 'default'}} onClickCapture={(event) => {
+        this.setState({
+          currentClass: event.target.innerText,
+        });
+        this.state.displayListener('class');
+      }} key={specificClass.name}>{specificClass.name}</li>)
+    });
+
+    this.setState({
+      classes: allClasses
+    });
 
   }
 

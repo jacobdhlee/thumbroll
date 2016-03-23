@@ -41,6 +41,9 @@ class Login extends React.Component {
               isLoading: false
             });
 
+            that.props.loadTeacherData(body.teacher);
+            
+
             that.props.displayListener('home');
 
             // pass these to teacher dashboard component:
@@ -95,6 +98,7 @@ class Login extends React.Component {
       return (<div></div>);
     }
   }
+
 }
 
 module.exports = Login;
