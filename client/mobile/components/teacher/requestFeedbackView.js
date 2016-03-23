@@ -45,13 +45,15 @@ class RequestFeedbackView extends React.Component {
     this.state.socket.on('studentRaisedHand', function(student){
       var numberOfStudentHands = this.state.numberOfStudentHands + 1;
       var raisedHandList = this.state.raisedHandList.slice();
-      console.log('userId >>>>>>>>>>>>', student.userId);
+      console.log('student >>/////>>>>>', student);
+      console.log('userId >>>??????>>>>>>', student.userId);
+      raisedHandList.push(student.userId);
       this.setState({
         numberOfStudentHands: numberOfStudentHands,
-        raisedHandList: raisedHandList.push(student),
+        raisedHandList: raisedHandList
       });
-      this.numberOfRaiseHand(this.state.numberOfStudentHands);
-      console.log('numberOfRaiseHand >>>>>>>>>>>>>>>',this.numberOfRaiseHands)
+      console.log('raisedHandList >>>>>>>>>>>>>', this.state.raisedHandList);
+      console.log('listStudent >>>>>>>>>>>', this.listStudent);
     }.bind(this))
 
   }
@@ -83,7 +85,12 @@ class RequestFeedbackView extends React.Component {
       )
     })
   }
-
+  clearList() {
+    this.setState({
+      raisedHandList: [],
+      numberOfStudentHands: 0
+    })
+  }
   selectFeebackOption(feedbackOption) {
     api.startPoll(feedbackOption, this.state.lessonId, this.state.classId)
     .then((response) => {
@@ -146,6 +153,7 @@ class RequestFeedbackView extends React.Component {
                 {this.listStudent(this.state.raisedHandList)}
               </View>
               <Button onPress={this.clickRaisedHand.bind(this)} text={'Close'}/>
+              <Button onPress={this.clearList.bind(this)} text={'clear'}/>
             </View>
           </View>
         </Modal>
