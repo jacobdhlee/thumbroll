@@ -16,9 +16,9 @@ ReactDOM.render((
   <Router history={browserHistory}>
     <Route path='/' component = {App}>
       <IndexRoute component = {Classes} />
-      <Route path='/class/' component = {Lessons}>
-        <Route path='/class/:classId/lessons/:lessonId' />
-        <Route path='/class/:classId/students/:studentId' />
+        <Route path='/class/:classId/lessons/' component={Lessons} />
+        <Route path='/class/:classId/lessons/:lessonId' component={LessonsData}/>
+        <Route path='/class/:classId/students/:studentId' component={Students}/>
       </Route>
     </Route>
   </Router>
