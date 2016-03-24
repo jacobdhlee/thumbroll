@@ -22,25 +22,6 @@ module.exports = {
     })
   },
 
-  addClasses: function(req, res, next) {
-    var studentId = req.body.studentId;
-    var classId = req.body.classId;
-    var name = req.body.name;
-    models.students_classes.create({
-      name: name,
-      student_id: studentId,
-      class_id: classId,
-    })
-    .then(function(data){
-      var body = {classId: data.dataValues.id};
-      res.status(200).send(body);
-    })
-    .catch(function(err){
-      console.error('Error saving class to DB:', err);
-      res.status(500).send(err);
-    })
-  },
-
   readyStage : function(io, req, res, next) {
 
     io.on('connection', function(student){

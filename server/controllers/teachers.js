@@ -36,7 +36,7 @@ module.exports = {
   addClassLesson: function(req, res, next) {
     var classId = req.body.classId;
     var name = req.body.name;
-    var date = new Date();
+    var date = req.body.date;
     models.lessons.create({
       name: name,
       date: date,
@@ -133,44 +133,20 @@ module.exports = {
     });
   },
 
+  addStudentToClass: function(req, res, next) {
+    var studentId = req.body.studentId;
+    var classId = req.body.classId;
+    models.students_classes.create({
+      student_id: studentId,
+      class_id: classId,
+    })
+    .then(function(data){
+      var body = {classId: data.dataValues.id};
+      res.status(200).send(body);
+    })
+    .catch(function(err){
+      console.error('Error saving class to DB:', err);
+      res.status(500).send(err);
+    })
+  },
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

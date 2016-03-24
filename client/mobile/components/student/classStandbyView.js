@@ -27,6 +27,7 @@ class ClassStandbyView extends React.Component {
       user: this.props.route.user,
       class: this.props.route.class,
       modal: false,
+      question: ''
     };
     var that = this;
     this.state.socket.on('teacherJoinedRoom', () => {
@@ -132,6 +133,8 @@ class ClassStandbyView extends React.Component {
                   keyboardAppearance='dark'
                   clearTextOnFocus={true}
                   multiline={true}
+                  onChangeText={(text) => this.setState({ question: text})}
+                  value={this.state.question}
                 />
                 <TouchableOpacity>
                   <Button onPress={this.closeQuestion.bind(this)} text={'submit'} />

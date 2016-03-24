@@ -26,5 +26,5 @@ module.exports = function(app, io) {
   app.post('/students/ready', utils.checkUser, studentsController.readyStage.bind(null, io));
   // app.get(utils.checkUser, '/', rootController.root);
   app.post('/teachers/classes', teachersController.addClasses);
-  app.post('/students/classes', studentsController.addClasses);
+  app.post('/teachers/class/student', teachersController.addStudentToClass);
 };
