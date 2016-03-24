@@ -1,6 +1,6 @@
 import React from 'react'
 import {render} from 'react-dom'
-import {Router, Route, browserHistory, IndexRoute} from 'react-router'
+import {Router, Route, browserHistory, IndexRoute, Link} from 'react-router'
 
 import Login from './login'
 import Signup from './signup'
@@ -52,7 +52,7 @@ class App extends React.Component {
     return (
       <div>
         <div className='header'>
-          <a href='/'>Thumbroll</a>
+          <h1><Link to={`/`}>Thumbroll</Link></h1>
           <Nav showSettings={this.state.displayTeacherSettings} listener={this.showSettings.bind(this)}/>
         </div>
 
