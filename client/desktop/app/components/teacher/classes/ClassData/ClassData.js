@@ -16,7 +16,6 @@ class ClassData extends React.Component {
       displayStudents: false
 
     };
-    console.log(this.state.classId);
   }
 
   render(){
@@ -27,12 +26,12 @@ class ClassData extends React.Component {
           <li onClick={() => this.setState({
             displayLessons: true,
             displayStudents: false,
-          })}>Lessons</li>
+          })} style={{cursor: 'default'}}>Lessons</li>
 
           <li onClick={() => this.setState({
             displayStudents: true,
             displayLessons: false,
-          })}>Students</li>
+          })} style={{cursor: 'default'}}>Students</li>
         </ul>
         
         <Lessons lessons={this.state.lessons} display={this.state.displayLessons} classId={this.state.classId}/>
@@ -53,7 +52,6 @@ const Students = (props) => {
     return (
       <div>
         <ul>
-        {console.log(props.students)}
           {props.students.map((student) => {
             return (<li style={{cursor: 'default'}} key={student}>
             <Link to={`/class/${props.classId}/students/${student}`}>{student}</Link>
