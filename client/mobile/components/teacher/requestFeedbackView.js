@@ -43,6 +43,8 @@ class RequestFeedbackView extends React.Component {
       numberOfStudentHands: 0,
       raisedHandList: [{student:'A', active: true},{student:'B', active: true},{student:'C', active: true}],
       count: 0,
+      numberOfQuestion: 0,
+      questionLists:['I have a question', 'Idontknow']
     };
     //populate feedbackOptions with anything custom from lesson
     this.state.socket.on('studentRaisedHand', function(data){
@@ -55,6 +57,27 @@ class RequestFeedbackView extends React.Component {
       });
     }.bind(this))
 
+    this.state.socket.on('studentQuestions', function(data){
+      var questionLists = this.state.questionLists.slice();
+      questionLists.push(data);
+      var numberOfQuestion = this.state.numberOfQuestion + 1;
+      this.setState({
+        numberOfQuestion: numberOfQuestion,
+        questionLists: questionLists,
+      })
+    }.bind(this))
+  }
+
+  answeredQuestion() {
+    var numberOfQuestion = this.state.numberOfQuestion.length - 1;
+    if(numberOfQuestion === 0) {
+      numberOfQuestion = 0
+    }
+    var questionLists = this.state.questionLists.splice(1,1);
+    this.setState({
+      questionLists: questionLists,
+      numberOfQuestion: numberOfQuestion,
+    })
   }
 
   clickQuestion() {
@@ -83,6 +106,19 @@ class RequestFeedbackView extends React.Component {
 
   beforeLogout() {
     this.state.socket.emit('teacherLoggingOut');
+  }
+
+  listQuestion(list) {
+    if( list.length === 0 ) {
+      return(
+        <Text>No Question yet</Text>
+      )
+    } 
+    return (
+      <View>
+        <Text>{list[0]}</Text>
+      </View>
+    )
   }
 
   listStudent(list) {
@@ -171,7 +207,6 @@ class RequestFeedbackView extends React.Component {
       )
     })
   }
-// style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'red', height:60, width: 100, alignSelf:'flex-end'}}
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
@@ -216,7 +251,9 @@ class RequestFeedbackView extends React.Component {
             <View style={{height:this.state.height * 0.8, width:this.state.width * 0.9}}>
               <View style={styles.modalBox}>
                 <Text style={styles.textSizeModal}> Question: </Text>
+                {this.listQuestion(this.state.questionLists)}
               </View>
+              <Button onPress={this.answeredQuestion.bind(this)} text={'answered'} />
               <Button onPress={this.clickQuestion.bind(this)} text={'Close'}/>
             </View>
           </View>

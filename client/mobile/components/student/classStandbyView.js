@@ -92,8 +92,11 @@ class ClassStandbyView extends React.Component {
   }
 
   closeQuestion() {
+
+    this.state.socket.emit('askQuestions', {question: this.state.question});
     this.setState({
       modal: false,
+      question: '',
     })
     return (
       Alert.alert('Question submit', 'Wating for the teacher response')
