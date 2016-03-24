@@ -23,7 +23,7 @@ class Classes extends React.Component {
         
         {this.state.classes.map((specificClass) => {
           return (<li style={{cursor: 'default'}} key={specificClass.key}>
-            <Link to={`/classes/${specificClass.key}/lessons`}>{specificClass.key}</Link>
+            <Link to={`class/${specificClass.key}/lessons`}>{specificClass.key}</Link>
             </li>)
          })
         }
