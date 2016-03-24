@@ -26,6 +26,7 @@ class RequestFeedbackView extends React.Component {
       classId: this.props.route.classId,
       socket: this.props.route.socket,
       modal: false,
+      modalQuestion: false,
       height: height,
       width: width,
       feedbackOptions: [
@@ -56,9 +57,17 @@ class RequestFeedbackView extends React.Component {
 
   }
 
+  clickQuestion() {
+    this.setState({
+      modalQuestion: !this.state.modalQuestion,
+    })
+  }
+
   clickRaisedHand() {
+    var count = this.state.count + 1;
     this.setState({
       modal: !this.state.modal,
+      count: count,
     })
   }
 
@@ -162,7 +171,7 @@ class RequestFeedbackView extends React.Component {
       )
     })
   }
-
+// style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'red', height:60, width: 100, alignSelf:'flex-end'}}
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
@@ -175,10 +184,15 @@ class RequestFeedbackView extends React.Component {
           {this.renderFeedbackOptions(this.state.feedbackOptions)}
           <Button onPress={this.callOnStudent.bind(this)} text={'Call On Student'}/>
         </View>
-        <View style={{flexDirection: 'column', height:60, width: null}}>
-          <TouchableOpacity onPress={this.clickRaisedHand.bind(this)} style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column', backgroundColor:'yellow', height:60, width: 100, alignSelf:'flex-end'}}>
-             <Text style={styles.textSize}>
-                {this.state.numberOfStudentHands}
+          <View style={{flexDirection: 'row', height:60, width: null, alignSelf:'flex-end'}}>
+          <TouchableOpacity onPress={this.clickQuestion.bind(this)}style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'yellow', height: 60, width: 100}}>
+              <Text style={styles.textSize}>
+                Q: 0
+              </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this.clickRaisedHand.bind(this)} style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'red', height: 60, width: 100}}>
+              <Text style={styles.textSize}>
+                R : {this.state.numberOfStudentHands}
               </Text>
           </TouchableOpacity>
         </View>
@@ -197,6 +211,16 @@ class RequestFeedbackView extends React.Component {
           </View>
         </Modal>
 
+        <Modal visible={this.state.modalQuestion} transparent={true} animated={true}>
+          <View style={styles.modal}>
+            <View style={{height:this.state.height * 0.8, width:this.state.width * 0.9}}>
+              <View style={styles.modalBox}>
+                <Text style={styles.textSizeModal}> Question: </Text>
+              </View>
+              <Button onPress={this.clickQuestion.bind(this)} text={'Close'}/>
+            </View>
+          </View>
+        </Modal>
 
       </View>
     )
