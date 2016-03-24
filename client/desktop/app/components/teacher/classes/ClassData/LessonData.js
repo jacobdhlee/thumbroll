@@ -5,33 +5,37 @@ class LessonData extends React.Component {
     super(props);
     
     this.state = {
-      // polls
+      lessonId: 'get this from the url param',
+      className: 'get this from the DB query',
+      polls: ['get this from the DB query']
     };
   }
 
   render(){
     return (<div>
-      <h2>{this.props.className}</h2>
-      <p style={this.props.className === '' ? {display:'none'} : {}}>Polls for {this.props.className}</p>
-      <li style={this.props.className === '' ? {display:'none'} : {}}>January 1, 1970</li>
-      <li style={this.props.className === '' ? {display:'none'} : {}}>March 31, 2034</li>
-      <AddPoll hide={!this.props.className}/>
+      <h2>{this.state.className}</h2>
+      <p>Polls for {this.state.className}</p>
+      
+      
     </div>)
   }
 
-
+  componentWillMount(){
+    //get the poll responses from the lessonId given in the URL param
+    //set the className from the DB query
+  }
 }
+
+
 
 const AddPoll = (hide) => {
   // add to state
 
   // post to DB
-
   return (
     <div>
-      <h2 style={hide === true ? {display:'none'} : {}}>Add new poll</h2>
-      <button style={hide === true ? {display:'none'} : {}}>Thumbs Check</button>
-      <button style={hide === true ? {display:'none'} : {}}>Multiple Choice</button>
+      <button>Thumbs Check</button>
+      <button>Multiple Choice</button>
     </div>
   )
 };

@@ -8,10 +8,9 @@ class ClassData extends React.Component {
     super(props);
     
     this.state = {
-      className : this.props.className,
-      //state here
-      // polls?
-      // students?
+      className : 'The class name is from the DB! Talk to Jake and Jacob',
+      classId: 'put this in from the URL param',
+      lessons: ['LessonData is here too'],
 
     };
   }
@@ -19,11 +18,24 @@ class ClassData extends React.Component {
   render(){
     return (
       <div>
-        <LessonData className={this.props.className}/>
-        <StudentData className={this.props.className}/>  
-        {this.props.students}
+        <h2>{this.state.className}</h2>
+        
+        <li><Link to={`/classes/${this.state.classId}/students`}>{specificClass.key}</Link></li>
+        <ul>
+          {this.state.lessons.map((lesson) => {
+            return (<li style={{cursor: 'default'}} key={lesson}>
+            <Link to={`/classes/${this.state.classId}/lessons/${lesson}`}>{lesson}</Link>
+            </li>)
+          })}
+        </ul>
       </div>
     )
+  }
+
+  componentWillMount(){
+    // query the DB for all lessons with a given class ID given in the URL param
+    // place in state at this.state.lessons
+    // also get the class name from the DB and put in state
   }
 }
 
