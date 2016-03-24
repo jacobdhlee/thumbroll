@@ -70,6 +70,17 @@ module.exports = {
         classId: classId
       })
     });
-  }
+  },
+
+  getClassData: (classId) => {
+    return fetch(server + '/teachers/' + classId);
+  },
+
+  getAllStudents: () => {
+    
+  },
+
+
+
 }
 

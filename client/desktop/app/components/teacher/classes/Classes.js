@@ -1,6 +1,7 @@
 import React from 'react'
 import ClassData from './ClassData/ClassData'
 import {Route, RouteHandler, Link} from 'react-router'
+import api from '../../../utils/api';
 
 class Classes extends React.Component {
   constructor(props){
@@ -8,7 +9,7 @@ class Classes extends React.Component {
     
     this.state = {
 
-      classes : [],
+      classes : ['1','2','3'],
 
       newClassName : '',
       currentClass: '',
@@ -20,10 +21,9 @@ class Classes extends React.Component {
     return (
       <div>
         <h2>Classes</h2>
-        
         {this.state.classes.map((specificClass) => {
-          return (<li style={{cursor: 'default'}} key={specificClass.key}>
-            <Link to={`class/${specificClass.key}/lessons`}>{specificClass.key}</Link>
+          return (<li style={{cursor: 'default'}} key={specificClass}>
+            <Link to={`class/${specificClass}/lessons`}>{specificClass}</Link>
             </li>)
          })
         }
@@ -54,14 +54,7 @@ class Classes extends React.Component {
     // update state with new list item
     if(!!this.state.newClassName.trim()){
       var classesCopy = this.state.classes.slice();
-      classesCopy.push(<li 
-        style={{cursor: 'default'}} 
-        onClickCapture={(event) => {
-          this.setState({currentClass: event.target.innerText});
-        }} 
-        key={this.state.newClassName}>
-        {this.state.newClassName}
-      </li>);
+      classesCopy.push(this.state.newClassName);
 
       this.setState({
         classes: classesCopy,
@@ -72,21 +65,11 @@ class Classes extends React.Component {
     // post to DB with teacher associated
   }
 
-  componentWillReceiveProps(props){
-    var allClasses = props.classData.map((specificClass) => {
-      return (<li style={{cursor: 'default'}} onClickCapture={(event) => {
-        this.setState({
-          currentClass: event.target.innerText,
-        });
-      }} key={specificClass.name}>{specificClass.name}</li>)
-    });
-
+  componentWillMount(){
     this.setState({
-      classes: allClasses
+      classes: [1,2,3] //api.getClassData()
     });
-
   }
-
 
 }
 
