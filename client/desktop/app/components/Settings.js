@@ -1,4 +1,5 @@
 import React from 'react'
+import {Route, RouteHandler, Link} from 'react-router'
 
 class Settings extends React.Component {
   constructor(props){
@@ -12,7 +13,7 @@ class Settings extends React.Component {
     if(that.props.display) {
       return (<div>
         <ul>
-          <li>Your Profile</li>
+          <li><Link to={`/profile`}>Your Profile</Link></li>
           <li onClick={()=>{
           }} style={{cursor: 'default'}}>Logout</li>
         </ul>
