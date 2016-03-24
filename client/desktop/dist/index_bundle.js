@@ -61,11 +61,57 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
+	var _reactRouter = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"react-router\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+
+	var _app = __webpack_require__(160);
+
+	var _app2 = _interopRequireDefault(_app);
+
+	var _login = __webpack_require__(161);
+
+	var _login2 = _interopRequireDefault(_login);
+
+	var _signup = __webpack_require__(164);
+
+	var _signup2 = _interopRequireDefault(_signup);
+
+	var _Classes = __webpack_require__(165);
+
+	var _Classes2 = _interopRequireDefault(_Classes);
+
+	var _ClassData = __webpack_require__(166);
+
+	var _ClassData2 = _interopRequireDefault(_ClassData);
+
+	var _LessonData = __webpack_require__(167);
+
+	var _LessonData2 = _interopRequireDefault(_LessonData);
+
+	var _StudentData = __webpack_require__(169);
+
+	var _StudentData2 = _interopRequireDefault(_StudentData);
+
+	var _Settings = __webpack_require__(170);
+
+	var _Settings2 = _interopRequireDefault(_Settings);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var App = __webpack_require__(160);
-
-	_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById("app"));
+	_reactDom2.default.render(_react2.default.createElement(
+	  _reactRouter.Router,
+	  { history: _reactRouter.browserHistory },
+	  _react2.default.createElement(
+	    _reactRouter.Route,
+	    { path: '/', component: _app2.default },
+	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _Classes2.default }),
+	    _react2.default.createElement(
+	      _reactRouter.Route,
+	      { path: '/class/', component: _ClassData2.default },
+	      _react2.default.createElement(_reactRouter.Route, { path: '/class/:classId/lessons/:lessonId' }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/class/:classId/students/:studentId' })
+	    )
+	  )
+	), document.getElementById("app"));
 
 /***/ },
 /* 2 */
@@ -19680,6 +19726,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactDom = __webpack_require__(159);
+
+	var _reactRouter = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"react-router\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+
 	var _login = __webpack_require__(161);
 
 	var _login2 = _interopRequireDefault(_login);
@@ -19735,47 +19785,22 @@
 	        username: 'DROP*',
 	        password: 'tables'
 	      }],
-	      classes: [{
-	        id: {
-	          type: 1
-	        },
-	        name: 'CS201'
-	      }, {
-	        id: {
-	          type: 1
-	        },
-	        name: 'CS101'
-	      }, {
-	        id: {
-	          type: 1
-	        },
-	        name: 'HIST301'
-	      }, {
-	        id: {
-	          type: 1
-	        },
-	        name: 'CS440'
-	      }, {
-	        id: {
-	          type: 1
-	        },
-	        name: 'ENGR501'
-	      }, {
-	        id: {
-	          type: 1
-	        },
-	        name: 'AA971'
-	      }],
-	      displayTeacherSettings: false,
-	      display: ['home']
+	      classes: [],
+	      displayTeacherSettings: false
 	    };
 	    return _this;
 	  }
 
 	  //events here
 
-
 	  _createClass(App, [{
+	    key: 'loadTeacherData',
+	    value: function loadTeacherData(teacherObject) {
+	      this.setState({
+	        classes: teacherObject.classes
+	      });
+	    }
+	  }, {
 	    key: 'showSettings',
 	    value: function showSettings(event) {
 	      var currentDisplaySetting = this.state.displayTeacherSettings;
@@ -19784,56 +19809,38 @@
 	      });
 	    }
 	  }, {
-	    key: 'manipulateDisplays',
-	    value: function manipulateDisplays(newDisplay) {
-	      var currentDisplay = this.state.display.slice();
-	      currentDisplay.unshift(newDisplay);
-	      this.setState({
-	        display: currentDisplay
-	      });
-	    }
-	  }, {
-	    key: 'goBack',
-	    value: function goBack() {
-	      var currentDisplayArray = this.state.display.slice();
-	      currentDisplayArray.shift();
-	      this.setState({
-	        display: currentDisplayArray
-	      });
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
-
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(_login2.default, null)
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'header' },
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            'Thumbroll'
+	          ),
+	          _react2.default.createElement(Nav, { showSettings: this.state.displayTeacherSettings, listener: this.showSettings.bind(this) })
+	        ),
+	        'x',
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'body' },
+	          _react2.default.createElement(_login2.default, null),
+	          _react2.default.createElement(_Classes2.default, { studentData: this.state.students, classData: this.state.classes })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'footer' },
+	          'Thumbroll 2016.'
+	        )
 	      );
-	      // if user has a session, render components below
-	      // return (
-	      //   <div>
-	      //     <div className='header'>
-	      //       <h1 onClick={this.manipulateDisplays.bind(this, 'home')}>Thumbroll</h1>
-	      //       <Nav goHome={this.manipulateDisplays.bind(this, 'home')} displaySetting={this.state.displayTeacherSettings} listener={this.showSettings.bind(this)}/>
-	      //     </div>
-	      //     <button style={this.state.display.length > 1 ? {} : {display:'none'}} onClick={this.goBack.bind(this)}>Go back</button>
-
-	      //     <div className='body'>
-	      //       <Classes goBack={this.goBack.bind(this)} displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} studentData={this.state.students} classData={this.state.classes}/>
-	      //     </div>
-
-	      //     <div className='footer'>
-	      //       Thumbroll 2016.
-	      //     </div>
-	      //   </div>
-	      // );
-
-	      // else, return login
 	    }
 	  }, {
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
 	      //fetch classes from the DB and update the state to be passed down to Classes
 	    }
 	  }]);
@@ -19878,7 +19885,7 @@
 	          { onClick: props.listener, style: { cursor: 'default' } },
 	          'Settings'
 	        ),
-	        _react2.default.createElement(_Settings2.default, { display: props.displaySetting })
+	        _react2.default.createElement(_Settings2.default, { displayListener: props.displayListener, display: props.showSettings })
 	      )
 	    )
 	  );
@@ -19944,7 +19951,7 @@
 
 	      // Invoke controller to send POST request
 	      console.log(this.state);
-
+	      var that = this;
 	      _api2.default.login(this.state.username, this.state.password).then(function (response) {
 	        if (response.status === 400) {
 	          _this2.setState({
@@ -19954,8 +19961,9 @@
 	          console.log(_this2.state.error);
 	        } else if (response.status === 200) {
 	          response.json().then(function (body) {
-	            console.log(body);
-	            this.setState({
+	            console.log('body', body);
+
+	            that.setState({
 	              error: false,
 	              isLoading: false
 	            });
@@ -19969,13 +19977,13 @@
 	          });
 	        }
 	      }).catch(function (err) {
-	        _this2.setState({
+	        that.setState({
 	          error: 'User not found' + err,
 	          isLoading: false
 	        });
 	        console.log(_this2.state.error);
 	      });
-	      this.setState({
+	      that.setState({
 	        isLoading: false,
 	        username: '',
 	        password: ''
@@ -20202,8 +20210,7 @@
 	  }, {
 	    key: 'handleSubmit',
 	    value: function handleSubmit() {
-	      var _this2 = this;
-
+	      var self = this;
 	      if (this.state.password === this.state.confirmedPassword) {
 	        this.setState({
 	          isLoading: true,
@@ -20212,7 +20219,7 @@
 
 	        _api2.default.signup(this.state.firstName, this.state.lastName, this.state.username, this.state.email, this.state.password, this.state.accountType).then(function (response) {
 	          if (response.status === 500) {
-	            _this2.setState({
+	            self.setState({
 	              error: 'User already exists',
 	              password: '',
 	              confirmedPassword: '',
@@ -20227,7 +20234,7 @@
 
 	              // Redirect to teacher dashboard
 	            }).catch(function (err) {
-	              _this2.setState({
+	              self.setState({
 	                error: 'User already exists' + err,
 	                isLoading: false
 	              });
@@ -20411,8 +20418,6 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Classes).call(this, props));
 
 	    _this.state = {
-	      displayListener: _this.props.displayListener,
-
 	      classes: _this.props.classData.map(function (specificClass) {
 	        return _react2.default.createElement(
 	          'li',
@@ -20420,7 +20425,6 @@
 	              _this.setState({
 	                currentClass: event.target.innerText
 	              });
-	              _this.state.displayListener('class');
 	            }, key: specificClass.name },
 	          specificClass.name
 	        );
@@ -20433,7 +20437,6 @@
 	              _this.setState({
 	                currentStudent: event.target.innerText
 	              });
-	              _this.state.displayListener('student');
 	            }, key: specificStudent.firstname },
 	          specificStudent.firstname
 	        );
@@ -20451,61 +20454,53 @@
 	    value: function render() {
 	      var _this2 = this;
 
-	      if (this.props.display[0] === 'home') {
-	        return _react2.default.createElement(
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          'Classes'
+	        ),
+	        this.state.classes,
+	        _react2.default.createElement(
 	          'div',
 	          null,
 	          _react2.default.createElement(
-	            'h2',
-	            null,
-	            'Classes'
-	          ),
-	          this.state.classes,
-	          _react2.default.createElement(
-	            'div',
-	            null,
+	            'form',
+	            { onSubmit: this.addClass.bind(this) },
+	            _react2.default.createElement('input', { className: 'newClassForm', type: 'text', value: this.state.newClassName, onChange: function onChange(event) {
+	                _this2.setState({
+	                  newClassName: event.target.value
+	                });
+	              } }),
 	            _react2.default.createElement(
-	              'form',
-	              { onSubmit: this.addClass.bind(this) },
-	              _react2.default.createElement('input', { className: 'newClassForm', type: 'text', value: this.state.newClassName, onChange: function onChange(event) {
-	                  _this2.setState({
-	                    newClassName: event.target.value
-	                  });
-	                } }),
+	              'div',
+	              null,
 	              _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(
-	                  'button',
-	                  { type: 'submit' },
-	                  'Add new class'
-	                )
+	                'button',
+	                { type: 'submit' },
+	                'Add new class'
 	              )
 	            )
-	          ),
-	          _react2.default.createElement(
-	            'h2',
-	            null,
-	            'Today\'s Lessons'
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'There are no lessons today.'
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            null,
-	            _react2.default.createElement(_ClassData2.default, { students: this.state.students, display: this.props.display, displayListener: this.state.displayListener.bind(this), className: this.state.currentClass })
 	          )
-	        );
-	      } else {
-	        return _react2.default.createElement(
+	        ),
+	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          'Today\'s Lessons'
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          'There are no lessons today.'
+	        ),
+	        _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement(_ClassData2.default, { students: this.state.students, display: this.props.display, displayListener: this.state.displayListener.bind(this), className: this.state.currentClass })
-	        );
-	      }
+	          this.props.children
+	        )
+	      );
 	    }
 	  }, {
 	    key: 'addClass',
@@ -20522,7 +20517,6 @@
 	            style: { cursor: 'default' },
 	            onClickCapture: function onClickCapture(event) {
 	              _this3.setState({ currentClass: event.target.innerText });
-	              _this3.state.displayListener('lessons');
 	            },
 	            key: this.state.newClassName },
 	          this.state.newClassName
@@ -20537,8 +20531,26 @@
 	      // post to DB with teacher associated
 	    }
 	  }, {
-	    key: 'showClass',
-	    value: function showClass() {}
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(props) {
+	      var _this4 = this;
+
+	      var allClasses = props.classData.map(function (specificClass) {
+	        return _react2.default.createElement(
+	          'li',
+	          { style: { cursor: 'default' }, onClickCapture: function onClickCapture(event) {
+	              _this4.setState({
+	                currentClass: event.target.innerText
+	              });
+	            }, key: specificClass.name },
+	          specificClass.name
+	        );
+	      });
+
+	      this.setState({
+	        classes: allClasses
+	      });
+	    }
 	  }]);
 
 	  return Classes;
@@ -20583,7 +20595,6 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ClassData).call(this, props));
 
 	    _this.state = {
-	      displayListener: _this.props.displayListener,
 	      className: _this.props.className
 	    };
 	    return _this;
@@ -20596,17 +20607,13 @@
 	    // students?
 
 	    value: function render() {
-	      if (this.props.display[0] === 'class') {
-	        return _react2.default.createElement(
-	          'div',
-	          null,
-	          _react2.default.createElement(_LessonData2.default, { display: this.props.display, displayListener: this.state.displayListener.bind(this), className: this.props.className }),
-	          _react2.default.createElement(_StudentData2.default, { display: this.props.display, displayListener: this.state.displayListener.bind(this), className: this.props.className }),
-	          this.props.students
-	        );
-	      } else {
-	        return _react2.default.createElement('div', null);
-	      }
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(_LessonData2.default, { className: this.props.className }),
+	        _react2.default.createElement(_StudentData2.default, { className: this.props.className }),
+	        this.props.students
+	      );
 	    }
 	  }]);
 
@@ -20644,45 +20651,40 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LessonData).call(this, props));
 
 	    _this.state = {
-	      displayListener: _this.props.displayListener
+	      // polls
 	    };
 	    return _this;
 	  }
 
 	  _createClass(LessonData, [{
 	    key: 'render',
-	    // polls
 	    value: function render() {
-	      if (this.props.display[0] === 'class') {
-	        return _react2.default.createElement(
-	          'div',
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h2',
 	          null,
-	          _react2.default.createElement(
-	            'h2',
-	            null,
-	            this.props.className
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            { style: this.props.className === '' ? { display: 'none' } : {} },
-	            'Polls for ',
-	            this.props.className
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            { style: this.props.className === '' ? { display: 'none' } : {} },
-	            'January 1, 1970'
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            { style: this.props.className === '' ? { display: 'none' } : {} },
-	            'March 31, 2034'
-	          ),
-	          _react2.default.createElement(AddPoll, { hide: !this.props.className })
-	        );
-	      } else {
-	        return _react2.default.createElement('div', null);
-	      }
+	          this.props.className
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          { style: this.props.className === '' ? { display: 'none' } : {} },
+	          'Polls for ',
+	          this.props.className
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          { style: this.props.className === '' ? { display: 'none' } : {} },
+	          'January 1, 1970'
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          { style: this.props.className === '' ? { display: 'none' } : {} },
+	          'March 31, 2034'
+	        ),
+	        _react2.default.createElement(AddPoll, { hide: !this.props.className })
+	      );
 	    }
 	  }]);
 
@@ -20752,19 +20754,15 @@
 	  _createClass(StudentData, [{
 	    key: 'render',
 	    value: function render() {
-	      if (this.props.display[0] === 'student') {
-	        return _react2.default.createElement(
-	          'div',
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h1',
 	          null,
-	          _react2.default.createElement(
-	            'h1',
-	            null,
-	            'Student Data from Bobby here'
-	          )
-	        );
-	      } else {
-	        return _react2.default.createElement('div', null);
-	      }
+	          'Student Data from Bobby here'
+	        )
+	      );
 	    }
 	  }]);
 
@@ -20864,7 +20862,8 @@
 	  _createClass(Settings, [{
 	    key: 'render',
 	    value: function render() {
-	      if (this.props.display) {
+	      var that = this;
+	      if (that.props.display) {
 	        return _react2.default.createElement(
 	          'div',
 	          null,
@@ -20878,12 +20877,7 @@
 	            ),
 	            _react2.default.createElement(
 	              'li',
-	              null,
-	              'Your Classes'
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              null,
+	              { onClick: function onClick() {}, style: { cursor: 'default' } },
 	              'Logout'
 	            )
 	          )

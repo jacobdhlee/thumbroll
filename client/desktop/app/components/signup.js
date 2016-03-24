@@ -44,6 +44,7 @@ class Signup extends React.Component {
   }
 
   handleSubmit() {
+    var self = this;
       if (this.state.password === this.state.confirmedPassword) {
         this.setState({
           isLoading: true,
@@ -54,7 +55,7 @@ class Signup extends React.Component {
           this.state.email, this.state.password, this.state.accountType)
         .then((response) => {
           if(response.status === 500){
-            this.setState({
+            self.setState({
               error: 'User already exists',
               password: '',
               confirmedPassword: '',
@@ -71,7 +72,7 @@ class Signup extends React.Component {
               // Redirect to teacher dashboard
               })
               .catch((err) => {
-                this.setState({
+                self.setState({
                   error: 'User already exists' + err,
                   isLoading: false
                 });

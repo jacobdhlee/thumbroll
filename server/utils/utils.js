@@ -1,5 +1,6 @@
 exports.isLoggedIn = function (req) {
-  return req.session ? !!req.session.user : false;
+  if (req.session) {console.log("SESSION: ", req.session);}
+  return req.session ? !!req.session : false;
 };
 
 exports.createSession = function(req, res, newUser) {
@@ -9,6 +10,10 @@ exports.createSession = function(req, res, newUser) {
 };
 
 exports.checkUser = function(req, res, next) {
-  // Set property on body indicating whether user has a session
-  res.body.loggedIn = exports.isLoggedIn(req);
+  if (!exports.isLoggedIn(req)){
+    // Set property on body indicating whether user has no session
+    res.status(401).send({noSession: "true"});
+   } else {
+     next();
+   }
 };

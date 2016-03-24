@@ -16,6 +16,7 @@
     "bcrypt": "^0.8.5",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
+    "cookie-parser": "^1.4.1",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "express-sessions": "^1.0.5",

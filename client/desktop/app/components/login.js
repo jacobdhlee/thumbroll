@@ -40,8 +40,6 @@ class Login extends React.Component {
               error: false,
               isLoading: false
             });
-
-
             // pass these to teacher dashboard component:
             // classes: body.teacher.classes,
             // userId: body.teacher.uid

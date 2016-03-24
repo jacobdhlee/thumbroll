@@ -4,9 +4,6 @@ var bcrypt = require('bcrypt');
 var session = require('express-session');
 var utils = require('../utils/utils');
 
-// TODO: Remove globalTeacherCode
-var globalTeacherCode = 123;
-
 module.exports = {
   login: function(req, res, next) {
     var username = req.body.username;
@@ -149,9 +146,7 @@ module.exports = {
             });
           }
         });
-      }
-      // if no teacher code provided, assume user is student
-      else {
+      } else {
         models.students.findOne({
            where: {'username': username}
          })
@@ -199,5 +194,20 @@ module.exports = {
         });
       }
     });
+  },
+
+  logout: function(req, res, next) {
+    if (req.session) {
+      req.session.destroy(function(err) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(200).send("user logged out");
+        }
+      });
+    } else {
+      console.log("no session to destroy");
+      res.status(400).send("no user to log out");
+    }
   }
 };
