@@ -7,7 +7,7 @@ import Signup from './signup'
 import Classes from './teacher/classes/Classes'
 import Lessons from './teacher/classes/ClassData/ClassData'
 import LessonsData from './teacher/classes/ClassData/LessonData'
-import Students from './teacher/classes/students/StudentData'
+import Students from './teacher/classes/ClassData/StudentData'
 import Settings from './Settings'
 
 class App extends React.Component {
