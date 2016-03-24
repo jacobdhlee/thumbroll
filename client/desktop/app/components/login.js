@@ -1,5 +1,6 @@
 import React from 'react';
 import api from '../utils/api';
+import auth from './../utils/auth';
 
 class Login extends React.Component {
   constructor(props) {
@@ -21,6 +22,9 @@ class Login extends React.Component {
   }
 
   handleSubmit(){
+
+    // NEED TO MERGE LOGIC WITH AUTH.JS IN UTILS
+
     // Invoke controller to send POST request
     console.log(this.state);
     var that = this;

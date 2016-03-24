@@ -9,8 +9,28 @@ import Lessons from './teacher/classes/ClassData/ClassData'
 import LessonsData from './teacher/classes/ClassData/LessonData'
 import Students from './teacher/classes/students/StudentData'
 import Settings from './Settings'
+import auth from './../utils/auth'
 
 class App extends React.Component {
+
+  getInitialState() {
+    //NEED THIS AND SET STATE IN CONSTRUCTOR?
+    return {
+      loggedIn: auth.loggedIn()
+    };
+  }
+
+  updateAuth(loggedIn) {
+    this.setState({
+      loggedIn: loggedIn
+    });
+  }
+
+  componentWillMount() {
+    auth.onChange = this.updateAuth;
+    auth.login();
+  }
+
   constructor(props) {
     super(props);
 
@@ -109,3 +129,5 @@ var Nav = (props) => {
 };
 
 module.exports = App;
+
+  
