@@ -1,27 +1,14 @@
 import React from 'react'
 import ClassData from './ClassData/ClassData'
-
+import {Route, RouteHandler, Link} from 'react-router'
 
 class Classes extends React.Component {
   constructor(props){
     super(props);
     
     this.state = {
-      classes : this.props.classData.map((specificClass) => {
-        return (<li style={{cursor: 'default'}} onClickCapture={(event) => {
-          this.setState({
-            currentClass: event.target.innerText,
-          });
-        }} key={specificClass.name}>{specificClass.name}</li>)
-      }),
 
-      students : this.props.studentData.map((specificStudent) => {
-        return (<li style={{cursor: 'default'}} onClickCapture={(event) => {
-          this.setState({
-            currentStudent: event.target.innerText,
-          });
-        }} key={specificStudent.firstname}>{specificStudent.firstname}</li>)
-      }),
+      classes : [],
 
       newClassName : '',
       currentClass: '',
@@ -33,7 +20,14 @@ class Classes extends React.Component {
     return (
       <div>
         <h2>Classes</h2>
-        {this.state.classes}
+        
+        {this.state.classes.map((specificClass) => {
+          return (<li style={{cursor: 'default'}} key={specificClass.key}>
+            <Link to={`class/${specificClass.key}/lessons`}>{specificClass.key}</Link>
+            </li>)
+         })
+        }
+
         <div>
           <form onSubmit={this.addClass.bind(this)}>
             <input className='newClassForm' type='text' value={this.state.newClassName} onChange={(event) => {
