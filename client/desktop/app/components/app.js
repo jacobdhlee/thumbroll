@@ -53,7 +53,7 @@ class App extends React.Component {
         <div className='header'>
           <h1>Thumbroll</h1>
           <Nav showSettings={this.state.displayTeacherSettings} listener={this.showSettings.bind(this)}/>
-        </div>x
+        </div>
 
         <div className='body'>
 
