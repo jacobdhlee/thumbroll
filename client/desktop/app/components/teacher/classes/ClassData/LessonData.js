@@ -5,7 +5,7 @@ class LessonData extends React.Component {
     super(props);
     
     this.state = {
-      lessonId: 'get this from the url param',
+      lessonId: this.props.params.lessonId,
       className: 'get this from the DB query',
       polls: ['get this from the DB query']
     };

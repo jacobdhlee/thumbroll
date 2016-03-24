@@ -6,7 +6,7 @@ class StudentData extends React.Component {
     
     this.state = {
       students: ['Students list goes here from the DB'],
-      classId: 'put in from the URL param'
+      classId: this.props.params.classId
     };
   }
 
