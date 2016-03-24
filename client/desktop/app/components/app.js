@@ -56,7 +56,7 @@ class App extends React.Component {
         </div>x
 
         <div className='body'>
-        
+        <Login />
 
 
           <Classes studentData={this.state.students} classData={this.state.classes}/>
