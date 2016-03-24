@@ -56,15 +56,9 @@ class App extends React.Component {
         </div>x
 
         <div className='body'>
-        <Login />
 
+          {this.props.children}
 
-          <Classes studentData={this.state.students} classData={this.state.classes}/>
-
-
-
-
-          
         </div>
 
         <div className='footer'>
