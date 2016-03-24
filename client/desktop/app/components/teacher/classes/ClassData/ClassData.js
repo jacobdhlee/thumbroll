@@ -10,7 +10,7 @@ class ClassData extends React.Component {
     this.state = {
       className : 'The class name is from the DB! Talk to Jake and Jacob',
       classId: this.props.params.classId,
-      lessons: ['LessonData is here too'],
+      lessons: ['LessonData'],
 
     };
     console.log(this.state.classId);
@@ -21,8 +21,8 @@ class ClassData extends React.Component {
       <div>
         <h2>{this.state.className}</h2>
         
-        <li><Link to={`/classes/${this.state.classId}/students`}>{specificClass}</Link></li>
         <ul>
+        <li><Link to={`/class/${this.state.classId}/students`}>{`Students`}</Link></li>
           {this.state.lessons.map((lesson) => {
             return (<li style={{cursor: 'default'}} key={lesson}>
             <Link to={`/classes/${this.state.classId}/lessons/${lesson}`}>{lesson}</Link>

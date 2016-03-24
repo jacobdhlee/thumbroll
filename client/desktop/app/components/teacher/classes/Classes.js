@@ -1,6 +1,7 @@
 import React from 'react'
 import ClassData from './ClassData/ClassData'
 import {Route, RouteHandler, Link} from 'react-router'
+import api from '../../../utils/api';
 
 class Classes extends React.Component {
   constructor(props){
@@ -20,7 +21,6 @@ class Classes extends React.Component {
     return (
       <div>
         <h2>Classes</h2>
-        
         {this.state.classes.map((specificClass) => {
           return (<li style={{cursor: 'default'}} key={specificClass}>
             <Link to={`class/${specificClass}/lessons`}>{specificClass}</Link>
@@ -63,6 +63,12 @@ class Classes extends React.Component {
     }
 
     // post to DB with teacher associated
+  }
+
+  componentWillMount(){
+    this.setState({
+      classes: [1,2,3] //api.getClassData()
+    });
   }
 
 }
