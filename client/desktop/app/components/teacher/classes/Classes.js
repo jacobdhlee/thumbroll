@@ -1,5 +1,5 @@
 import React from 'react'
-import Lessons from './ClassData/ClassData'
+import ClassData from './ClassData/ClassData'
 
 
 class Classes extends React.Component {
@@ -49,7 +49,7 @@ class Classes extends React.Component {
         <h2>Today's Lessons</h2>
         <p>There are no lessons today.</p>
       <div>
-        <Lessons students={this.state.students} className={this.state.currentClass}/>
+        {this.props.children}
       </div>
     </div>
     );
