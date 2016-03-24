@@ -19,16 +19,13 @@ ReactDOM.render((
         <Route path='class/:classId/lessons' component={Lessons} onEnter={requireAuth} />
         <Route path='class/:classId/lessons/:lessonId' component={LessonsData} onEnter={requireAuth} />
         <Route path='class/:classId/students/:studentId' component={Students} onEnter={requireAuth} />
-      </Route>
-      <Route path='login' component={Login} />
+    </Route>
+    <Route path='login' component={Login} />
   </Router>
 ), document.getElementById("app"));
 
 function requireAuth(nextState, replace) {
   if (!auth.loggedIn()) {
-    replace({
-      pathname: '/login',
-      state: { nextPathname: nextState.location.pathname }
-    })
+    replace({nextPathName: nextState.location.pathname}, '/login');
   }
 }

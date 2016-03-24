@@ -21,51 +21,44 @@ class Login extends React.Component {
     this.setState({password: event.target.value});
   }
 
-  handleSubmit(){
-
-    // NEED TO MERGE LOGIC WITH AUTH.JS IN UTILS
-
+  handleSubmit() {
     // Invoke controller to send POST request
-    console.log(this.state);
-    var that = this;
-    api.login(this.state.username, this.state.password)
-      .then((response) => {
-        if(response.status === 400){
-          this.setState({
-             error: 'Username or password is incorrect',
-             isLoading: false
-           });
-          console.log(this.state.error);
-        } else if (response.status === 200) {
-          response.json().then(function(body){
-            console.log('body',body);
 
-            that.setState({
-              error: false,
-              isLoading: false
-            });
-            // pass these to teacher dashboard component:
-            // classes: body.teacher.classes,
-            // userId: body.teacher.uid
+    auth.login(this.state.username, this.state.password, (success) => {
+      if(success) {
+        this.setState({
+          error: false,
+          isLoading: false
+        });
+        // pass these to teacher dashboard component:
+        // classes: body.teacher.classes,
+        // userId: body.teacher.uid
 
-            // Redirect to teacher dashboard
-            // userId: body.teacher.uid
-            // classes: body.teacher.classes,
-          });
+        // Redirect to teacher dashboard
+        // userId: body.teacher.uid
+        // classes: body.teacher.classes,
+        if(this.props.location.state) {
+          var nextPage = this.props.location.state.nextPathName;
+          this.context.router.replace(nextPage);
+          return;
         }
-      })
-      .catch((err) => {
-        that.setState({
-           error: 'User not found' + err,
-           isLoading: false
-         });
-        console.log(this.state.error)
-      });
-      that.setState({
+        else {
+          this.props.history.replace('/');
+          return;
+        }
+      } else {
+        this.setState({
+          error: 'Username or password is incorrect',
+          isLoading: false
+        });
+        console.log(this.state.error);
+      }
+      this.setState({
         isLoading: false,
         username: '',
         password: ''
       });
+    });
   }
 
   render(){
@@ -93,5 +86,9 @@ class Login extends React.Component {
     );
   }
 }
+
+Login.contextTypes = {
+  router: React.PropTypes.func.isRequired
+};
 
 module.exports = Login;

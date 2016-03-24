@@ -14,22 +14,16 @@ import auth from './../utils/auth'
 
 class App extends React.Component {
 
-  getInitialState() {
-    //NEED THIS AND SET STATE IN CONSTRUCTOR?
-    return {
-      loggedIn: auth.loggedIn()
-    };
-  }
-
-  updateAuth(loggedIn) {
-    this.setState({
-      loggedIn: loggedIn
-    });
-  }
-
   componentWillMount() {
-    auth.onChange = this.updateAuth;
-    auth.login();
+    //check if logged in;
+    auth.checkForSession((resp) => {
+      if(resp === false) {
+        // not logged in
+      } else {
+        var userId = resp;
+        this.loadTeacherData(userId);
+      }
+    });
   }
 
   constructor(props) {
@@ -131,4 +125,3 @@ var Nav = (props) => {
 
 module.exports = App;
 
-  
