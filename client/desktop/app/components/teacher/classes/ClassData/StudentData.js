@@ -9,18 +9,11 @@ class StudentData extends React.Component {
   }
 
   render(){
-    if(this.props.display[0] === 'student') {
-      return (
-        <div>
-          <h1>Student Data from Bobby here</h1>
-        </div>
-      )
-    } else {
-      return (
-        <div>
-        </div>
-      )
-    }
+    return (
+      <div>
+        <h1>Student Data from Bobby here</h1>
+      </div>
+    )
   }
 }
 

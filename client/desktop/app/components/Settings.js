@@ -14,7 +14,6 @@ class Settings extends React.Component {
         <ul>
           <li>Your Profile</li>
           <li onClick={()=>{
-            that.props.displayListener('auth');
           }} style={{cursor: 'default'}}>Logout</li>
         </ul>
       </div>)

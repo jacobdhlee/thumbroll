@@ -1,10 +1,12 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var server = require('http').createServer(app);  
 var io = require('socket.io').listen(server);
 var models = require("./models");
 var socketLogic = require("./socketLogic");
 var bodyParser = require("body-parser");
 var session = require('express-session');
+var path = require('path');
 
 var PORT = process.env.PORT || 3000;
 app.use(function(req, res, next) {
@@ -19,6 +21,8 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+
+app.use(express.static(path.join(__dirname, '../client/desktop/dist')));
 
 models.sequelize.sync({force: true}).then(function () {
   require('./config/routes.js')(app, io);

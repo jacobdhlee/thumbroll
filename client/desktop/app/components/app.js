@@ -1,4 +1,7 @@
 import React from 'react'
+import {render} from 'react-dom'
+import {Router, Route, browserHistory, IndexRoute} from 'react-router'
+
 import Login from './login'
 import Signup from './signup'
 import Classes from './teacher/classes/Classes'
@@ -26,7 +29,6 @@ class App extends React.Component {
       ],
       classes: [],
       displayTeacherSettings: false,
-      display: ['auth']
     };
   }
 
@@ -38,8 +40,6 @@ class App extends React.Component {
     });
   }
 
-
-
   showSettings(event){
     var currentDisplaySetting = this.state.displayTeacherSettings;
     this.setState({
@@ -47,48 +47,24 @@ class App extends React.Component {
     });
   }
 
-  manipulateDisplays(newDisplay){
-    if(newDisplay === 'auth') {
-      this.setState({
-        display: ['auth'],
-        displayTeacherSettings: false
-      });
-      //fire request to destroy
-    } else {
-      var currentDisplay = this.state.display.slice();
-
-      if(currentDisplay[0] !== newDisplay){
-        currentDisplay.unshift(newDisplay);
-      }
-      this.setState({
-        display: currentDisplay
-      });
-    }
-  }
-
-  goBack(){
-    var currentDisplayArray = this.state.display.slice();
-    currentDisplayArray.shift();
-    this.setState({
-      display: currentDisplayArray
-    });
-  }
-
   render(){
     return (
       <div>
-        
         <div className='header'>
-          <h1 onClick={this.state.display[0] !== 'auth' ? this.manipulateDisplays.bind(this, 'home') : ()=>{}}>Thumbroll</h1>
-          <Nav displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} showSettings={this.state.displayTeacherSettings} listener={this.showSettings.bind(this)}/>
-        </div>
-
-        <Login loadTeacherData={this.loadTeacherData.bind(this)} displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} />
-
-        <button style={this.state.display[0] !== 'home' && this.state.display[0] !== 'auth' ? {} : {display:'none'}} onClick={this.goBack.bind(this)}>Go back</button>
+          <h1>Thumbroll</h1>
+          <Nav showSettings={this.state.displayTeacherSettings} listener={this.showSettings.bind(this)}/>
+        </div>x
 
         <div className='body'>
-          <Classes displayListener={this.manipulateDisplays.bind(this)} display={this.state.display} studentData={this.state.students} classData={this.state.classes}/>
+        <Login />
+
+
+          <Classes studentData={this.state.students} classData={this.state.classes}/>
+
+
+
+
+          
         </div>
 
         <div className='footer'>
@@ -128,18 +104,14 @@ class App extends React.Component {
 // }
 
 var Nav = (props) => {
-  if(props.display[0] !== 'auth'){ 
-    return (<div>
-      <nav className="navbar">
-      <div>
-        <li onClick={props.listener} style={{cursor: 'default'}}>Settings</li>
-        <Settings displayListener={props.displayListener} display={props.showSettings}/>
-      </div>
-    </nav>
-    </div> )
-  } else {
-    return (<div></div>)
-  }
+  return (<div>
+    <nav className="navbar">
+    <div>
+      <li onClick={props.listener} style={{cursor: 'default'}}>Settings</li>
+      <Settings displayListener={props.displayListener} display={props.showSettings}/>
+    </div>
+  </nav>
+  </div> )
 };
 
 module.exports = App;
