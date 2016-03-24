@@ -9,6 +9,7 @@ import Lessons from './teacher/classes/ClassData/ClassData'
 import LessonsData from './teacher/classes/ClassData/LessonData'
 import Students from './teacher/classes/ClassData/StudentData'
 import Settings from './Settings'
+import Profile from './Profile'
 
 class App extends React.Component {
   constructor(props) {
@@ -51,7 +52,7 @@ class App extends React.Component {
     return (
       <div>
         <div className='header'>
-          <h1>Thumbroll</h1>
+          <a href='/'>Thumbroll</a>
           <Nav showSettings={this.state.displayTeacherSettings} listener={this.showSettings.bind(this)}/>
         </div>
 
