@@ -10,14 +10,6 @@ class Classes extends React.Component {
 
       classes : [],
 
-      students : this.props.studentData.map((specificStudent) => {
-        return (<li style={{cursor: 'default'}} onClickCapture={(event) => {
-          this.setState({
-            currentStudent: event.target.innerText,
-          });
-        }} key={specificStudent.firstname}>{specificStudent.firstname}</li>)
-      }),
-
       newClassName : '',
       currentClass: '',
       currentStudent: ''
@@ -28,13 +20,13 @@ class Classes extends React.Component {
     return (
       <div>
         <h2>Classes</h2>
-
-        {this.state.map((specificClass) => {
-          return (<li style={{cursor: 'default'}} key={specificClass.name}>
-            <Link to={`/classes/${specificClass}`}>
-            {specificClass.name}<Link/>
+        
+        {this.state.classes.map((specificClass) => {
+          return (<li style={{cursor: 'default'}} key={specificClass.key}>
+            <Link to={`/classes/${specificClass.key}`}>{specificClass.key}</Link>
             </li>)
-        })}
+         })
+        }
 
         <div>
           <form onSubmit={this.addClass.bind(this)}>
