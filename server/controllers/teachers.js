@@ -2,8 +2,18 @@ var models = require("./../models");
 
 module.exports = {
   getClasses: function(req, res, next) {
-    var teacherId = req.body.teacherId;
-
+    var teacherId = req.params.teacherId;
+    models.classes.findAll({ where: {
+        teacher_id: teacherId
+      }
+    })
+    .then(function(classes){
+      res.status(200).send(classes);
+    })
+    .catch(function(err){
+      console.error('Error getting class from DB', err);
+      res.status(500).send(err);
+    })
     //TODO: get all classes through TeacherClasses
     //currently being handled by authentication controller, but probably should be here
   },
@@ -25,9 +35,10 @@ module.exports = {
 
   addClassLesson: function(req, res, next) {
     var classId = req.body.classId;
-    var date = new Date();
+    var name = req.body.name;
+    var date = req.body.date;
     models.lessons.create({
-      name: 'New Lesson: ' + date.toLocaleDateString(),
+      name: name,
       date: date,
       class_id: classId
     })
@@ -103,5 +114,39 @@ module.exports = {
         res.status(500).send(err);
       });
     }
+  },
+
+  addClasses: function(req, res, next) {
+    var teacherId = req.body.teacherId;
+    var name = req.body.name;
+    models.classes.create({
+      name: name,
+      teacher_id: teacherId,
+    })
+    .then(function(data) {
+      var body = {classId: data.dataValues.id};
+      res.status(200).send(body);
+    })
+    .catch(function(err) {
+      console.error('Error saving class to DB:', err);
+      res.status(500).send(err);
+    });
+  },
+
+  addStudentToClass: function(req, res, next) {
+    var studentId = req.body.studentId;
+    var classId = req.body.classId;
+    models.students_classes.create({
+      student_id: studentId,
+      class_id: classId,
+    })
+    .then(function(data){
+      var body = {classId: data.dataValues.id};
+      res.status(200).send(body);
+    })
+    .catch(function(err){
+      console.error('Error saving class to DB:', err);
+      res.status(500).send(err);
+    })
   },
 };

@@ -1,5 +1,6 @@
 var studentsController = require('../controllers/students');
 var teachersController = require('../controllers/teachers');
+var classesController = require('../controllers/classes');
 var authenticationController = require('../controllers/authenticate');
 var rootController = require('../controllers/root');
 var utils = require('../utils/utils');
@@ -15,8 +16,15 @@ module.exports = function(app, io) {
   app.get('/teachers/polls/:lessonId', utils.checkUser, teachersController.getLessonPolls);  
   
   app.get('/teachers/lessons/:classId', utils.checkUser, teachersController.getClassLessons);
-  app.post('/teachers/lessons', utils.checkUser, teachersController.addClassLesson);
+
+  app.get('/teachers/classes/:teacherId', teachersController.getClasses);
+  app.get('/students/classes/:studentId', studentsController.getClasses);
+  app.get('/classes/lessons/:classId', classesController.getLessons);
+
+  app.post('/teachers/lessons', teachersController.addClassLesson);
 
   app.post('/students/ready', utils.checkUser, studentsController.readyStage.bind(null, io));
   // app.get(utils.checkUser, '/', rootController.root);
+  app.post('/teachers/classes', teachersController.addClasses);
+  app.post('/teachers/class/student', teachersController.addStudentToClass);
 };
