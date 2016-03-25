@@ -16,11 +16,14 @@ class ClassData extends React.Component {
       className : 'The class name is from the DB! Talk to Jake and Jacob',
       classId: this.props.params.classId,
       lessons: ['1'],
-      students: ['bobby', 'sally'],
+      
       displayLessons: true,
       displayStudents: false,
       newLessonName: '',
-      newLessonDate: moment()
+      newLessonDate: moment(),
+      
+      students: ['bobby', 'sally'],
+      newStudentName: ''
     };
   }
 
@@ -53,7 +56,11 @@ class ClassData extends React.Component {
         <Students 
           students={this.state.students} 
           display={this.state.displayStudents} 
-          classId={this.state.classId}/>
+          classId={this.state.classId}
+          addStudent={this.addStudent.bind(this)}
+          newStudentName={this.state.newStudentName}
+          changeNewStudentName={this.changeNewStudentName.bind(this)}
+          />
       </div>
     )
   }
@@ -81,13 +88,37 @@ class ClassData extends React.Component {
     // update state with new list item
     if(!!this.state.newLessonName.trim()){
       var lessonsCopy = this.state.lessons.slice();
-      lessonsCopy.push(this.state.newLessonName);
 
-      // push to DB with this.state.newLessonDate
+      // push to DB, return lesson object and push it to lessonsCopy
+      // on a .then()
+      lessonsCopy.push(this.state.newLessonName);
       
       this.setState({
         lessons: lessonsCopy,
         newLessonName: ''
+      });
+    }
+  }
+
+  changeNewStudentName(student){
+    this.setState({
+      newStudentName: student,
+    })
+  }
+
+  addStudent(e){
+    e.preventDefault();
+    // update state with new list item
+    if(!!this.state.newStudentName.trim()){
+      var studentsCopy = this.state.students.slice();
+
+      // push to DB, return student object and push it to studentsCopy
+      // on a .then()
+      studentsCopy.push(this.state.newStudentName);
+      
+      this.setState({
+        students: studentsCopy,
+        newStudentName: ''
       });
     }
   }
@@ -104,6 +135,21 @@ const Students = (props) => {
             </li>)
           })}
         </ul>
+
+        <div>
+          <h3>New Student</h3>
+          <div>
+            <form onSubmit={props.addStudent}>
+              <input type='text' value={props.newStudentName} onChange={(event) => {
+                props.changeNewStudentName(event.target.value);
+              }} />
+              
+              <div>
+                <button type='submit'>Add</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     )
   } else {
@@ -124,6 +170,7 @@ const Lessons = (props) => {
         </ul>
 
         <div>
+          <h3>New Lesson</h3>
           <div>
             <form onSubmit={props.addLesson}>
               <input type='text' value={props.newLessonName} onChange={(event) => {
@@ -133,7 +180,7 @@ const Lessons = (props) => {
                 props.changeDate(date);
               }} />
               <div>
-                <button type='submit'>Add new lesson</button>
+                <button type='submit'>Add</button>
               </div>
             </form>
           </div>
