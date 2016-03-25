@@ -49,7 +49,11 @@ class RequestFeedbackView extends React.Component {
     this.state.socket.on('studentRaisedHand', function(data){
       var numberOfStudentHands = this.state.numberOfStudentHands + 1;
       var raisedHandList = this.state.raisedHandList.slice();
-      raisedHandList.push({student: data.user.firstName + ' ' + data.user.lastName , active: true});
+      if(data.user.firstName) {
+        raisedHandList.push({student: data.user.firstName + ' ' + data.user.lastName , active: true});    
+      } else {
+        raisedHandList.push({student: data.user.uid, active: true});
+      }
       this.setState({
         numberOfStudentHands: numberOfStudentHands,
         raisedHandList: raisedHandList
