@@ -25220,6 +25220,10 @@
 	    });
 	  },
 
+	  getClasses: function getClasses(teacherId) {
+	    return fetch(server + '/teachers/classes/' + teacherId);
+	  },
+
 	  getClassData: function getClassData(classId) {
 	    return fetch(server + '/teachers/' + classId);
 	  },
@@ -25601,8 +25605,9 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Classes).call(this, props));
 
 	    _this.state = {
-
-	      classes: ['1', '2', '3'],
+	      // TODO: REMOVE HARDCODED DATA
+	      uid: 1,
+	      classes: [],
 	      lessons: [],
 	      newClassName: '',
 	      currentClass: '',
@@ -25627,11 +25632,11 @@
 	        this.state.classes.map(function (specificClass) {
 	          return _react2.default.createElement(
 	            'li',
-	            { style: { cursor: 'default' }, key: specificClass },
+	            { style: { cursor: 'default' }, key: "class:" + specificClass.id },
 	            _react2.default.createElement(
 	              _reactRouter.Link,
-	              { to: 'class/' + specificClass + '/lessons' },
-	              specificClass
+	              { to: 'class/' + specificClass.id + '/lessons' },
+	              specificClass.name
 	            )
 	          );
 	        }),
@@ -25685,13 +25690,25 @@
 	  }, {
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      this.setState({
-	        classes: [1, 2, 3], //api.getClassData()
-	        lessons: [{
-	          id: 4,
-	          name: 'Pirates',
-	          classId: 1
-	        }] //array of lesson objects for today from the DB
+	      var _this3 = this;
+
+	      _api2.default.getClasses(this.state.uid).then(function (response) {
+	        if (response.status === 400) {
+	          _this3.setState({
+	            error: 'No classes found',
+	            isLoading: false
+	          });
+	          console.log(_this3.state.error);
+	        } else if (response.status === 200) {
+	          response.json().then(function (response) {
+	            console.log("RESPONSE = ", response);
+	            _this3.setState({
+	              classes: response,
+	              error: false,
+	              isLoading: false
+	            });
+	          });
+	        }
 	      });
 	    }
 	  }]);

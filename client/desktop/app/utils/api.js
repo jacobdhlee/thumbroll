@@ -83,6 +83,10 @@ module.exports = {
     });
   },
 
+  getClasses: (teacherId) => {
+    return fetch(server + '/teachers/classes/' + teacherId);
+  },
+
   getClassData: (classId) => {
     return fetch(server + '/teachers/' + classId);
   },
