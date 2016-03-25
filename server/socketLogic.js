@@ -94,6 +94,7 @@ module.exports = function(io) {
       io.sockets.to(room).emit('studentRaisedHand', data);
     });
 
+
     client.on('askQuestions', function(data) {
       io.sockets.to(room).emit('studentQuestions', data);
     })

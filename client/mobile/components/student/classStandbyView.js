@@ -71,7 +71,7 @@ class ClassStandbyView extends React.Component {
   }
   raiseHand() {
     this.state.socket.emit('raiseHand', {user: this.state.user});
-    Alert.alert('Raise Hand', 'Wating for the teacher response')
+    Alert.alert('Raise Hand', 'Wating for the teacher response');
     console.log('raiseHand');
 
   }
@@ -93,7 +93,7 @@ class ClassStandbyView extends React.Component {
 
   closeQuestion() {
 
-    this.state.socket.emit('askQuestions', {question: this.state.question});
+    this.state.socket.emit('askQuestions', {question: this.state.question, student: this.state.user});
     this.setState({
       modal: false,
       question: '',
