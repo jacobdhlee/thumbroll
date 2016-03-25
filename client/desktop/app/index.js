@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, browserHistory, IndexRoute} from 'react-router'
+import {Router, Route, hashHistory, IndexRoute} from 'react-router'
 import App from './components/app';
 import Login from './components/login'
 import Signup from './components/signup'
@@ -13,7 +13,7 @@ import Profile from './components/Profile'
 import auth from './utils/auth.js'
 
 ReactDOM.render((
-  <Router history={browserHistory}>
+  <Router history={hashHistory}>
     <Route path='/' component = {App}>
       <IndexRoute component = {Classes} onEnter={requireAuth} />
       <Route path='/profile' component={Profile} onEnter={requireAuth} />
@@ -30,3 +30,4 @@ function requireAuth(nextState, replace) {
     replace({nextPathName: nextState.location.pathname}, '/login');
   }
 }
+
