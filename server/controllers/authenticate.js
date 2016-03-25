@@ -29,7 +29,7 @@ module.exports = {
               bcrypt.compare(password, matchedUser.dataValues.password, function(err, match) {
                 if (match) {
                   // generate a session on the response object
-                  utils.createSession(req, res, username);
+                  utils.createSession(req, res, 's.' + matchedUser.dataValues.id);
 
                   // Find all classes student is enrolled in (via student_classes table)
                   // Attach them to response object
@@ -61,7 +61,7 @@ module.exports = {
           bcrypt.compare(password, matchedUser.dataValues.password, function(err, match) {
             if (match) {
               // generate a session on the response object
-              utils.createSession(req, res, username);
+              utils.createSession(req, res, 't.' + matchedUser.dataValues.id);
 
               // pull teacher's classes from db and attach them to response object
               models.classes.findAll({
@@ -136,7 +136,7 @@ module.exports = {
                       }
                     };
                     // generate a session on the response object
-                    utils.createSession(req, res, username);
+                    utils.createSession(req, res, 't.' + user.dataValues.id);
 
                     // SUCCESS: Account created -> client redirects to '/teacher'
                     res.status(200).send(teacherObj);
@@ -182,7 +182,7 @@ module.exports = {
                       }
                     };
                     // generate a session on the response object
-                    utils.createSession(req, res, username);
+                    utils.createSession(req, res, 's.' + user.dataValues.id);
 
                     // SUCCESS -> client redirects to '/student'
                     res.status(200).send(studentObj);
@@ -208,6 +208,17 @@ module.exports = {
     } else {
       console.log("no session to destroy");
       res.status(400).send("no user to log out");
+    }
+  },
+
+  checkAuth: function(req, res, next) {
+    if(utils.isLoggedIn(req)) {
+      console.log('check for session', req.session);
+      console.log('check for user', req.session.user);
+      res.status(200).send(req.session.user);
+    }
+    else {
+      res.status(200).send(false);
     }
   }
 };

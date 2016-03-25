@@ -6,6 +6,7 @@ exports.isLoggedIn = function (req) {
 exports.createSession = function(req, res, newUser) {
   return req.session.regenerate(function () {
     req.session.user = newUser;
+    console.log('created session with user', newUser, 'see?', req.session.user);
   });
 };
 

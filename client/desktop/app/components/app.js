@@ -16,13 +16,9 @@ class App extends React.Component {
 
   componentWillMount() {
     //check if logged in;
-    auth.checkForSession((resp) => {
-      if(resp === false) {
-        // not logged in
-      } else {
-        var userId = resp;
-        this.loadTeacherData(userId);
-      }
+    auth.checkForSession((loggedIn) => {
+      console.log('loggedin', loggedIn);
+      // if logged in, need to have uid
     });
   }
 
@@ -46,8 +42,6 @@ class App extends React.Component {
       displayTeacherSettings: false,
     };
   }
-
-  //events here
 
   loadTeacherData(teacherObject){
     this.setState({
@@ -82,11 +76,6 @@ class App extends React.Component {
       </div>
     );
   }
-
-  componentDidMount(){
-    //fetch classes from the DB and update the state to be passed down to Classes
-  }
-
 }
 
 

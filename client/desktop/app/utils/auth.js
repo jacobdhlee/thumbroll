@@ -26,19 +26,31 @@ module.exports = {
 
   logout(callback) {
     delete localStorage.token;
-    if (callback) {
-      callback();
-    } 
+    api.logout()
+    .then(() => {
+      if (callback) {
+        callback();
+      } 
+    });
   },
 
   loggedIn() {
     return !!localStorage.token
   },
 
-  checkForSession() {
-    delete localStorage.token;
-    // localStorage.token = true;
-    return false;
+  checkForSession(next) {
+    // delete localStorage.token;
+    return api.checkForSession()
+    .then((response) => {
+      if(response.status === 200) {
+        console.log('CHECKING FOR SESSION', response);
+        next(true);
+      }
+    })
+    .catch((err) => {
+      console.error('Error checking session', err);
+      next(false);
+    });
     // send api request to protected route
     // if response.status === 401, i don't have access
       // return false;

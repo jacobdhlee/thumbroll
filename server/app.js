@@ -23,11 +23,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // Session handling
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(session({
   secret: "Bueller",
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: false,
+    secure: false
+  }
 }));
 
 // Serve bundled index.html

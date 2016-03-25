@@ -10,6 +10,8 @@ module.exports = function(app, io) {
   app.post('/login', authenticationController.login);
   app.post('/signup', authenticationController.signup);
   app.get('/logout', authenticationController.logout);
+
+  app.get('/checkAuth', authenticationController.checkAuth);
     
   app.post('/teachers/polls/', utils.checkUser, teachersController.pollClass.bind(null, io));
 

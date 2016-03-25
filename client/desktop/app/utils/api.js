@@ -35,6 +35,14 @@ module.exports = {
       });
   },
 
+  checkForSession: () => {
+    return fetch(server + '/checkAuth');
+  },
+
+  logout: () => {
+    return fetch(server + '/logout');
+  },
+
   addLesson: (classId) => {
     return fetch(server + '/teachers/lessons', {
       method: 'POST',
