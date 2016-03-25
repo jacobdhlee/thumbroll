@@ -24996,6 +24996,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _api = __webpack_require__(220);
+
+	var _api2 = _interopRequireDefault(_api);
+
 	var _auth = __webpack_require__(219);
 
 	var _auth2 = _interopRequireDefault(_auth);
@@ -25128,11 +25132,9 @@
 
 /***/ },
 /* 219 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict';
-
-	var api = __webpack_require__(220);
 
 	module.exports = {
 	  login: function login(username, password, callback) {

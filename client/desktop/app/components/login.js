@@ -1,4 +1,5 @@
 import React from 'react';
+import api from './../utils/api';
 import auth from './../utils/auth';
 
 class Login extends React.Component {
@@ -19,6 +20,7 @@ class Login extends React.Component {
   handlePasswordChange(event) {
     this.setState({password: event.target.value});
   }
+
 
   handleSubmit() {
     // Invoke controller to send POST request
