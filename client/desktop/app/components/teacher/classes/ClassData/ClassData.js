@@ -32,7 +32,7 @@ class ClassData extends React.Component {
   render(){
     return (
       <div>
-        <h2>{this.state.className}</h2>
+        <h2 className="className">{this.state.className}</h2>
         <ul>
           <li onClick={() => this.setState({
             displayLessons: true,
@@ -112,7 +112,7 @@ class ClassData extends React.Component {
       var lessonsCopy = this.state.lessons.slice();
       var newLessonDate = this.state.newLessonDate;
 
-      // push to DB, return lesson object and push it to lessonsCopy
+      // TODO: push to DB, return lesson object and push it to lessonsCopy
       // on a .then()
 
       api.addLesson(this.state.classId, newLessonName, newLessonDate)
