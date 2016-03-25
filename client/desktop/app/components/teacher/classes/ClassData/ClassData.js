@@ -4,6 +4,7 @@ import LessonData from './LessonData'
 import StudentData from './StudentData'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
+import api from '../../../../utils/api';
 require('react-datepicker/dist/react-datepicker.css');
 
 
@@ -15,14 +16,14 @@ class ClassData extends React.Component {
     this.state = {
       className : 'The class name is from the DB! Talk to Jake and Jacob',
       classId: this.props.params.classId,
-      lessons: ['1'],
+      lessons: [],
       
       displayLessons: true,
       displayStudents: false,
       newLessonName: '',
       newLessonDate: moment(),
       
-      students: ['bobby', 'sally'],
+      students: [],
       newStudentName: ''
     };
   }
@@ -66,9 +67,27 @@ class ClassData extends React.Component {
   }
 
   componentWillMount(){
-    // query the DB for all lessons with a given class ID given in the URL param
-    // place in state at this.state.lessons
-    // also get the class name from the DB and put in state
+    api.getClassData(this.state.classId)
+    .then((response) => {
+      if(response.status === 400){
+        this.setState({
+           error: 'No class data found',
+           isLoading: false
+         });
+        console.log(this.state.error);
+      } else if (response.status === 200) {
+        response.json().then((response) => {
+         console.log("CLASS RESPONSE = ", response);   
+          this.setState({
+            className: response.className,
+            lessons: response.lessons,
+            error: false,
+            isLoading: false
+          });
+
+        });
+      }
+    });
   }
 
   changeDate(newDate){
@@ -163,8 +182,8 @@ const Lessons = (props) => {
       <div>
         <ul>
           {props.lessons.map((lesson) => {
-            return (<li style={{cursor: 'default'}} key={lesson}>
-            <Link to={`/class/${props.classId}/lessons/${lesson}`}>{lesson}</Link>
+            return (<li style={{cursor: 'default'}} key={"lesson:"+lesson.id}>
+            <Link to={`/class/${props.classId}/lessons/${lesson}`}>{lesson.name}</Link>
             </li>)
           })}
         </ul>

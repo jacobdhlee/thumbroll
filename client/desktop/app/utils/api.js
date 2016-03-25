@@ -88,9 +88,9 @@ module.exports = {
   },
 
   getClassData: (classId) => {
-    return fetch(server + '/teachers/' + classId);
+    return fetch(server + '/classes/lessons/' + classId);
   },
-
+  
   getAllStudents: () => {
     
   },

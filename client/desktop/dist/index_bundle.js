@@ -25225,7 +25225,7 @@
 	  },
 
 	  getClassData: function getClassData(classId) {
-	    return fetch(server + '/teachers/' + classId);
+	    return fetch(server + '/classes/lessons/' + classId);
 	  },
 
 	  getAllStudents: function getAllStudents() {}
@@ -25791,6 +25791,10 @@
 
 	var _moment2 = _interopRequireDefault(_moment);
 
+	var _api = __webpack_require__(219);
+
+	var _api2 = _interopRequireDefault(_api);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -25812,14 +25816,14 @@
 	    _this.state = {
 	      className: 'The class name is from the DB! Talk to Jake and Jacob',
 	      classId: _this.props.params.classId,
-	      lessons: ['1'],
+	      lessons: [],
 
 	      displayLessons: true,
 	      displayStudents: false,
 	      newLessonName: '',
 	      newLessonDate: (0, _moment2.default)(),
 
-	      students: ['bobby', 'sally'],
+	      students: [],
 	      newStudentName: ''
 	    };
 	    return _this;
@@ -25884,9 +25888,27 @@
 	  }, {
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      // query the DB for all lessons with a given class ID given in the URL param
-	      // place in state at this.state.lessons
-	      // also get the class name from the DB and put in state
+	      var _this3 = this;
+
+	      _api2.default.getClassData(this.state.classId).then(function (response) {
+	        if (response.status === 400) {
+	          _this3.setState({
+	            error: 'No class data found',
+	            isLoading: false
+	          });
+	          console.log(_this3.state.error);
+	        } else if (response.status === 200) {
+	          response.json().then(function (response) {
+	            console.log("CLASS RESPONSE = ", response);
+	            _this3.setState({
+	              className: response.className,
+	              lessons: response.lessons,
+	              error: false,
+	              isLoading: false
+	            });
+	          });
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'changeDate',
@@ -26016,11 +26038,11 @@
 	        props.lessons.map(function (lesson) {
 	          return _react2.default.createElement(
 	            'li',
-	            { style: { cursor: 'default' }, key: lesson },
+	            { style: { cursor: 'default' }, key: "lesson:" + lesson.id },
 	            _react2.default.createElement(
 	              _reactRouter.Link,
 	              { to: '/class/' + props.classId + '/lessons/' + lesson },
-	              lesson
+	              lesson.name
 	            )
 	          );
 	        })
