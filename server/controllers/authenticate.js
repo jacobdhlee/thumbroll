@@ -212,9 +212,13 @@ module.exports = {
   },
 
   checkAuth: function(req, res, next) {
+    // req.session.user = 'ian';
     if(utils.isLoggedIn(req)) {
       console.log('check for session', req.session);
+      //Currently can't get session user
       console.log('check for user', req.session.user);
+      console.log(req.session.cookie);
+      console.log(req.cookies);
       res.status(200).send(req.session.user);
     }
     else {
