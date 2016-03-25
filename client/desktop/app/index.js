@@ -27,7 +27,7 @@ ReactDOM.render((
 
 function requireAuth(nextState, replace) {
   if (!auth.loggedIn()) {
-    replace({nextPathName: nextState.location.pathname}, '/login');
+    replace({state:{nextPathName: nextState.location.pathname}, pathname:'/login'});
   }
 }
 

@@ -41,7 +41,7 @@ module.exports = {
 
   checkForSession(next) {
     delete localStorage.token;
-    return api.checkForSession()
+    api.checkForSession()
     .then((response) => {
       if(response.status === 200) {
         response.json().then((data) => {

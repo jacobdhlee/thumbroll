@@ -89,7 +89,7 @@ class Login extends React.Component {
 }
 
 Login.contextTypes = {
-  router: React.PropTypes.func.isRequired
+  router: React.PropTypes.any.isRequired
 };
 
 module.exports = Login;
