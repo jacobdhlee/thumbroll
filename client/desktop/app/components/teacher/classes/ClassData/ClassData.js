@@ -2,6 +2,11 @@ import React from 'react'
 import {Route, RouteHandler, Link} from 'react-router'
 import LessonData from './LessonData'
 import StudentData from './StudentData'
+import DatePicker from 'react-datepicker'
+import moment from 'moment'
+require('react-datepicker/dist/react-datepicker.css');
+
+
 
 class ClassData extends React.Component {
   constructor(props){
@@ -13,8 +18,9 @@ class ClassData extends React.Component {
       lessons: ['1'],
       students: ['bobby', 'sally'],
       displayLessons: true,
-      displayStudents: false
-
+      displayStudents: false,
+      newLessonName: '',
+      newLessonDate: moment()
     };
   }
 
@@ -34,8 +40,20 @@ class ClassData extends React.Component {
           })} style={{cursor: 'default'}}>Students</li>
         </ul>
         
-        <Lessons lessons={this.state.lessons} display={this.state.displayLessons} classId={this.state.classId}/>
-        <Students students={this.state.students} display={this.state.displayStudents} classId={this.state.classId}/>
+        <Lessons 
+          newLessonDate={this.state.newLessonDate}
+          newLessonName={this.state.newLessonName} 
+          addLesson={this.addLesson.bind(this)}
+          changeNewLessonName={this.changeNewLessonName.bind(this)}
+          changeDate={this.changeDate.bind(this)} 
+          lessons={this.state.lessons} 
+          display={this.state.displayLessons} 
+          classId={this.state.classId}/>
+
+        <Students 
+          students={this.state.students} 
+          display={this.state.displayStudents} 
+          classId={this.state.classId}/>
       </div>
     )
   }
@@ -44,6 +62,34 @@ class ClassData extends React.Component {
     // query the DB for all lessons with a given class ID given in the URL param
     // place in state at this.state.lessons
     // also get the class name from the DB and put in state
+  }
+
+  changeDate(newDate){
+    this.setState({
+      newLessonDate: newDate
+    });
+  }
+
+  changeNewLessonName(lesson){
+    this.setState({
+      newLessonName: lesson,
+    })
+  }
+
+  addLesson(e){
+    e.preventDefault();
+    // update state with new list item
+    if(!!this.state.newLessonName.trim()){
+      var lessonsCopy = this.state.lessons.slice();
+      lessonsCopy.push(this.state.newLessonName);
+
+      // push to DB
+      
+      this.setState({
+        lessons: lessonsCopy,
+        newLessonName: ''
+      });
+    }
   }
 }
 
@@ -76,6 +122,22 @@ const Lessons = (props) => {
             </li>)
           })}
         </ul>
+
+        <div>
+          <div>
+            <form onSubmit={props.addLesson}>
+              <input type='text' value={props.newLessonName} onChange={(event) => {
+                props.changeNewLessonName(event.target.value);
+              }} />
+              <DatePicker selected={props.newLessonDate} onChange={(date) => {
+                props.changeDate(date);
+              }} />
+              <div>
+                <button type='submit'>Add new lesson</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     )
   } else {
