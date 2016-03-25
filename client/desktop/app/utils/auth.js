@@ -10,7 +10,6 @@ module.exports = {
           callback(false);
         }
       } else if (response.status === 200) {
-        console.log("$$$$$$$$", document.cookie);
         response.json()
         .then(function(body) {
           localStorage.token = true;
