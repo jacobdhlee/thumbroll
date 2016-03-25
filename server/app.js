@@ -15,10 +15,13 @@ var PORT = process.env.PORT || 3000;
 
 // CORS handling
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "http://127.0.0.1:3000"); 
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header("Access-Control-Allow-Credentials", true);
   next();
 });
+  
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -125,18 +128,48 @@ models.sequelize.sync({force: true}).then(function () {
 
   models.classes.create({
     name: 'CS101',
-    teacher_id: 1,
+    teacher_id: 1
   });
 
   models.classes.create({
     name: 'CS102',
-    teacher_id: 2,
+    teacher_id: 2
   });
 
   models.classes.create({
     name: 'History',
+    teacher_id: 1
   });
 
+  models.lessons.create({
+    name: 'CS101 - Week 1',
+    class_id: 2
+  });
+
+  models.lessons.create({
+    name: 'CS101 - Week 2',
+    class_id: 2
+  });
+
+  models.lessons.create({
+    name: 'CS101 - Week 3',
+    class_id: 2
+  });
+
+  models.classes.create({
+    name: 'Postmodern Gender Theory',
+    teacher_id: 1
+  });
+
+  models.lessons.create({
+    name: 'History - Week 1',
+    class_id: 4
+  });
+
+  models.lessons.create({
+    name: 'History - Week 2',
+    class_id: 4
+  });
   // Needs correct fiends added
   models.students_classes.create({
     class_id: 2,
@@ -144,12 +177,12 @@ models.sequelize.sync({force: true}).then(function () {
   });
 
   models.students_classes.create({
-    class_id: 3,
+    class_id: 4,
     student_id: 2
   });
 
   models.students_classes.create({
-    class_id: 3,
+    class_id: 2,
     student_id: 3
   });
 

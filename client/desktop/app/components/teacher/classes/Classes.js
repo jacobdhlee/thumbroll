@@ -8,8 +8,9 @@ class Classes extends React.Component {
     super(props);
     
     this.state = {
-
-      classes : ['1','2','3'],
+      // TODO: REMOVE HARDCODED DATA
+      uid: 1,
+      classes : [],
       lessons: [],
       newClassName : '',
       currentClass: '',
@@ -22,8 +23,8 @@ class Classes extends React.Component {
       <div>
         <h2>Classes</h2>
         {this.state.classes.map((specificClass) => {
-          return (<li style={{cursor: 'default'}} key={specificClass}>
-            <Link to={`class/${specificClass}/lessons`}>{specificClass}</Link>
+          return (<li style={{cursor: 'default'}} key={"class:"+specificClass.id}>
+            <Link to={`class/${specificClass.id}/lessons`}>{specificClass.name}</Link>
             </li>)
          })
         }
@@ -66,16 +67,27 @@ class Classes extends React.Component {
   }
 
   componentWillMount(){
-    this.setState({
-      classes: [1,2,3], //api.getClassData()
-      lessons: [{
-        id: 4,
-        name: 'Pirates',
-        classId: 1
-      }] //array of lesson objects for today from the DB
-    });
-  }
+    api.getClasses(this.state.uid)
+    .then((response) => {
+      if(response.status === 400){
+        this.setState({
+           error: 'No classes found',
+           isLoading: false
+         });
+        console.log(this.state.error);
+      } else if (response.status === 200) {
+        response.json().then((response) => {
+          console.log("RESPONSE = ", response);   
+          this.setState({
+            classes: response,
+            error: false,
+            isLoading: false
+          });
 
+        });
+      }
+    })
+  }
 }
 
 const LessonsToday = (props) => {

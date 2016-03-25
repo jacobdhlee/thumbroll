@@ -17,7 +17,7 @@ module.exports = function(app, io) {
 
   app.get('/teachers/polls/:lessonId', utils.checkUser, teachersController.getLessonPolls);  
   
-  app.get('/teachers/lessons/:classId', utils.checkUser, teachersController.getClassLessons);
+  app.get('/teachers/classes/:classId/lessons', utils.checkUser, teachersController.getClassLessons);
 
   app.get('/teachers/classes/:teacherId', teachersController.getClasses);
   app.get('/students/classes/:studentId', studentsController.getClasses);
