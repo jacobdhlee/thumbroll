@@ -26,15 +26,15 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Session handling
 app.use(cookieParser('Bueller'));
 app.use(session({secret: 'Bueller'}));
-app.use(session({
-  secret: "Bueller",
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    httpOnly: false,
-    secure: false
-  }
-}));
+// app.use(session({
+//   secret: "Bueller",
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: {
+//     httpOnly: false,
+//     secure: false
+//   }
+// }));
 
 // Serve bundled index.html
 app.use(express.static(__dirname + '/../client/desktop/dist'));
