@@ -105,7 +105,7 @@ class RequestFeedbackView extends React.Component {
     })
     if(this.state.modal === false) {
       this.setState({
-        count: 0
+        count: 0,
       })
     }
   }
