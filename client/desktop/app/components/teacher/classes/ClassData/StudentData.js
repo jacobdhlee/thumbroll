@@ -1,33 +1,26 @@
 import React from 'react'
+import {Route, RouteHandler, Link} from 'react-router'
 
 class StudentData extends React.Component {
   constructor(props){
     super(props);
-    
+
     this.state = {
-      students: ['Students list goes here from the DB'],
-      classId: 'put in from the URL param'
+      studentData: ['Students list goes here from the DB'],
+      studentId: 1,
     };
   }
 
   render(){
     return (
       <div>
-        <li><Link to={`/classes/${this.state.classId}/lessons`}>{specificClass.key}</Link></li>
-        <ul>
-          {this.state.students.map((studentName) => {
-            return (<li style={{cursor: 'default'}} key={studentName}>
-            <Link to={`/classes/${this.state.classId}/students/${studentName}`}>{studentName}</Link>
-            </li>)
-          })}
-        </ul>
+        <h3>{this.state.studentData}</h3>
       </div>
     )
   }
 
   componentWillMount(){
-    //pull all students from the DB based on the classId given in the URL param
-    //set the classId to the state as well
+    //pull specific student data from the DB based on the studentId given in the URL param
   }
 }
 

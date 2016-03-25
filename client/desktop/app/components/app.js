@@ -1,34 +1,26 @@
 import React from 'react'
 import {render} from 'react-dom'
-import {Router, Route, browserHistory, IndexRoute} from 'react-router'
+import {Router, Route, browserHistory, IndexRoute, Link} from 'react-router'
 
 import Login from './login'
 import Signup from './signup'
 import Classes from './teacher/classes/Classes'
 import Lessons from './teacher/classes/ClassData/ClassData'
 import LessonsData from './teacher/classes/ClassData/LessonData'
-import Students from './teacher/classes/students/StudentData'
+import Students from './teacher/classes/ClassData/StudentData'
 import Settings from './Settings'
+import Profile from './Profile'
 import auth from './../utils/auth'
 
 class App extends React.Component {
 
-  getInitialState() {
-    //NEED THIS AND SET STATE IN CONSTRUCTOR?
-    return {
-      loggedIn: auth.loggedIn()
-    };
-  }
-
-  updateAuth(loggedIn) {
-    this.setState({
-      loggedIn: loggedIn
-    });
-  }
-
   componentWillMount() {
-    auth.onChange = this.updateAuth;
-    auth.login();
+    //check if logged in;
+    auth.checkForSession((loggedIn) => {
+      if(loggedIn) {
+        //set state with userID
+      }
+    });
   }
 
   constructor(props) {
@@ -52,8 +44,6 @@ class App extends React.Component {
     };
   }
 
-  //events here
-
   loadTeacherData(teacherObject){
     this.setState({
       classes: teacherObject.classes
@@ -71,7 +61,7 @@ class App extends React.Component {
     return (
       <div>
         <div className='header'>
-          <h1>Thumbroll</h1>
+          <h1><Link to={`/`}>Thumbroll</Link></h1>
           <Nav showSettings={this.state.displayTeacherSettings} listener={this.showSettings.bind(this)}/>
         </div>
 
@@ -87,11 +77,6 @@ class App extends React.Component {
       </div>
     );
   }
-
-  componentDidMount(){
-    //fetch classes from the DB and update the state to be passed down to Classes
-  }
-
 }
 
 
@@ -130,4 +115,4 @@ var Nav = (props) => {
 
 module.exports = App;
 
-  
+

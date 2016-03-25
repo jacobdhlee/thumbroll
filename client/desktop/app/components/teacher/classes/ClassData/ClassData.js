@@ -9,8 +9,11 @@ class ClassData extends React.Component {
     
     this.state = {
       className : 'The class name is from the DB! Talk to Jake and Jacob',
-      classId: 'put this in from the URL param',
-      lessons: ['LessonData is here too'],
+      classId: this.props.params.classId,
+      lessons: ['1'],
+      students: ['bobby', 'sally'],
+      displayLessons: true,
+      displayStudents: false
 
     };
   }
@@ -19,15 +22,20 @@ class ClassData extends React.Component {
     return (
       <div>
         <h2>{this.state.className}</h2>
-        
-        <li><Link to={`/classes/${this.state.classId}/students`}>{specificClass.key}</Link></li>
         <ul>
-          {this.state.lessons.map((lesson) => {
-            return (<li style={{cursor: 'default'}} key={lesson}>
-            <Link to={`/classes/${this.state.classId}/lessons/${lesson}`}>{lesson}</Link>
-            </li>)
-          })}
+          <li onClick={() => this.setState({
+            displayLessons: true,
+            displayStudents: false,
+          })} style={{cursor: 'default'}}>Lessons</li>
+
+          <li onClick={() => this.setState({
+            displayStudents: true,
+            displayLessons: false,
+          })} style={{cursor: 'default'}}>Students</li>
         </ul>
+        
+        <Lessons lessons={this.state.lessons} display={this.state.displayLessons} classId={this.state.classId}/>
+        <Students students={this.state.students} display={this.state.displayStudents} classId={this.state.classId}/>
       </div>
     )
   }
@@ -36,6 +44,42 @@ class ClassData extends React.Component {
     // query the DB for all lessons with a given class ID given in the URL param
     // place in state at this.state.lessons
     // also get the class name from the DB and put in state
+  }
+}
+
+const Students = (props) => {
+  if(props.display) {
+    return (
+      <div>
+        <ul>
+          {props.students.map((student) => {
+            return (<li style={{cursor: 'default'}} key={student}>
+            <Link to={`/class/${props.classId}/students/${student}`}>{student}</Link>
+            </li>)
+          })}
+        </ul>
+      </div>
+    )
+  } else {
+    return (<div></div>)
+  }
+}
+
+const Lessons = (props) => {
+  if(props.display) {
+    return (
+      <div>
+        <ul>
+          {props.lessons.map((lesson) => {
+            return (<li style={{cursor: 'default'}} key={lesson}>
+            <Link to={`/class/${props.classId}/lessons/${lesson}`}>{lesson}</Link>
+            </li>)
+          })}
+        </ul>
+      </div>
+    )
+  } else {
+    return (<div></div>)
   }
 }
 

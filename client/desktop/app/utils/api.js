@@ -5,6 +5,7 @@ module.exports = {
   login: (username, password) => {
     return fetch(server + '/login', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -33,6 +34,16 @@ module.exports = {
           accountType: teacherOrStudent
         })
       });
+  },
+
+  checkForSession: () => {
+    return fetch(server + '/checkAuth', {
+      credentials: 'include'
+    });
+  },
+
+  logout: () => {
+    return fetch(server + '/logout');
   },
 
   addLesson: (classId) => {
@@ -70,6 +81,17 @@ module.exports = {
         classId: classId
       })
     });
-  }
+  },
+
+  getClassData: (classId) => {
+    return fetch(server + '/teachers/' + classId);
+  },
+
+  getAllStudents: () => {
+    
+  },
+
+
+
 }
 

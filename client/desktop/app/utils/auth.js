@@ -1,45 +1,67 @@
+
+
 module.exports = {
 
   login(username, password, callback) {
-    if(localStorage.token) {
-      if(callback) {
-        callback(true);
-      }
-      this.onChange(true);
-      return;
-    }
-    api.login(this.state.username, this.state.password)
+    api.login(username, password)
     .then((response) => {
       if(response.status === 400){
         if(callback) {
           callback(false);
         }
-        this.onChange(false);
       } else if (response.status === 200) {
-        //NEED TO HAVE TOKEN?
-        localStorage.token = response.token
+        console.log("$$$$$$$$", document.cookie);
+        response.json()
+        .then(function(body) {
+          localStorage.token = true;
+          if(callback) {
+            callback(true);
+          }
+        });
       }
     })
     .catch((err) => {
-      console.log(this.error.err);
+      console.error('Error with login' + err);
     });
   },
 
-  getToken() {
-    return localStorage.token
-  },
-
   logout(callback) {
-    delete localStorage.token
-    if (callback) {
-      callback();
-    } 
-    this.onChange(false);
+    delete localStorage.token;
+    api.logout()
+    .then(() => {
+      if (callback) {
+        callback();
+      } 
+    });
   },
 
   loggedIn() {
     return !!localStorage.token
   },
 
-  onChange() {}
+  checkForSession(next) {
+    delete localStorage.token;
+    return api.checkForSession()
+    .then((response) => {
+      if(response.status === 200) {
+        response.json().then((data) => {
+          if(data) {
+            localStorage.token = true;
+          }
+          next(data);
+        });
+      }
+    })
+    .catch((err) => {
+      console.error('Error checking session', err);
+      next(false);
+    });
+    // send api request to protected route
+    // if response.status === 401, i don't have access
+      // return false;
+    // else, 
+      // localStorage.token = true;
+      // it will return userID / login data
+  }
+
 }
