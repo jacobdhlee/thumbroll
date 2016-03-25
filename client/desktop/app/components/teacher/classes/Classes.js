@@ -10,7 +10,7 @@ class Classes extends React.Component {
     this.state = {
 
       classes : ['1','2','3'],
-
+      lessons: [],
       newClassName : '',
       currentClass: '',
       currentStudent: ''
@@ -40,8 +40,8 @@ class Classes extends React.Component {
             </div>
           </form>
         </div>
-        <h2>Today's Lessons</h2>
-        <p>There are no lessons today.</p>
+
+        <LessonsToday lessons={this.state.lessons}/>
       <div>
         {this.props.children}
       </div>
@@ -67,10 +67,38 @@ class Classes extends React.Component {
 
   componentWillMount(){
     this.setState({
-      classes: [1,2,3] //api.getClassData()
+      classes: [1,2,3], //api.getClassData()
+      lessons: [{
+        id: 4,
+        name: 'Pirates',
+        classId: 1
+      }] //array of lesson objects for today from the DB
     });
   }
 
+}
+
+const LessonsToday = (props) => {
+  if(!props.lessons) {
+    return (
+      <div>
+        <h2>Today's Lessons</h2>
+        <p>There are no lessons today</p>
+      </div>
+    )
+  }
+  return(
+    <div>
+      <h2>Today's Lessons</h2>
+      <ul>
+        {props.lessons.map((lesson) => {
+          return (<li style={{cursor: 'default'}} key={lesson.name}>
+            <Link to={`class/${lesson.classId}/lessons/${lesson.id}`}>{lesson.name}</Link>
+            </li>)
+         })}
+      </ul>
+    </div>
+  )
 }
 
 module.exports = Classes;

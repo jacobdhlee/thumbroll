@@ -15,7 +15,8 @@ class LessonData extends React.Component {
     return (<div>
       <h2>{this.state.className}</h2>
       <p>Polls for {this.state.className}</p>
-      
+      <button>Add thumbs check</button>
+      <button>Add multiple choice</button>
       
     </div>)
   }
@@ -24,7 +25,7 @@ class LessonData extends React.Component {
     //get the poll responses from the lessonId given in the URL param
     //set the className from the DB query
   }
-
+}
 
 
 const AddPoll = (hide) => {
