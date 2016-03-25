@@ -4,11 +4,9 @@ exports.isLoggedIn = function (req) {
 };
 
 exports.createSession = function(req, res, newUser) {
-  return req.session.regenerate(function () {
-    req.session.user = newUser;
-    res.cookie('userId', newUser, { maxAge: 900000, httpOnly: true });
-    console.log('created session with user', newUser, 'see?', req.session.user);
-  });
+  req.session.user = newUser;
+  console.log('created session', req.session.user);
+  return;
 };
 
 exports.checkUser = function(req, res, next) {

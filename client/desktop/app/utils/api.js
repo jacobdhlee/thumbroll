@@ -5,6 +5,7 @@ module.exports = {
   login: (username, password) => {
     return fetch(server + '/login', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -36,7 +37,9 @@ module.exports = {
   },
 
   checkForSession: () => {
-    return fetch(server + '/checkAuth');
+    return fetch(server + '/checkAuth', {
+      credentials: 'include'
+    });
   },
 
   logout: () => {

@@ -8,7 +8,8 @@ var bodyParser = require("body-parser");
 var session = require('express-session');
 var path = require('path');
 var express = require('express');
-var cookieParser = require('cookie-parser')
+var cookieParser = require('cookie-parser');
+var session = require('cookie-session');
 
 var PORT = process.env.PORT || 3000;
 
@@ -23,7 +24,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // Session handling
-// app.use(cookieParser());
+app.use(cookieParser('Bueller'));
+app.use(session({secret: 'Bueller'}));
 app.use(session({
   secret: "Bueller",
   resave: false,

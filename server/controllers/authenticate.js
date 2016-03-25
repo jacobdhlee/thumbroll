@@ -62,7 +62,6 @@ module.exports = {
             if (match) {
               // generate a session on the response object
               utils.createSession(req, res, 't.' + matchedUser.dataValues.id);
-
               // pull teacher's classes from db and attach them to response object
               models.classes.findAll({
                 where: {'teacher_id': matchedUser.dataValues.id}
@@ -77,6 +76,7 @@ module.exports = {
                   }
                 };
               // SUCCESS -> client redirects to '/teachers'
+              console.log('SESSION STILL HERE?', req.session, req.session.user);
               res.status(200).send(teacherObj);
             });
             } else {
@@ -198,13 +198,8 @@ module.exports = {
 
   logout: function(req, res, next) {
     if (req.session) {
-      req.session.destroy(function(err) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.status(200).send("user logged out");
-        }
-      });
+      req.session = null;
+      res.status(200).send("user logged out");
     } else {
       console.log("no session to destroy");
       res.status(400).send("no user to log out");
@@ -216,9 +211,6 @@ module.exports = {
     if(utils.isLoggedIn(req)) {
       console.log('check for session', req.session);
       //Currently can't get session user
-      console.log('check for user', req.session.user);
-      console.log(req.session.cookie);
-      console.log(req.cookies);
       res.status(200).send(req.session.user);
     }
     else {
