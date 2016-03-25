@@ -41,16 +41,15 @@ class RequestFeedbackView extends React.Component {
         }
       ],
       numberOfStudentHands: 0,
-      raisedHandList: [{student:'A', active: true},{student:'B', active: true},{student:'C', active: true}],
+      raisedHandList: [],
       count: 0,
-      numberOfQuestion: 0,
       questionLists:['I have a question', 'Idontknow']
     };
     //populate feedbackOptions with anything custom from lesson
     this.state.socket.on('studentRaisedHand', function(data){
       var numberOfStudentHands = this.state.numberOfStudentHands + 1;
       var raisedHandList = this.state.raisedHandList.slice();
-      raisedHandList.push(data.user.uid);
+      raisedHandList.push({student: data.user.firstName + ' ' + data.user.lastName , active: true});
       this.setState({
         numberOfStudentHands: numberOfStudentHands,
         raisedHandList: raisedHandList
@@ -58,25 +57,21 @@ class RequestFeedbackView extends React.Component {
     }.bind(this))
 
     this.state.socket.on('studentQuestions', function(data){
+      console.log('data >>>>>>>>>>>>>>>', data)
       var questionLists = this.state.questionLists.slice();
-      questionLists.push(data);
-      var numberOfQuestion = this.state.numberOfQuestion + 1;
+      questionLists.push(data.question);
+      console.log('questionLists >>>>>>', questionLists);
       this.setState({
-        numberOfQuestion: numberOfQuestion,
         questionLists: questionLists,
       })
     }.bind(this))
   }
 
   answeredQuestion() {
-    var numberOfQuestion = this.state.numberOfQuestion.length - 1;
-    if(numberOfQuestion === 0) {
-      numberOfQuestion = 0
-    }
-    var questionLists = this.state.questionLists.splice(1,1);
+    var questionLists = this.state.questionLists.slice();
+    questionLists.shift();
     this.setState({
       questionLists: questionLists,
-      numberOfQuestion: numberOfQuestion,
     })
   }
 
@@ -222,7 +217,7 @@ class RequestFeedbackView extends React.Component {
           <View style={{flexDirection: 'row', height:60, width: null, alignSelf:'flex-end'}}>
           <TouchableOpacity onPress={this.clickQuestion.bind(this)}style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'yellow', height: 60, width: 100}}>
               <Text style={styles.textSize}>
-                Q: 0
+                Q:{this.state.questionLists.length}
               </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={this.clickRaisedHand.bind(this)} style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'red', height: 60, width: 100}}>

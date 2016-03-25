@@ -94,9 +94,9 @@ module.exports = function(io) {
       io.sockets.to(room).emit('studentRaisedHand', data);
     });
 
-    // client.on('askQuestions', function(data) {
-    //   io.sockets.to(room).emit('studentQuestions', data);
-    // })
+    client.on('askQuestions', function(data) {
+      io.sockets.to(room).emit('studentQuestions', data);
+    })
 
     client.on('studentLeavingClass', function(data) {
       var userId = data.user.uid;
