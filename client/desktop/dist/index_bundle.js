@@ -25915,6 +25915,7 @@
 	            _this3.setState({
 	              className: response.className,
 	              lessons: response.lessons,
+	              students: response.students,
 	              error: false,
 	              isLoading: false
 	            });
@@ -25995,11 +25996,11 @@
 	        props.students.map(function (student) {
 	          return _react2.default.createElement(
 	            'li',
-	            { style: { cursor: 'default' }, key: student },
+	            { style: { cursor: 'default' }, key: "student:" + student.student_id },
 	            _react2.default.createElement(
 	              _reactRouter.Link,
-	              { to: '/class/' + props.classId + '/students/' + student },
-	              student
+	              { to: '/class/' + props.classId + '/students/' + student.student_id },
+	              student.student.firstname + " " + student.student.lastname
 	            )
 	          );
 	        })

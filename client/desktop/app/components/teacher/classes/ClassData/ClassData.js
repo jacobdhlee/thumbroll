@@ -81,6 +81,7 @@ class ClassData extends React.Component {
           this.setState({
             className: response.className,
             lessons: response.lessons,
+            students: response.students,
             error: false,
             isLoading: false
           });
@@ -149,8 +150,8 @@ const Students = (props) => {
       <div>
         <ul>
           {props.students.map((student) => {
-            return (<li style={{cursor: 'default'}} key={student}>
-            <Link to={`/class/${props.classId}/students/${student}`}>{student}</Link>
+            return (<li style={{cursor: 'default'}} key={"student:" + student.student_id}>
+            <Link to={`/class/${props.classId}/students/${student.student_id}`}>{student.student.firstname + " " + student.student.lastname}</Link>
             </li>)
           })}
         </ul>
