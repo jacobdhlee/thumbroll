@@ -1,5 +1,6 @@
 import React from 'react'
 import {Route, RouteHandler, Link} from 'react-router'
+import auth from './../utils/auth'
 
 class Settings extends React.Component {
   constructor(props){
@@ -14,7 +15,7 @@ class Settings extends React.Component {
       return (<div>
         <ul>
           <li><Link to={`/profile`}>Your Profile</Link></li>
-          <li onClick={()=>{
+          <li onClick={()=>{ auth.logout();
           }} style={{cursor: 'default'}}>Logout</li>
         </ul>
       </div>)

@@ -10,17 +10,23 @@ import LessonsData from './components/teacher/classes/ClassData/LessonData'
 import Students from './components/teacher/classes/ClassData/StudentData'
 import Settings from './components/Settings'
 import Profile from './components/Profile'
-
-
+import auth from './utils/auth.js'
 
 ReactDOM.render((
   <Router history={browserHistory}>
     <Route path='/' component = {App}>
-    <Route path='/profile' component={Profile} />
-      <IndexRoute component = {Classes} />
-        <Route path='class/:classId/lessons' component={Lessons} />
-        <Route path='class/:classId/lessons/:lessonId' component={LessonsData}/>
-        <Route path='class/:classId/students/:studentId' component={Students}/>
-      </Route>
+      <IndexRoute component = {Classes} onEnter={requireAuth} />
+      <Route path='/profile' component={Profile} onEnter={requireAuth} />
+      <Route path='class/:classId/lessons' component={Lessons} onEnter={requireAuth} />
+      <Route path='class/:classId/lessons/:lessonId' component={LessonsData} onEnter={requireAuth} />
+      <Route path='class/:classId/students/:studentId' component={Students} onEnter={requireAuth} />
+    </Route>
+    <Route path='login' component={Login} />
   </Router>
 ), document.getElementById("app"));
+
+function requireAuth(nextState, replace) {
+  if (!auth.loggedIn()) {
+    replace({nextPathName: nextState.location.pathname}, '/login');
+  }
+}

@@ -4,9 +4,8 @@ exports.isLoggedIn = function (req) {
 };
 
 exports.createSession = function(req, res, newUser) {
-  return req.session.regenerate(function () {
-    req.session.user = newUser;
-  });
+  req.session.user = newUser;
+  return;
 };
 
 exports.checkUser = function(req, res, next) {

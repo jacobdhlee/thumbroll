@@ -10,8 +10,19 @@ import LessonsData from './teacher/classes/ClassData/LessonData'
 import Students from './teacher/classes/ClassData/StudentData'
 import Settings from './Settings'
 import Profile from './Profile'
+import auth from './../utils/auth'
 
 class App extends React.Component {
+
+  componentWillMount() {
+    //check if logged in;
+    auth.checkForSession((loggedIn) => {
+      if(loggedIn) {
+        //set state with userID
+      }
+    });
+  }
+
   constructor(props) {
     super(props);
 
@@ -32,8 +43,6 @@ class App extends React.Component {
       displayTeacherSettings: false,
     };
   }
-
-  //events here
 
   loadTeacherData(teacherObject){
     this.setState({
@@ -68,11 +77,6 @@ class App extends React.Component {
       </div>
     );
   }
-
-  componentDidMount(){
-    //fetch classes from the DB and update the state to be passed down to Classes
-  }
-
 }
 
 
@@ -110,3 +114,4 @@ var Nav = (props) => {
 };
 
 module.exports = App;
+
