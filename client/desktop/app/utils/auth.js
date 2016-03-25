@@ -40,12 +40,16 @@ module.exports = {
   },
 
   checkForSession(next) {
-    // delete localStorage.token;
+    delete localStorage.token;
     return api.checkForSession()
     .then((response) => {
       if(response.status === 200) {
-        console.log('CHECKING FOR SESSION', response);
-        next(true);
+        response.json().then((data) => {
+          if(data) {
+            localStorage.token = true;
+          }
+          next(data);
+        });
       }
     })
     .catch((err) => {

@@ -24858,8 +24858,9 @@
 	    value: function componentWillMount() {
 	      //check if logged in;
 	      _auth2.default.checkForSession(function (loggedIn) {
-	        console.log('loggedin', loggedIn);
-	        // if logged in, need to have uid
+	        if (loggedIn) {
+	          //set state with userID
+	        }
 	      });
 	    }
 	  }]);
@@ -25165,11 +25166,15 @@
 	    return !!localStorage.token;
 	  },
 	  checkForSession: function checkForSession(next) {
-	    // delete localStorage.token;
+	    delete localStorage.token;
 	    return api.checkForSession().then(function (response) {
 	      if (response.status === 200) {
-	        console.log('CHECKING FOR SESSION', response);
-	        next(true);
+	        response.json().then(function (data) {
+	          if (data) {
+	            localStorage.token = true;
+	          }
+	          next(data);
+	        });
 	      }
 	    }).catch(function (err) {
 	      console.error('Error checking session', err);

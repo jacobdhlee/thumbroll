@@ -29,7 +29,7 @@ module.exports = {
               bcrypt.compare(password, matchedUser.dataValues.password, function(err, match) {
                 if (match) {
                   // generate a session on the response object
-                  utils.createSession(req, res, 's.' + matchedUser.dataValues.id);
+                  utils.createSession(req, res, 's_' + matchedUser.dataValues.id);
 
                   // Find all classes student is enrolled in (via student_classes table)
                   // Attach them to response object
@@ -61,7 +61,7 @@ module.exports = {
           bcrypt.compare(password, matchedUser.dataValues.password, function(err, match) {
             if (match) {
               // generate a session on the response object
-              utils.createSession(req, res, 't.' + matchedUser.dataValues.id);
+              utils.createSession(req, res, 't_' + matchedUser.dataValues.id);
               // pull teacher's classes from db and attach them to response object
               models.classes.findAll({
                 where: {'teacher_id': matchedUser.dataValues.id}
@@ -76,7 +76,6 @@ module.exports = {
                   }
                 };
               // SUCCESS -> client redirects to '/teachers'
-              console.log('SESSION STILL HERE?', req.session, req.session.user);
               res.status(200).send(teacherObj);
             });
             } else {
@@ -136,7 +135,7 @@ module.exports = {
                       }
                     };
                     // generate a session on the response object
-                    utils.createSession(req, res, 't.' + user.dataValues.id);
+                    utils.createSession(req, res, 't_' + user.dataValues.id);
 
                     // SUCCESS: Account created -> client redirects to '/teacher'
                     res.status(200).send(teacherObj);
@@ -182,7 +181,7 @@ module.exports = {
                       }
                     };
                     // generate a session on the response object
-                    utils.createSession(req, res, 's.' + user.dataValues.id);
+                    utils.createSession(req, res, 's_' + user.dataValues.id);
 
                     // SUCCESS -> client redirects to '/student'
                     res.status(200).send(studentObj);
@@ -209,9 +208,8 @@ module.exports = {
   checkAuth: function(req, res, next) {
     // req.session.user = 'ian';
     if(utils.isLoggedIn(req)) {
-      console.log('check for session', req.session);
       //Currently can't get session user
-      res.status(200).send(req.session.user);
+      res.status(200).send({user:req.session.user});
     }
     else {
       res.status(200).send(false);

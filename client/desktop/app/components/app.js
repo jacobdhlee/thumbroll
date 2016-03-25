@@ -17,8 +17,9 @@ class App extends React.Component {
   componentWillMount() {
     //check if logged in;
     auth.checkForSession((loggedIn) => {
-      console.log('loggedin', loggedIn);
-      // if logged in, need to have uid
+      if(loggedIn) {
+        //set state with userID
+      }
     });
   }
 
