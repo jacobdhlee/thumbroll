@@ -21,8 +21,6 @@ var {
   ScrollView,
 } = React;
 
-//textAlign enum('auto', 'left', 'right', 'center', 'justify')
-
 
 class JoinClassView extends React.Component {
   constructor(props){

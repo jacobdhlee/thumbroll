@@ -41,20 +41,36 @@ class RequestFeedbackView extends React.Component {
         }
       ],
       numberOfStudentHands: 0,
-      raisedHandList: [{student:'A', active: true},{student:'B', active: true},{student:'C', active: true}],
+      raisedHandList: [],
       count: 0,
+      questionLists:[]
     };
     //populate feedbackOptions with anything custom from lesson
     this.state.socket.on('studentRaisedHand', function(data){
       var numberOfStudentHands = this.state.numberOfStudentHands + 1;
       var raisedHandList = this.state.raisedHandList.slice();
-      raisedHandList.push(data.user.uid);
+      raisedHandList.push({student: data.user.firstName + ' ' + data.user.lastName , active: true});
       this.setState({
         numberOfStudentHands: numberOfStudentHands,
         raisedHandList: raisedHandList
       });
     }.bind(this))
 
+    this.state.socket.on('studentQuestions', function(data){
+      var questionLists = this.state.questionLists.slice();
+      questionLists.push(data.question);
+      this.setState({
+        questionLists: questionLists,
+      })
+    }.bind(this))
+  }
+
+  answeredQuestion() {
+    var questionLists = this.state.questionLists.slice();
+    questionLists.shift();
+    this.setState({
+      questionLists: questionLists,
+    })
   }
 
   clickQuestion() {
@@ -83,6 +99,19 @@ class RequestFeedbackView extends React.Component {
 
   beforeLogout() {
     this.state.socket.emit('teacherLoggingOut');
+  }
+
+  listQuestion(list) {
+    if( list.length === 0 ) {
+      return(
+        <Text>No Question yet</Text>
+      )
+    } 
+    return (
+      <View>
+        <Text>{list[0]}</Text>
+      </View>
+    )
   }
 
   listStudent(list) {
@@ -171,7 +200,6 @@ class RequestFeedbackView extends React.Component {
       )
     })
   }
-// style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'red', height:60, width: 100, alignSelf:'flex-end'}}
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
@@ -187,7 +215,7 @@ class RequestFeedbackView extends React.Component {
           <View style={{flexDirection: 'row', height:60, width: null, alignSelf:'flex-end'}}>
           <TouchableOpacity onPress={this.clickQuestion.bind(this)}style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'yellow', height: 60, width: 100}}>
               <Text style={styles.textSize}>
-                Q: 0
+                Q:{this.state.questionLists.length}
               </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={this.clickRaisedHand.bind(this)} style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'red', height: 60, width: 100}}>
@@ -216,7 +244,9 @@ class RequestFeedbackView extends React.Component {
             <View style={{height:this.state.height * 0.8, width:this.state.width * 0.9}}>
               <View style={styles.modalBox}>
                 <Text style={styles.textSizeModal}> Question: </Text>
+                {this.listQuestion(this.state.questionLists)}
               </View>
+              <Button onPress={this.answeredQuestion.bind(this)} text={'answered'} />
               <Button onPress={this.clickQuestion.bind(this)} text={'Close'}/>
             </View>
           </View>
