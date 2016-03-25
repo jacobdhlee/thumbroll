@@ -128,18 +128,48 @@ models.sequelize.sync({force: true}).then(function () {
 
   models.classes.create({
     name: 'CS101',
-    teacher_id: 1,
+    teacher_id: 1
   });
 
   models.classes.create({
     name: 'CS102',
-    teacher_id: 2,
+    teacher_id: 2
   });
 
   models.classes.create({
     name: 'History',
+    teacher_id: 1
   });
 
+  models.lessons.create({
+    name: 'CS101 - Week 1',
+    class_id: 2
+  });
+
+  models.lessons.create({
+    name: 'CS101 - Week 2',
+    class_id: 2
+  });
+
+  models.lessons.create({
+    name: 'CS101 - Week 3',
+    class_id: 2
+  });
+
+  models.classes.create({
+    name: 'Postmodern Gender Theory',
+    teacher_id: 1
+  });
+
+  models.lessons.create({
+    name: 'History - Week 1',
+    class_id: 4
+  });
+
+  models.lessons.create({
+    name: 'History - Week 2',
+    class_id: 4
+  });
   // Needs correct fiends added
   models.students_classes.create({
     class_id: 2,
@@ -147,12 +177,12 @@ models.sequelize.sync({force: true}).then(function () {
   });
 
   models.students_classes.create({
-    class_id: 3,
+    class_id: 4,
     student_id: 2
   });
 
   models.students_classes.create({
-    class_id: 3,
+    class_id: 2,
     student_id: 3
   });
 
