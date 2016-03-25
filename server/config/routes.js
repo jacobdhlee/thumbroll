@@ -18,7 +18,8 @@ module.exports = function(app, io) {
   app.get('/teachers/polls/:lessonId', utils.checkUser, teachersController.getLessonPolls);  
   
   app.get('/teachers/classes/:classId/lessons', utils.checkUser, teachersController.getClassLessons);
-
+  //get lessons mobile for teachers
+  app.get('/teachers/lessons/:classId', teachersController.getClasses);
   app.get('/teachers/classes/:teacherId', teachersController.getClasses);
   app.get('/students/classes/:studentId', studentsController.getClasses);
   app.get('/classes/lessons/:classId', classesController.getLessons);
