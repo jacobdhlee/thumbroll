@@ -83,7 +83,7 @@ class ClassData extends React.Component {
       var lessonsCopy = this.state.lessons.slice();
       lessonsCopy.push(this.state.newLessonName);
 
-      // push to DB
+      // push to DB with this.state.newLessonDate
       
       this.setState({
         lessons: lessonsCopy,
@@ -129,7 +129,7 @@ const Lessons = (props) => {
               <input type='text' value={props.newLessonName} onChange={(event) => {
                 props.changeNewLessonName(event.target.value);
               }} />
-              <DatePicker selected={props.newLessonDate} onChange={(date) => {
+              <DatePicker minDate={moment()} selected={props.newLessonDate} onChange={(date) => {
                 props.changeDate(date);
               }} />
               <div>
