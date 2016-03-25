@@ -9,8 +9,7 @@ class Classes extends React.Component {
     super(props);
     
     this.state = {
-      // TODO: REMOVE HARDCODED DATA
-      uid: 1,
+      uid: undefined,
       classes : [],
       lessons: [],
       newClassName : '',
