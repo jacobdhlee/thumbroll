@@ -45,10 +45,10 @@ module.exports = {
     .then((response) => {
       if(response.status === 200) {
         response.json().then((data) => {
-          if(data) {
+          if(data.user) {
             localStorage.token = true;
           }
-          next(data);
+          next(data.user);
         });
       }
     })
