@@ -43,7 +43,7 @@ class RequestFeedbackView extends React.Component {
       numberOfStudentHands: 0,
       raisedHandList: [],
       count: 0,
-      questionLists:['I have a question', 'Idontknow']
+      questionLists:[]
     };
     //populate feedbackOptions with anything custom from lesson
     this.state.socket.on('studentRaisedHand', function(data){
@@ -57,10 +57,8 @@ class RequestFeedbackView extends React.Component {
     }.bind(this))
 
     this.state.socket.on('studentQuestions', function(data){
-      console.log('data >>>>>>>>>>>>>>>', data)
       var questionLists = this.state.questionLists.slice();
       questionLists.push(data.question);
-      console.log('questionLists >>>>>>', questionLists);
       this.setState({
         questionLists: questionLists,
       })
