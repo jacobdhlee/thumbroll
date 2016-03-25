@@ -212,7 +212,7 @@ module.exports = {
       res.status(200).send({user:req.session.user});
     }
     else {
-      res.status(200).send(false);
+      res.status(200).send({user:false});
     }
   }
 };
