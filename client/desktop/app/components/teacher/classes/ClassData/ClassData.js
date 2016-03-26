@@ -74,7 +74,6 @@ class ClassData extends React.Component {
     .then((response) => {
       if(response.status === 200) {
         response.json().then((response) => {
-          console.log(response);
           this.setState({
             className: response.name
           });
@@ -300,18 +299,19 @@ const LessonTable = (props) => {
           <th> Lesson Name </th>
           <th> Count of Polls </th>
           <th> Response Count </th>
-          <th> Correct Responses </th>
+          <th> Accuracy </th>
           <th> Average Thumb </th>
         </tr>
       </thead>
       <tbody>
       {props.lessons.map((lesson) => {
+        var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
         return (
           <tr>
             <td /*onClick={handleClick}*/> {lesson.lesson_name} </td>
             <td> {lesson.poll_count} </td>
             <td> {lesson.response_count} </td>
-            <td> {lesson.correct_response_count ? lesson.correct_response_count : 'N/A'} </td>
+            <td> {correctRate ? correctRate + '%' : 'N/A'} </td>
             <td> {lesson.average_thumb ? lesson.average_thumb + '%' : 'N/A'} </td>
           </tr>
         )
