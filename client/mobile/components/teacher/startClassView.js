@@ -44,6 +44,7 @@ class StartClassView extends React.Component {
     var that = this;
     api.getClasses(teacher.uid)
     .then(function(resp){
+      console.log('resp >>>>>>>>>>>>,', resp)
       if(resp.status === 500) {
         console.error('Error for getting class data')
       } else if(resp.status === 200) {

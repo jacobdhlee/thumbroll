@@ -9,9 +9,11 @@ var models = require("./../models");
 module.exports = {
   getClasses: function(req, res, next) {
     var studentId = req.params.studentId;
-    models.students_classes.findAll({ where: {
-        student_id: studentId
-      }
+    models.students_classes.findAll({ 
+      where: {
+        student_id: studentId,
+      },
+      include: [models.classes]
     })
     .then(function(classes){
       res.status(200).send(classes);

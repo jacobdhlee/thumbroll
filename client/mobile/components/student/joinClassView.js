@@ -43,9 +43,11 @@ class JoinClassView extends React.Component {
     var that =  this;
     api.getStudentClasses(userId)
     .then(function(resp){
+      console.log('resp>>>>>>>>>>>>>>>>>>dsafdksjafhdal>>>>>>>>>', resp)
       if(resp.status === 500) {
         console.error('Error for getting class data')
       } else if(resp.status === 200) {
+        // { _bodyInit: '[{"id":1,"student_id":1,"class_id":2,"class":{"id":2,"name":"CS101","teacher_id":1}}]',
         var classes = JSON.parse(resp._bodyInit);
         that.setState({
           enrolledClasses: classes,
