@@ -151,10 +151,11 @@ module.exports = {
           class_id: classId
         }
        })
-       .then(function(data){
-        console.log(data);
+       .spread(function(student, created){
+        console.log("student: " + student, "created: " + created);
          var body = {
-           student: student
+           student: student,
+           created: created
          };
          
          // Return student object in the format we need
