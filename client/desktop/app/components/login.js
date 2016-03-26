@@ -126,7 +126,7 @@ class Login extends React.Component {
         </main>
       </div>
         <div className='footer'>
-          <footer className="page-footer">
+          <footer className="page-footer light-blue">
             <div className="container">
               <Row>
                 <Col l={12} s={12}>
