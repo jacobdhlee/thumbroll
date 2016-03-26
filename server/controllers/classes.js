@@ -29,6 +29,16 @@ module.exports = {
 
   getClassData: function(req, res, next) {
     var classId = req.params.classId;
+    // var responseObj = {};
+    // sequelize.query('SELECT id, name FROM classes WHERE id = ' + classId)
+    // .then(function(data) {
+    //   responseObj.class = data[0][0];
+    //   sequelize.query('SELECT id, name FROM lessons WHERE class_id = ' + responseObj.class.id)
+    //   .then(function(data) {
+    //     console.log('$$$$',data)
+    //     responseObj.lessons = data[0];
+    //   });
+    // });
 
     sequelize.query('SELECT a.id AS class_id, a.name AS class_name, '
       + 'b.id AS lesson_id, b.name AS lesson_name, '
@@ -39,9 +49,11 @@ module.exports = {
       + 'JOIN lessons b ON a.id = b.class_id '
       + 'LEFT JOIN polls c ON b.id = c.lesson_id '
       + 'LEFT JOIN poll_responses d ON c.id = d.poll_id '
-      + 'JOIN students e ON d.student_id = e.id')
+      + 'JOIN students e ON d.student_id = e.id '
+      + 'WHERE a.id = ' + classId)
     .then(function(data) {
-      res.status(200).send(data);
+      console.log('^^^^', data[0]);
+      res.status(200).send(data[0]);
     });
   },
 

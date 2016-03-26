@@ -188,12 +188,17 @@ models.sequelize.sync({force: true}).then(function () {
 
   models.polls.create({
     type: 'thumbs',
-    lesson_id: 1
+    lesson_id: 2
   });
 
   models.polls.create({
     type: 'multiChoice',
-    lesson_id: 1
+    lesson_id: 3
+  });
+
+  models.polls.create({
+    type: 'thumbs',
+    lesson_id: 3
   });
 
   models.poll_responses.create({
@@ -218,6 +223,12 @@ models.sequelize.sync({force: true}).then(function () {
     response_val: 'C',
     student_id: 1,
     poll_id: 2,
-  });  
+  }); 
+
+  models.poll_responses.create({
+    response_val: 55,
+    student_id: 1,
+    poll_id: 3,
+  }); 
 
 });
