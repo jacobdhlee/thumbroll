@@ -3,10 +3,11 @@ import React from 'react'
 class LessonData extends React.Component {
   constructor(props){
     super(props);
-    
+    console.log(this.props.location)
     this.state = {
       lessonId: this.props.params.lessonId,
-      className: 'get this from the DB query',
+      lessonName: this.props.location.state.lessonName,
+      className: this.props.location.state.className,
       polls: ['get this from the DB query']
     };
   }
@@ -14,6 +15,7 @@ class LessonData extends React.Component {
   render(){
     return (<div>
       <h3 style={{color: '#03A9F4'}}>{this.state.className}</h3>
+      <h5 style={{color: '#03A9F4'}}>Lesson: {this.state.lessonName}</h5>
       <p>Polls for {this.state.className}</p>
       <button>Add thumbs check</button>
       <button>Add multiple choice</button>

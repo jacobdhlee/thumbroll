@@ -6,6 +6,8 @@ class StudentData extends React.Component {
     super(props);
 
     this.state = {
+      firstName: this.props.location.state.firstName,
+      lastName: this.props.location.state.lastName,
       studentData: ['Students list goes here from the DB'],
       studentId: 1,
     };
@@ -14,7 +16,7 @@ class StudentData extends React.Component {
   render(){
     return (
       <div>
-        <h3 style={{color: '#03A9F4'}}>Student Name goes here</h3>
+        <h3 style={{color: '#03A9F4'}}> {this.state.firstName + ' ' + this.state.lastName} </h3>
         {this.state.studentData}
       </div>
     )

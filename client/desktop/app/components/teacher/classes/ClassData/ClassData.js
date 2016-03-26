@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route, RouteHandler, Link} from 'react-router'
+import {Route, RouteHandler, Router, Link} from 'react-router'
 import LessonData from './LessonData'
 import StudentData from './StudentData'
 import DatePicker from 'react-datepicker'
@@ -51,7 +51,7 @@ class ClassData extends React.Component {
           newLessonDate={this.state.newLessonDate}
           newLessonName={this.state.newLessonName} 
           addLesson={this.addLesson.bind(this)}
-          handleLessonClick={this.handleLessonClick}
+          handleLessonClick={this.handleLessonClick.bind(this)}
           changeNewLessonName={this.changeNewLessonName.bind(this)}
           changeDate={this.changeDate.bind(this)} 
           lessons={this.state.classLessons} 
@@ -62,7 +62,7 @@ class ClassData extends React.Component {
           students={this.state.classStudents} 
           display={this.state.displayStudents} 
           classId={this.state.classId}
-          handleStudentClick={this.handleStudentClick}
+          handleStudentClick={this.handleStudentClick.bind(this)}
           addStudent={this.addStudent.bind(this)}
           newStudent={this.state.newStudent}
           changeNewStudent={this.changeNewStudent.bind(this)}
@@ -146,12 +146,51 @@ class ClassData extends React.Component {
     });
   }
 
-  handleLessonClick(e) {
-    console.log(e)
+  handleLessonClick(lessonId, lessonName) {
+    this.context.router.push({
+      pathname: '/class/' + this.state.classId + '/lessons/' + lessonId,
+      state: { 
+        className: this.state.className,
+        lessonId: lessonId,
+        lessonName: lessonName
+      }
+    });
+    // api.getLessonPollsData(lessonId)
+    // .then((response) => {
+    //   response.json().then((response) => {
+    //     console.log('Individual lesson data from DB:', response);
+    //   }).catch((err) => {
+    //     console.error(err);
+    //   });
+    // })
+    // .catch((err) => {
+    //   console.error(err);
+    // });
   }
 
-  handleStudentClick(e) {
-    console.log(e)
+  handleStudentClick(studentId, firstName, lastName) {
+    this.context.router.push({
+      pathname: '/class/' + this.state.classId + '/students/' + studentId,
+      state: { 
+        className: this.state.className,
+        studentId: studentId,
+        firstName: firstName,
+        lastName: lastName
+      }
+    });
+
+    // console.log(studentId, e.target)
+    // api.getStudentPollsData(this.state.classId, studentId)
+    // .then((response) => {
+    //   response.json().then((response) => {
+    //     console.log('Individual student data from DB:', response);
+    //   }).catch((err) => {
+    //     console.error(err);
+    //   });
+    // })
+    // .catch((err) => {
+    //   console.error(err);
+    // });
   }
 
   addLesson(e){
@@ -329,8 +368,8 @@ const LessonTable = (props) => {
       {props.lessons.map((lesson) => {
         var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
         return (
-          <tr>
-            <td onClick={props.handleLessonClick}> {lesson.lesson_name} </td>
+          <tr onClick={props.handleLessonClick.bind(null, lesson.lesson_id, lesson.lesson_name)}>
+            <td> {lesson.lesson_name} </td>
             <td> {lesson.poll_count ? lesson.poll_count : 0} </td>
             <td> {lesson.response_count? lesson.response_count : 0} </td>
             <td> {correctRate ? correctRate + '%' : 'N/A'} </td>
@@ -359,8 +398,8 @@ const StudentTable = (props) => {
       {props.students.map((student) => {
         // var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
         return (
-          <tr>
-            <td onClick={props.handleStudentClick}> {student.first_name + ' ' + student.last_name} </td>
+          <tr onClick={props.handleStudentClick.bind(null, student.student, student.first_name, student.last_name)}>
+            <td> {student.first_name + ' ' + student.last_name} </td>
             <td> {student.lesson_count ? student.lesson_count : 0} </td>
             <td> {student.response_count ? student.response_count : 0} </td>
             <td> {student.response_count} </td>
@@ -372,5 +411,9 @@ const StudentTable = (props) => {
   </table>
   )
 }
+
+ClassData.contextTypes = {
+  router: React.PropTypes.any.isRequired
+};
 
 module.exports = ClassData;

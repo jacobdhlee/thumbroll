@@ -27,7 +27,7 @@ module.exports = function(app, io) {
   //get teacher desktop frontend data
   app.get('/classes/className/:classId', classesController.getClassName);
   app.get('/classes/:classId/lessons', classesController.getClassLessonsData);
-  app.get('/lessons/:lessonid/polls', classesController.getLessonPollsData);
+  app.get('/lessons/:lessonId/polls', classesController.getLessonPollsData);
   app.get('/classes/:classId/students', classesController.getClassStudentsData);
   app.get('/classes/:classId/students/:studentId', classesController.getStudentPollsData);
 
