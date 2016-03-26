@@ -135,7 +135,7 @@ class ClassData extends React.Component {
       var newStudentEmail = this.state.newStudent.trim();
 
       // push to DB, return student object and push it to studentsCopy
-      api.addStudentToClass(this.props.classId, newStudentEmail)
+      api.addStudentToClass(this.state.classId, newStudentEmail)
       .then((response) => {
         if(response.status === 400){
           this.setState({

@@ -25989,7 +25989,7 @@
 	        var newStudentEmail = this.state.newStudent.trim();
 
 	        // push to DB, return student object and push it to studentsCopy
-	        _api2.default.addStudentToClass(this.props.classId, newStudentEmail).then(function (response) {
+	        _api2.default.addStudentToClass(this.state.classId, newStudentEmail).then(function (response) {
 	          if (response.status === 400) {
 	            _this4.setState({
 	              error: 'Student not found',
