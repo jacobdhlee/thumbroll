@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#59CA7C',
+    alignItems: 'center',
   },
   textSize: {
     justifyContent: 'center',

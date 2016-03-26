@@ -29,6 +29,7 @@ class ClassStandbyView extends React.Component {
       modal: false,
       question: ''
     };
+    console.log("clas>>>>>>>>Afafkh>>>>>>>>>",this.state.class.class.name)
     var that = this;
     this.state.socket.on('teacherJoinedRoom', () => {
       this.state.socket.emit('studentConnect', {user: this.state.user, classId: this.state.class.id})
@@ -112,7 +113,7 @@ class ClassStandbyView extends React.Component {
       <View style={{flex:1}}>
         <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)} 
           beforeLogout={this.beforeLogout.bind(this)}>
-          {this.state.class.name}
+          {this.state.class.class.name}
         </NavBar>
         <View>
           <Text onPress={this.thumbcheckPage.bind(this)} >ThumbCheck</Text>
