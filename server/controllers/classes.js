@@ -42,7 +42,7 @@ module.exports = {
 
     sequelize.query(
       'SELECT w.lesson_id, w.lesson_name, w.poll_count, ' 
-      + 'x.response_count, y.correct_response_count, z.average_thumb FROM '
+      + 'x.response_count, y.correct_response_count, z.average_thumb, v.student_count FROM '
         + '(SELECT a.id AS lesson_id, a.name AS lesson_name, '
         + 'COUNT(b.*) AS poll_count ' 
         + 'FROM lessons a '
@@ -76,7 +76,15 @@ module.exports = {
         + 'WHERE a.class_id = ' + classId + ' '
         + "AND b.type = 'thumbs' " 
         + 'GROUP BY a.id) z '
-      + 'ON w.lesson_id = z.lesson_id '
+      + 'ON w.lesson_id = z.lesson_id LEFT JOIN '
+        + '(SELECT a.id AS lesson_id, '
+        + 'COUNT(distinct c.student_id) AS student_count ' 
+        + 'FROM lessons a '
+        + 'LEFT JOIN polls b ON b.lesson_id = a.id '
+        + 'LEFT JOIN poll_responses c ON c.poll_id = b.id '
+        + 'WHERE a.class_id = ' + classId + ' '
+        + 'GROUP BY a.id) v '
+      + 'ON w.lesson_id = v.lesson_id'
     ).then(function(data) {
       var results = data[0];
       console.log(results);
