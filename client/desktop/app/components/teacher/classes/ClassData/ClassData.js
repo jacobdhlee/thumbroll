@@ -179,7 +179,8 @@ class ClassData extends React.Component {
               lessons: lessonsCopy,
               newLessonName: '',
               error: false,
-              isLoading: false
+              isLoading: false,
+              studentError: response.created
             });
           });
         }
