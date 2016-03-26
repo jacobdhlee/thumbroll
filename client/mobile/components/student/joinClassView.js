@@ -133,12 +133,16 @@ class JoinClassView extends React.Component {
     return (
       <View style={{flex:1}}>
         <NavBar navi={this.props.navigator}>Enrollled Classes</NavBar>
-        <ScrollView>
-          <View style={styles.container}>
-            <Button onPress={this.selectQuickClass.bind(this)} text={'Join Quick Class'}/>
-            {this.eachClasses(this.state.enrolledClasses)}
+        <View style={styles.container}>
+          <View>
+            <ScrollView>
+              <View style={styles.container}>
+                <Button onPress={this.selectQuickClass.bind(this)} text={'Join Quick Class'}/>
+                {this.eachClasses(this.state.enrolledClasses)}
+              </View>
+            </ScrollView>
           </View>
-        </ScrollView>
+        </View>
         
 
         <Modal visible={this.state.modalVisible} transparent={true} animated={true}>
@@ -174,8 +178,8 @@ class JoinClassView extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
-    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'column',  
     justifyContent: 'center',
   },
   modal: {

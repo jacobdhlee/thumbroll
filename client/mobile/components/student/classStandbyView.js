@@ -123,8 +123,10 @@ class ClassStandbyView extends React.Component {
         <View>
           <Text onPress={this.multiPage.bind(this)} >MutipleChoice</Text>
         </View>
-        <View style={styles.container}>
+        <View style={{alignItems: 'center'}}>
           <Text style={styles.textSizeOne}>Waiting for Teacher!</Text>
+        </View>
+        <View style={styles.container}>
           <Button onPress={this.raiseHand.bind(this)} text={'RaiseHand'}/>
           <Button onPress={this.askQuestion.bind(this)}text={'Ask short Question'} />
         </View>

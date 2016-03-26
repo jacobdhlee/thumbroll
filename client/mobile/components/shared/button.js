@@ -22,16 +22,17 @@ class Button extends React.Component {
   }
 }
 
+
 const styles = StyleSheet.create({
   buttons: {
-    height: 60,
+    height: 50,
     width: 340,
-    backgroundColor:'#6FC3D1',
-    borderColor: '#6FC3D1',
-    borderWidth: 2,
-    borderRadius: 10,
-    marginTop: 20,
-    marginBottom: 20,
+    backgroundColor:'#03a9f4',
+    borderColor: '#03a9f4',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 10,
+    marginBottom: 10,
     justifyContent: 'center',
   },
   buttonContainer: {

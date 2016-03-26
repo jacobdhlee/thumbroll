@@ -233,7 +233,7 @@ class Login extends React.Component {
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
     );
     return (
-      <View style={{flex: 1, backgroundColor: '#ededed'}}> 
+      <View style={{flex: 1, backgroundColor: '#bbdefb'}}> 
         <View style={styles.loginContainer}>
 
           <View style={styles.headerContainer}>
