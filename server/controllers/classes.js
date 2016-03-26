@@ -161,9 +161,9 @@ module.exports = {
   getLessonData: function(req, res, next) {
     var lessonId = req.params.lessonId;
     sequelize.query(
-      'SELECT w.poll_id, w.poll_name, w.answer w.response_count, ' 
+      'SELECT w.poll_id, w.poll_name, w.answer, w.response_count, ' 
       + 'x.student_count, y.correct_response_count, z.average_thumb FROM '
-        + '(SELECT a.id AS poll_id, a.name AS poll_name, a.answer '
+        + '(SELECT a.id AS poll_id, a.name AS poll_name, a.answer, '
         + 'COUNT(b.*) AS response_count ' 
         + 'FROM polls a '
         + 'LEFT JOIN poll_responses b ON b.poll_id = a.id '
@@ -171,10 +171,10 @@ module.exports = {
         + 'GROUP BY a.id) w '
       + 'LEFT JOIN '
         + '(SELECT a.id AS poll_id, '
-        + 'COUNT(distinct c) AS student_count ' 
+        + 'COUNT(distinct c.id) AS student_count ' 
         + 'FROM polls a '
         + 'LEFT JOIN poll_responses b ON b.poll_id = a.id '
-        + 'JOIN students c ON c.id = b.poll_id '
+        + 'JOIN students c ON c.id = b.student_id '
         + 'WHERE a.lesson_id = ' + lessonId + ' '
         + 'GROUP BY a.id) x '
       + 'ON w.poll_id = x.poll_id LEFT JOIN '
@@ -192,7 +192,7 @@ module.exports = {
         + 'FROM polls a '
         + 'LEFT JOIN poll_responses b ON b.poll_id = a.id '
         + 'WHERE a.lesson_id = ' + lessonId + ' '
-        + "AND b.type = 'thumbs' " 
+        + "AND a.type = 'thumbs' " 
         + 'GROUP BY a.id) z '
       + 'ON w.poll_id = z.poll_id '
     ).then(function(data) {
