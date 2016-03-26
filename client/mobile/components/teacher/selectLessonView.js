@@ -18,7 +18,6 @@ class SelectLessonView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      //classes: this.props.route.classes
       lessons: [],
       socket: this.props.route.socket,
       classId: this.props.route.classId,
@@ -30,7 +29,6 @@ class SelectLessonView extends React.Component {
     var that = this;
     api.getLessons(classId)
     .then(function(resp){
-      console.log('LESSON FJALJAresp >>>>FJAKLDJFKLA>>>>>>>>,', resp)
       if(resp.status === 500) {
         console.error('Error for getting lessons data')
       } else if(resp.status === 200) {

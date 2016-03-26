@@ -34,6 +34,10 @@ class ClassStandbyView extends React.Component {
       this.state.socket.emit('studentConnect', {user: this.state.user, classId: this.state.class.id})
     });
 
+    this.state.socket.on('teacherCalledOnStudent', () => {
+      Alert.alert('Teacher Message', 'You Got selected');
+    })
+
     this.state.socket.on('newPoll', function(pollInfo) {
       console.log('message received from server!', pollInfo);
       if(pollInfo.pollObject.id == 1) {
