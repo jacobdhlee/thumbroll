@@ -51,7 +51,7 @@ class ClassData extends React.Component {
           newLessonDate={this.state.newLessonDate}
           newLessonName={this.state.newLessonName} 
           addLesson={this.addLesson.bind(this)}
-          handleLessonClick={this.handleLessonClick}
+          handleLessonClick={this.handleLessonClick.bind(this)}
           changeNewLessonName={this.changeNewLessonName.bind(this)}
           changeDate={this.changeDate.bind(this)} 
           lessons={this.state.classLessons} 
@@ -62,7 +62,7 @@ class ClassData extends React.Component {
           students={this.state.classStudents} 
           display={this.state.displayStudents} 
           classId={this.state.classId}
-          handleStudentClick={this.handleStudentClick}
+          handleStudentClick={this.handleStudentClick.bind(this)}
           addStudent={this.addStudent.bind(this)}
           newStudent={this.state.newStudent}
           changeNewStudent={this.changeNewStudent.bind(this)}
