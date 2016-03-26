@@ -6,7 +6,7 @@ import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import api from '../../../../utils/api';
 require('react-datepicker/dist/react-datepicker.css');
-import {Button, Card, Row, Col, Breadcrumbs} from 'react-materialize';
+import {Button, Card, Row, Col} from 'react-materialize';
 
 
 class ClassData extends React.Component {
@@ -14,7 +14,7 @@ class ClassData extends React.Component {
     super(props);
     
     this.state = {
-      className : 'The class name is from the DB! Talk to Jake and Jacob',
+      className : '',
       classId: this.props.params.classId,
       lessons: [],
       
@@ -32,7 +32,6 @@ class ClassData extends React.Component {
   render(){
     return (
       <div>
-        <Button waves='light'>button</Button>
 
         <h2 style={{color: '#03A9F4'}} >{this.state.className}</h2>
         <ul>
