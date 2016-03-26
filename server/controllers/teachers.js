@@ -35,15 +35,15 @@ module.exports = {
 
   addClassLesson: function(req, res, next) {
     var classId = req.body.classId;
-    var name = req.body.name;
-    var date = req.body.date;
+    var name = req.body.lessonName;
+    var date = req.body.lessonDate;
     models.lessons.create({
       name: name,
       date: date,
       class_id: classId
     })
     .then(function(data) {
-      var body = {lessonId: data.dataValues.id};
+      var body = data.dataValues;
       res.status(200).send(body);
     })
     .catch(function(err) {

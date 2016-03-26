@@ -108,11 +108,36 @@ class ClassData extends React.Component {
     e.preventDefault();
     // update state with new list item
     if(!!this.state.newLessonName.trim()){
+      var newLessonName = this.state.newLessonName.trim();
       var lessonsCopy = this.state.lessons.slice();
+      var newLessonDate = this.state.newLessonDate;
 
       // push to DB, return lesson object and push it to lessonsCopy
       // on a .then()
-      lessonsCopy.push(this.state.newLessonName);
+
+      api.addLesson(this.state.classId, newLessonName, newLessonDate)
+      .then((response) => {
+        if(response.status === 500){
+          this.setState({
+             error: 'Lesson could not be added',
+             isLoading: false
+           });
+          console.log(this.state.error);
+        } else if (response.status === 200) {
+          response.json().then((response) => {
+           console.log("ADDED LESSON = ", response);   
+           var studentsCopy = this.state.students.slice();
+           lessonsCopy.push(response);
+
+            this.setState({
+              lessons: lessonsCopy,
+              newLessonName: '',
+              error: false,
+              isLoading: false
+            });
+          });
+        }
+      });
       
       this.setState({
         lessons: lessonsCopy,

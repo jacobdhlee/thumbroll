@@ -46,7 +46,7 @@ module.exports = {
     return fetch(server + '/logout');
   },
 
-  addLesson: (classId) => {
+  addLesson: (classId, lessonName, lessonDate) => {
     return fetch(server + '/teachers/lessons', {
       method: 'POST',
       headers: {
@@ -54,7 +54,9 @@ module.exports = {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        classId: classId
+        classId: classId,
+        lessonName: lessonName,
+        lessonDate: lessonDate
       })
     }); 
   },

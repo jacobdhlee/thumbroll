@@ -25184,7 +25184,7 @@
 	    return fetch(server + '/logout');
 	  },
 
-	  addLesson: function addLesson(classId) {
+	  addLesson: function addLesson(classId, lessonName, lessonDate) {
 	    return fetch(server + '/teachers/lessons', {
 	      method: 'POST',
 	      headers: {
@@ -25192,7 +25192,9 @@
 	        'Content-Type': 'application/json'
 	      },
 	      body: JSON.stringify({
-	        classId: classId
+	        classId: classId,
+	        lessonName: lessonName,
+	        lessonDate: lessonDate
 	      })
 	    });
 	  },
@@ -25955,14 +25957,40 @@
 	  }, {
 	    key: 'addLesson',
 	    value: function addLesson(e) {
+	      var _this4 = this;
+
 	      e.preventDefault();
 	      // update state with new list item
 	      if (!!this.state.newLessonName.trim()) {
+	        var newLessonName = this.state.newLessonName.trim();
 	        var lessonsCopy = this.state.lessons.slice();
+	        var newLessonDate = this.state.newLessonDate;
 
 	        // push to DB, return lesson object and push it to lessonsCopy
 	        // on a .then()
-	        lessonsCopy.push(this.state.newLessonName);
+
+	        _api2.default.addLesson(this.state.classId, newLessonName, newLessonDate).then(function (response) {
+	          if (response.status === 500) {
+	            _this4.setState({
+	              error: 'Lesson could not be added',
+	              isLoading: false
+	            });
+	            console.log(_this4.state.error);
+	          } else if (response.status === 200) {
+	            response.json().then(function (response) {
+	              console.log("ADDED LESSON = ", response);
+	              var studentsCopy = _this4.state.students.slice();
+	              lessonsCopy.push(response);
+
+	              _this4.setState({
+	                lessons: lessonsCopy,
+	                newLessonName: '',
+	                error: false,
+	                isLoading: false
+	              });
+	            });
+	          }
+	        });
 
 	        this.setState({
 	          lessons: lessonsCopy,
@@ -25980,7 +26008,7 @@
 	  }, {
 	    key: 'addStudent',
 	    value: function addStudent(e) {
-	      var _this4 = this;
+	      var _this5 = this;
 
 	      e.preventDefault();
 
@@ -25991,18 +26019,18 @@
 	        // push to DB, return student object and push it to studentsCopy
 	        _api2.default.addStudentToClass(this.state.classId, newStudentEmail).then(function (response) {
 	          if (response.status === 400) {
-	            _this4.setState({
+	            _this5.setState({
 	              error: 'Student not found',
 	              isLoading: false
 	            });
-	            console.log(_this4.state.error);
+	            console.log(_this5.state.error);
 	          } else if (response.status === 200) {
 	            response.json().then(function (response) {
 	              console.log("ADDED STUDENT = ", response);
-	              var studentsCopy = _this4.state.students.slice();
+	              var studentsCopy = _this5.state.students.slice();
 	              studentsCopy.push(response);
 
-	              _this4.setState({
+	              _this5.setState({
 	                students: studentsCopy,
 	                newStudent: '',
 	                error: false,
@@ -26011,7 +26039,7 @@
 	            });
 	          } else if (response.status === 500) {
 	            console.log("SERVER ERROR: FAILED TO ADD STUDENT");
-	            _this4.setState({
+	            _this5.setState({
 	              error: "Failed to add student",
 	              isLoading: false
 	            });
