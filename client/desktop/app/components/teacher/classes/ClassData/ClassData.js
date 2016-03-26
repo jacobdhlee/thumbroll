@@ -51,6 +51,7 @@ class ClassData extends React.Component {
           newLessonDate={this.state.newLessonDate}
           newLessonName={this.state.newLessonName} 
           addLesson={this.addLesson.bind(this)}
+          handleLessonClick={this.handleLessonClick}
           changeNewLessonName={this.changeNewLessonName.bind(this)}
           changeDate={this.changeDate.bind(this)} 
           lessons={this.state.classLessons} 
@@ -61,6 +62,7 @@ class ClassData extends React.Component {
           students={this.state.classStudents} 
           display={this.state.displayStudents} 
           classId={this.state.classId}
+          handleStudentClick={this.handleStudentClick}
           addStudent={this.addStudent.bind(this)}
           newStudent={this.state.newStudent}
           changeNewStudent={this.changeNewStudent.bind(this)}
@@ -70,26 +72,35 @@ class ClassData extends React.Component {
   }
 
   componentWillMount(){
-    api.getClassLessonsData(this.state.classId)
+    api.getClassName(this.state.classId)
     .then((response) => {
-      if(response.status === 400){
-        this.setState({
-           error: 'Data forbidden',
-           isLoading: false
-         });
-        console.error(this.state.error);
-      } else if (response.status === 200) {
+      if(response.status === 200) {
         response.json().then((response) => {
-         console.log("Class lessons from DB:", response);   
           this.setState({
-            className: 'HARDCODED UNTIL I FIX IT! - Ian',
-            classLessons: response,
-            error: false,
-            isLoading: false
+            className: response.name
+          });
+          api.getClassLessonsData(this.state.classId)
+          .then((response) => {
+            if(response.status === 400){
+              this.setState({
+                 error: 'Data forbidden',
+                 isLoading: false
+               });
+              console.error(this.state.error);
+            } else if (response.status === 200) {
+              response.json().then((response) => {
+               console.log("Class lessons from DB:", response);   
+                this.setState({
+                  classLessons: response,
+                  error: false,
+                  isLoading: false
+                });
+              });
+            }
           });
         });
       }
-    });
+    })
   }
 
   changeDate(newDate){
@@ -122,7 +133,6 @@ class ClassData extends React.Component {
         response.json().then((response) => {
          console.log("Class students from DB:", response);   
           this.setState({
-            className: 'HARDCODED UNTIL I FIX IT! - Ian',
             classStudents: response,
             error: false,
             isLoading: false
@@ -130,6 +140,14 @@ class ClassData extends React.Component {
         });
       }
     });
+  }
+
+  handleLessonClick(e) {
+    console.log(e)
+  }
+
+  handleStudentClick(e) {
+    console.log(e)
   }
 
   addLesson(e){
@@ -225,14 +243,7 @@ const Students = (props) => {
   if(props.display) {
     return (
       <div>
-        <ul>
-          {props.students.map((student) => {
-            return (<li style={{cursor: 'default'}} key={"student:" + Math.random()}>
-            <Link to='/'>{student.first_name + " " + student.last_name}</Link>
-            </li>)
-          })}
-        </ul>
-
+        <StudentTable students={props.students} handleStudentClick={props.handleStudentClick} />
         <div>
           <h3>Add Student</h3>
           <div>
@@ -258,14 +269,7 @@ const Lessons = (props) => {
   if(props.display) {
     return (
       <div>
-        <ul>
-          {props.lessons.map((lesson) => {
-            return (<li style={{cursor: 'default'}} key={"lesson:"+lesson.id}>
-            <Link to={`/class/${props.classId}/lessons/${lesson}`}>{lesson.name}</Link>
-            </li>)
-          })}
-        </ul>
-
+        <LessonTable lessons={props.lessons} handleLessonClick={props.handleLessonClick} />
         <div>
           <h3>New Lesson</h3>
           <div>
@@ -287,6 +291,66 @@ const Lessons = (props) => {
   } else {
     return (<div></div>)
   }
+}
+
+const LessonTable = (props) => {
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th> Lesson </th>
+          <th> Count of Polls </th>
+          <th> Response Count </th>
+          <th> Accuracy </th>
+          <th> Average Thumb </th>
+        </tr>
+      </thead>
+      <tbody>
+      {props.lessons.map((lesson) => {
+        var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
+        return (
+          <tr>
+            <td onClick={props.handleLessonClick}> {lesson.lesson_name} </td>
+            <td> {lesson.poll_count ? lesson.poll_count : 0} </td>
+            <td> {lesson.response_count? lesson.response_count : 0} </td>
+            <td> {correctRate ? correctRate + '%' : 'N/A'} </td>
+            <td> {lesson.average_thumb ? lesson.average_thumb + '%' : 'N/A'} </td>
+          </tr>
+        )
+      })}
+    </tbody>
+  </table>
+  )
+}
+
+const StudentTable = (props) => {
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th> Name </th>
+          <th> Lessons Attended </th>
+          <th> Response Count </th>
+          <th> PLACEHOLDER </th>
+          <th> Average Thumb </th>
+        </tr>
+      </thead>
+      <tbody>
+      {props.students.map((student) => {
+        // var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
+        return (
+          <tr>
+            <td onClick={props.handleStudentClick}> {student.first_name + ' ' + student.last_name} </td>
+            <td> {student.lesson_count ? student.lesson_count : 0} </td>
+            <td> {student.response_count ? student.response_count : 0} </td>
+            <td> {student.response_count} </td>
+            <td> {student.average_thumb ? student.average_thumb + '%' : 'N/A' } </td>
+          </tr>
+        )
+      })}
+    </tbody>
+  </table>
+  )
 }
 
 module.exports = ClassData;
