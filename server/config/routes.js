@@ -24,6 +24,7 @@ module.exports = function(app, io) {
   app.get('/students/classes/:studentId', studentsController.getClasses);
   app.get('/classes/lessons/:classId', classesController.getLessons);
 
+
   // Add new lesson to class
   app.post('/teachers/lessons', teachersController.addClassLesson);
 
