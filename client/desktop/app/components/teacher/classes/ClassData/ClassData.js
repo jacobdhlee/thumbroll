@@ -35,17 +35,21 @@ class ClassData extends React.Component {
     return (
       <div>
 
-        <h2 className='sectionHeading' style={{color: '#03A9F4'}} >{this.state.className}</h2>
-        <ul>
-          <li onClick={() => this.setState({
-            displayLessons: true,
-            displayStudents: false,
-          })} style={{
-            cursor: 'default',
-            }}>Lessons</li>
-
-          <li onClick={this.switchToStudentsView.bind(this)} style={{cursor: 'default'}}>Students</li>
-        </ul>
+        <h2 className='sectionHeading' style={{color: '#424242'}} >{this.state.className}</h2>
+        
+        <Row>
+          <Col s={6} l={12}>
+            <ul className="tabs">
+            <li className='tab col s1 active' onClick={() => this.setState({
+              displayLessons: true,
+              displayStudents: false,
+            })} style={{
+              cursor: 'default',
+              }}>Lessons</li>
+            <li className='tab col s1' onClick={this.switchToStudentsView.bind(this)} style={{cursor: 'default'}}>Students</li>
+            </ul>
+          </Col>
+        </Row>
         
         <Lessons 
           newLessonDate={this.state.newLessonDate}
@@ -311,7 +315,7 @@ const Students = (props) => {
       <div>
         <StudentTable students={props.students} handleStudentClick={props.handleStudentClick} />
         <div>
-          <h3>Add Student</h3>
+          <h5 className='sectionHeading'>Add Student</h5>
           <div>
             <form onSubmit={props.addStudent}>
               <input type='text' placeholder='email address' value={props.newStudent} onChange={(event) => {
@@ -345,7 +349,7 @@ const Lessons = (props) => {
       <div>
         <LessonTable lessons={props.lessons} handleLessonClick={props.handleLessonClick} />
         <div>
-          <h3>New Lesson</h3>
+          <h5 className='sectionHeading'>Add Lesson</h5>
           <div>
             <form onSubmit={props.addLesson}>
               <input type='text' value={props.newLessonName} onChange={(event) => {
@@ -369,39 +373,40 @@ const Lessons = (props) => {
 
 const LessonTable = (props) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th> Lesson </th>
-          <th> Count of Polls </th>
-          <th> Response Count </th>
-          <th> Accuracy </th>
-          <th> Average Thumb </th>
-        </tr>
-      </thead>
-      <tbody>
-      {props.lessons.map((lesson) => {
-        var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
-        return (
-          <tr key={'L' + lesson.lesson_id} 
-            onClick={props.handleLessonClick.bind(null, lesson.lesson_id, lesson.lesson_name)}>
-            <td> {lesson.lesson_name} </td>
-            <td> {lesson.poll_count ? lesson.poll_count : 0} </td>
-            <td> {lesson.response_count? lesson.response_count : 0} </td>
-            <td> {correctRate ? correctRate + '%' : 'N/A'} </td>
-            <td> {lesson.average_thumb ? lesson.average_thumb + '%' : 'N/A'} </td>
+    <div className='tableContainer'>
+      <table className='highlight'>
+        <thead>
+          <tr>
+            <th> Lesson </th>
+            <th> Count of Polls </th>
+            <th> Response Count </th>
+            <th> Accuracy </th>
+            <th> Average Thumb </th>
           </tr>
-        )
-      })}
-    </tbody>
-  </table>
+        </thead>
+        <tbody>
+        {props.lessons.map((lesson) => {
+          var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
+          return (
+            <tr>
+              <td onClick={props.handleLessonClick}> {lesson.lesson_name} </td>
+              <td> {lesson.poll_count ? lesson.poll_count : 0} </td>
+              <td> {lesson.response_count? lesson.response_count : 0} </td>
+              <td> {correctRate ? correctRate + '%' : 'N/A'} </td>
+              <td> {lesson.average_thumb ? lesson.average_thumb + '%' : 'N/A'} </td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
+  </div>
   )
 }
 
 const StudentTable = (props) => {
   return (
     <table>
-      <thead>
+      <thead style={{maxWidth:'10em'}}>
         <tr>
           <th> Name </th>
           <th> Lessons Attended </th>

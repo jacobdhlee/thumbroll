@@ -52,13 +52,13 @@ class App extends React.Component {
   render(){
     return (
       <div style={{
-        backgroundColor: 'white'
+        backgroundColor: '#fafafa'
       }}>
         <div className='light-blue'>
         <h1 className='left-align title'>
           <Link style={
             {
-              color: 'white',
+              color: '#fafafa',
               fontSize: '1em'
             }} to={`/`}>Thumb<span className='titleCheck'>roll</span>
           </Link>
@@ -77,7 +77,7 @@ class App extends React.Component {
           <footer className="footerApp page-footer light-blue">
             <Link className='large material-icons settingsButton' style={
                 {
-                  color: 'white',
+                  color: '#fafafa',
                 }}
                 to={`/profile`}>settings
             </Link>
