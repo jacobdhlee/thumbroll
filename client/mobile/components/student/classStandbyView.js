@@ -109,7 +109,7 @@ class ClassStandbyView extends React.Component {
   render(){
     var name = this.state.class.class.name;
     if(!name) {
-      name = his.state.class.name;
+      name = this.state.class.name;
     }
     return(
       <View style={{flex:1}}>
