@@ -1,4 +1,5 @@
 var models = require("./../models");
+var sequelize = require('./../models/index').sequelize;
 
 module.exports = {
   getLessons: function(req, res, next) {
@@ -25,5 +26,25 @@ module.exports = {
       res.status(500).send(err);
     })
   },
+
+  getClassData: function(req, res, next) {
+    var classId = req.params.classId;
+
+    sequelize.query('SELECT a.id AS class_id, a.name AS class_name, '
+      + 'b.id AS lesson_id, b.name AS lesson_name, '
+      + 'c.id AS poll_id, c.name AS poll_name, c.type AS poll_type, '
+      + 'e.id AS student_id, e.firstname AS first_name, e.lastname AS last_name, '
+      + 'd.response_val AS answer '
+      + 'FROM classes a '
+      + 'JOIN lessons b ON a.id = b.class_id '
+      + 'LEFT JOIN polls c ON b.id = c.lesson_id '
+      + 'LEFT JOIN poll_responses d ON c.id = d.poll_id '
+      + 'JOIN students e ON d.student_id = e.id')
+    .then(function(data) {
+      res.status(200).send(data);
+    });
+  },
+
+
 }
 

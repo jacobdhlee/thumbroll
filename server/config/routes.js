@@ -22,7 +22,7 @@ module.exports = function(app, io) {
   app.get('/teachers/lessons/:classId', teachersController.getClasses);
   app.get('/teachers/classes/:teacherId', teachersController.getClasses);
   app.get('/students/classes/:studentId', studentsController.getClasses);
-  app.get('/classes/lessons/:classId', classesController.getLessons);
+  app.get('/classes/lessons/:classId', classesController.getClassData);
 
   app.post('/teachers/lessons', teachersController.addClassLesson);
 
