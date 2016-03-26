@@ -133,15 +133,36 @@ class ClassData extends React.Component {
     // If there is newStudent data in state, call API
     if(!!this.state.newStudent.trim()){
       var newStudentEmail = this.state.newStudent.trim();
-      // call api.addStudentToClass(newStudentEmail)
+
       // push to DB, return student object and push it to studentsCopy
-      
-      //.then(response)...
-      // Copy students from state, add new student object
-      
-      this.setState({
-        students: studentsCopy,
-        newStudent: ''
+      api.addStudentToClass(this.props.classId, newStudentEmail)
+      .then((response) => {
+        if(response.status === 400){
+          this.setState({
+             error: 'Student not found',
+             isLoading: false
+           });
+          console.log(this.state.error);
+        } else if (response.status === 200) {
+          response.json().then((response) => {
+           console.log("ADDED STUDENT = ", response);   
+           var studentsCopy = this.state.students.slice();
+           studentsCopy.push(response);
+
+            this.setState({
+              students: studentsCopy,
+              newStudent: '',
+              error: false,
+              isLoading: false
+            });
+          });
+        } else if (response.status === 500) {
+          console.log("SERVER ERROR: FAILED TO ADD STUDENT");   
+            this.setState({
+              error: "Failed to add student",
+              isLoading: false
+            });
+        }
       });
     }
   }

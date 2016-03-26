@@ -25231,7 +25231,17 @@
 	  getAllStudents: function getAllStudents() {},
 
 	  addStudentToClass: function addStudentToClass(classId, studentEmail) {
-	    return fetch(server + '/classes/:' + classId + '/add/' + studentEmail);
+	    return fetch(server + '/teachers/class/student', {
+	      method: 'POST',
+	      headers: {
+	        'Accept': 'application/json',
+	        'Content-Type': 'application/json'
+	      },
+	      body: JSON.stringify({
+	        classId: classId,
+	        studentEmail: studentEmail
+	      })
+	    });
 	  }
 
 	};
@@ -25970,20 +25980,42 @@
 	  }, {
 	    key: 'addStudent',
 	    value: function addStudent(e) {
+	      var _this4 = this;
+
 	      e.preventDefault();
 
 	      // If there is newStudent data in state, call API
 	      if (!!this.state.newStudent.trim()) {
 	        var newStudentEmail = this.state.newStudent.trim();
-	        // call api.addStudentToClass(newStudentEmail)
+
 	        // push to DB, return student object and push it to studentsCopy
+	        _api2.default.addStudentToClass(this.props.classId, newStudentEmail).then(function (response) {
+	          if (response.status === 400) {
+	            _this4.setState({
+	              error: 'Student not found',
+	              isLoading: false
+	            });
+	            console.log(_this4.state.error);
+	          } else if (response.status === 200) {
+	            response.json().then(function (response) {
+	              console.log("ADDED STUDENT = ", response);
+	              var studentsCopy = _this4.state.students.slice();
+	              studentsCopy.push(response);
 
-	        //.then(response)...
-	        // Copy students from state, add new student object
-
-	        this.setState({
-	          students: studentsCopy,
-	          newStudent: ''
+	              _this4.setState({
+	                students: studentsCopy,
+	                newStudent: '',
+	                error: false,
+	                isLoading: false
+	              });
+	            });
+	          } else if (response.status === 500) {
+	            console.log("SERVER ERROR: FAILED TO ADD STUDENT");
+	            _this4.setState({
+	              error: "Failed to add student",
+	              isLoading: false
+	            });
+	          }
 	        });
 	      }
 	    }

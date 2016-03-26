@@ -96,7 +96,17 @@ module.exports = {
   },
 
   addStudentToClass: (classId, studentEmail) => {
-    return fetch(server + '/classes/:' + classId + '/add/' + studentEmail);
+    return fetch(server + '/teachers/class/student', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        classId: classId,
+        studentEmail: studentEmail
+      })
+    });
   }
 
 

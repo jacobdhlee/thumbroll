@@ -142,20 +142,32 @@ module.exports = {
       }
     }).then(function(student){
 
-    })
-
-    models.students_classes.create({
-      student_id: studentId,
-      class_id: classId,
-    })
-    .then(function(data){
-      models.students
-      var body = {classId: data.dataValues.id};
-      res.status(200).send(body);
+      if (!student) {
+        res.status(400).send();
+      } else {
+       // Write student ID to students_classes
+       models.students_classes.create({
+         student_id: student.dataValues.id,
+         class_id: classId
+       })
+       .then(function(data){
+        console.log(data);
+         var body = {
+           student: student
+         };
+         
+         // Return student object in the format we need
+         res.status(200).send(body);
+       })
+       .catch(function(err){
+         console.error('Error saving class to DB:', err);
+         res.status(500).send(err);
+       }); 
+     }
     })
     .catch(function(err){
       console.error('Error saving class to DB:', err);
       res.status(500).send(err);
-    })
-  },
+    });
+  }
 };
