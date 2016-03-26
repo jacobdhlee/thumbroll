@@ -1,0 +1,28 @@
+html, body, h1, h2, h3, h4, ul, ol, li, p, a {
+  padding: 0;
+  border: 0;
+  margin: 0;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  color: black;
+  list-style: none;
+}
+
+.backgroundVideo{
+  height: 100%;
+  width: 100%;
+  top: 0;
+  padding: none;
+  position: fixed;
+  z-index: -100
+}

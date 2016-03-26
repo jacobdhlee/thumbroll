@@ -13,7 +13,7 @@ class LessonData extends React.Component {
 
   render(){
     return (<div>
-      <h2>{this.state.className}</h2>
+      <h3 style={{color: '#03A9F4'}}>{this.state.className}</h3>
       <p>Polls for {this.state.className}</p>
       <button>Add thumbs check</button>
       <button>Add multiple choice</button>

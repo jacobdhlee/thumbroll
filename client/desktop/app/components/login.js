@@ -1,6 +1,8 @@
 import React from 'react';
 import api from './../utils/api';
 import auth from './../utils/auth';
+import {Button, Row, Col, Navbar, Footer} from 'react-materialize';
+import ReactDriveIn from "react-drive-in";
 
 class Login extends React.Component {
   constructor(props) {
@@ -9,7 +11,8 @@ class Login extends React.Component {
       username: '',
       password: '',
       error: false,
-      isLoading: false
+      isLoading: false,
+      videoURL: 'https://s3-us-west-1.amazonaws.com/thumbroll/tester.mp4'
     };
   }
 
@@ -65,24 +68,60 @@ class Login extends React.Component {
   render(){
     var showErr = this.state.error ? <div> {this.state.error} </div> : <div></div>;
     return (
-      <div>
-        <h1>Login</h1>
-        <input
-        type="text" 
-        placeholder="Username" 
-        value={this.state.username} 
-        onChange={this.handleUsernameChange.bind(this)} 
+      <div className='center-align'>
+        <Navbar className='navbar fixed'>
+        <h1 className='light-blue'>
+        Thumbroll
+        </h1>
+      </Navbar>
+        <ReactDriveIn
+          className ="backgroundVideo"
+          show="https://s3-us-west-1.amazonaws.com/thumbroll/tester.mp4"
+          poster="http://raw.githubusercontent.com/ronik-design/react-drive-in/master/example/glacier.jpg"
         />
-        <input
-        type="password" 
-        placeholder="Password" 
-        value={this.state.password} 
-        onChange={this.handlePasswordChange.bind(this)} 
-        />
-        <button type="button" onClick={this.handleSubmit.bind(this)}>
-        Submit
-        </button>
+        <Row>
+          <Col s={6} l={12} >
+          </Col>
+        </Row>
+
+        <Row>
+        <Col s={6} l={12}>
+          <h3 className='center-align'
+          >Login</h3>
+        </Col>
+        </Row>
+
+        <div className='valign'>
+          <Row>
+            <Col s={6} l={12}>
+              <input style={{maxWidth: '10em'}} className='center-align'
+              type="text" 
+              placeholder="Username" 
+              value={this.state.username} 
+              onChange={this.handleUsernameChange.bind(this)} 
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col s={6} l={12}>
+              <input style={{maxWidth: '10em'}} className='center-align'
+              type="password" 
+              placeholder="Password" 
+              value={this.state.password} 
+              onChange={this.handlePasswordChange.bind(this)} 
+              />
+              </Col>
+          </Row>
+          <Row>
+            <Col s={6} l={12}>
+              <button className='center-align' onClick={this.handleSubmit.bind(this)}>
+              Submit
+              </button>
+            </Col>
+          </Row>
+        </div>
         {showErr}
+        <Footer className="light-blue" copywrite></Footer>
       </div>
     );
   }

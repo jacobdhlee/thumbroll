@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route, RouteHandler, Link} from 'react-router'
+import {Route, RouteHandler, Link, Button} from 'react-router'
 
 class Profile extends React.Component {
   constructor(props){
@@ -22,6 +22,13 @@ class Profile extends React.Component {
           <div>
           <span>Email: </span><span>{this.state.teacherData.email}</span>
           </div>
+          <li>
+          <button>Edit</button>
+          </li>
+          <li onClick={()=>{ auth.logout();
+          }}>
+          <button>Logout</button>
+          </li>
       </div>
     )
   }

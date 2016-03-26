@@ -1,6 +1,7 @@
 import React from 'react'
 import {render} from 'react-dom'
 import {Router, Route, browserHistory, IndexRoute, Link} from 'react-router'
+import {Button, Icon, Footer, Navbar} from 'react-materialize';
 
 import Login from './login'
 import Signup from './signup'
@@ -8,7 +9,6 @@ import Classes from './teacher/classes/Classes'
 import Lessons from './teacher/classes/ClassData/ClassData'
 import LessonsData from './teacher/classes/ClassData/LessonData'
 import Students from './teacher/classes/ClassData/StudentData'
-import Settings from './Settings'
 import Profile from './Profile'
 import auth from './../utils/auth'
 
@@ -40,7 +40,6 @@ class App extends React.Component {
         }
       ],
       classes: [],
-      displayTeacherSettings: false,
     };
   }
 
@@ -50,19 +49,28 @@ class App extends React.Component {
     });
   }
 
-  showSettings(event){
-    var currentDisplaySetting = this.state.displayTeacherSettings;
-    this.setState({
-      displayTeacherSettings: !currentDisplaySetting
-    });
-  }
-
   render(){
     return (
-      <div>
-        <div className='header'>
-          <h1><Link to={`/`}>Thumbroll</Link></h1>
-          <Nav showSettings={this.state.displayTeacherSettings} listener={this.showSettings.bind(this)}/>
+      <div style={{
+        backgroundColor: 'white'
+      }}>
+      <Navbar className='navbar fixed'>
+        <div className='nav-wrapper'>
+        <Link style={
+          {
+            color: '#03A9F4',
+            fontSize: '1em'
+          }} to={`/`}>Thumbroll
+        </Link>
+        <Link className='large material-icons' style={
+              {
+                color: '#03A9F4',
+              }}
+              to={`/profile`}>settings
+        </Link>
+        </div>
+      </Navbar>
+        <div>
         </div>
 
         <div className='body'>
@@ -71,8 +79,11 @@ class App extends React.Component {
 
         </div>
 
-        <div className='footer'>
-          Thumbroll 2016. 
+        <div style={{
+          marginBottom: window.innerHeight,
+          paddingBottom: window.innerHeight
+        }}>
+          &copy; 2016 Thumbroll
         </div>
       </div>
     );
@@ -102,16 +113,6 @@ class App extends React.Component {
 //   }));
 // }
 
-var Nav = (props) => {
-  return (<div>
-    <nav className="navbar">
-    <div>
-      <li onClick={props.listener} style={{cursor: 'default'}}>Settings</li>
-      <Settings displayListener={props.displayListener} display={props.showSettings}/>
-    </div>
-  </nav>
-  </div> )
-};
 
 module.exports = App;
 

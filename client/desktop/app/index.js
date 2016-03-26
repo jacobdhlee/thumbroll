@@ -8,9 +8,9 @@ import Classes from './components/teacher/classes/Classes'
 import Lessons from './components/teacher/classes/ClassData/ClassData'
 import LessonsData from './components/teacher/classes/ClassData/LessonData'
 import Students from './components/teacher/classes/ClassData/StudentData'
-import Settings from './components/Settings'
 import Profile from './components/Profile'
 import auth from './utils/auth.js'
+require('./styles.css');
 
 ReactDOM.render((
   <Router history={hashHistory}>
