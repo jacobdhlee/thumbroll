@@ -3,14 +3,12 @@ import {render} from 'react-dom'
 import {Router, Route, browserHistory, IndexRoute, Link} from 'react-router'
 import {Button, Icon, Footer, Navbar} from 'react-materialize';
 
-
 import Login from './login'
 import Signup from './signup'
 import Classes from './teacher/classes/Classes'
 import Lessons from './teacher/classes/ClassData/ClassData'
 import LessonsData from './teacher/classes/ClassData/LessonData'
 import Students from './teacher/classes/ClassData/StudentData'
-import Settings from './Settings'
 import Profile from './Profile'
 import auth from './../utils/auth'
 
@@ -42,7 +40,6 @@ class App extends React.Component {
         }
       ],
       classes: [],
-      displayTeacherSettings: false,
     };
   }
 
@@ -52,28 +49,28 @@ class App extends React.Component {
     });
   }
 
-  showSettings(event){
-    var currentDisplaySetting = this.state.displayTeacherSettings;
-    this.setState({
-      displayTeacherSettings: !currentDisplaySetting
-    });
-  }
-
   render(){
     return (
-      <div>
-        <div className='header'>
-          <h1>
-            <Link style={
+      <div style={{
+        backgroundColor: 'white'
+      }}>
+      <Navbar className='navbar fixed'>
+        <div className='nav-wrapper'>
+        <Link style={
+          {
+            color: '#03A9F4',
+            fontSize: '1em'
+          }} to={`/`}>Thumbroll
+        </Link>
+        <Link className='large material-icons' style={
               {
                 color: '#03A9F4',
-                fontSize: '1em'
-              }} to={`/`}>Thumbroll
-            </Link>
-          </h1>
-          <Navbar right>
-            <Settings displayListener={this.showSettings} display={true}/>
-          </Navbar>
+              }}
+              to={`/profile`}>settings
+        </Link>
+        </div>
+      </Navbar>
+        <div>
         </div>
 
         <div className='body'>
@@ -82,8 +79,12 @@ class App extends React.Component {
 
         </div>
 
-        <Footer copyrights="&copy; 2016 Thumbroll">
-        </Footer>
+        <div style={{
+          marginBottom: window.innerHeight,
+          paddingBottom: window.innerHeight
+        }}>
+          &copy; 2016 Thumbroll
+        </div>
       </div>
     );
   }
