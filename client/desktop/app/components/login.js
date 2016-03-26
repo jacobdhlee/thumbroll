@@ -70,17 +70,19 @@ class Login extends React.Component {
       <div className='center-align'>
         
         <Row>
-          <h1
+          <Col s={6} l={12} >
+          <h1 
             style={
             {
               color: '#03A9F4',
             }}>
               Thumbroll
           </h1>
+          </Col>
         </Row>
 
         <Row>
-        <Col l={12}>
+        <Col s={6} l={12}>
           <h3 className='center-align'
           >Login</h3>
         </Col>
