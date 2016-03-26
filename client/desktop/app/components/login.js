@@ -121,6 +121,7 @@ class Login extends React.Component {
           </Row>
         </div>
         {showErr}
+        <Footer className="light-blue" copywrite></Footer>
       </div>
     );
   }
