@@ -227,8 +227,8 @@ const Students = (props) => {
       <div>
         <ul>
           {props.students.map((student) => {
-            return (<li style={{cursor: 'default'}} key={"student:" + student.student.id}>
-            <Link to={`/class/${props.classId}/students/${student.student.id}`}>{student.student.firstname + " " + student.student.lastname}</Link>
+            return (<li style={{cursor: 'default'}} key={"student:" + Math.random()}>
+            <Link to='/'>{student.first_name + " " + student.last_name}</Link>
             </li>)
           })}
         </ul>
