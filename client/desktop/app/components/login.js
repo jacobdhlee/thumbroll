@@ -68,12 +68,14 @@ class Login extends React.Component {
   render(){
     var showErr = this.state.error ? <div> {this.state.error} </div> : <div></div>;
     return (
+      <div>
       <div className='center-align'>
         <Navbar className='navbar fixed'>
         <h1 className='light-blue'>
         Thumbroll
         </h1>
       </Navbar>
+      <main>
         <ReactDriveIn
           className ="backgroundVideo"
           show="https://s3-us-west-1.amazonaws.com/thumbroll/tester.mp4"
@@ -121,7 +123,24 @@ class Login extends React.Component {
           </Row>
         </div>
         {showErr}
-        <Footer className="light-blue" copywrite></Footer>
+        </main>
+      </div>
+        <div className='footer'>
+          <footer className="page-footer">
+            <div className="container">
+              <Row>
+                <Col l={12} s={12}>
+                  <h5 className="white-text"> Real-time student feedback and analytics platform. Your students, at lightspeed.</h5>
+                </Col>
+              </Row>
+            </div>
+            <div className="footer-copyright">
+              <div className="container left">
+              © 2016 Thumbroll
+              </div>
+            </div>
+          </footer>
+        </div>
       </div>
     );
   }

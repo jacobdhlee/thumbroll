@@ -7,6 +7,13 @@ html, body, h1, h2, h3, h4, ul, ol, li, p, a {
 body {
   height: 100%;
   width: 100%;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
 }
 
 ul {
