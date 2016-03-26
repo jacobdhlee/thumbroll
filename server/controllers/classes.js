@@ -259,6 +259,30 @@ module.exports = {
       console.log(results);
       res.status(200).send(results);
     })
+  },
+
+  getStudentClassData: function(req, res, next) {
+    var classId = req.params.classId;
+    var studentId = req.params.studentId;
+    classId = 2;
+    studentId = 1;
+    sequelize.query(
+      // May want to start queries with classes for less selecting
+      'SELECT a.id AS student_id, a.firstname AS first_name, a.lastname AS last_name, '
+      + 'd.id AS lesson_id, d.name AS lesson_name, '
+      + 'c.id AS poll_id, c.name AS poll_name, c.type, c.answer AS correct_answer, '
+      + 'b.response_val AS student_answer '
+      + 'FROM students a '
+      + 'LEFT JOIN poll_responses b ON a.id = b.student_id '
+      + 'JOIN polls c ON c.id = b.poll_id '
+      + 'JOIN lessons d ON d.id = c.lesson_id '
+      + 'WHERE a.id = ' + studentId + ' '
+      + 'AND d.class_id = ' + classId + ' '
+    ).then(function(data) {
+      var results = data[0];
+      console.log(results);
+      res.status(200).send(results);
+    })
   }
 
 }
