@@ -37,7 +37,7 @@ module.exports = {
     var classId = req.params.classId;
 
     sequelize.query(
-      'SELECT w.lesson_id, w.lesson_name, w.poll_count, ' 
+      'SELECT w.lesson_id, w.lesson_name, w.poll_count, u.potential_correct_responses_count, ' 
       + 'x.response_count, y.correct_response_count, z.average_thumb, v.student_count FROM '
         + '(SELECT a.id AS lesson_id, a.name AS lesson_name, '
         + 'COUNT(b.*) AS poll_count ' 
@@ -80,7 +80,16 @@ module.exports = {
         + 'LEFT JOIN poll_responses c ON c.poll_id = b.id '
         + 'WHERE a.class_id = ' + classId + ' '
         + 'GROUP BY a.id) v '
-      + 'ON w.lesson_id = v.lesson_id'
+      + 'ON w.lesson_id = v.lesson_id LEFT JOIN'
+        + '(SELECT a.id AS lesson_id, '
+        + 'COUNT(c.*) AS potential_correct_responses_count ' 
+        + 'FROM lessons a '
+        + 'LEFT JOIN polls b ON b.lesson_id = a.id '
+        + 'LEFT JOIN poll_responses c ON c.poll_id = b.id '
+        + 'WHERE a.class_id = ' + classId + ' '
+        + 'AND b.answer IS NOT NULL '
+        + 'GROUP BY a.id) u '
+      + 'ON w.lesson_id = u.lesson_id'
     ).then(function(data) {
       var results = data[0];
       console.log(results);
