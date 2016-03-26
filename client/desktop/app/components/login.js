@@ -2,7 +2,7 @@ import React from 'react';
 import api from './../utils/api';
 import auth from './../utils/auth';
 import {Button, Row, Col} from 'react-materialize';
-
+import ReactDriveIn from "react-drive-in";
 
 class Login extends React.Component {
   constructor(props) {
@@ -11,7 +11,8 @@ class Login extends React.Component {
       username: '',
       password: '',
       error: false,
-      isLoading: false
+      isLoading: false,
+      videoURL: 'https://s3-us-west-1.amazonaws.com/thumbroll/tester.mp4'
     };
   }
 
@@ -69,6 +70,11 @@ class Login extends React.Component {
     return (
       <div className='center-align'>
         
+        <ReactDriveIn
+          className ="backgroundVideo"
+          show="https://s3-us-west-1.amazonaws.com/thumbroll/tester.mp4"
+          poster="http://raw.githubusercontent.com/ronik-design/react-drive-in/master/example/glacier.jpg"
+        />
         <Row>
           <Col s={6} l={12} >
           <h1 
