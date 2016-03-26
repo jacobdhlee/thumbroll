@@ -27,7 +27,7 @@ class JoinClassView extends React.Component {
     super(props);
     var {height, width} = Dimensions.get('window');
     this.state = {
-      enrolledClasses: [{id: 1, name:'Quick Class'}, {id:2, name:'CS 101'}, {id:3, name: 'CS 201'}],
+      enrolledClasses: [],
       user: this.props.route.user,
       secretCode: '',
       height: height,

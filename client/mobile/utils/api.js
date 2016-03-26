@@ -50,7 +50,7 @@ module.exports = {
 
 
   getLessons: (classId) => {
-    return fetch(server + '/teachers/lessons/' + classId);
+    return fetch(server + '/teachers/lessons/' + classId)
   },
 
   getLessonData: (lessonId) => {

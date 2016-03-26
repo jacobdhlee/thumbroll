@@ -27,7 +27,7 @@ class StartClassView extends React.Component {
     var {height, width} = Dimensions.get('window');
     super(props);
     this.state = {
-      classes: [{id: 1, name:'Quick Class'}, {id:2, name:'CS 101'}, {id:3, name: 'CS 201'}],
+      classes: [],
       height: height,
       width: width,
       randomId: '',

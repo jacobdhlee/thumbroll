@@ -41,13 +41,16 @@ class RequestFeedbackView extends React.Component {
         }
       ],
       raisedHandList: [],
+      raisedHandCount: 0,
       count: 0,
       questionLists:[],
     };
     //populate feedbackOptions with anything custom from lesson
     this.state.socket.on('studentRaisedHand', function(data){
+      var raisedHandCount = this.state.raisedHandCount;
       var raisedHandList = this.state.raisedHandList.slice();
       if(raisedHandList.length === 0) {
+        raisedHandCount += 1;
         if(data.user.firstName) {
           raisedHandList.unshift({id: data.user.uid, student: data.user.firstName + ' ' + data.user.lastName , active: true});    
         } else {
@@ -56,6 +59,7 @@ class RequestFeedbackView extends React.Component {
       } else {
         for(var i = 0; i < raisedHandList.length; i++){
           if(raisedHandList.length < 5 && data.user.uid !== raisedHandList[i].id) {
+            raisedHandCount += 1;
             if(data.user.firstName) {
               raisedHandList.unshift({id: data.user.uid, student: data.user.firstName + ' ' + data.user.lastName , active: true});    
             } else {
@@ -66,6 +70,7 @@ class RequestFeedbackView extends React.Component {
       }
       this.setState({
         raisedHandList: raisedHandList,
+        raisedHandCount: raisedHandCount,
       });
     }.bind(this))
 
@@ -102,6 +107,7 @@ class RequestFeedbackView extends React.Component {
     this.setState({
       modal: !this.state.modal,
       count: count,
+      raisedHandCount: 0,
     })
     if(this.state.modal === false) {
       this.setState({
@@ -172,6 +178,7 @@ class RequestFeedbackView extends React.Component {
     this.setState({
       raisedHandList: [],
       count: 0,
+      raisedHandCount: 0,
     })
   }
 
@@ -244,7 +251,7 @@ class RequestFeedbackView extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity onPress={this.clickRaisedHand.bind(this)} style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'red', height: 60, width: 100}}>
               <Text style={styles.textSize}>
-                R : {this.state.raisedHandList.length}
+                R : {this.state.raisedHandCount}
               </Text>
           </TouchableOpacity>
         </View>
