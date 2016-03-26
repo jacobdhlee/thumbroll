@@ -193,7 +193,7 @@ module.exports = {
     });
   },
 
-  getStudentLessonsData: function(req, res, next) {
+  getStudentPollsData: function(req, res, next) {
     var classId = req.params.classId;
     var studentId = req.params.studentId;
     sequelize.query(
