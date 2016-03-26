@@ -175,18 +175,18 @@ class ClassData extends React.Component {
       }
     });
 
-    console.log(studentId, e.target)
-    api.getStudentPollsData(this.state.classId, studentId)
-    .then((response) => {
-      response.json().then((response) => {
-        console.log('Individual student data from DB:', response);
-      }).catch((err) => {
-        console.error(err);
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+    // console.log(studentId, e.target)
+    // api.getStudentPollsData(this.state.classId, studentId)
+    // .then((response) => {
+    //   response.json().then((response) => {
+    //     console.log('Individual student data from DB:', response);
+    //   }).catch((err) => {
+    //     console.error(err);
+    //   });
+    // })
+    // .catch((err) => {
+    //   console.error(err);
+    // });
   }
 
   addLesson(e){
@@ -378,7 +378,7 @@ const StudentTable = (props) => {
       {props.students.map((student) => {
         // var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
         return (
-          <tr onClick={props.handleStudentClick.bind(null, student.student, student.first_name, student.first_name)}>
+          <tr onClick={props.handleStudentClick.bind(null, student.student, student.first_name, student.last_name)}>
             <td> {student.first_name + ' ' + student.last_name} </td>
             <td> {student.lesson_count ? student.lesson_count : 0} </td>
             <td> {student.response_count ? student.response_count : 0} </td>
