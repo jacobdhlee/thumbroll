@@ -14,18 +14,11 @@ class Settings extends React.Component {
     if(that.props.display) {
       return (<div>
         <ul style={{marginBottom: '1em'}}>
-          <li><Link style={
+          <li><Link className='large material-icons' style={
               {
                 color: '#03A9F4',
               }}
-              to={`/profile`}>Your Profile</Link></li>
-          <li onClick={()=>{ auth.logout();
-          }}>
-          <Link style={
-              {
-                color: '#03A9F4',
-              }}
-              to={`/`}>Logout</Link></li>
+              to={`/profile`}>settings</Link></li>
         </ul>
       </div>)
     } else{
