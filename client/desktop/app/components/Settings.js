@@ -13,10 +13,19 @@ class Settings extends React.Component {
     var that = this;
     if(that.props.display) {
       return (<div>
-        <ul>
-          <li><Link to={`/profile`}>Your Profile</Link></li>
+        <ul style={{marginBottom: '1em'}}>
+          <li><Link style={
+              {
+                color: '#03A9F4',
+              }}
+              to={`/profile`}>Your Profile</Link></li>
           <li onClick={()=>{ auth.logout();
-          }} style={{cursor: 'default'}}>Logout</li>
+          }}>
+          <Link style={
+              {
+                color: '#03A9F4',
+              }}
+              to={`/`}>Logout</Link></li>
         </ul>
       </div>)
     } else{

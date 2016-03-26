@@ -3,6 +3,8 @@ import ClassData from './ClassData/ClassData'
 import {Route, RouteHandler, Link, Navigation} from 'react-router'
 import api from '../../../utils/api';
 import auth from '../../../utils/auth';
+import {Button, Card, Row, Col} from 'react-materialize';
+
 
 class Classes extends React.Component {
   constructor(props){
@@ -22,6 +24,7 @@ class Classes extends React.Component {
     return (
       <div>
         <h2>Classes</h2>
+
         {this.state.classes.map((specificClass) => {
           return (<li style={{cursor: 'default'}} key={"class:"+specificClass.id}>
             <Link to={`class/${specificClass.id}/lessons`}>{specificClass.name}</Link>

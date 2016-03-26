@@ -4,10 +4,13 @@
 }
 
 body {
-  background-color: gray;
-  font-family: 'Raleway', sans-serif;
+  background-color: white;
 }
 
 ul {
   color:green;
+}
+
+li {
+  color: black;
 }

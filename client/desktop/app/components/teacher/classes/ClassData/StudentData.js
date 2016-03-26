@@ -14,7 +14,8 @@ class StudentData extends React.Component {
   render(){
     return (
       <div>
-        <h3>{this.state.studentData}</h3>
+        <h3 style={{color: '#03A9F4'}}>Student Name goes here</h3>
+        {this.state.studentData}
       </div>
     )
   }

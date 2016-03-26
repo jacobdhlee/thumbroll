@@ -1,6 +1,8 @@
 import React from 'react'
 import {render} from 'react-dom'
 import {Router, Route, browserHistory, IndexRoute, Link} from 'react-router'
+import {Button, Icon, Footer} from 'react-materialize';
+
 
 import Login from './login'
 import Signup from './signup'
@@ -61,7 +63,14 @@ class App extends React.Component {
     return (
       <div>
         <div className='header'>
-          <h1><Link to={`/`}>Thumbroll</Link></h1>
+          <h1>
+            <Link style={
+              {
+                color: '#03A9F4',
+                fontSize: '1em'
+              }} to={`/`}>Thumbroll
+            </Link>
+          </h1>
           <Nav showSettings={this.state.displayTeacherSettings} listener={this.showSettings.bind(this)}/>
         </div>
 
@@ -71,9 +80,8 @@ class App extends React.Component {
 
         </div>
 
-        <div className='footer'>
-          Thumbroll 2016. 
-        </div>
+        <Footer copyrights="&copy; 2016 Thumbroll">
+        </Footer>
       </div>
     );
   }
@@ -106,7 +114,7 @@ var Nav = (props) => {
   return (<div>
     <nav className="navbar">
     <div>
-      <li onClick={props.listener} style={{cursor: 'default'}}>Settings</li>
+      <li style={{listStyle: 'none'}} onClick={props.listener} style={{cursor: 'default'}}>Settings</li>
       <Settings displayListener={props.displayListener} display={props.showSettings}/>
     </div>
   </nav>
