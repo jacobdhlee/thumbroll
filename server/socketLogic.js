@@ -35,7 +35,7 @@ module.exports = function(io) {
 
     client.on('teacherLeavingClass', function(data) {
       // var classId = data.classId;
-      console.log('teacher leaving class', data.classId);
+      console.log('teacher leaving class', data);
       client.leave(room);
       data.userCount = io.sockets.adapter.rooms[room].length;
       io.sockets.to(room).emit('teacherLeftClass', data);
@@ -44,9 +44,9 @@ module.exports = function(io) {
 
     client.on('teacherLoggingOut', function(data) {
       // var classId = data.classId;
-      console.log('teacher logging out from class', data.classId);
+      console.log('teacher logging out from class', data);
+      data.userCount = io.sockets.adapter.rooms[room].length -1;
       client.leave(room);
-      data.userCount = io.sockets.adapter.rooms[room].length;
       io.sockets.to(room).emit('teacherLeftClass', data);
       room = undefined;
     });
@@ -111,8 +111,8 @@ module.exports = function(io) {
     client.on('studentLoggingOut', function(data) {
       var userId = data.user.uid; 
       // var classId = data.classId;
+      data.userCount = io.sockets.adapter.rooms[room] - 1;
       client.leave(room);
-      data.userCount = io.sockets.adapter.rooms[room].length;
       console.log('Student', userId, 'leaving', room);
       io.sockets.to(room).emit('studentLeftRoom', data);
       room = undefined;

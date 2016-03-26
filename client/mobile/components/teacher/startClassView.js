@@ -27,15 +27,35 @@ class StartClassView extends React.Component {
     var {height, width} = Dimensions.get('window');
     super(props);
     this.state = {
-      classes: [{id: 1, name:'Quick Class'}, {id:2, name:'CS 101'}, {id:3, name: 'CS 201'}],
+      classes: [],
       height: height,
       width: width,
       randomId: '',
+      teacher: this.props.route.user,
       socket: undefined,
       classCode: '',
       modalVisible: false,
       activeStudents: {}
     };
+  }
+
+  componentWillMount(){
+    var teacher = this.state.teacher;
+    var that = this;
+    api.getClasses(teacher.uid)
+    .then(function(resp){
+      if(resp.status === 500) {
+        console.error('Error for getting class data')
+      } else if(resp.status === 200) {
+        var classes = JSON.parse(resp._bodyInit);
+        that.setState({
+          classes: classes,
+        })
+      }
+    })
+    .catch(function(err){
+      console.error(err);
+    })
   }
 
   selectQuickClass() {
@@ -102,7 +122,6 @@ class StartClassView extends React.Component {
         console.error('err getting class data');
       } else if(response.status === 200) {
         var lessons = JSON.parse(response._bodyText);
-
         this.socket = io(server, {jsonp: false});
         this.setState({
           activeStudents: {}

@@ -31,8 +31,12 @@ class ClassStandbyView extends React.Component {
     };
     var that = this;
     this.state.socket.on('teacherJoinedRoom', () => {
-      this.state.socket.emit('studentConnect', {user: this.state.user, classId: this.state.class.id})
+      this.state.socket.emit('studentConnect', {user: this.state.user, classId: this.state.class.class.id})
     });
+
+    this.state.socket.on('teacherCalledOnStudent', () => {
+      Alert.alert('Teacher Message', 'You Got selected');
+    })
 
     this.state.socket.on('newPoll', function(pollInfo) {
       console.log('message received from server!', pollInfo);
@@ -92,7 +96,6 @@ class ClassStandbyView extends React.Component {
   }
 
   closeQuestion() {
-
     this.state.socket.emit('askQuestions', {question: this.state.question, student: this.state.user});
     this.setState({
       modal: false,
@@ -104,11 +107,15 @@ class ClassStandbyView extends React.Component {
   }
 
   render(){
+    var name = this.state.class.class.name;
+    if(!name) {
+      name = this.state.class.name;
+    }
     return(
       <View style={{flex:1}}>
         <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)} 
           beforeLogout={this.beforeLogout.bind(this)}>
-          {this.state.class.name}
+          {name}
         </NavBar>
         <View>
           <Text onPress={this.thumbcheckPage.bind(this)} >ThumbCheck</Text>

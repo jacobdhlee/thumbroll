@@ -18,11 +18,29 @@ class SelectLessonView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      //classes: this.props.route.classes
-      lessons: this.props.route.lessons,
+      lessons: [],
       socket: this.props.route.socket,
       classId: this.props.route.classId,
     };
+  }
+
+  componentWillMount(){
+    var classId = this.state.classId;
+    var that = this;
+    api.getLessons(classId)
+    .then(function(resp){
+      if(resp.status === 500) {
+        console.error('Error for getting lessons data')
+      } else if(resp.status === 200) {
+        var lessons = JSON.parse(resp._bodyInit);
+        that.setState({
+          lessons: lessons,
+        })
+      }
+    })
+    .catch(function(err){
+      console.error(err);
+    })
   }
 
   selectLesson(lessonId) {
