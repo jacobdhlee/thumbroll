@@ -75,12 +75,15 @@ class App extends React.Component {
 
         <div className='footerApp'>
           <footer className="footerApp page-footer light-blue">
-            <Link className='large material-icons right-align' style={
+            <Link className='large material-icons settingsButton' style={
                 {
                   color: 'white',
                 }}
                 to={`/profile`}>settings
             </Link>
+            <div className='copywriter'>
+            &copy; 2016 Thumbroll
+            </div>
           </footer>
         </div>
       </div>

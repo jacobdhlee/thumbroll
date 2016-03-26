@@ -70,9 +70,9 @@ class Login extends React.Component {
     return (
       <div>
       <div className='center-align'>
-        <Navbar className='navbar fixed'>
-        <h1 className='light-blue'>
-        Thumbroll
+        <Navbar className='navbar fixed welcomeTopBar'>
+        <h1 className='light-blue title'>
+        Thumb<span className='titleCheck'>roll</span>
         </h1>
       </Navbar>
       <main>
@@ -82,21 +82,21 @@ class Login extends React.Component {
           poster="http://raw.githubusercontent.com/ronik-design/react-drive-in/master/example/glacier.jpg"
         />
         <Row>
-          <Col s={6} l={12} >
+          <Col s={12} l={12} >
           </Col>
         </Row>
 
         <Row>
-        <Col s={6} l={12}>
-          <h3 className='center-align'
-          >Login</h3>
+        <Col s={12} l={12}>
+          <h2 className='center-align callToAction'
+          >Login</h2>
         </Col>
         </Row>
 
         <div className='valign'>
           <Row>
-            <Col s={6} l={12}>
-              <input style={{maxWidth: '10em'}} className='center-align'
+            <Col s={12} l={12}>
+              <input style={{maxWidth: '10em'}} className='center-align callToAction'
               type="text" 
               placeholder="Username" 
               value={this.state.username} 
@@ -105,8 +105,8 @@ class Login extends React.Component {
             </Col>
           </Row>
           <Row>
-            <Col s={6} l={12}>
-              <input style={{maxWidth: '10em'}} className='center-align'
+            <Col s={12} l={12}>
+              <input style={{maxWidth: '10em'}} className='center-align callToAction'
               type="password" 
               placeholder="Password" 
               value={this.state.password} 
@@ -115,7 +115,7 @@ class Login extends React.Component {
               </Col>
           </Row>
           <Row>
-            <Col s={6} l={12}>
+            <Col s={12} l={12}>
               <button className='center-align' onClick={this.handleSubmit.bind(this)}>
               Submit
               </button>
@@ -130,12 +130,12 @@ class Login extends React.Component {
             <div className="container">
               <Row>
                 <Col l={12} s={12}>
-                  <h5 className="white-text center-align"> Real-time student feedback and analytics platform. Your students, engaged at lightspeed.</h5>
+                  <h5 className="welcomeMessage white-text center-align"> Real-time student feedback and analytics platform. Your students, engaged at lightspeed.</h5>
                 </Col>
               </Row>
             </div>
             <div className="footer-copyright">
-              <div className="container left">
+              <div className="container left copywriter" style={{paddingLeft: '10px'}}>
               © 2016 Thumbroll
               </div>
             </div>

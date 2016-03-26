@@ -69,3 +69,31 @@ footer {
   font-weight: 900;
   margin: 20px;
 }
+
+.settingsButton {
+  float: left;
+  text-align: left;
+}
+.copywriter {
+  float: right;
+  font-family: 'Lato', sans-serif;
+  font-weight: 100;
+  color: white;
+}
+
+.welcomeTopBar {
+  padding-bottom: 10px;
+}
+
+.welcomeMessage {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: 1.5em;
+}
+
+.callToAction {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: 1.5em;
+  color: white;
+}
