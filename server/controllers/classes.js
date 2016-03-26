@@ -208,6 +208,57 @@ module.exports = {
       console.log(results);
       res.status(200).send(results);
     })
+  },
+
+  getStudentsData: function(req, res, next) {
+    var classId = req.params.classId;
+    sequelize.query(
+      // May want to start queries with classes for less selecting
+      'SELECT w.student_id, w.first_name, w.last_name, w.lesson_count, ' 
+      + 'x.response_count, y.correct_response_count, z.average_thumb FROM '
+        + '(SELECT a.id AS student_id, a.firstname AS first_name, a.lastname AS last_name, '
+        + 'COUNT(distinct d.lesson_id) AS lesson_count ' 
+        + 'FROM students a '
+        + 'JOIN students_classes b ON a.id = b.student_id '
+        + 'LEFT JOIN poll_responses c ON a.id = c.student_id '
+        + 'LEFT JOIN polls d ON d.id = c.poll_id '
+        + 'WHERE b.class_id = ' + classId + ' '
+        + 'GROUP BY a.id, a.firstname, a.lastname) w '
+      + 'LEFT JOIN '
+        + '(SELECT a.id AS student_id, '
+        + 'COUNT(c.*) AS response_count ' 
+        + 'FROM students a '
+        + 'JOIN students_classes b ON a.id = b.student_id '
+        + 'LEFT JOIN poll_responses c ON a.id = c.student_id '
+        + 'WHERE b.class_id = ' + classId + ' '
+        + 'GROUP BY a.id) x '
+      + 'ON w.student_id = x.student_id LEFT JOIN '
+        + '(SELECT a.id AS student_id, '
+        + 'COUNT(c.*) AS correct_response_count ' 
+        + 'FROM students a '
+        + 'JOIN students_classes b ON a.id = b.student_id '
+        + 'LEFT JOIN poll_responses c ON a.id = c.student_id '
+        + 'LEFT JOIN polls d ON d.id = c.poll_id '
+        + 'WHERE b.class_id = ' + classId + ' '
+        + 'AND d.answer IS NOT NULL '
+        + 'AND c.response_val = d.answer '
+        + 'GROUP BY a.id) y '
+      + 'ON w.student_id = y.student_id LEFT JOIN '
+        + '(SELECT a.id AS student_id, '
+        + 'AVG(CAST(c.response_val AS decimal)) AS average_thumb ' 
+        + 'FROM students a '
+        + 'JOIN students_classes b ON a.id = b.student_id '
+        + 'LEFT JOIN poll_responses c ON a.id = c.student_id '
+        + 'LEFT JOIN polls d ON d.id = c.poll_id '
+        + 'WHERE b.class_id = ' + classId + ' '
+        + "AND d.type = 'thumbs' " 
+        + 'GROUP BY a.id) z '
+      + 'ON w.student_id = z.student_id '
+    ).then(function(data) {
+      var results = data[0];
+      console.log(results);
+      res.status(200).send(results);
+    })
   }
 
 }
