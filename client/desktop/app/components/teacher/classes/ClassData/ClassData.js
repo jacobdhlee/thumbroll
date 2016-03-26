@@ -180,7 +180,6 @@ class ClassData extends React.Component {
               newLessonName: '',
               error: false,
               isLoading: false,
-              studentError: response.created
             });
           });
         }
@@ -217,23 +216,31 @@ class ClassData extends React.Component {
           console.log(this.state.error);
         } else if (response.status === 200) {
           response.json().then((response) => {
-           console.log("ADDED STUDENT = ", response);   
-           var studentsCopy = this.state.students.slice();
-           studentsCopy.push(response);
+           console.log('STUDENT WAS CREATED: ' + response.created)
+           if (response.created === false){
+             this.setState({
+               studentError: "Student already enrolled in this class"
+             });
+             console.log(this.state.studentError);
+           } else {
+             console.log("ADDED STUDENT = ", response);  
+             var studentsCopy = this.state.students.slice();
+             studentsCopy.push(response);
 
-            this.setState({
-              students: studentsCopy,
-              newStudent: '',
-              error: false,
-              isLoading: false
-            });
+              this.setState({
+                students: studentsCopy,
+                newStudent: '',
+                error: false,
+                isLoading: false
+              });
+            }
           });
         } else if (response.status === 500) {
           console.log("SERVER ERROR: FAILED TO ADD STUDENT");   
-            this.setState({
-              error: "Failed to add student",
-              isLoading: false
-            });
+          this.setState({
+            error: "Failed to add student",
+            isLoading: false
+          });
         }
       });
     }
