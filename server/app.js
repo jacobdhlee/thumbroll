@@ -186,4 +186,50 @@ models.sequelize.sync({force: true}).then(function () {
     student_id: 3
   });
 
+  models.polls.create({
+    type: 'thumbs',
+    lesson_id: 2,
+  });
+
+  models.polls.create({
+    type: 'multiChoice',
+    lesson_id: 3,
+    answer: 'A'
+  });
+
+  models.polls.create({
+    type: 'thumbs',
+    lesson_id: 3
+  });
+
+  models.poll_responses.create({
+    response_val: 93,
+    student_id: 1,
+    poll_id: 1,
+  });
+
+  models.poll_responses.create({
+    response_val: 16,
+    student_id: 3,
+    poll_id: 1,
+  });
+
+  models.poll_responses.create({
+    response_val: 'A',
+    student_id: 3,
+    poll_id: 2,
+  });
+
+  models.poll_responses.create({
+    response_val: 'C',
+    student_id: 1,
+    poll_id: 2,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 55,
+    student_id: 1,
+    poll_id: 3,
+  }); 
+
 });
