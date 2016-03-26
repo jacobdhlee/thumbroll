@@ -24,6 +24,11 @@ module.exports = function(app, io) {
   app.get('/students/classes/:studentId', studentsController.getClasses);
   app.get('/classes/lessons/:classId', classesController.getLessons);
 
+  //get teacher desktop frontend data
+  app.get('/classes/:classId/lessons', classesController.getClassLessonsData);
+  app.get('/lessons/:lessonid/polls', classesController.getLessonPollsData);
+  app.get('/classes/:classId/students', classesController.getClassStudentsData);
+  app.get('/classes/:classId/students/:studentId', classesController.getStudentPollsData);
 
   // Add new lesson to class
   app.post('/teachers/lessons', teachersController.addClassLesson);
