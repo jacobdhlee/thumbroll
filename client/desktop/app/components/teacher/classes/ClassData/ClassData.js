@@ -35,7 +35,7 @@ class ClassData extends React.Component {
     return (
       <div>
 
-        <h2 style={{color: '#03A9F4'}} >{this.state.className}</h2>
+        <h2 className='sectionHeading' style={{color: '#03A9F4'}} >{this.state.className}</h2>
         <ul>
           <li onClick={() => this.setState({
             displayLessons: true,

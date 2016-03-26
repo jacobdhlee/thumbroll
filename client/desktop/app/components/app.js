@@ -55,12 +55,12 @@ class App extends React.Component {
         backgroundColor: 'white'
       }}>
         <div className='light-blue'>
-        <h1 className='left-align'>
+        <h1 className='left-align title'>
           <Link style={
             {
               color: 'white',
               fontSize: '1em'
-            }} to={`/`}>Thumbroll
+            }} to={`/`}>Thumb<span className='titleCheck'>roll</span>
           </Link>
         </h1>
         <span className='right-align'>
