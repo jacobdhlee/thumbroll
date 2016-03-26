@@ -146,9 +146,10 @@ module.exports = {
         res.status(400).send();
       } else {
        // Write student ID to students_classes
-       models.students_classes.create({
-         student_id: student.dataValues.id,
-         class_id: classId
+       models.students_classes.findOrCreate({ where: {
+          student_id: student.dataValues.id,
+          class_id: classId
+        }
        })
        .then(function(data){
         console.log(data);
