@@ -122,7 +122,7 @@
 
 	function requireAuth(nextState, replace) {
 	  if (!_auth2.default.loggedIn()) {
-	    replace({ nextPathName: nextState.location.pathname }, '/login');
+	    replace({ state: { nextPathName: nextState.location.pathname }, pathname: '/login' });
 	  }
 	}
 
@@ -25125,7 +25125,7 @@
 	}(_react2.default.Component);
 
 	Login.contextTypes = {
-	  router: _react2.default.PropTypes.func.isRequired
+	  router: _react2.default.PropTypes.any.isRequired
 	};
 
 	module.exports = Login;
@@ -25263,7 +25263,6 @@
 	          callback(false);
 	        }
 	      } else if (response.status === 200) {
-	        console.log("$$$$$$$$", document.cookie);
 	        response.json().then(function (body) {
 	          localStorage.token = true;
 	          if (callback) {
@@ -25288,13 +25287,13 @@
 	  },
 	  checkForSession: function checkForSession(next) {
 	    delete localStorage.token;
-	    return api.checkForSession().then(function (response) {
+	    api.checkForSession().then(function (response) {
 	      if (response.status === 200) {
 	        response.json().then(function (data) {
-	          if (data) {
+	          if (data.user) {
 	            localStorage.token = true;
 	          }
-	          next(data);
+	          next(data.user);
 	        });
 	      }
 	    }).catch(function (err) {
@@ -25588,6 +25587,10 @@
 
 	var _api2 = _interopRequireDefault(_api);
 
+	var _auth = __webpack_require__(221);
+
+	var _auth2 = _interopRequireDefault(_auth);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -25605,8 +25608,7 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Classes).call(this, props));
 
 	    _this.state = {
-	      // TODO: REMOVE HARDCODED DATA
-	      uid: 1,
+	      uid: undefined,
 	      classes: [],
 	      lessons: [],
 	      newClassName: '',
@@ -25692,23 +25694,33 @@
 	    value: function componentWillMount() {
 	      var _this3 = this;
 
-	      _api2.default.getClasses(this.state.uid).then(function (response) {
-	        if (response.status === 400) {
-	          _this3.setState({
-	            error: 'No classes found',
-	            isLoading: false
-	          });
-	          console.log(_this3.state.error);
-	        } else if (response.status === 200) {
-	          response.json().then(function (response) {
-	            console.log("RESPONSE = ", response);
+	      _auth2.default.checkForSession(function (user) {
+	        if (!user) {
+	          _this3.transitionTo('/login');
+	          return;
+	        }
+	        user = user.split('_')[1];
+	        _this3.setState({
+	          uid: user
+	        });
+	        _api2.default.getClasses(_this3.state.uid).then(function (response) {
+	          if (response.status === 400) {
 	            _this3.setState({
-	              classes: response,
-	              error: false,
+	              error: 'No classes found',
 	              isLoading: false
 	            });
-	          });
-	        }
+	            console.error(_this3.state.error);
+	          } else if (response.status === 200) {
+	            response.json().then(function (response) {
+	              console.log("RESPONSE = ", response);
+	              _this3.setState({
+	                classes: response,
+	                error: false,
+	                isLoading: false
+	              });
+	            });
+	          }
+	        });
 	      });
 	    }
 	  }]);

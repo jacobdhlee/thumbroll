@@ -83,7 +83,7 @@ class Classes extends React.Component {
              error: 'No classes found',
              isLoading: false
            });
-          console.log(this.state.error);
+          console.error(this.state.error);
         } else if (response.status === 200) {
           response.json().then((response) => {
             console.log("RESPONSE = ", response);   
