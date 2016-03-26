@@ -47,6 +47,7 @@ class RequestFeedbackView extends React.Component {
     };
     //populate feedbackOptions with anything custom from lesson
     this.state.socket.on('studentRaisedHand', function(data){
+      console.log('data ?????fksjalkfjaslfk >>>>>>', data)
       var raisedHandCount = this.state.raisedHandCount;
       var raisedHandList = this.state.raisedHandList.slice();
       if(raisedHandList.length === 0) {
@@ -75,6 +76,7 @@ class RequestFeedbackView extends React.Component {
     }.bind(this))
 
     this.state.socket.on('studentQuestions', function(data){
+      console.log('afkjdasklfjdata for question >>>>>>>>>>>>>>>>>>>', data)
       var questionLists = this.state.questionLists.slice();
       if(data.student.firstName) {
         var student = data.student.firstName + ' ' + data.student.lastName;
@@ -184,6 +186,7 @@ class RequestFeedbackView extends React.Component {
 
   callOnStudent() {
     var studentsObj = this.props.route.getActiveStudents();
+    console.log('fjaklsdfjklasdfjkldsaf', studentsObj)
     var keys = Object.keys(studentsObj);
     var index = Math.floor(Math.random() * keys.length);
     var randomKey = keys[index];
