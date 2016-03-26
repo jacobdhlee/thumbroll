@@ -131,7 +131,6 @@ class ClassData extends React.Component {
         response.json().then((response) => {
          console.log("Class students from DB:", response);   
           this.setState({
-            className: 'HARDCODED UNTIL I FIX IT! - Ian',
             classStudents: response,
             error: false,
             isLoading: false
@@ -234,14 +233,7 @@ const Students = (props) => {
   if(props.display) {
     return (
       <div>
-        <ul>
-          {props.students.map((student) => {
-            return (<li style={{cursor: 'default'}} key={"student:" + Math.random()}>
-            <Link to='/'>{student.first_name + " " + student.last_name}</Link>
-            </li>)
-          })}
-        </ul>
-
+        <StudentTable students={props.students} />
         <div>
           <h3>Add Student</h3>
           <div>
@@ -296,7 +288,7 @@ const LessonTable = (props) => {
     <table>
       <thead>
         <tr>
-          <th> Lesson Name </th>
+          <th> Lesson </th>
           <th> Count of Polls </th>
           <th> Response Count </th>
           <th> Accuracy </th>
@@ -309,10 +301,40 @@ const LessonTable = (props) => {
         return (
           <tr>
             <td /*onClick={handleClick}*/> {lesson.lesson_name} </td>
-            <td> {lesson.poll_count} </td>
-            <td> {lesson.response_count} </td>
+            <td> {lesson.poll_count ? lesson.poll_count : 0} </td>
+            <td> {lesson.response_count? lesson.response_count : 0} </td>
             <td> {correctRate ? correctRate + '%' : 'N/A'} </td>
             <td> {lesson.average_thumb ? lesson.average_thumb + '%' : 'N/A'} </td>
+          </tr>
+        )
+      })}
+    </tbody>
+  </table>
+  )
+}
+
+const StudentTable = (props) => {
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th> Name </th>
+          <th> Lessons Attended </th>
+          <th> Response Count </th>
+          <th> PLACEHOLDER </th>
+          <th> Average Thumb </th>
+        </tr>
+      </thead>
+      <tbody>
+      {props.students.map((student) => {
+        // var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
+        return (
+          <tr>
+            <td /*onClick={handleClick}*/> {student.first_name + ' ' + student.last_name} </td>
+            <td> {student.lesson_count ? student.lesson_count : 0} </td>
+            <td> {student.response_count ? student.response_count : 0} </td>
+            <td> {student.response_count} </td>
+            <td> {student.average_thumb ? student.average_thumb + '%' : 'N/A' } </td>
           </tr>
         )
       })}
