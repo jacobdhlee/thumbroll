@@ -130,7 +130,7 @@ class Login extends React.Component {
             <div className="container">
               <Row>
                 <Col l={12} s={12}>
-                  <h5 className="white-text"> Real-time student feedback and analytics platform. Your students, at lightspeed.</h5>
+                  <h5 className="white-text"> Real-time student feedback and analytics platform. Your students, engaged at lightspeed.</h5>
                 </Col>
               </Row>
             </div>
