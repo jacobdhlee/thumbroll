@@ -47,7 +47,14 @@ module.exports = {
       })
     }); 
   },
+  
+  getStudentClasses: (studentId) => {
+    return fetch(server + '/students/classes/' + studentId);
+  },
 
+  getClasses: (teacherId) => {
+    return fetch(server + '/teachers/classes/' + teacherId)
+  },
 
   getLessons: (classId) => {
     return fetch(server + '/teachers/lessons/' + classId)

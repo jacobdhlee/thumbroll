@@ -5,6 +5,7 @@ var io =require('socket.io-client/socket.io');
 var NavBar = require('./../shared/navbar');
 var Button = require('./../shared/button');
 var env = require('./../../utils/environment');
+var api = require('./../../utils/api');
 
 var server = env.server + ':' + env.port;
 
@@ -34,6 +35,26 @@ class JoinClassView extends React.Component {
       width: width,
       modalVisible: false
     }
+  }
+
+  componentWillMount() {
+    var userId = this.state.user.uid
+    console.log('sueradsfasadfasfdas >>>>>>>>>', userId)
+    var that =  this;
+    api.getStudentClasses(userId)
+    .then(function(resp){
+      if(resp.status === 500) {
+        console.error('Error for getting class data')
+      } else if(resp.status === 200) {
+        var classes = JSON.parse(resp._bodyInit);
+        that.setState({
+          enrolledClasses: classes,
+        })
+      }
+    })
+    .catch(function(err){
+      console.error(err);
+    })
   }
 
   selectedClass(cls) {
