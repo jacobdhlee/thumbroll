@@ -1,7 +1,7 @@
 import React from 'react';
 import api from './../utils/api';
 import auth from './../utils/auth';
-import {Button, Row, Col} from 'react-materialize';
+import {Button, Row, Col, Navbar, Footer} from 'react-materialize';
 import ReactDriveIn from "react-drive-in";
 
 class Login extends React.Component {
@@ -69,7 +69,11 @@ class Login extends React.Component {
     var showErr = this.state.error ? <div> {this.state.error} </div> : <div></div>;
     return (
       <div className='center-align'>
-        
+        <Navbar className='navbar fixed'>
+        <h1 className='light-blue'>
+        Thumbroll
+        </h1>
+      </Navbar>
         <ReactDriveIn
           className ="backgroundVideo"
           show="https://s3-us-west-1.amazonaws.com/thumbroll/tester.mp4"
@@ -77,13 +81,6 @@ class Login extends React.Component {
         />
         <Row>
           <Col s={6} l={12} >
-          <h1 
-            style={
-            {
-              color: '#03A9F4',
-            }}>
-              Thumbroll
-          </h1>
           </Col>
         </Row>
 
