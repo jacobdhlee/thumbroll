@@ -38,16 +38,13 @@ class JoinClassView extends React.Component {
   }
 
   componentWillMount() {
-    var userId = this.state.user.uid
-    console.log('sueradsfasadfasfdas >>>>>>>>>', userId)
+    var userId = this.state.user.uid;
     var that =  this;
     api.getStudentClasses(userId)
     .then(function(resp){
-      console.log('resp>>>>>>>>>>>>>>>>>>dsafdksjafhdal>>>>>>>>>', resp)
       if(resp.status === 500) {
         console.error('Error for getting class data')
       } else if(resp.status === 200) {
-        // { _bodyInit: '[{"id":1,"student_id":1,"class_id":2,"class":{"id":2,"name":"CS101","teacher_id":1}}]',
         var classes = JSON.parse(resp._bodyInit);
         that.setState({
           enrolledClasses: classes,
@@ -62,7 +59,7 @@ class JoinClassView extends React.Component {
   selectedClass(cls) {
     //perhaps pass class as part of url to socket
     this.socket = io(server, {jsonp: false});
-    this.socket.emit('studentConnect', {user: this.state.user, classId: cls.id});
+    this.socket.emit('studentConnect', {user: this.state.user, classId: cls.class.id});
 
     this.props.navigator.push({
       component: ClassStandbyView,
@@ -126,7 +123,7 @@ class JoinClassView extends React.Component {
     return classes.map((cls, index) => {
       return (
         <View key={index}>
-          <Button onPress={this.selectedClass.bind(this, cls)} text={cls.name} />
+          <Button onPress={this.selectedClass.bind(this, cls)} text={cls.class.name} />
         </View>
       )
     })
