@@ -70,26 +70,36 @@ class ClassData extends React.Component {
   }
 
   componentWillMount(){
-    api.getClassLessonsData(this.state.classId)
+    api.getClassName(this.state.classId)
     .then((response) => {
-      if(response.status === 400){
-        this.setState({
-           error: 'Data forbidden',
-           isLoading: false
-         });
-        console.error(this.state.error);
-      } else if (response.status === 200) {
+      if(response.status === 200) {
         response.json().then((response) => {
-         console.log("Class lessons from DB:", response);   
+          console.log(response);
           this.setState({
-            className: 'HARDCODED UNTIL I FIX IT! - Ian',
-            classLessons: response,
-            error: false,
-            isLoading: false
+            className: response.name
+          });
+          api.getClassLessonsData(this.state.classId)
+          .then((response) => {
+            if(response.status === 400){
+              this.setState({
+                 error: 'Data forbidden',
+                 isLoading: false
+               });
+              console.error(this.state.error);
+            } else if (response.status === 200) {
+              response.json().then((response) => {
+               console.log("Class lessons from DB:", response);   
+                this.setState({
+                  classLessons: response,
+                  error: false,
+                  isLoading: false
+                });
+              });
+            }
           });
         });
       }
-    });
+    })
   }
 
   changeDate(newDate){
@@ -258,14 +268,7 @@ const Lessons = (props) => {
   if(props.display) {
     return (
       <div>
-        <ul>
-          {props.lessons.map((lesson) => {
-            return (<li style={{cursor: 'default'}} key={"lesson:"+lesson.id}>
-            <Link to={`/class/${props.classId}/lessons/${lesson}`}>{lesson.name}</Link>
-            </li>)
-          })}
-        </ul>
-
+        <LessonTable lessons={props.lessons} />
         <div>
           <h3>New Lesson</h3>
           <div>
@@ -287,6 +290,35 @@ const Lessons = (props) => {
   } else {
     return (<div></div>)
   }
+}
+
+const LessonTable = (props) => {
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th> Lesson Name </th>
+          <th> Count of Polls </th>
+          <th> Response Count </th>
+          <th> Correct Responses </th>
+          <th> Average Thumb </th>
+        </tr>
+      </thead>
+      <tbody>
+      {props.lessons.map((lesson) => {
+        return (
+          <tr>
+            <td /*onClick={handleClick}*/> {lesson.lesson_name} </td>
+            <td> {lesson.poll_count} </td>
+            <td> {lesson.response_count} </td>
+            <td> {lesson.correct_response_count ? lesson.correct_response_count : 'N/A'} </td>
+            <td> {lesson.average_thumb ? lesson.average_thumb + '%' : 'N/A'} </td>
+          </tr>
+        )
+      })}
+    </tbody>
+  </table>
+  )
 }
 
 module.exports = ClassData;

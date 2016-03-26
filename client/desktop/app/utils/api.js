@@ -128,5 +128,8 @@ module.exports = {
     return fetch(server + '/classes/' + classId + '/students/' + studentId);
   },
 
+  getClassName: (classId) => {
+    return fetch(server + '/classes/className/' + classId);
+  },
 }
 
