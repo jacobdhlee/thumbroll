@@ -40,25 +40,43 @@ class RequestFeedbackView extends React.Component {
           name: 'Multiple Choice'
         }
       ],
-      numberOfStudentHands: 0,
       raisedHandList: [],
       count: 0,
-      questionLists:[]
+      questionLists:[],
     };
     //populate feedbackOptions with anything custom from lesson
     this.state.socket.on('studentRaisedHand', function(data){
-      var numberOfStudentHands = this.state.numberOfStudentHands + 1;
       var raisedHandList = this.state.raisedHandList.slice();
-      raisedHandList.push({student: data.user.firstName + ' ' + data.user.lastName , active: true});
+      if(raisedHandList.length === 0) {
+        if(data.user.firstName) {
+          raisedHandList.unshift({id: data.user.uid, student: data.user.firstName + ' ' + data.user.lastName , active: true});    
+        } else {
+          raisedHandList.unshift({id: data.user.uid, student: data.user.uid, active: true});
+        }
+      } else {
+        for(var i = 0; i < raisedHandList.length; i++){
+          if(raisedHandList.length < 5 && data.user.uid !== raisedHandList[i].id) {
+            if(data.user.firstName) {
+              raisedHandList.unshift({id: data.user.uid, student: data.user.firstName + ' ' + data.user.lastName , active: true});    
+            } else {
+              raisedHandList.unshift({id: data.user.uid, student: data.user.uid, active: true});
+            }
+          } 
+        }
+      }
       this.setState({
-        numberOfStudentHands: numberOfStudentHands,
-        raisedHandList: raisedHandList
+        raisedHandList: raisedHandList,
       });
     }.bind(this))
 
     this.state.socket.on('studentQuestions', function(data){
       var questionLists = this.state.questionLists.slice();
-      questionLists.push(data.question);
+      if(data.student.firstName) {
+        var student = data.student.firstName + ' ' + data.student.lastName;
+      } else {
+        var student = data.student.uid
+      }
+      questionLists.push({question: data.question, student: student});
       this.setState({
         questionLists: questionLists,
       })
@@ -85,6 +103,11 @@ class RequestFeedbackView extends React.Component {
       modal: !this.state.modal,
       count: count,
     })
+    if(this.state.modal === false) {
+      this.setState({
+        count: 0,
+      })
+    }
   }
 
   dismissClass() {
@@ -109,7 +132,8 @@ class RequestFeedbackView extends React.Component {
     } 
     return (
       <View>
-        <Text>{list[0]}</Text>
+        <Text>Question from {list[0].student}</Text>
+        <Text>{list[0].question}</Text>
       </View>
     )
   }
@@ -121,7 +145,7 @@ class RequestFeedbackView extends React.Component {
       )
     }
     return list.map((student, index) => {
-      if(!this.state.modal && this.state.count > 0 && this.state.count % 2 === 0) {
+      if(!this.state.modal && this.state.count > 0) {
         student.active = false
       }
       if(student.active){
@@ -147,7 +171,7 @@ class RequestFeedbackView extends React.Component {
   clearList() {
     this.setState({
       raisedHandList: [],
-      numberOfStudentHands: 0
+      count: 0,
     })
   }
 
@@ -220,7 +244,7 @@ class RequestFeedbackView extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity onPress={this.clickRaisedHand.bind(this)} style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'red', height: 60, width: 100}}>
               <Text style={styles.textSize}>
-                R : {this.state.numberOfStudentHands}
+                R : {this.state.raisedHandList.length}
               </Text>
           </TouchableOpacity>
         </View>
@@ -243,7 +267,7 @@ class RequestFeedbackView extends React.Component {
           <View style={styles.modal}>
             <View style={{height:this.state.height * 0.8, width:this.state.width * 0.9}}>
               <View style={styles.modalBox}>
-                <Text style={styles.textSizeModal}> Question: </Text>
+                <Text style={styles.textSizeModal}> Question </Text>
                 {this.listQuestion(this.state.questionLists)}
               </View>
               <Button onPress={this.answeredQuestion.bind(this)} text={'answered'} />
