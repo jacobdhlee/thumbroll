@@ -264,8 +264,6 @@ module.exports = {
   getStudentClassData: function(req, res, next) {
     var classId = req.params.classId;
     var studentId = req.params.studentId;
-    classId = 2;
-    studentId = 1;
     sequelize.query(
       // May want to start queries with classes for less selecting
       'SELECT a.id AS student_id, a.firstname AS first_name, a.lastname AS last_name, '
