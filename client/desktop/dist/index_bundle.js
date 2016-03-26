@@ -25184,7 +25184,7 @@
 	    return fetch(server + '/logout');
 	  },
 
-	  addLesson: function addLesson(classId) {
+	  addLesson: function addLesson(classId, lessonName, lessonDate) {
 	    return fetch(server + '/teachers/lessons', {
 	      method: 'POST',
 	      headers: {
@@ -25192,7 +25192,9 @@
 	        'Content-Type': 'application/json'
 	      },
 	      body: JSON.stringify({
-	        classId: classId
+	        classId: classId,
+	        lessonName: lessonName,
+	        lessonDate: lessonDate
 	      })
 	    });
 	  },
@@ -25228,7 +25230,21 @@
 	    return fetch(server + '/classes/lessons/' + classId);
 	  },
 
-	  getAllStudents: function getAllStudents() {}
+	  getAllStudents: function getAllStudents() {},
+
+	  addStudentToClass: function addStudentToClass(classId, studentEmail) {
+	    return fetch(server + '/teachers/class/student', {
+	      method: 'POST',
+	      headers: {
+	        'Accept': 'application/json',
+	        'Content-Type': 'application/json'
+	      },
+	      body: JSON.stringify({
+	        classId: classId,
+	        studentEmail: studentEmail
+	      })
+	    });
+	  }
 
 	};
 
@@ -25836,7 +25852,8 @@
 	      newLessonDate: (0, _moment2.default)(),
 
 	      students: [],
-	      newStudentName: ''
+	      newStudent: '',
+	      studentError: ''
 	    };
 	    return _this;
 	  }
@@ -25892,8 +25909,8 @@
 	          display: this.state.displayStudents,
 	          classId: this.state.classId,
 	          addStudent: this.addStudent.bind(this),
-	          newStudentName: this.state.newStudentName,
-	          changeNewStudentName: this.changeNewStudentName.bind(this)
+	          newStudent: this.state.newStudent,
+	          changeNewStudent: this.changeNewStudent.bind(this)
 	        })
 	      );
 	    }
@@ -25915,6 +25932,7 @@
 	            _this3.setState({
 	              className: response.className,
 	              lessons: response.lessons,
+	              students: response.students,
 	              error: false,
 	              isLoading: false
 	            });
@@ -25939,14 +25957,40 @@
 	  }, {
 	    key: 'addLesson',
 	    value: function addLesson(e) {
+	      var _this4 = this;
+
 	      e.preventDefault();
 	      // update state with new list item
 	      if (!!this.state.newLessonName.trim()) {
+	        var newLessonName = this.state.newLessonName.trim();
 	        var lessonsCopy = this.state.lessons.slice();
+	        var newLessonDate = this.state.newLessonDate;
 
 	        // push to DB, return lesson object and push it to lessonsCopy
 	        // on a .then()
-	        lessonsCopy.push(this.state.newLessonName);
+
+	        _api2.default.addLesson(this.state.classId, newLessonName, newLessonDate).then(function (response) {
+	          if (response.status === 500) {
+	            _this4.setState({
+	              error: 'Lesson could not be added',
+	              isLoading: false
+	            });
+	            console.log(_this4.state.error);
+	          } else if (response.status === 200) {
+	            response.json().then(function (response) {
+	              console.log("ADDED LESSON = ", response);
+	              var lessonsCopy = _this4.state.lessons.slice();
+	              lessonsCopy.push(response);
+
+	              _this4.setState({
+	                lessons: lessonsCopy,
+	                newLessonName: '',
+	                error: false,
+	                isLoading: false
+	              });
+	            });
+	          }
+	        });
 
 	        this.setState({
 	          lessons: lessonsCopy,
@@ -25955,27 +25999,51 @@
 	      }
 	    }
 	  }, {
-	    key: 'changeNewStudentName',
-	    value: function changeNewStudentName(student) {
+	    key: 'changeNewStudent',
+	    value: function changeNewStudent(student) {
 	      this.setState({
-	        newStudentName: student
+	        newStudent: student
 	      });
 	    }
 	  }, {
 	    key: 'addStudent',
 	    value: function addStudent(e) {
+	      var _this5 = this;
+
 	      e.preventDefault();
-	      // update state with new list item
-	      if (!!this.state.newStudentName.trim()) {
-	        var studentsCopy = this.state.students.slice();
+
+	      // If there is newStudent data in state, call API
+	      if (!!this.state.newStudent.trim()) {
+	        var newStudentEmail = this.state.newStudent.trim();
 
 	        // push to DB, return student object and push it to studentsCopy
-	        // on a .then()
-	        studentsCopy.push(this.state.newStudentName);
+	        _api2.default.addStudentToClass(this.state.classId, newStudentEmail).then(function (response) {
+	          if (response.status === 400) {
+	            _this5.setState({
+	              error: 'Student not found',
+	              isLoading: false
+	            });
+	            console.log(_this5.state.error);
+	          } else if (response.status === 200) {
+	            response.json().then(function (response) {
+	              console.log("ADDED STUDENT = ", response);
+	              var studentsCopy = _this5.state.students.slice();
+	              studentsCopy.push(response);
 
-	        this.setState({
-	          students: studentsCopy,
-	          newStudentName: ''
+	              _this5.setState({
+	                students: studentsCopy,
+	                newStudent: '',
+	                error: false,
+	                isLoading: false
+	              });
+	            });
+	          } else if (response.status === 500) {
+	            console.log("SERVER ERROR: FAILED TO ADD STUDENT");
+	            _this5.setState({
+	              error: "Failed to add student",
+	              isLoading: false
+	            });
+	          }
 	        });
 	      }
 	    }
@@ -25995,11 +26063,11 @@
 	        props.students.map(function (student) {
 	          return _react2.default.createElement(
 	            'li',
-	            { style: { cursor: 'default' }, key: student },
+	            { style: { cursor: 'default' }, key: "student:" + student.student.id },
 	            _react2.default.createElement(
 	              _reactRouter.Link,
-	              { to: '/class/' + props.classId + '/students/' + student },
-	              student
+	              { to: '/class/' + props.classId + '/students/' + student.student.id },
+	              student.student.firstname + " " + student.student.lastname
 	            )
 	          );
 	        })
@@ -26010,7 +26078,7 @@
 	        _react2.default.createElement(
 	          'h3',
 	          null,
-	          'New Student'
+	          'Add Student'
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -26018,8 +26086,8 @@
 	          _react2.default.createElement(
 	            'form',
 	            { onSubmit: props.addStudent },
-	            _react2.default.createElement('input', { type: 'text', value: props.newStudentName, onChange: function onChange(event) {
-	                props.changeNewStudentName(event.target.value);
+	            _react2.default.createElement('input', { type: 'text', placeholder: 'email address', value: props.newStudent, onChange: function onChange(event) {
+	                props.changeNewStudent(event.target.value);
 	              } }),
 	            _react2.default.createElement(
 	              'div',

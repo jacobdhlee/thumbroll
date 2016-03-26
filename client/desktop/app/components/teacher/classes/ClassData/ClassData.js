@@ -24,7 +24,8 @@ class ClassData extends React.Component {
       newLessonDate: moment(),
       
       students: [],
-      newStudentName: ''
+      newStudent: '',
+      studentError: ''
     };
   }
 
@@ -59,8 +60,8 @@ class ClassData extends React.Component {
           display={this.state.displayStudents} 
           classId={this.state.classId}
           addStudent={this.addStudent.bind(this)}
-          newStudentName={this.state.newStudentName}
-          changeNewStudentName={this.changeNewStudentName.bind(this)}
+          newStudent={this.state.newStudent}
+          changeNewStudent={this.changeNewStudent.bind(this)}
           />
       </div>
     )
@@ -81,6 +82,7 @@ class ClassData extends React.Component {
           this.setState({
             className: response.className,
             lessons: response.lessons,
+            students: response.students,
             error: false,
             isLoading: false
           });
@@ -106,11 +108,36 @@ class ClassData extends React.Component {
     e.preventDefault();
     // update state with new list item
     if(!!this.state.newLessonName.trim()){
+      var newLessonName = this.state.newLessonName.trim();
       var lessonsCopy = this.state.lessons.slice();
+      var newLessonDate = this.state.newLessonDate;
 
       // push to DB, return lesson object and push it to lessonsCopy
       // on a .then()
-      lessonsCopy.push(this.state.newLessonName);
+
+      api.addLesson(this.state.classId, newLessonName, newLessonDate)
+      .then((response) => {
+        if(response.status === 500){
+          this.setState({
+             error: 'Lesson could not be added',
+             isLoading: false
+           });
+          console.log(this.state.error);
+        } else if (response.status === 200) {
+          response.json().then((response) => {
+           console.log("ADDED LESSON = ", response);   
+           var lessonsCopy = this.state.lessons.slice();
+           lessonsCopy.push(response);
+
+            this.setState({
+              lessons: lessonsCopy,
+              newLessonName: '',
+              error: false,
+              isLoading: false
+            });
+          });
+        }
+      });
       
       this.setState({
         lessons: lessonsCopy,
@@ -119,25 +146,48 @@ class ClassData extends React.Component {
     }
   }
 
-  changeNewStudentName(student){
+  changeNewStudent(student){
     this.setState({
-      newStudentName: student,
+      newStudent: student,
     })
   }
 
   addStudent(e){
     e.preventDefault();
-    // update state with new list item
-    if(!!this.state.newStudentName.trim()){
-      var studentsCopy = this.state.students.slice();
+    
+    // If there is newStudent data in state, call API
+    if(!!this.state.newStudent.trim()){
+      var newStudentEmail = this.state.newStudent.trim();
 
       // push to DB, return student object and push it to studentsCopy
-      // on a .then()
-      studentsCopy.push(this.state.newStudentName);
-      
-      this.setState({
-        students: studentsCopy,
-        newStudentName: ''
+      api.addStudentToClass(this.state.classId, newStudentEmail)
+      .then((response) => {
+        if(response.status === 400){
+          this.setState({
+             error: 'Student not found',
+             isLoading: false
+           });
+          console.log(this.state.error);
+        } else if (response.status === 200) {
+          response.json().then((response) => {
+           console.log("ADDED STUDENT = ", response);   
+           var studentsCopy = this.state.students.slice();
+           studentsCopy.push(response);
+
+            this.setState({
+              students: studentsCopy,
+              newStudent: '',
+              error: false,
+              isLoading: false
+            });
+          });
+        } else if (response.status === 500) {
+          console.log("SERVER ERROR: FAILED TO ADD STUDENT");   
+            this.setState({
+              error: "Failed to add student",
+              isLoading: false
+            });
+        }
       });
     }
   }
@@ -149,18 +199,18 @@ const Students = (props) => {
       <div>
         <ul>
           {props.students.map((student) => {
-            return (<li style={{cursor: 'default'}} key={student}>
-            <Link to={`/class/${props.classId}/students/${student}`}>{student}</Link>
+            return (<li style={{cursor: 'default'}} key={"student:" + student.student.id}>
+            <Link to={`/class/${props.classId}/students/${student.student.id}`}>{student.student.firstname + " " + student.student.lastname}</Link>
             </li>)
           })}
         </ul>
 
         <div>
-          <h3>New Student</h3>
+          <h3>Add Student</h3>
           <div>
             <form onSubmit={props.addStudent}>
-              <input type='text' value={props.newStudentName} onChange={(event) => {
-                props.changeNewStudentName(event.target.value);
+              <input type='text' placeholder='email address' value={props.newStudent} onChange={(event) => {
+                props.changeNewStudent(event.target.value);
               }} />
               
               <div>

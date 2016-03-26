@@ -14,12 +14,18 @@ module.exports = {
           id: classId
         } 
       }).then(function(oneClass){
+        models.students_classes.findAll({ 
+          where: { class_id: classId},
+          include: [models.students]
+      }).then(function(students){
         var response = {
           className: oneClass.dataValues.name,
           lessons: lessons,
+          students: students
         };
         res.status(200).send(response);
-      })
+      });
+      });
     })
     .catch(function(err){
       console.error('Error getting lessons from DB', err);
@@ -282,6 +288,5 @@ module.exports = {
       res.status(200).send(results);
     })
   }
-
 }
 

@@ -35,15 +35,15 @@ module.exports = {
 
   addClassLesson: function(req, res, next) {
     var classId = req.body.classId;
-    var name = req.body.name;
-    var date = req.body.date;
+    var name = req.body.lessonName;
+    var date = req.body.lessonDate;
     models.lessons.create({
       name: name,
       date: date,
       class_id: classId
     })
     .then(function(data) {
-      var body = {lessonId: data.dataValues.id};
+      var body = data.dataValues;
       res.status(200).send(body);
     })
     .catch(function(err) {
@@ -134,19 +134,40 @@ module.exports = {
   },
 
   addStudentToClass: function(req, res, next) {
-    var studentId = req.body.studentId;
+    var studentEmail = req.body.studentEmail;
     var classId = req.body.classId;
-    models.students_classes.create({
-      student_id: studentId,
-      class_id: classId,
-    })
-    .then(function(data){
-      var body = {classId: data.dataValues.id};
-      res.status(200).send(body);
+    // find relevant student based on email address
+    models.students.findOne({where: {
+        email: studentEmail
+      }
+    }).then(function(student){
+
+      if (!student) {
+        res.status(400).send();
+      } else {
+       // Write student ID to students_classes
+       models.students_classes.create({
+         student_id: student.dataValues.id,
+         class_id: classId
+       })
+       .then(function(data){
+        console.log(data);
+         var body = {
+           student: student
+         };
+         
+         // Return student object in the format we need
+         res.status(200).send(body);
+       })
+       .catch(function(err){
+         console.error('Error saving class to DB:', err);
+         res.status(500).send(err);
+       }); 
+     }
     })
     .catch(function(err){
       console.error('Error saving class to DB:', err);
       res.status(500).send(err);
-    })
-  },
+    });
+  }
 };

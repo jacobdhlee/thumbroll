@@ -22,12 +22,15 @@ module.exports = function(app, io) {
   app.get('/teachers/lessons/:classId', teachersController.getClasses);
   app.get('/teachers/classes/:teacherId', teachersController.getClasses);
   app.get('/students/classes/:studentId', studentsController.getClasses);
-  app.get('/classes/lessons/:classId', classesController.getClassData);
+  app.get('/classes/lessons/:classId', classesController.getLessons);
 
+  // Add new lesson to class
   app.post('/teachers/lessons', teachersController.addClassLesson);
 
   app.post('/students/ready', utils.checkUser, studentsController.readyStage.bind(null, io));
   // app.get(utils.checkUser, '/', rootController.root);
   app.post('/teachers/classes', teachersController.addClasses);
+  
+  // Add student to class
   app.post('/teachers/class/student', teachersController.addStudentToClass);
 };
