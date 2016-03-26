@@ -55,7 +55,7 @@ class ClassData extends React.Component {
           changeNewLessonName={this.changeNewLessonName.bind(this)}
           changeDate={this.changeDate.bind(this)} 
           lessons={this.state.classLessons} 
-          display={this.state.displayLessons} 
+          display={this.state.displayLessons}
           classId={this.state.classId}/>
 
         <Students 
@@ -67,6 +67,10 @@ class ClassData extends React.Component {
           newStudent={this.state.newStudent}
           changeNewStudent={this.changeNewStudent.bind(this)}
           />
+
+        <StudentError 
+          studentError={this.state.studentError}
+        />
       </div>
     )
   }
@@ -268,6 +272,14 @@ const Students = (props) => {
         </div>
       </div>
     )
+  } else {
+    return (<div></div>);
+  }
+}
+
+const StudentError = (props) => {
+  if (props.studentError) {
+    return (<div> {props.studentError} </div>)
   } else {
     return (<div></div>)
   }
