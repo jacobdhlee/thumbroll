@@ -55,7 +55,7 @@ class ClassData extends React.Component {
           changeNewLessonName={this.changeNewLessonName.bind(this)}
           changeDate={this.changeDate.bind(this)} 
           lessons={this.state.classLessons} 
-          display={this.state.displayLessons} 
+          display={this.state.displayLessons}
           classId={this.state.classId}/>
 
         <Students 
@@ -67,6 +67,10 @@ class ClassData extends React.Component {
           newStudent={this.state.newStudent}
           changeNewStudent={this.changeNewStudent.bind(this)}
           />
+
+        <StudentError 
+          studentError={this.state.studentError}
+        />
       </div>
     )
   }
@@ -179,7 +183,7 @@ class ClassData extends React.Component {
               lessons: lessonsCopy,
               newLessonName: '',
               error: false,
-              isLoading: false
+              isLoading: false,
             });
           });
         }
@@ -216,23 +220,31 @@ class ClassData extends React.Component {
           console.log(this.state.error);
         } else if (response.status === 200) {
           response.json().then((response) => {
-           console.log("ADDED STUDENT = ", response);   
-           var studentsCopy = this.state.students.slice();
-           studentsCopy.push(response);
+           console.log('STUDENT WAS CREATED: ' + response.created)
+           if (response.created === false){
+             this.setState({
+               studentError: "Student already enrolled in this class"
+             });
+             console.log(this.state.studentError);
+           } else {
+             console.log("ADDED STUDENT = ", response);  
+             var studentsCopy = this.state.students.slice();
+             studentsCopy.push(response);
 
-            this.setState({
-              students: studentsCopy,
-              newStudent: '',
-              error: false,
-              isLoading: false
-            });
+              this.setState({
+                students: studentsCopy,
+                newStudent: '',
+                error: false,
+                isLoading: false
+              });
+            }
           });
         } else if (response.status === 500) {
           console.log("SERVER ERROR: FAILED TO ADD STUDENT");   
-            this.setState({
-              error: "Failed to add student",
-              isLoading: false
-            });
+          this.setState({
+            error: "Failed to add student",
+            isLoading: false
+          });
         }
       });
     }
@@ -260,6 +272,14 @@ const Students = (props) => {
         </div>
       </div>
     )
+  } else {
+    return (<div></div>);
+  }
+}
+
+const StudentError = (props) => {
+  if (props.studentError) {
+    return (<div> {props.studentError} </div>)
   } else {
     return (<div></div>)
   }
