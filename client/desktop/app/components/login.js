@@ -70,23 +70,17 @@ class Login extends React.Component {
     return (
       <div>
       <div className='center-align'>
-        <Navbar className='navbar fixed welcomeTopBar'>
-        <h1 className='light-blue title'>
+        <h1 style={{color: 'white'}} className='light-blue title'>
         Thumb<span className='titleCheck'>roll</span>
         </h1>
-      </Navbar>
       <main>
         <ReactDriveIn
           className ="backgroundVideo"
           show="https://s3-us-west-1.amazonaws.com/thumbroll/tester.mp4"
           poster="http://raw.githubusercontent.com/ronik-design/react-drive-in/master/example/glacier.jpg"
         />
-        <Row>
-          <Col s={12} l={12} >
-          </Col>
-        </Row>
 
-        <Row>
+        <Row style={{marginTop:'2em'}}>
         <Col s={12} l={12}>
           <h2 className='center-align callToAction'
           >Login</h2>
