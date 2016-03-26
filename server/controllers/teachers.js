@@ -134,13 +134,22 @@ module.exports = {
   },
 
   addStudentToClass: function(req, res, next) {
-    var studentId = req.body.studentId;
+    var studentEmail = req.body.studentEmail;
     var classId = req.body.classId;
+    // find relevant student based on email address
+    models.students.findOne({where: {
+        email: studentEmail
+      }
+    }).then(function(student){
+
+    })
+
     models.students_classes.create({
       student_id: studentId,
       class_id: classId,
     })
     .then(function(data){
+      models.students
       var body = {classId: data.dataValues.id};
       res.status(200).send(body);
     })

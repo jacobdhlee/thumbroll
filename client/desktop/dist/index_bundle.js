@@ -25228,7 +25228,11 @@
 	    return fetch(server + '/classes/lessons/' + classId);
 	  },
 
-	  getAllStudents: function getAllStudents() {}
+	  getAllStudents: function getAllStudents() {},
+
+	  addStudentToClass: function addStudentToClass(classId, studentEmail) {
+	    return fetch(server + '/classes/:' + classId + '/add/' + studentEmail);
+	  }
 
 	};
 
@@ -25836,7 +25840,8 @@
 	      newLessonDate: (0, _moment2.default)(),
 
 	      students: [],
-	      newStudentName: ''
+	      newStudent: '',
+	      studentError: ''
 	    };
 	    return _this;
 	  }
@@ -25892,8 +25897,8 @@
 	          display: this.state.displayStudents,
 	          classId: this.state.classId,
 	          addStudent: this.addStudent.bind(this),
-	          newStudentName: this.state.newStudentName,
-	          changeNewStudentName: this.changeNewStudentName.bind(this)
+	          newStudent: this.state.newStudent,
+	          changeNewStudent: this.changeNewStudent.bind(this)
 	        })
 	      );
 	    }
@@ -25956,27 +25961,29 @@
 	      }
 	    }
 	  }, {
-	    key: 'changeNewStudentName',
-	    value: function changeNewStudentName(student) {
+	    key: 'changeNewStudent',
+	    value: function changeNewStudent(student) {
 	      this.setState({
-	        newStudentName: student
+	        newStudent: student
 	      });
 	    }
 	  }, {
 	    key: 'addStudent',
 	    value: function addStudent(e) {
 	      e.preventDefault();
-	      // update state with new list item
-	      if (!!this.state.newStudentName.trim()) {
-	        var studentsCopy = this.state.students.slice();
 
+	      // If there is newStudent data in state, call API
+	      if (!!this.state.newStudent.trim()) {
+	        var newStudentEmail = this.state.newStudent.trim();
+	        // call api.addStudentToClass(newStudentEmail)
 	        // push to DB, return student object and push it to studentsCopy
-	        // on a .then()
-	        studentsCopy.push(this.state.newStudentName);
+
+	        //.then(response)...
+	        // Copy students from state, add new student object
 
 	        this.setState({
 	          students: studentsCopy,
-	          newStudentName: ''
+	          newStudent: ''
 	        });
 	      }
 	    }
@@ -25996,10 +26003,10 @@
 	        props.students.map(function (student) {
 	          return _react2.default.createElement(
 	            'li',
-	            { style: { cursor: 'default' }, key: "student:" + student.student_id },
+	            { style: { cursor: 'default' }, key: "student:" + student.student.id },
 	            _react2.default.createElement(
 	              _reactRouter.Link,
-	              { to: '/class/' + props.classId + '/students/' + student.student_id },
+	              { to: '/class/' + props.classId + '/students/' + student.student.id },
 	              student.student.firstname + " " + student.student.lastname
 	            )
 	          );
@@ -26011,7 +26018,7 @@
 	        _react2.default.createElement(
 	          'h3',
 	          null,
-	          'New Student'
+	          'Add Student'
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -26019,8 +26026,8 @@
 	          _react2.default.createElement(
 	            'form',
 	            { onSubmit: props.addStudent },
-	            _react2.default.createElement('input', { type: 'text', value: props.newStudentName, onChange: function onChange(event) {
-	                props.changeNewStudentName(event.target.value);
+	            _react2.default.createElement('input', { type: 'text', placeholder: 'email address', value: props.newStudent, onChange: function onChange(event) {
+	                props.changeNewStudent(event.target.value);
 	              } }),
 	            _react2.default.createElement(
 	              'div',

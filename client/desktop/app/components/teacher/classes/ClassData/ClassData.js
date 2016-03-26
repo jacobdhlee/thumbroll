@@ -24,7 +24,8 @@ class ClassData extends React.Component {
       newLessonDate: moment(),
       
       students: [],
-      newStudentName: ''
+      newStudent: '',
+      studentError: ''
     };
   }
 
@@ -59,8 +60,8 @@ class ClassData extends React.Component {
           display={this.state.displayStudents} 
           classId={this.state.classId}
           addStudent={this.addStudent.bind(this)}
-          newStudentName={this.state.newStudentName}
-          changeNewStudentName={this.changeNewStudentName.bind(this)}
+          newStudent={this.state.newStudent}
+          changeNewStudent={this.changeNewStudent.bind(this)}
           />
       </div>
     )
@@ -120,25 +121,27 @@ class ClassData extends React.Component {
     }
   }
 
-  changeNewStudentName(student){
+  changeNewStudent(student){
     this.setState({
-      newStudentName: student,
+      newStudent: student,
     })
   }
 
   addStudent(e){
     e.preventDefault();
-    // update state with new list item
-    if(!!this.state.newStudentName.trim()){
-      var studentsCopy = this.state.students.slice();
-
+    
+    // If there is newStudent data in state, call API
+    if(!!this.state.newStudent.trim()){
+      var newStudentEmail = this.state.newStudent.trim();
+      // call api.addStudentToClass(newStudentEmail)
       // push to DB, return student object and push it to studentsCopy
-      // on a .then()
-      studentsCopy.push(this.state.newStudentName);
+      
+      //.then(response)...
+      // Copy students from state, add new student object
       
       this.setState({
         students: studentsCopy,
-        newStudentName: ''
+        newStudent: ''
       });
     }
   }
@@ -150,18 +153,18 @@ const Students = (props) => {
       <div>
         <ul>
           {props.students.map((student) => {
-            return (<li style={{cursor: 'default'}} key={"student:" + student.student_id}>
-            <Link to={`/class/${props.classId}/students/${student.student_id}`}>{student.student.firstname + " " + student.student.lastname}</Link>
+            return (<li style={{cursor: 'default'}} key={"student:" + student.student.id}>
+            <Link to={`/class/${props.classId}/students/${student.student.id}`}>{student.student.firstname + " " + student.student.lastname}</Link>
             </li>)
           })}
         </ul>
 
         <div>
-          <h3>New Student</h3>
+          <h3>Add Student</h3>
           <div>
             <form onSubmit={props.addStudent}>
-              <input type='text' value={props.newStudentName} onChange={(event) => {
-                props.changeNewStudentName(event.target.value);
+              <input type='text' placeholder='email address' value={props.newStudent} onChange={(event) => {
+                props.changeNewStudent(event.target.value);
               }} />
               
               <div>

@@ -90,10 +90,14 @@ module.exports = {
   getClassData: (classId) => {
     return fetch(server + '/classes/lessons/' + classId);
   },
-  
+
   getAllStudents: () => {
     
   },
+
+  addStudentToClass: (classId, studentEmail) => {
+    return fetch(server + '/classes/:' + classId + '/add/' + studentEmail);
+  }
 
 
 
