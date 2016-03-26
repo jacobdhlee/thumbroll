@@ -42,7 +42,6 @@ class JoinClassView extends React.Component {
     var that =  this;
     api.getStudentClasses(userId)
     .then(function(resp){
-      console.log('resp >>>>>>>>>>>>>>>>>', resp.class)
       if(resp.status === 500) {
         console.error('Error for getting class data')
       } else if(resp.status === 200) {
@@ -59,7 +58,6 @@ class JoinClassView extends React.Component {
 
   selectedClass(cls) {
     //perhaps pass class as part of url to socket
-    console.log('cls >>>>>>>>>>>>>', cls)
     this.socket = io(server, {jsonp: false});
     this.socket.emit('studentConnect', {user: this.state.user, classId: cls.class.id});
 

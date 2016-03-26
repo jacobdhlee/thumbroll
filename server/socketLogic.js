@@ -112,7 +112,6 @@ module.exports = function(io) {
       var userId = data.user.uid; 
       // var classId = data.classId;
       data.userCount = io.sockets.adapter.rooms[room] - 1;
-      console.log('second >>>>>>>>>>>>>>>>>>>>>>>>>>>', io.sockets.adapter.rooms[room])
       client.leave(room);
       console.log('Student', userId, 'leaving', room);
       io.sockets.to(room).emit('studentLeftRoom', data);
