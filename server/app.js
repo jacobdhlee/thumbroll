@@ -188,12 +188,13 @@ models.sequelize.sync({force: true}).then(function () {
 
   models.polls.create({
     type: 'thumbs',
-    lesson_id: 2
+    lesson_id: 2,
   });
 
   models.polls.create({
     type: 'multiChoice',
-    lesson_id: 3
+    lesson_id: 3,
+    answer: 'A'
   });
 
   models.polls.create({
