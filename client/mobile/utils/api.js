@@ -70,6 +70,23 @@ module.exports = {
         classId: classId
       })
     });
-  }
+  },
+
+  // Get teacher desktop data:
+  getClassLessonsData: (classId) => {
+    return fetch(server + '/classes/' + classId + '/lessons');
+  },
+
+  getLessonPollsData: (lessonId) => {
+    return fetch(server + '/lessons/' + lessonId + '/polls');
+  },
+
+  getClassStudentsData: (classId) => {
+    return fetch(server + '/classes/' + classId + '/students');
+  },
+
+  getStudentPollsData: (classId, studentId) => {
+    return fetch(server + '/classes/' + classId + '/students/' + studentId);
+  },
 }
 
