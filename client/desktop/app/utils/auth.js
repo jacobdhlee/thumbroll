@@ -10,7 +10,6 @@ module.exports = {
           callback(false);
         }
       } else if (response.status === 200) {
-        console.log("$$$$$$$$", document.cookie);
         response.json()
         .then(function(body) {
           localStorage.token = true;
@@ -41,14 +40,14 @@ module.exports = {
 
   checkForSession(next) {
     delete localStorage.token;
-    return api.checkForSession()
+    api.checkForSession()
     .then((response) => {
       if(response.status === 200) {
         response.json().then((data) => {
-          if(data) {
+          if(data.user) {
             localStorage.token = true;
           }
-          next(data);
+          next(data.user);
         });
       }
     })

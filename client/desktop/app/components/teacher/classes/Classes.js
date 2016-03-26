@@ -1,15 +1,15 @@
 import React from 'react'
 import ClassData from './ClassData/ClassData'
-import {Route, RouteHandler, Link} from 'react-router'
+import {Route, RouteHandler, Link, Navigation} from 'react-router'
 import api from '../../../utils/api';
+import auth from '../../../utils/auth';
 
 class Classes extends React.Component {
   constructor(props){
     super(props);
     
     this.state = {
-      // TODO: REMOVE HARDCODED DATA
-      uid: 1,
+      uid: undefined,
       classes : [],
       lessons: [],
       newClassName : '',
@@ -67,25 +67,35 @@ class Classes extends React.Component {
   }
 
   componentWillMount(){
-    api.getClasses(this.state.uid)
-    .then((response) => {
-      if(response.status === 400){
-        this.setState({
-           error: 'No classes found',
-           isLoading: false
-         });
-        console.log(this.state.error);
-      } else if (response.status === 200) {
-        response.json().then((response) => {
-          console.log("RESPONSE = ", response);   
-          this.setState({
-            classes: response,
-            error: false,
-            isLoading: false
-          });
-
-        });
+    auth.checkForSession((user) => {
+      if(!user) {
+        this.transitionTo('/login');
+        return;
       }
+      user = user.split('_')[1];
+      this.setState({
+        uid: user
+      });
+      api.getClasses(this.state.uid)
+      .then((response) => {
+        if(response.status === 400){
+          this.setState({
+             error: 'No classes found',
+             isLoading: false
+           });
+          console.log(this.state.error);
+        } else if (response.status === 200) {
+          response.json().then((response) => {
+            console.log("RESPONSE = ", response);   
+            this.setState({
+              classes: response,
+              error: false,
+              isLoading: false
+            });
+
+          });
+        }
+      })
     })
   }
 }
