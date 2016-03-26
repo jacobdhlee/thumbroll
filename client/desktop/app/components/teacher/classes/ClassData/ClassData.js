@@ -16,14 +16,16 @@ class ClassData extends React.Component {
     this.state = {
       className : '',
       classId: this.props.params.classId,
-      lessons: [],
+      classLessons: [],
+      classStudents: [],
+      studentPolls: [],
+      lessonPolls: [],
       
       displayLessons: true,
       displayStudents: false,
       newLessonName: '',
       newLessonDate: moment(),
       
-      students: [],
       newStudent: '',
       studentError: ''
     };
@@ -42,10 +44,7 @@ class ClassData extends React.Component {
             cursor: 'default',
             }}>Lessons</li>
 
-          <li onClick={() => this.setState({
-            displayStudents: true,
-            displayLessons: false,
-          })} style={{cursor: 'default'}}>Students</li>
+          <li onClick={this.switchToStudentsView.bind(this)} style={{cursor: 'default'}}>Students</li>
         </ul>
         
         <Lessons 
@@ -54,12 +53,12 @@ class ClassData extends React.Component {
           addLesson={this.addLesson.bind(this)}
           changeNewLessonName={this.changeNewLessonName.bind(this)}
           changeDate={this.changeDate.bind(this)} 
-          lessons={this.state.lessons} 
+          lessons={this.state.classLessons} 
           display={this.state.displayLessons} 
           classId={this.state.classId}/>
 
         <Students 
-          students={this.state.students} 
+          students={this.state.classStudents} 
           display={this.state.displayStudents} 
           classId={this.state.classId}
           addStudent={this.addStudent.bind(this)}
@@ -71,25 +70,23 @@ class ClassData extends React.Component {
   }
 
   componentWillMount(){
-    api.getClassData(this.state.classId)
+    api.getClassLessonsData(this.state.classId)
     .then((response) => {
       if(response.status === 400){
         this.setState({
-           error: 'No class data found',
+           error: 'Data forbidden',
            isLoading: false
          });
-        console.log(this.state.error);
+        console.error(this.state.error);
       } else if (response.status === 200) {
         response.json().then((response) => {
-         console.log("CLASS RESPONSE = ", response);   
+         console.log("Class lessons from DB:", response);   
           this.setState({
-            className: response.className,
-            lessons: response.lessons,
-            students: response.students,
+            className: 'HARDCODED UNTIL I FIX IT! - Ian',
+            classLessons: response,
             error: false,
             isLoading: false
           });
-
         });
       }
     });
@@ -105,6 +102,34 @@ class ClassData extends React.Component {
     this.setState({
       newLessonName: lesson,
     })
+  }
+
+  switchToStudentsView() {
+    this.setState({
+      displayStudents: true,
+      displayLessons: false,
+      isLoading: true,
+    });
+    api.getClassStudentsData(this.state.classId)
+    .then((response) => {
+      if(response.status === 400){
+        this.setState({
+           error: 'Data forbidden',
+           isLoading: false
+         });
+        console.error(this.state.error);
+      } else if (response.status === 200) {
+        response.json().then((response) => {
+         console.log("Class students from DB:", response);   
+          this.setState({
+            className: 'HARDCODED UNTIL I FIX IT! - Ian',
+            classStudents: response,
+            error: false,
+            isLoading: false
+          });
+        });
+      }
+    });
   }
 
   addLesson(e){
@@ -202,8 +227,8 @@ const Students = (props) => {
       <div>
         <ul>
           {props.students.map((student) => {
-            return (<li style={{cursor: 'default'}} key={"student:" + student.student.id}>
-            <Link to={`/class/${props.classId}/students/${student.student.id}`}>{student.student.firstname + " " + student.student.lastname}</Link>
+            return (<li style={{cursor: 'default'}} key={"student:" + Math.random()}>
+            <Link to='/'>{student.first_name + " " + student.last_name}</Link>
             </li>)
           })}
         </ul>
