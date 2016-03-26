@@ -39,8 +39,6 @@ module.exports = {
     //     responseObj.lessons = data[0];
     //   });
     // });
-    var queryCount = 0;
-    var results = {};
 
     sequelize.query(
       'SELECT w.lesson_id, w.lesson_name, w.poll_count, ' 
@@ -52,35 +50,32 @@ module.exports = {
         + 'WHERE a.class_id = ' + classId + ' '
         + 'GROUP BY a.id, a.name) w '
       + 'LEFT JOIN '
-        + '(SELECT a.id AS lesson_id, a.name AS lesson_name, '
+        + '(SELECT a.id AS lesson_id, '
         + 'COUNT(c.*) AS response_count ' 
         + 'FROM lessons a '
         + 'LEFT JOIN polls b ON b.lesson_id = a.id '
         + 'LEFT JOIN poll_responses c ON c.poll_id = b.id '
-        + 'JOIN students d ON d.id = c.poll_id '
         + 'WHERE a.class_id = ' + classId + ' '
-        + 'GROUP BY a.id, a.name) x '
+        + 'GROUP BY a.id) x '
       + 'ON w.lesson_id = x.lesson_id LEFT JOIN '
-        + '(SELECT a.id AS lesson_id, a.name AS lesson_name, '
+        + '(SELECT a.id AS lesson_id, '
         + 'COUNT(c.*) AS correct_response_count ' 
         + 'FROM lessons a '
         + 'LEFT JOIN polls b ON b.lesson_id = a.id '
         + 'LEFT JOIN poll_responses c ON c.poll_id = b.id '
-        + 'JOIN students d ON d.id = c.poll_id '
         + 'WHERE a.class_id = ' + classId + ' '
         + 'AND b.answer IS NOT NULL '
         + 'AND c.response_val = b.answer '
-        + 'GROUP BY a.id, a.name) y '
+        + 'GROUP BY a.id) y '
       + 'ON w.lesson_id = y.lesson_id LEFT JOIN '
-        + '(SELECT a.id AS lesson_id, a.name AS lesson_name, '
+        + '(SELECT a.id AS lesson_id, '
         + 'AVG(CAST(c.response_val AS decimal)) AS average_thumb ' 
         + 'FROM lessons a '
         + 'LEFT JOIN polls b ON b.lesson_id = a.id '
         + 'LEFT JOIN poll_responses c ON c.poll_id = b.id '
-        + 'JOIN students d ON d.id = c.poll_id '
         + 'WHERE a.class_id = ' + classId + ' '
         + "AND b.type = 'thumbs' " 
-        + 'GROUP BY a.id, a.name) z '
+        + 'GROUP BY a.id) z '
       + 'ON w.lesson_id = z.lesson_id '
     ).then(function(data) {
       var results = data[0];
@@ -162,6 +157,50 @@ module.exports = {
     // });
 
   },
+
+  getLessonData: function(req, res, next) {
+    var lessonId = req.params.lessonId;
+    sequelize.query(
+      'SELECT w.poll_id, w.poll_name, w.answer w.response_count, ' 
+      + 'x.student_count, y.correct_response_count, z.average_thumb FROM '
+        + '(SELECT a.id AS poll_id, a.name AS poll_name, a.answer '
+        + 'COUNT(b.*) AS response_count ' 
+        + 'FROM polls a '
+        + 'LEFT JOIN poll_responses b ON b.poll_id = a.id '
+        + 'WHERE a.lesson_id = ' + lessonId + ' '
+        + 'GROUP BY a.id) w '
+      + 'LEFT JOIN '
+        + '(SELECT a.id AS poll_id, '
+        + 'COUNT(distinct c) AS student_count ' 
+        + 'FROM polls a '
+        + 'LEFT JOIN poll_responses b ON b.poll_id = a.id '
+        + 'JOIN students c ON c.id = b.poll_id '
+        + 'WHERE a.lesson_id = ' + lessonId + ' '
+        + 'GROUP BY a.id) x '
+      + 'ON w.poll_id = x.poll_id LEFT JOIN '
+        + '(SELECT a.id AS poll_id, '
+        + 'COUNT(b.*) AS correct_response_count ' 
+        + 'FROM polls a '
+        + 'LEFT JOIN poll_responses b ON b.poll_id = a.id '
+        + 'WHERE a.lesson_id = ' + lessonId + ' '
+        + 'AND a.answer IS NOT NULL '
+        + 'AND b.response_val = a.answer '
+        + 'GROUP BY a.id) y '
+      + 'ON w.poll_id = y.poll_id LEFT JOIN '
+        + '(SELECT a.id AS poll_id, '
+        + 'AVG(CAST(b.response_val AS decimal)) AS average_thumb ' 
+        + 'FROM polls a '
+        + 'LEFT JOIN poll_responses b ON b.poll_id = a.id '
+        + 'WHERE a.lesson_id = ' + lessonId + ' '
+        + "AND b.type = 'thumbs' " 
+        + 'GROUP BY a.id) z '
+      + 'ON w.poll_id = z.poll_id '
+    ).then(function(data) {
+      var results = data[0];
+      console.log(results);
+      res.status(200).send(results);
+    })
+  }
 
 }
 
