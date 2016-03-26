@@ -10,6 +10,7 @@ var path = require('path');
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var session = require('cookie-session');
+var moment = require('moment');
 
 var PORT = process.env.PORT || 3000;
 
@@ -123,7 +124,8 @@ models.sequelize.sync({force: true}).then(function () {
 
   models.lessons.create({
     name: 'Default',
-    class_id: 1
+    class_id: 1,
+    date: moment()
   });
 
   models.classes.create({
