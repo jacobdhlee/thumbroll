@@ -142,12 +142,34 @@ class ClassData extends React.Component {
     });
   }
 
-  handleLessonClick(e) {
-    console.log(e)
+  handleLessonClick(lessonId, e) {
+    console.log(lessonId, e.target)
+    api.getLessonPollsData(lessonId)
+    .then((response) => {
+      response.json().then((response) => {
+        console.log('Individual lesson data from DB:', response);
+      }).catch((err) => {
+        console.error(err);
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
   }
 
-  handleStudentClick(e) {
-    console.log(e)
+  handleStudentClick(studentId, e) {
+    console.log(studentId, e.target)
+    api.getStudentPollsData(this.state.classId, studentId)
+    .then((response) => {
+      response.json().then((response) => {
+        console.log('Individual student data from DB:', response);
+      }).catch((err) => {
+        console.error(err);
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
   }
 
   addLesson(e){
@@ -310,7 +332,7 @@ const LessonTable = (props) => {
         var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
         return (
           <tr>
-            <td onClick={props.handleLessonClick}> {lesson.lesson_name} </td>
+            <td onClick={props.handleLessonClick.bind(null, lesson.lesson_id)}> {lesson.lesson_name} </td>
             <td> {lesson.poll_count ? lesson.poll_count : 0} </td>
             <td> {lesson.response_count? lesson.response_count : 0} </td>
             <td> {correctRate ? correctRate + '%' : 'N/A'} </td>
@@ -340,7 +362,7 @@ const StudentTable = (props) => {
         // var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
         return (
           <tr>
-            <td onClick={props.handleStudentClick}> {student.first_name + ' ' + student.last_name} </td>
+            <td onClick={props.handleStudentClick.bind(null, student.student_id)}> {student.first_name + ' ' + student.last_name} </td>
             <td> {student.lesson_count ? student.lesson_count : 0} </td>
             <td> {student.response_count ? student.response_count : 0} </td>
             <td> {student.response_count} </td>
