@@ -25979,7 +25979,7 @@
 	          } else if (response.status === 200) {
 	            response.json().then(function (response) {
 	              console.log("ADDED LESSON = ", response);
-	              var studentsCopy = _this4.state.students.slice();
+	              var lessonsCopy = _this4.state.lessons.slice();
 	              lessonsCopy.push(response);
 
 	              _this4.setState({

@@ -126,7 +126,7 @@ class ClassData extends React.Component {
         } else if (response.status === 200) {
           response.json().then((response) => {
            console.log("ADDED LESSON = ", response);   
-           var studentsCopy = this.state.students.slice();
+           var lessonsCopy = this.state.lessons.slice();
            lessonsCopy.push(response);
 
             this.setState({
