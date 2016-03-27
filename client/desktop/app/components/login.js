@@ -82,7 +82,7 @@ class Login extends React.Component {
 
         <Row style={{marginTop:'2em'}}>
         <Col s={12} l={12}>
-          <h2 className='center-align callToAction'
+          <h2 style={{fontSize: '3em'}} className='center-align callToAction'
           >Login</h2>
         </Col>
         </Row>
@@ -90,17 +90,14 @@ class Login extends React.Component {
         <div className='valign'>
           <Row>
             <Col s={12} l={12}>
-              <input style={{maxWidth: '10em'}} className='center-align callToAction'
+              <input style={{fontSize: '3em'}} style={{maxWidth: '10em'}} className='center-align callToAction'
               type="text" 
               placeholder="Username" 
               value={this.state.username} 
               onChange={this.handleUsernameChange.bind(this)} 
               />
-            </Col>
-          </Row>
-          <Row>
-            <Col s={12} l={12}>
-              <input style={{maxWidth: '10em'}} className='center-align callToAction'
+            
+              <input style={{fontSize: '3em'}} style={{maxWidth: '10em'}} className='center-align callToAction'
               type="password" 
               placeholder="Password" 
               value={this.state.password} 
@@ -110,7 +107,7 @@ class Login extends React.Component {
           </Row>
           <Row>
             <Col s={12} l={12}>
-              <button className='center-align' onClick={this.handleSubmit.bind(this)}>
+              <button style={{fontSize: '2em'}} className='center-align' onClick={this.handleSubmit.bind(this)}>
               Submit
               </button>
             </Col>
