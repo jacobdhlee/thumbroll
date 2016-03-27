@@ -175,7 +175,7 @@ class ClassData extends React.Component {
     // update state with new list item
     if(!!this.state.newLessonName.trim()){
       var newLessonName = this.state.newLessonName.trim();
-      var lessonsCopy = this.state.lessons.slice();
+      var lessonsCopy = this.state.classLessons.slice();
       var newLessonDate = this.state.newLessonDate;
 
       // TODO: push to DB, return lesson object and push it to lessonsCopy
@@ -192,7 +192,6 @@ class ClassData extends React.Component {
         } else if (response.status === 200) {
           response.json().then((response) => {
            console.log("ADDED LESSON = ", response);   
-           var lessonsCopy = this.state.lessons.slice();
            lessonsCopy.push(response);
 
             this.setState({

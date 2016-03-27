@@ -10,6 +10,7 @@ var path = require('path');
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var session = require('cookie-session');
+var moment = require('moment');
 
 var PORT = process.env.PORT || 3000;
 
@@ -123,12 +124,13 @@ models.sequelize.sync({force: true}).then(function () {
 
   models.lessons.create({
     name: 'Default',
-    class_id: 1
+    class_id: 1,
+    date: moment()
   });
 
   models.classes.create({
     name: 'CS101',
-    teacher_id: 1
+    teacher_id: 1,
   });
 
   models.classes.create({
@@ -143,17 +145,21 @@ models.sequelize.sync({force: true}).then(function () {
 
   models.lessons.create({
     name: 'CS101 - Week 1',
-    class_id: 2
+    class_id: 2,
+    date: moment().subtract(2, 'weeks').format()
   });
 
   models.lessons.create({
     name: 'CS101 - Week 2',
-    class_id: 2
+    class_id: 2,
+    date: moment().subtract(1, 'weeks').format()
   });
 
   models.lessons.create({
     name: 'CS101 - Week 3',
-    class_id: 2
+    class_id: 2,
+    date: moment().add(1, 'weeks').format()
+
   });
 
   models.classes.create({
@@ -163,12 +169,14 @@ models.sequelize.sync({force: true}).then(function () {
 
   models.lessons.create({
     name: 'History - Week 1',
-    class_id: 4
+    class_id: 4,
+    date: moment().subtract(1, 'weeks').format()
   });
 
   models.lessons.create({
     name: 'History - Week 2',
-    class_id: 4
+    class_id: 4,
+    date: moment().add(1, 'weeks').format()
   });
   // Needs correct fiends added
   models.students_classes.create({
