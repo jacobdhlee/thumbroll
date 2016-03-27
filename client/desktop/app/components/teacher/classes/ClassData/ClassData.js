@@ -27,7 +27,8 @@ class ClassData extends React.Component {
       newLessonDate: moment(),
       
       newStudent: '',
-      studentError: ''
+      studentError: '',
+
     };
   }
 
@@ -45,8 +46,10 @@ class ClassData extends React.Component {
               displayStudents: false,
             })} style={{
               cursor: 'default',
-              }}>Lessons</li>
-            <li className='tab col s1' onClick={this.switchToStudentsView.bind(this)} style={{cursor: 'default'}}>Students</li>
+              }}
+              style={this.state.displayLessons ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242'}}
+              >Lessons</li>
+            <li className='tab col s1' onClick={this.switchToStudentsView.bind(this)} style={{cursor: 'default'}} style={!this.state.displayLessons ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242'}}>Students</li>
             </ul>
           </Col>
         </Row>
@@ -323,7 +326,7 @@ const Students = (props) => {
               }} />
               
               <div>
-                <button type='submit'>Add</button>
+                <button style={{marginLeft: '10px', fontSize: '1em', backgroundColor:'#01579b'}} type='submit'>Add</button>
               </div>
             </form>
           </div>
@@ -349,17 +352,19 @@ const Lessons = (props) => {
       <div>
         <LessonTable lessons={props.lessons} handleLessonClick={props.handleLessonClick} />
         <div>
-          <h5 className='sectionHeading'>Add Lesson</h5>
+          <h5 className='sectionHeading' style={{marginLeft:'10px'}} >Add Lesson</h5>
           <div>
             <form onSubmit={props.addLesson}>
-              <input type='text' value={props.newLessonName} onChange={(event) => {
+              <input style={{maxWidth: '15em', marginLeft:'10px'}} type='text' value={props.newLessonName} onChange={(event) => {
                 props.changeNewLessonName(event.target.value);
               }} />
-              <DatePicker minDate={moment()} selected={props.newLessonDate} onChange={(date) => {
-                props.changeDate(date);
-              }} />
+              <div className='dateContainer'>
+                <DatePicker minDate={moment()} selected={props.newLessonDate} onChange={(date) => {
+                  props.changeDate(date);
+                }} />
+              </div>
               <div>
-                <button type='submit'>Add</button>
+                <button style={{marginLeft: '10px', fontSize: '1em', backgroundColor:'#01579b'}} type='submit'>Add</button>
               </div>
             </form>
           </div>
