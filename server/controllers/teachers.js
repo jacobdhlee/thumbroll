@@ -35,8 +35,8 @@ module.exports = {
 
   addClassLesson: function(req, res, next) {
     var classId = req.body.classId;
+    var date = req.body.lessonDate || new Date();
     var name = req.body.lessonName;
-    var date = req.body.lessonDate;
     models.lessons.create({
       name: name,
       date: date,
