@@ -116,9 +116,9 @@ module.exports = {
   getLessonPollsData: function(req, res, next) {
     var lessonId = req.params.lessonId;
     sequelize.query(
-      'SELECT w.poll_id, w.poll_name, w.answer, w.response_count, ' 
+      'SELECT w.poll_id, w.poll_name, w.type, w.answer, w.response_count, ' 
       + 'x.student_count, y.correct_response_count, z.average_thumb FROM '
-        + '(SELECT a.id AS poll_id, a.name AS poll_name, a.answer, '
+        + '(SELECT a.id AS poll_id, a.name AS poll_name, a.answer, a.type, '
         + 'COUNT(b.*) AS response_count ' 
         + 'FROM polls a '
         + 'LEFT JOIN poll_responses b ON b.poll_id = a.id '

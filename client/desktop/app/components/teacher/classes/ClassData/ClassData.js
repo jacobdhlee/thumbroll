@@ -155,17 +155,6 @@ class ClassData extends React.Component {
         lessonName: lessonName
       }
     });
-    // api.getLessonPollsData(lessonId)
-    // .then((response) => {
-    //   response.json().then((response) => {
-    //     console.log('Individual lesson data from DB:', response);
-    //   }).catch((err) => {
-    //     console.error(err);
-    //   });
-    // })
-    // .catch((err) => {
-    //   console.error(err);
-    // });
   }
 
   handleStudentClick(studentId, firstName, lastName) {
@@ -173,24 +162,12 @@ class ClassData extends React.Component {
       pathname: '/class/' + this.state.classId + '/students/' + studentId,
       state: { 
         className: this.state.className,
+        classId: this.state.classId,
         studentId: studentId,
         firstName: firstName,
         lastName: lastName
       }
     });
-
-    // console.log(studentId, e.target)
-    // api.getStudentPollsData(this.state.classId, studentId)
-    // .then((response) => {
-    //   response.json().then((response) => {
-    //     console.log('Individual student data from DB:', response);
-    //   }).catch((err) => {
-    //     console.error(err);
-    //   });
-    // })
-    // .catch((err) => {
-    //   console.error(err);
-    // });
   }
 
   addLesson(e){
@@ -368,7 +345,8 @@ const LessonTable = (props) => {
       {props.lessons.map((lesson) => {
         var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
         return (
-          <tr onClick={props.handleLessonClick.bind(null, lesson.lesson_id, lesson.lesson_name)}>
+          <tr key={'L' + lesson.lesson_id} 
+            onClick={props.handleLessonClick.bind(null, lesson.lesson_id, lesson.lesson_name)}>
             <td> {lesson.lesson_name} </td>
             <td> {lesson.poll_count ? lesson.poll_count : 0} </td>
             <td> {lesson.response_count? lesson.response_count : 0} </td>
@@ -398,7 +376,8 @@ const StudentTable = (props) => {
       {props.students.map((student) => {
         // var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
         return (
-          <tr onClick={props.handleStudentClick.bind(null, student.student, student.first_name, student.last_name)}>
+          <tr key={'S' + student.student_id}
+            onClick={props.handleStudentClick.bind(null, student.student_id, student.first_name, student.last_name)}>
             <td> {student.first_name + ' ' + student.last_name} </td>
             <td> {student.lesson_count ? student.lesson_count : 0} </td>
             <td> {student.response_count ? student.response_count : 0} </td>
