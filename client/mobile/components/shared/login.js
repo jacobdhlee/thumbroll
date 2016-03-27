@@ -77,7 +77,7 @@ class Login extends React.Component {
               classes: body.teacher.classes,
               user: body.teacher,
               sceneConfig: {
-                ...Navigator.SceneConfigs.FloatFromBottom,
+                ...Navigator.SceneConfigs.HorizontalSwipeJump,
                 gestures: {}
               }
             });
@@ -87,7 +87,7 @@ class Login extends React.Component {
               classes: body.student.classes,
               user: body.student,
               sceneConfig: {
-                ...Navigator.SceneConfigs.FloatFromBottom,
+                ...Navigator.SceneConfigs.HorizontalSwipeJump,
                 gestures: {}
               }
             });
@@ -110,7 +110,7 @@ class Login extends React.Component {
   handleSignupRedirect() {
     this.props.navigator.push({
       component: Signup,
-      sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+      sceneConfig: Navigator.SceneConfigs.HorizontalSwipeJump,
       accountType: this.state.accountType
     });
     this.setState({
@@ -195,7 +195,7 @@ class Login extends React.Component {
       user: user,
       socket: this.socket,
       sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromBottom,
+        ...Navigator.SceneConfigs.HorizontalSwipeJump,
         gestures: {}
       }
     });
@@ -212,7 +212,7 @@ class Login extends React.Component {
       lessonId: 'Quick Class',
       socket: this.state.teacherModalSocket,
       sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromRight,
+        ...Navigator.SceneConfigs.HorizontalSwipeJump,
         gestures: {}
       }
     });

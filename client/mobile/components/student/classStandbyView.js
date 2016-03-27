@@ -55,7 +55,7 @@ class ClassStandbyView extends React.Component {
       user: this.state.user,
       socket: this.state.socket,
       sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromBottom,
+        ...Navigator.SceneConfigs.HorizontalSwipeJump,
         gestures: {}
       }
     })
@@ -68,7 +68,7 @@ class ClassStandbyView extends React.Component {
       user: this.state.user,
       socket: this.state.socket,
       sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromBottom,
+        ...Navigator.SceneConfigs.HorizontalSwipeJump,
         gestures: {}
       }
     })

@@ -211,7 +211,7 @@ class RequestFeedbackView extends React.Component {
           feedbackOption: feedbackOption,
           socket: this.state.socket,
           sceneConfig: {
-            ...Navigator.SceneConfigs.FloatFromRight,
+            ...Navigator.SceneConfigs.HorizontalSwipeJump,
             gestures: {}
           }
         });

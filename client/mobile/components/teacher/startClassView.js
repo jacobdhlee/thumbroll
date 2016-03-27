@@ -105,7 +105,7 @@ class StartClassView extends React.Component {
       getActiveStudents: this.getActiveStudents.bind(this),
       socket: this.state.socket,
       sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromRight,
+        ...Navigator.SceneConfigs.HorizontalSwipeJump,
         gestures: {}
       }
     });
@@ -154,7 +154,7 @@ class StartClassView extends React.Component {
           getActiveStudents: this.getActiveStudents.bind(this),
           socket: this.socket,
           sceneConfig: {
-            ...Navigator.SceneConfigs.FloatFromRight,
+            ...Navigator.SceneConfigs.HorizontalSwipeJump,
             gestures: {}
           }
         });
@@ -177,12 +177,16 @@ class StartClassView extends React.Component {
     return (
       <View style={{flex: 1}}> 
         <NavBar navi={this.props.navigator}>Your Classes</NavBar>
-        <ScrollView>
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Button onPress={this.selectQuickClass.bind(this)} text={'Start Quick Class'} />
-            {this.renderClasses(this.state.classes)}
+        <View style={styles.viewTopContainer}>
+          <View>
+            <ScrollView>
+              <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Button onPress={this.selectQuickClass.bind(this)} text={'Start Quick Class'} />
+                {this.renderClasses(this.state.classes)}
+              </View>
+            </ScrollView>
           </View>
-        </ScrollView>
+        </View>
         <Modal visible={this.state.modalVisible} transparent={true} animated={true}>
           <View style={styles.modal}>
             <View style={{height:this.state.height * 0.6, width:this.state.width * 0.8}}>
@@ -202,6 +206,11 @@ class StartClassView extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  viewTopContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    flexDirection: 'column',  
+  },
   viewContainer: {
     flex: 1,
     justifyContent: 'center',

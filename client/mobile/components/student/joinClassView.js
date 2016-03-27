@@ -67,7 +67,7 @@ class JoinClassView extends React.Component {
       user: this.state.user,
       socket: this.socket,
       sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromBottom,
+        ...Navigator.SceneConfigs.HorizontalSwipeJump,
         gestures: {}
       }
     });
@@ -106,7 +106,7 @@ class JoinClassView extends React.Component {
       user: this.state.user,
       socket: this.socket,
       sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromBottom,
+        ...Navigator.SceneConfigs.HorizontalSwipeJump,
         gestures: {}
       }
     });

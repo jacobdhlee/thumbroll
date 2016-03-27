@@ -51,7 +51,7 @@ class SelectLessonView extends React.Component {
       lessonId: lessonId,
       socket: this.state.socket,
       sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromRight,
+        ...Navigator.SceneConfigs.HorizontalSwipeJump,
         gestures: {}
       }
     });
@@ -97,12 +97,14 @@ class SelectLessonView extends React.Component {
           Your Lessons
         </NavBar>
         <View style={styles.viewContainer}>
-          <ScrollView>
-            <View style={styles.buttonsContainer}>
-              {this.renderLessons(this.state.lessons)}
-              <Button onPress={this.addLesson.bind(this)} style={styles.button} text={'Add Lesson'} />
-            </View>
-          </ScrollView>
+          <View>
+            <ScrollView>
+              <View style={styles.buttonsContainer}>
+                {this.renderLessons(this.state.lessons)}
+                <Button onPress={this.addLesson.bind(this)} style={styles.button} text={'Add Lesson'} />
+              </View>
+            </ScrollView>
+          </View>
         </View>
       </View>
     )
@@ -113,7 +115,7 @@ const styles = StyleSheet.create({
   viewContainer: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: 'column',  
     backgroundColor: '#F5FCFF',
   },
   pageText: {
