@@ -130,7 +130,7 @@ models.sequelize.sync({force: true}).then(function () {
 
   models.classes.create({
     name: 'CS101',
-    teacher_id: 1
+    teacher_id: 1,
   });
 
   models.classes.create({
@@ -145,17 +145,21 @@ models.sequelize.sync({force: true}).then(function () {
 
   models.lessons.create({
     name: 'CS101 - Week 1',
-    class_id: 2
+    class_id: 2,
+    date: moment().subtract(2, 'weeks').format()
   });
 
   models.lessons.create({
     name: 'CS101 - Week 2',
-    class_id: 2
+    class_id: 2,
+    date: moment().subtract(1, 'weeks').format()
   });
 
   models.lessons.create({
     name: 'CS101 - Week 3',
-    class_id: 2
+    class_id: 2,
+    date: moment().add(1, 'weeks').format()
+
   });
 
   models.classes.create({
@@ -165,12 +169,14 @@ models.sequelize.sync({force: true}).then(function () {
 
   models.lessons.create({
     name: 'History - Week 1',
-    class_id: 4
+    class_id: 4,
+    date: moment().subtract(1, 'weeks').format()
   });
 
   models.lessons.create({
     name: 'History - Week 2',
-    class_id: 4
+    class_id: 4,
+    date: moment().add(1, 'weeks').format()
   });
   // Needs correct fiends added
   models.students_classes.create({

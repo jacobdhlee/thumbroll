@@ -31611,7 +31611,6 @@
 	          } else if (response.status === 200) {
 	            response.json().then(function (response) {
 	              console.log("ADDED LESSON = ", response);
-	              var lessonsCopy = _this5.state.classLessons.slice();
 	              lessonsCopy.push(response);
 
 	              _this5.setState({
