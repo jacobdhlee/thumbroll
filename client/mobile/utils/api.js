@@ -36,6 +36,7 @@ module.exports = {
   },
 
   addLesson: (classId) => {
+    var lessonName = 'New Lesson ' + new Date().toLocaleDateString();
     return fetch(server + '/teachers/lessons', {
       method: 'POST',
       headers: {
@@ -43,7 +44,8 @@ module.exports = {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        classId: classId
+        classId: classId,
+        lessonName: lessonName,
       })
     }); 
   },
