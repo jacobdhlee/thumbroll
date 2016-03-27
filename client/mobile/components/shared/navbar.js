@@ -28,11 +28,12 @@ class NavBar extends React.Component {
     this.props.navi.popToTop();
   }
   render () {
+    var backButton = '<'
     return (
       <View>
         <View style={styles.nav}>
           <TouchableOpacity onPress={this.handleBackPress.bind(this)}>
-            <Text style={styles.textSize}>Back</Text>
+            <Text style={styles.textSize}> {backButton} </Text>
           </TouchableOpacity>
            <View>
             <Text style={styles.textSizeOne}>{this.props.children}</Text>
@@ -52,12 +53,14 @@ const styles = StyleSheet.create({
     height: 50,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#59CA7C',
+    backgroundColor: '#0277bd',
     alignItems: 'center',
   },
   textSize: {
     justifyContent: 'center',
-    fontSize: 20
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
   },
   textSizeOne: {
     fontSize: 25,
