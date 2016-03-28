@@ -326,7 +326,7 @@ class ClassData extends React.Component {
 const Students = (props) => {
   if(props.display) {
     return (
-      <div>
+      <div className='dataTable'>
         <StudentTable students={props.students} handleStudentClick={props.handleStudentClick} />
         <div>
           <h5 className='sectionHeading' style={{marginLeft:'20px'}}>Add Student</h5>
@@ -360,7 +360,7 @@ const StudentError = (props) => {
 const Lessons = (props) => {
   if(props.display) {
     return (
-      <div>
+      <div className='dataTable'>
         <LessonTable lessons={props.lessons} handleLessonClick={props.handleLessonClick} />
         <div>
           <h5 className='sectionHeading' style={{marginLeft:'20px'}} >Add Lesson</h5>

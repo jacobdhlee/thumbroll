@@ -11,6 +11,7 @@ body {
   min-height: 100vh;
   flex-direction: column;
   background-color: #fafafa;
+  overflow: scroll;
 }
 
 main {
@@ -36,7 +37,6 @@ li {
 }
 
 footer {
-  background:#ffab62;
   width:100%;
   height:140px;
   position: absolute;
@@ -44,11 +44,18 @@ footer {
   left:0;
 }
 
-.footerApp {
-  background:#ffab62;
+footer.footerApp{
+  width:0;
+  height:0;
+  position: fixed;
+  bottom:0;
+  left:0;
+}
+
+footer.footerApp {
+  margin-top: 100px;
   width:100%;
   height:60px;
-  position: absolute;
   bottom:0;
   left:0;
   padding: 10px;
@@ -222,4 +229,8 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
 
 .error {
   color: #fafafa;
+}
+
+.dataTable {
+  margin-bottom: 70px;
 }
