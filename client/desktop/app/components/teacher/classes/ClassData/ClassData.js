@@ -170,6 +170,7 @@ class ClassData extends React.Component {
       state: { 
         className: this.state.className,
         lessonId: lessonId,
+        classId: this.state.classId,
         lessonName: lessonName
       }
     });
