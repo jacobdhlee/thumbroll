@@ -127,8 +127,24 @@ const ThumbsTable = (props) => {
 }
 
 const AddPoll = (hide) => {
+  // add to db
+  
+
   // add to state
-  // post to DB
+  api.getLessonPollsData(this.state.lessonId)
+  .then((response) => {
+    response.json().then((response) => {
+      console.log('Individual lesson data from DB:', response);
+      this.setState({
+        data:response
+      });
+    }).catch((err) => {
+      console.error(err);
+    });
+  })
+  .catch((err) => {
+    console.error(err);
+  });
   return (
     <div>
       <button>Thumbs Check</button>

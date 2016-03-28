@@ -32308,8 +32308,21 @@
 	};
 
 	var AddPoll = function AddPoll(hide) {
+	  // add to db
+
 	  // add to state
-	  // post to DB
+	  _api2.default.getLessonPollsData(undefined.state.lessonId).then(function (response) {
+	    response.json().then(function (response) {
+	      console.log('Individual lesson data from DB:', response);
+	      undefined.setState({
+	        data: response
+	      });
+	    }).catch(function (err) {
+	      console.error(err);
+	    });
+	  }).catch(function (err) {
+	    console.error(err);
+	  });
 	  return _react2.default.createElement(
 	    'div',
 	    null,
