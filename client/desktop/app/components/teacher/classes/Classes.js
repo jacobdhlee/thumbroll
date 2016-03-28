@@ -109,10 +109,21 @@ class Classes extends React.Component {
               error: false,
               isLoading: false
             });
-
           });
         }
-      })
+        api.getTodaysLessons(this.state.uid)
+        .then((response) => {
+          if(response.status === 400) {
+            console.error('Error getting todays lessons');
+          } else if(response.status === 200) {
+            response.json().then((response) => {
+              this.setState({
+                lessons: response
+              });
+            });
+          }
+        });
+      });
     })
   }
 }
