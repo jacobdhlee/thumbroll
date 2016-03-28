@@ -152,10 +152,10 @@ const LessonsToday = (props) => {
   return(
     <div>
       <h2 className='sectionHeading lessonsToday'>Today's Lessons</h2>
-      <ul>
+      <ul className='classList'>
         {props.lessons.map((lesson) => {
           return (
-            <li style={{cursor: 'default'}} key={'L' + lesson.id}>
+            <li className='classListItem' style={{cursor: 'pointer'}} key={'L' + lesson.id}>
               <span onClick={props.handleLessonClick.bind(null, lesson.id, lesson.name, lesson.class_id, lesson.class_name)}>
                 {lesson.name}
               </span>
