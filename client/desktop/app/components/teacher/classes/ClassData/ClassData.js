@@ -170,6 +170,7 @@ class ClassData extends React.Component {
       state: { 
         className: this.state.className,
         lessonId: lessonId,
+        classId: this.state.classId,
         lessonName: lessonName
       }
     });
@@ -390,22 +391,26 @@ const LessonTable = (props) => {
         <thead>
           <tr>
             <th> Lesson </th>
+            <th> Date </th>
+            <th> Attendance </th>
             <th> Count of Polls </th>
-            <th> Response Count </th>
-            <th> Accuracy </th>
+            <th> M.C. Accuracy </th>
             <th> Average Thumb </th>
           </tr>
         </thead>
         <tbody>
         {props.lessons.map((lesson) => {
-          var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
+          var correctRate = (lesson.correct_response_count || 0) / lesson.potential_correct_responses_count * 100;
+          var date = new Date(lesson.date).toLocaleDateString();
           return (
-            <tr>
-              <td onClick={props.handleLessonClick}> {lesson.lesson_name} </td>
-              <td> {lesson.poll_count ? lesson.poll_count : 0} </td>
-              <td> {lesson.response_count? lesson.response_count : 0} </td>
-              <td> {correctRate ? correctRate + '%' : 'N/A'} </td>
-              <td> {lesson.average_thumb ? lesson.average_thumb + '%' : 'N/A'} </td>
+            <tr key={'L' + lesson.lesson_id} 
+              onClick={props.handleLessonClick.bind(null, lesson.lesson_id, lesson.lesson_name)}>
+              <td> {lesson.lesson_name} </td>
+              <td> {date} </td>
+              <td> {lesson.student_count || 0} </td>
+              <td> {lesson.poll_count || 0} </td>
+              <td> {!isNaN(correctRate) ? correctRate.toFixed(2) + '%' : 'N/A'} </td>
+              <td> {lesson.average_thumb ? lesson.average_thumb.toFixed(2) + '%' : 'N/A'} </td>
             </tr>
           )
         })}
@@ -423,21 +428,23 @@ const StudentTable = (props) => {
           <tr>
             <th> Name </th>
             <th> Lessons Attended </th>
-            <th> Response Count </th>
-            <th> PLACEHOLDER </th>
+            <th> Response Rate </th>
+            <th> M.C. Accuracy </th>
             <th> Average Thumb </th>
           </tr>
         </thead>
         <tbody>
         {props.students.map((student) => {
-          // var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
+          var responseRate = (student.response_count || 0) / student.potential_response_count * 100;
+          var correctRate = (student.correct_response_count || 0) / student.potential_correct_response_count * 100;
           return (
-            <tr>
-              <td onClick={props.handleStudentClick}> {student.first_name + ' ' + student.last_name} </td>
+            <tr onClick={props.handleStudentClick.bind(null, student.student_id, student.first_name, student.last_name)}
+              key={'S' + student.student_id}>
+              <td> {student.first_name + ' ' + student.last_name} </td>
               <td> {student.lesson_count ? student.lesson_count : 0} </td>
-              <td> {student.response_count ? student.response_count : 0} </td>
-              <td> {student.response_count} </td>
-              <td> {student.average_thumb ? student.average_thumb + '%' : 'N/A' } </td>
+              <td> {!isNaN(responseRate) ? responseRate.toFixed(2) + '%' : 'N/A'} </td>
+              <td> {!isNaN(correctRate) ? correctRate.toFixed(2) + '%' : 'N/A'} </td>
+              <td> {student.average_thumb ? student.average_thumb.toFixed(2) + '%' : 'N/A' } </td>
             </tr>
           )
         })}

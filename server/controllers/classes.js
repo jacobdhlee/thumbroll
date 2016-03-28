@@ -49,9 +49,9 @@ module.exports = {
   getClassLessonsData: function(req, res, next) {
     var classId = req.params.classId;
     sequelize.query(
-      'SELECT w.lesson_id, w.lesson_name, w.poll_count, u.potential_correct_responses_count, ' 
+      'SELECT w.lesson_id, w.lesson_name, w.date, w.poll_count, u.potential_correct_responses_count, ' 
       + 'x.response_count, y.correct_response_count, z.average_thumb, v.student_count FROM '
-        + '(SELECT a.id AS lesson_id, a.name AS lesson_name, '
+        + '(SELECT a.id AS lesson_id, a.name AS lesson_name, a.date, '
         + 'COUNT(b.*) AS poll_count ' 
         + 'FROM lessons a '
         + 'LEFT JOIN polls b ON b.lesson_id = a.id '
@@ -116,9 +116,9 @@ module.exports = {
   getLessonPollsData: function(req, res, next) {
     var lessonId = req.params.lessonId;
     sequelize.query(
-      'SELECT w.poll_id, w.poll_name, w.type, w.answer, w.response_count, ' 
+      'SELECT w.poll_id, w.poll_name, w.type, w.sent, w.answer, w.response_count, ' 
       + 'x.student_count, y.correct_response_count, z.average_thumb FROM '
-        + '(SELECT a.id AS poll_id, a.name AS poll_name, a.answer, a.type, '
+        + '(SELECT a.id AS poll_id, a.name AS poll_name, a.answer, a.type, a.sent, '
         + 'COUNT(b.*) AS response_count ' 
         + 'FROM polls a '
         + 'LEFT JOIN poll_responses b ON b.poll_id = a.id '
@@ -164,8 +164,8 @@ module.exports = {
     var classId = req.params.classId;
     sequelize.query(
       // May want to start queries with classes for less selecting
-      'SELECT w.student_id, w.first_name, w.last_name, w.lesson_count, ' 
-      + 'x.response_count, y.correct_response_count, z.average_thumb FROM '
+      'SELECT w.student_id, w.first_name, w.last_name, w.lesson_count, u.potential_response_count, ' 
+      + 'x.response_count, y.correct_response_count, v.potential_correct_response_count, z.average_thumb FROM '
         + '(SELECT a.id AS student_id, a.firstname AS first_name, a.lastname AS last_name, '
         + 'COUNT(distinct d.lesson_id) AS lesson_count ' 
         + 'FROM students a '
@@ -203,7 +203,24 @@ module.exports = {
         + 'WHERE b.class_id = ' + classId + ' '
         + "AND d.type = 'thumbs' " 
         + 'GROUP BY a.id) z '
-      + 'ON w.student_id = z.student_id '
+      + 'ON w.student_id = z.student_id LEFT JOIN '
+        + '(SELECT a.id AS student_id, '
+        + 'COUNT(c.*) AS potential_correct_response_count ' 
+        + 'FROM students a '
+        + 'JOIN students_classes b ON a.id = b.student_id '
+        + 'LEFT JOIN poll_responses c ON a.id = c.student_id '
+        + 'LEFT JOIN polls d ON d.id = c.poll_id '
+        + 'WHERE b.class_id = ' + classId + ' '
+        + 'AND d.answer IS NOT NULL '
+        + 'GROUP BY a.id) v '
+      + 'ON w.student_id = v.student_id LEFT JOIN '
+        + '(SELECT a.class_id, COUNT(b.*) AS potential_response_count ' 
+        + 'FROM lessons a '
+        + 'JOIN polls b ON a.id = b.lesson_id '
+        + 'WHERE a.class_id = ' + classId + ' '
+        + 'AND b.sent = TRUE '
+        + 'GROUP BY a.class_id) u '
+      + 'ON u.class_id = ' + classId
     ).then(function(data) {
       var results = data[0];
       console.log(results);

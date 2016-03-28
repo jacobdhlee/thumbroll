@@ -19,7 +19,10 @@ class StudentData extends React.Component {
   render(){
     return (
       <div>
-        <h3 style={{color: '#03A9F4'}}> {this.state.firstName + ' ' + this.state.lastName} </h3>
+        <h3 onClick={this.handleClassClick.bind(this)} style={{color: '#03A9F4'}}>
+          {this.state.className}
+        </h3>
+        <h5 style={{color: '#03A9F4'}}> {this.state.firstName + ' ' + this.state.lastName} </h5>
         <DataTable data={this.state.data} />
       </div>
     )
@@ -41,7 +44,14 @@ class StudentData extends React.Component {
       console.error(err);
     });
   }
+  
+  handleClassClick() {
+    this.context.router.push({
+      pathname: '/class/' + this.state.classId + '/lessons/',
+    });
+  }
 }
+
 
 
 const DataTable = (props) => {
@@ -72,5 +82,9 @@ const DataTable = (props) => {
   </table>
   )
 }
+
+StudentData.contextTypes = {
+  router: React.PropTypes.any.isRequired
+};
 
 module.exports = StudentData;

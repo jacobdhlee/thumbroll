@@ -67,6 +67,12 @@ module.exports = {
   },
   
   startPoll: (pollObject, lessonId, classId) => {    
+    var type = '';
+    if(pollObject.id == 1) {
+      type = 'thumbs';
+    } else if(pollObject.id == 2) {
+      type = 'multiChoice';
+    }
     return fetch(server + '/teachers/polls', {
       method: 'POST',
       headers: {
@@ -75,6 +81,7 @@ module.exports = {
       },
       body: JSON.stringify({
         pollObject: pollObject,
+        name: 'Default ' + type + ' ' + new Date().toTimeString(),
         lessonId: lessonId,
         classId: classId
       })

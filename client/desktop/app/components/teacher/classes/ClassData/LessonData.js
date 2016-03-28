@@ -8,13 +8,16 @@ class LessonData extends React.Component {
       lessonId: this.props.params.lessonId,
       lessonName: this.props.location.state.lessonName,
       className: this.props.location.state.className,
+      classId: this.props.location.state.classId,
       data: [],
     };
   }
 
   render(){
     return (<div>
-      <h3 style={{color: '#03A9F4'}}>{this.state.className}</h3>
+      <h3 onClick={this.handleClassClick.bind(this)} style={{color: '#03A9F4'}}>
+        {this.state.className}
+      </h3>
       <h5 style={{color: '#03A9F4'}}>Lesson: {this.state.lessonName}</h5>
       <h6> Thumbs Checks </h6>
       <ThumbsTable data={this.state.data.filter(function(poll){
@@ -46,6 +49,12 @@ class LessonData extends React.Component {
       console.error(err);
     });
   }
+
+  handleClassClick() {
+    this.context.router.push({
+      pathname: '/class/' + this.state.classId + '/lessons/',
+    });
+  }
 }
 
 const MCTable = (props) => {
@@ -56,17 +65,17 @@ const MCTable = (props) => {
           <tr>
             <th> Poll </th>
             <th> Response Count </th>
-            <th> Correct Answer </th>
-            <th> Correct Responses </th>
+            <th> Accuracy Rate </th>
           </tr>
         </thead>
         <tbody>
         {props.data.map((poll) => {
+        var correctRate = (poll.correct_response_count || 0) / poll.response_count * 100;
           return (
             <tr key={'P' + poll.poll_id} >
               <td> {poll.poll_name || 'N/A'} </td>
-              <td> {poll.answer || 'N/A'} </td>
-              <td> {poll.correct_response_count || 'N/A'} </td>
+              <td> {poll.response_count || 0} </td>
+              <td> {!isNaN(correctRate) ? correctRate.toFixed(2) + '%' : 'N/A'} </td>
             </tr>
           )
         })}
@@ -97,7 +106,7 @@ const ThumbsTable = (props) => {
             <tr key={'P' + poll.poll_id} >
               <td> {poll.poll_name || 'N/A'} </td>
               <td> {poll.response_count || 0} </td>
-              <td> {poll.average_thumb + '%'} </td>
+              <td> {poll.average_thumb.toFixed(2) + '%'} </td>
             </tr>
           )
         })}
@@ -122,5 +131,8 @@ const AddPoll = (hide) => {
   )
 };
 
+LessonData.contextTypes = {
+  router: React.PropTypes.any.isRequired
+};
 
 module.exports = LessonData;

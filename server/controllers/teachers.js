@@ -71,6 +71,7 @@ module.exports = {
   pollClass: function(io, req, res, next) {
     var lessonId = req.body.lessonId;
     var classId = req.body.classId;
+    var name = req.body.name;
     var pollObject = req.body.pollObject;
     
     // quick class polls are not saved
@@ -98,7 +99,9 @@ module.exports = {
       console.log('Incoming poll for class', classId);
       models.polls.create({
         type: type,
-        lesson_id: lessonId
+        name: name,
+        lesson_id: lessonId,
+        sent: true
       })
       .then(function(data) {
         var pollInformation = {

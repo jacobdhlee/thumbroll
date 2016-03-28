@@ -24895,33 +24895,30 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { style: {
-	            backgroundColor: 'white'
+	            backgroundColor: '#fafafa'
 	          } },
 	        _react2.default.createElement(
-	          _reactMaterialize.Navbar,
-	          { className: 'navbar fixed' },
+	          'div',
+	          { className: 'light-blue' },
 	          _react2.default.createElement(
-	            'div',
-	            { className: 'nav-wrapper' },
+	            'h1',
+	            { className: 'left-align title' },
 	            _react2.default.createElement(
 	              _reactRouter.Link,
 	              { style: {
-	                  color: '#03A9F4',
+	                  color: '#fafafa',
 	                  fontSize: '1em'
 	                }, to: '/' },
-	              'Thumbroll'
-	            ),
-	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { className: 'large material-icons', style: {
-	                  color: '#03A9F4'
-	                },
-	                to: '/profile' },
-	              'settings'
+	              'Thumb',
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'titleCheck' },
+	                'roll'
+	              )
 	            )
-	          )
+	          ),
+	          _react2.default.createElement('span', { className: 'right-align' })
 	        ),
-	        _react2.default.createElement('div', null),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'body' },
@@ -24929,11 +24926,24 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { style: {
-	              marginBottom: window.innerHeight,
-	              paddingBottom: window.innerHeight
-	            } },
-	          '© 2016 Thumbroll'
+	          { className: 'footerApp' },
+	          _react2.default.createElement(
+	            'footer',
+	            { className: 'footerApp page-footer light-blue' },
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { className: 'large material-icons settingsButton', style: {
+	                  color: '#fafafa'
+	                },
+	                to: '/profile' },
+	              'settings'
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'copywriter' },
+	              '© 2016 Thumbroll'
+	            )
+	          )
 	        )
 	      );
 	    }
@@ -28927,6 +28937,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -29006,96 +29018,117 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _React$createElement, _React$createElement2;
+
 	      var showErr = this.state.error ? _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'error' },
 	        ' ',
 	        this.state.error,
 	        ' '
 	      ) : _react2.default.createElement('div', null);
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'center-align' },
+	        null,
 	        _react2.default.createElement(
-	          _reactMaterialize.Navbar,
-	          { className: 'navbar fixed' },
+	          'div',
+	          { className: 'center-align' },
 	          _react2.default.createElement(
 	            'h1',
-	            { className: 'light-blue' },
-	            'Thumbroll'
-	          )
-	        ),
-	        _react2.default.createElement(_reactDriveIn2.default, {
-	          className: 'backgroundVideo',
-	          show: 'https://s3-us-west-1.amazonaws.com/thumbroll/tester.mp4',
-	          poster: 'http://raw.githubusercontent.com/ronik-design/react-drive-in/master/example/glacier.jpg'
-	        }),
-	        _react2.default.createElement(
-	          _reactMaterialize.Row,
-	          null,
-	          _react2.default.createElement(_reactMaterialize.Col, { s: 6, l: 12 })
-	        ),
-	        _react2.default.createElement(
-	          _reactMaterialize.Row,
-	          null,
-	          _react2.default.createElement(
-	            _reactMaterialize.Col,
-	            { s: 6, l: 12 },
+	            { style: { color: 'white' }, className: 'light-blue title' },
+	            'Thumb',
 	            _react2.default.createElement(
-	              'h3',
-	              { className: 'center-align'
-	              },
-	              'Login'
+	              'span',
+	              { className: 'titleCheck' },
+	              'roll'
 	            )
+	          ),
+	          _react2.default.createElement(
+	            'main',
+	            null,
+	            _react2.default.createElement(_reactDriveIn2.default, {
+	              className: 'backgroundVideo',
+	              show: 'https://s3-us-west-1.amazonaws.com/thumbroll/tester.mp4',
+	              poster: 'http://raw.githubusercontent.com/ronik-design/react-drive-in/master/example/glacier.jpg'
+	            }),
+	            _react2.default.createElement(
+	              _reactMaterialize.Row,
+	              { style: { marginTop: '2em' } },
+	              _react2.default.createElement(
+	                _reactMaterialize.Col,
+	                { s: 12, l: 12 },
+	                _react2.default.createElement(
+	                  'h2',
+	                  { style: { fontSize: '3em' }, className: 'center-align callToAction'
+	                  },
+	                  'Login'
+	                )
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'valign' },
+	              _react2.default.createElement(
+	                _reactMaterialize.Row,
+	                null,
+	                _react2.default.createElement(
+	                  _reactMaterialize.Col,
+	                  { s: 12, l: 12 },
+	                  _react2.default.createElement('input', (_React$createElement = { style: { fontSize: '3em' } }, _defineProperty(_React$createElement, 'style', { maxWidth: '10em' }), _defineProperty(_React$createElement, 'className', 'center-align callToAction'), _defineProperty(_React$createElement, 'type', 'text'), _defineProperty(_React$createElement, 'placeholder', 'Username'), _defineProperty(_React$createElement, 'value', this.state.username), _defineProperty(_React$createElement, 'onChange', this.handleUsernameChange.bind(this)), _React$createElement)),
+	                  _react2.default.createElement('input', (_React$createElement2 = { style: { fontSize: '3em' } }, _defineProperty(_React$createElement2, 'style', { maxWidth: '10em' }), _defineProperty(_React$createElement2, 'className', 'center-align callToAction'), _defineProperty(_React$createElement2, 'type', 'password'), _defineProperty(_React$createElement2, 'placeholder', 'Password'), _defineProperty(_React$createElement2, 'value', this.state.password), _defineProperty(_React$createElement2, 'onChange', this.handlePasswordChange.bind(this)), _React$createElement2))
+	                )
+	              ),
+	              _react2.default.createElement(
+	                _reactMaterialize.Row,
+	                null,
+	                _react2.default.createElement(
+	                  _reactMaterialize.Col,
+	                  { s: 12, l: 12 },
+	                  _react2.default.createElement(
+	                    'button',
+	                    { style: { fontSize: '2em' }, className: 'center-align loginButton', onClick: this.handleSubmit.bind(this) },
+	                    'Submit'
+	                  )
+	                )
+	              )
+	            ),
+	            showErr
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'valign' },
+	          { className: 'footer' },
 	          _react2.default.createElement(
-	            _reactMaterialize.Row,
-	            null,
+	            'footer',
+	            { className: 'page-footer light-blue' },
 	            _react2.default.createElement(
-	              _reactMaterialize.Col,
-	              { s: 6, l: 12 },
-	              _react2.default.createElement('input', { style: { maxWidth: '10em' }, className: 'center-align',
-	                type: 'text',
-	                placeholder: 'Username',
-	                value: this.state.username,
-	                onChange: this.handleUsernameChange.bind(this)
-	              })
-	            )
-	          ),
-	          _react2.default.createElement(
-	            _reactMaterialize.Row,
-	            null,
-	            _react2.default.createElement(
-	              _reactMaterialize.Col,
-	              { s: 6, l: 12 },
-	              _react2.default.createElement('input', { style: { maxWidth: '10em' }, className: 'center-align',
-	                type: 'password',
-	                placeholder: 'Password',
-	                value: this.state.password,
-	                onChange: this.handlePasswordChange.bind(this)
-	              })
-	            )
-	          ),
-	          _react2.default.createElement(
-	            _reactMaterialize.Row,
-	            null,
-	            _react2.default.createElement(
-	              _reactMaterialize.Col,
-	              { s: 6, l: 12 },
+	              'div',
+	              { className: 'container' },
 	              _react2.default.createElement(
-	                'button',
-	                { className: 'center-align', onClick: this.handleSubmit.bind(this) },
-	                'Submit'
+	                _reactMaterialize.Row,
+	                null,
+	                _react2.default.createElement(
+	                  _reactMaterialize.Col,
+	                  { l: 12, s: 12 },
+	                  _react2.default.createElement(
+	                    'h5',
+	                    { className: 'welcomeMessage white-text center-align' },
+	                    'Your students, engaged at lightspeed.'
+	                  )
+	                )
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'footer-copyright' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'container left copywriter', style: { paddingLeft: '10px' } },
+	                '© 2016 Thumbroll'
 	              )
 	            )
 	          )
-	        ),
-	        showErr,
-	        _react2.default.createElement(_reactMaterialize.Footer, { className: 'light-blue', copywrite: true })
+	        )
 	      );
 	    }
 	  }]);
@@ -31185,7 +31218,7 @@
 	        null,
 	        _react2.default.createElement(
 	          'h2',
-	          null,
+	          { className: 'sectionHeading' },
 	          'Classes'
 	        ),
 	        this.state.classes.map(function (specificClass) {
@@ -31307,7 +31340,7 @@
 	    null,
 	    _react2.default.createElement(
 	      'h2',
-	      null,
+	      { className: 'sectionHeading' },
 	      'Today\'s Lessons'
 	    ),
 	    _react2.default.createElement(
@@ -31368,6 +31401,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -31399,6 +31434,7 @@
 
 	      newStudent: '',
 	      studentError: ''
+
 	    };
 	    return _this;
 	  }
@@ -31413,29 +31449,47 @@
 	        null,
 	        _react2.default.createElement(
 	          'h2',
-	          { style: { color: '#03A9F4' } },
+	          { className: 'sectionHeading', style: { color: '#424242' } },
 	          this.state.className
 	        ),
 	        _react2.default.createElement(
-	          'ul',
+	          _reactMaterialize.Row,
 	          null,
 	          _react2.default.createElement(
-	            'li',
-	            { onClick: function onClick() {
-	                return _this2.setState({
-	                  displayLessons: true,
-	                  displayStudents: false
-	                });
-	              }, style: {
-	                cursor: 'default'
-	              } },
-	            'Lessons'
+	            _reactMaterialize.Col,
+	            { s: 2, l: 4 },
+	            ' '
 	          ),
 	          _react2.default.createElement(
-	            'li',
-	            { onClick: this.switchToStudentsView.bind(this), style: { cursor: 'default' } },
-	            'Students'
-	          )
+	            _reactMaterialize.Col,
+	            { s: 6, l: 4 },
+	            _react2.default.createElement(
+	              'ul',
+	              { className: 'tabs' },
+	              _react2.default.createElement(
+	                'li',
+	                _defineProperty({ className: 'tab col s1 active center-align', onClick: function onClick() {
+	                    return _this2.setState({
+	                      displayLessons: true,
+	                      displayStudents: false
+	                    });
+	                  }, style: {
+	                    cursor: 'default'
+	                  }
+	                }, 'style', this.state.displayLessons ? { backgroundColor: '#01579b' } : { backgroundColor: '#fafafa', color: '#424242' }),
+	                'Lessons'
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                _defineProperty({ className: 'tab col s1 center-align',
+	                  onClick: this.switchToStudentsView.bind(this),
+	                  style: { cursor: 'default' }
+	                }, 'style', !this.state.displayLessons ? { backgroundColor: '#01579b' } : { backgroundColor: '#fafafa', color: '#424242' }),
+	                'Students'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(_reactMaterialize.Col, { s: 4, l: 4 })
 	        ),
 	        _react2.default.createElement(Lessons, {
 	          newLessonDate: this.state.newLessonDate,
@@ -31709,14 +31763,14 @@
 	  if (props.display) {
 	    return _react2.default.createElement(
 	      'div',
-	      null,
+	      { className: 'dataTable' },
 	      _react2.default.createElement(StudentTable, { students: props.students, handleStudentClick: props.handleStudentClick }),
 	      _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
-	          'h3',
-	          null,
+	          'h5',
+	          { className: 'sectionHeading', style: { marginLeft: '20px' } },
 	          'Add Student'
 	        ),
 	        _react2.default.createElement(
@@ -31725,7 +31779,7 @@
 	          _react2.default.createElement(
 	            'form',
 	            { onSubmit: props.addStudent },
-	            _react2.default.createElement('input', { type: 'text', placeholder: 'email address', value: props.newStudent, onChange: function onChange(event) {
+	            _react2.default.createElement('input', { style: { marginLeft: '30px' }, type: 'text', placeholder: 'Student Email', value: props.newStudent, onChange: function onChange(event) {
 	                props.changeNewStudent(event.target.value);
 	              } }),
 	            _react2.default.createElement(
@@ -31733,7 +31787,7 @@
 	              null,
 	              _react2.default.createElement(
 	                'button',
-	                { type: 'submit' },
+	                { style: { marginLeft: '30px', fontSize: '1em' }, type: 'submit' },
 	                'Add'
 	              )
 	            )
@@ -31764,36 +31818,32 @@
 	  if (props.display) {
 	    return _react2.default.createElement(
 	      'div',
-	      null,
+	      { className: 'dataTable' },
 	      _react2.default.createElement(LessonTable, { lessons: props.lessons, handleLessonClick: props.handleLessonClick }),
 	      _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
-	          'h3',
-	          null,
-	          'New Lesson'
+	          'h5',
+	          { className: 'sectionHeading', style: { marginLeft: '20px' } },
+	          'Add Lesson'
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          null,
+	          { className: 'addNew' },
 	          _react2.default.createElement(
 	            'form',
 	            { onSubmit: props.addLesson },
-	            _react2.default.createElement('input', { type: 'text', value: props.newLessonName, onChange: function onChange(event) {
+	            _react2.default.createElement('input', { placeholder: 'Lesson Name', style: { maxWidth: '15em', marginLeft: '10px' }, type: 'text', value: props.newLessonName, onChange: function onChange(event) {
 	                props.changeNewLessonName(event.target.value);
 	              } }),
 	            _react2.default.createElement(_reactDatepicker2.default, { minDate: (0, _moment2.default)(), selected: props.newLessonDate, onChange: function onChange(date) {
 	                props.changeDate(date);
 	              } }),
 	            _react2.default.createElement(
-	              'div',
-	              null,
-	              _react2.default.createElement(
-	                'button',
-	                { type: 'submit' },
-	                'Add'
-	              )
+	              'button',
+	              { style: { marginLeft: '10px', fontSize: '1em' }, type: 'submit' },
+	              'Add'
 	            )
 	          )
 	        )
@@ -31806,174 +31856,195 @@
 
 	var LessonTable = function LessonTable(props) {
 	  return _react2.default.createElement(
-	    'table',
-	    null,
+	    'div',
+	    { className: 'tableContainer' },
 	    _react2.default.createElement(
-	      'thead',
-	      null,
+	      'table',
+	      { className: 'highlight' },
 	      _react2.default.createElement(
-	        'tr',
+	        'thead',
 	        null,
 	        _react2.default.createElement(
-	          'th',
-	          null,
-	          ' Lesson '
-	        ),
-	        _react2.default.createElement(
-	          'th',
-	          null,
-	          ' Count of Polls '
-	        ),
-	        _react2.default.createElement(
-	          'th',
-	          null,
-	          ' Response Count '
-	        ),
-	        _react2.default.createElement(
-	          'th',
-	          null,
-	          ' Accuracy '
-	        ),
-	        _react2.default.createElement(
-	          'th',
-	          null,
-	          ' Average Thumb '
-	        )
-	      )
-	    ),
-	    _react2.default.createElement(
-	      'tbody',
-	      null,
-	      props.lessons.map(function (lesson) {
-	        var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
-	        return _react2.default.createElement(
 	          'tr',
-	          { key: 'L' + lesson.lesson_id,
-	            onClick: props.handleLessonClick.bind(null, lesson.lesson_id, lesson.lesson_name) },
+	          null,
 	          _react2.default.createElement(
-	            'td',
+	            'th',
 	            null,
-	            ' ',
-	            lesson.lesson_name,
-	            ' '
+	            ' Lesson '
 	          ),
 	          _react2.default.createElement(
-	            'td',
+	            'th',
 	            null,
-	            ' ',
-	            lesson.poll_count ? lesson.poll_count : 0,
-	            ' '
+	            ' Date '
 	          ),
 	          _react2.default.createElement(
-	            'td',
+	            'th',
 	            null,
-	            ' ',
-	            lesson.response_count ? lesson.response_count : 0,
-	            ' '
+	            ' Attendance '
 	          ),
 	          _react2.default.createElement(
-	            'td',
+	            'th',
 	            null,
-	            ' ',
-	            correctRate ? correctRate + '%' : 'N/A',
-	            ' '
+	            ' Count of Polls '
 	          ),
 	          _react2.default.createElement(
-	            'td',
+	            'th',
 	            null,
-	            ' ',
-	            lesson.average_thumb ? lesson.average_thumb + '%' : 'N/A',
-	            ' '
+	            ' M.C. Accuracy '
+	          ),
+	          _react2.default.createElement(
+	            'th',
+	            null,
+	            ' Average Thumb '
 	          )
-	        );
-	      })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'tbody',
+	        null,
+	        props.lessons.map(function (lesson) {
+	          var correctRate = (lesson.correct_response_count || 0) / lesson.potential_correct_responses_count * 100;
+	          var date = new Date(lesson.date).toLocaleDateString();
+	          return _react2.default.createElement(
+	            'tr',
+	            { key: 'L' + lesson.lesson_id,
+	              onClick: props.handleLessonClick.bind(null, lesson.lesson_id, lesson.lesson_name) },
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              ' ',
+	              lesson.lesson_name,
+	              ' '
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              ' ',
+	              date,
+	              ' '
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              ' ',
+	              lesson.student_count || 0,
+	              ' '
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              ' ',
+	              lesson.poll_count || 0,
+	              ' '
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              ' ',
+	              !isNaN(correctRate) ? correctRate + '%' : 'N/A',
+	              ' '
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              ' ',
+	              lesson.average_thumb ? lesson.average_thumb + '%' : 'N/A',
+	              ' '
+	            )
+	          );
+	        })
+	      )
 	    )
 	  );
 	};
 
 	var StudentTable = function StudentTable(props) {
 	  return _react2.default.createElement(
-	    'table',
-	    null,
+	    'div',
+	    { className: 'tableContainer' },
 	    _react2.default.createElement(
-	      'thead',
-	      null,
+	      'table',
+	      { className: 'highlight' },
 	      _react2.default.createElement(
-	        'tr',
-	        null,
+	        'thead',
+	        { style: { maxWidth: '10em' } },
 	        _react2.default.createElement(
-	          'th',
-	          null,
-	          ' Name '
-	        ),
-	        _react2.default.createElement(
-	          'th',
-	          null,
-	          ' Lessons Attended '
-	        ),
-	        _react2.default.createElement(
-	          'th',
-	          null,
-	          ' Response Count '
-	        ),
-	        _react2.default.createElement(
-	          'th',
-	          null,
-	          ' PLACEHOLDER '
-	        ),
-	        _react2.default.createElement(
-	          'th',
-	          null,
-	          ' Average Thumb '
-	        )
-	      )
-	    ),
-	    _react2.default.createElement(
-	      'tbody',
-	      null,
-	      props.students.map(function (student) {
-	        // var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
-	        return _react2.default.createElement(
 	          'tr',
-	          { key: 'S' + student.student_id,
-	            onClick: props.handleStudentClick.bind(null, student.student_id, student.first_name, student.last_name) },
+	          null,
 	          _react2.default.createElement(
-	            'td',
+	            'th',
 	            null,
-	            ' ',
-	            student.first_name + ' ' + student.last_name,
-	            ' '
+	            ' Name '
 	          ),
 	          _react2.default.createElement(
-	            'td',
+	            'th',
 	            null,
-	            ' ',
-	            student.lesson_count ? student.lesson_count : 0,
-	            ' '
+	            ' Lessons Attended '
 	          ),
 	          _react2.default.createElement(
-	            'td',
+	            'th',
 	            null,
-	            ' ',
-	            student.response_count ? student.response_count : 0,
-	            ' '
+	            ' Response Rate '
 	          ),
 	          _react2.default.createElement(
-	            'td',
+	            'th',
 	            null,
-	            ' ',
-	            student.response_count,
-	            ' '
+	            ' M.C. Accuracy '
 	          ),
 	          _react2.default.createElement(
-	            'td',
+	            'th',
 	            null,
-	            ' ',
-	            student.average_thumb ? student.average_thumb + '%' : 'N/A',
-	            ' '
+	            ' Average Thumb '
 	          )
-	        );
-	      })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'tbody',
+	        null,
+	        props.students.map(function (student) {
+	          var correctRate = (student.correct_response_count || 0) / student.potential_correct_response_count * 100;
+	          console.log(student.correct_response_count, student.potential_correct_response_count, correctRate);
+	          return _react2.default.createElement(
+	            'tr',
+	            null,
+	            _react2.default.createElement(
+	              'td',
+	              { onClick: props.handleStudentClick },
+	              ' ',
+	              student.first_name + ' ' + student.last_name,
+	              ' '
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              ' ',
+	              student.lesson_count ? student.lesson_count : 0,
+	              ' '
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              ' ',
+	              student.response_count ? student.response_count : 0,
+	              ' Fix '
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              ' ',
+	              !isNaN(correctRate) ? correctRate + '%' : 'N/A',
+	              ' '
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              ' ',
+	              student.average_thumb ? student.average_thumb + '%' : 'N/A',
+	              ' '
+	            )
+	          );
+	        })
+	      )
 	    )
 	  );
 	};
@@ -32310,6 +32381,11 @@
 	        null,
 	        _react2.default.createElement(
 	          'h3',
+	          { onClick: this.handleClassClick.bind(this), style: { color: '#03A9F4' } },
+	          this.state.className
+	        ),
+	        _react2.default.createElement(
+	          'h5',
 	          { style: { color: '#03A9F4' } },
 	          ' ',
 	          this.state.firstName + ' ' + this.state.lastName,
@@ -32334,6 +32410,13 @@
 	        });
 	      }).catch(function (err) {
 	        console.error(err);
+	      });
+	    }
+	  }, {
+	    key: 'handleClassClick',
+	    value: function handleClassClick() {
+	      this.context.router.push({
+	        pathname: '/class/' + this.state.classId + '/lessons/'
 	      });
 	    }
 	  }]);
@@ -32424,6 +32507,10 @@
 	      })
 	    )
 	  );
+	};
+
+	StudentData.contextTypes = {
+	  router: _react2.default.PropTypes.any.isRequired
 	};
 
 	module.exports = StudentData;
@@ -46168,7 +46255,7 @@
 
 
 	// module
-	exports.push([module.id, "html, body, h1, h2, h3, h4, ul, ol, li, p, a {\n  padding: 0;\n  border: 0;\n  margin: 0;\n}\n\nbody {\n  height: 100%;\n  width: 100%;\n}\n\nul {\n  list-style: none;\n}\n\nli {\n  color: black;\n  list-style: none;\n}\n\n.backgroundVideo{\n  height: 100%;\n  width: 100%;\n  top: 0;\n  padding: none;\n  position: fixed;\n  z-index: -100\n}", ""]);
+	exports.push([module.id, "html, body, h1, h2, h3, h4, ul, ol, li, p, a {\n  padding: 0;\n  border: 0;\n  margin: 0;\n}\n\nbody {\n  height: 100%;\n  width: 100%;\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column;\n  background-color: #fafafa;\n  overflow: scroll;\n}\n\nmain {\n  flex: 1 0 auto;\n}\n\nul {\n  list-style: none;\n}\n\nli {\n  color: black;\n  list-style: none;\n}\n\n.backgroundVideo{\n  height: 100%;\n  width: 100%;\n  top: 0;\n  padding: none;\n  position: fixed;\n  z-index: -100\n}\n\nfooter {\n  width:100%;\n  height:140px;\n  position: absolute;\n  bottom:0;\n  left:0;\n}\n\nfooter.footerApp{\n  width:0;\n  height:0;\n  position: fixed;\n  bottom:0;\n  left:0;\n}\n\nfooter.footerApp {\n  margin-top: 100px;\n  width:100%;\n  height:60px;\n  bottom:0;\n  left:0;\n  padding: 10px;\n}\n\n.title {\n  font-family: 'Lato', sans-serif;\n  font-weight: 100;\n  padding-left: 10px;\n}\n\n.titleCheck {\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n}\n\n.sectionHeading {\n  font-family: 'Lato', sans-serif;\n  font-weight: 900;\n  margin: 20px;\n  color: #424242;\n}\n\n.settingsButton {\n  float: left;\n  text-align: left;\n}\n.copywriter {\n  float: right;\n  font-family: 'Lato', sans-serif;\n  font-weight: 100;\n  color: #fafafa;\n}\n\n.welcomeTopBar {\n  padding-bottom: 10px;\n}\n\n.welcomeMessage {\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  font-size: 1.5em;\n}\n\n.callToAction {\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  color: #fafafa;\n}\n\ninput:not([type]):focus:not([readonly]),\ninput[type=text]:focus:not([readonly]),\ninput[type=password]:focus:not([readonly]),\ninput[type=email]:focus:not([readonly]),\ninput[type=url]:focus:not([readonly]),\ninput[type=time]:focus:not([readonly]),\ninput[type=date]:focus:not([readonly]),\ninput[type=datetime-local]:focus:not([readonly]),\ninput[type=tel]:focus:not([readonly]),\ninput[type=number]:focus:not([readonly]),\ninput[type=search]:focus:not([readonly]),\ntextarea.materialize-textarea:focus:not([readonly]) {\n    border-bottom: 1px solid #03a9f4;\n    box-shadow: 0 1px 0 0 #03a9f4;\n}\n\n\nbutton {\n  background-color: transparent;\n  color: #fafafa;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\nbutton:active {\n    outline: none;\n    background-color: #fafafa;\n}\n\nbutton:focus {\n    outline: none;\n    background-color: #03a9f4;\n}\n\n\nbutton {\n  background-color: #fafafa;\n  color: #424242;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\nbutton:active .login{\n    outline: none;\n    background-color: #01579b;\n}\n\n.loginButton:active{\n    outline: none;\n    background-color: #03a9f4;\n}\n\n.loginButton{\n  background-color: transparent;\n  color: #fafafa;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\n.tableContainer {\n  margin-left: 200px;\n  margin-right: 200px;\n}\n\n#tableHeader {\n  max-width: 90%;\n}\n\n.tabs .tab {\n  border: 2px solid #03a9f4;\n  text-transform: none;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  font-size: 1.5em;\n  max-width: 100%;\n  color: #fafafa;\n}\n.tab:first-child {\n  border: 2px solid #03a9f4;\n  border-right: none;\n}\n\n.tab:active{\n  background-color: #bf360c;\n}\n\n.dateContainer {\n  max-width: '15em';\n\n  margin-left:'10px';\n}\n\ninput:not([type]), input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {\n    background-color: transparent;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    border-radius: 0;\n    outline: none;\n    height: 3rem;\n    width: 10%; \n    font-size: 1rem;\n    margin: 0 0 10px 10px;\n    padding: 0;\n    box-shadow: none;\n    box-sizing: content-box;\n    transition: all .3s;\n}\n\n.addNew {\n  margin-left: 20px;\n}\n\n.error {\n  color: #fafafa;\n}\n\n.dataTable {\n  margin-bottom: 70px;\n}", ""]);
 
 	// exports
 
