@@ -1,7 +1,7 @@
 import React from 'react'
 import {render} from 'react-dom'
 import {Router, Route, browserHistory, IndexRoute, Link} from 'react-router'
-import {Button, Icon, Footer, Navbar} from 'react-materialize';
+import {Button, Icon, Footer, Navbar, Row, Col} from 'react-materialize';
 
 import Login from './login'
 import Signup from './signup'
@@ -52,25 +52,19 @@ class App extends React.Component {
   render(){
     return (
       <div style={{
-        backgroundColor: 'white'
+        backgroundColor: '#fafafa'
       }}>
-      <Navbar className='navbar fixed'>
-        <div className='nav-wrapper'>
-        <Link style={
-          {
-            color: '#03A9F4',
-            fontSize: '1em'
-          }} to={`/`}>Thumbroll
-        </Link>
-        <Link className='large material-icons' style={
-              {
-                color: '#03A9F4',
-              }}
-              to={`/profile`}>settings
-        </Link>
-        </div>
-      </Navbar>
-        <div>
+        <div className='light-blue'>
+        <h1 className='left-align title'>
+          <Link style={
+            {
+              color: '#fafafa',
+              fontSize: '1em'
+            }} to={`/`}>Thumb<span className='titleCheck'>roll</span>
+          </Link>
+        </h1>
+        <span className='right-align'>
+        </span>
         </div>
 
         <div className='body'>
@@ -79,11 +73,18 @@ class App extends React.Component {
 
         </div>
 
-        <div style={{
-          marginBottom: window.innerHeight,
-          paddingBottom: window.innerHeight
-        }}>
-          &copy; 2016 Thumbroll
+        <div className='footerApp'>
+          <footer className="footerApp page-footer light-blue">
+            <Link className='large material-icons settingsButton' style={
+                {
+                  color: '#fafafa',
+                }}
+                to={`/profile`}>settings
+            </Link>
+            <div className='copywriter'>
+            &copy; 2016 Thumbroll
+            </div>
+          </footer>
         </div>
       </div>
     );

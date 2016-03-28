@@ -23,7 +23,7 @@ class Classes extends React.Component {
   render(){
     return (
       <div>
-        <h2>Classes</h2>
+        <h2 className='sectionHeading'>Classes</h2>
 
         {this.state.classes.map((specificClass) => {
           return (<li style={{cursor: 'default'}} key={"class:"+specificClass.id}>
@@ -114,7 +114,7 @@ const LessonsToday = (props) => {
   }
   return(
     <div>
-      <h2>Today's Lessons</h2>
+      <h2 className='sectionHeading'>Today's Lessons</h2>
       <ul>
         {props.lessons.map((lesson) => {
           return (<li style={{cursor: 'default'}} key={lesson.name}>

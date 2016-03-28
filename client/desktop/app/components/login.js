@@ -66,45 +66,38 @@ class Login extends React.Component {
   }
 
   render(){
-    var showErr = this.state.error ? <div> {this.state.error} </div> : <div></div>;
+    var showErr = this.state.error ? <div className='error'> {this.state.error} </div> : <div></div>;
     return (
+      <div>
       <div className='center-align'>
-        <Navbar className='navbar fixed'>
-        <h1 className='light-blue'>
-        Thumbroll
+        <h1 style={{color: 'white'}} className='light-blue title'>
+        Thumb<span className='titleCheck'>roll</span>
         </h1>
-      </Navbar>
+      <main>
         <ReactDriveIn
           className ="backgroundVideo"
           show="https://s3-us-west-1.amazonaws.com/thumbroll/tester.mp4"
           poster="http://raw.githubusercontent.com/ronik-design/react-drive-in/master/example/glacier.jpg"
         />
-        <Row>
-          <Col s={6} l={12} >
-          </Col>
-        </Row>
 
-        <Row>
-        <Col s={6} l={12}>
-          <h3 className='center-align'
-          >Login</h3>
+        <Row style={{marginTop:'2em'}}>
+        <Col s={12} l={12}>
+          <h2 style={{fontSize: '3em'}} className='center-align callToAction'
+          >Login</h2>
         </Col>
         </Row>
 
         <div className='valign'>
           <Row>
-            <Col s={6} l={12}>
-              <input style={{maxWidth: '10em'}} className='center-align'
+            <Col s={12} l={12}>
+              <input style={{fontSize: '3em'}} style={{maxWidth: '10em'}} className='center-align callToAction'
               type="text" 
               placeholder="Username" 
               value={this.state.username} 
               onChange={this.handleUsernameChange.bind(this)} 
               />
-            </Col>
-          </Row>
-          <Row>
-            <Col s={6} l={12}>
-              <input style={{maxWidth: '10em'}} className='center-align'
+            
+              <input style={{fontSize: '3em'}} style={{maxWidth: '10em'}} className='center-align callToAction'
               type="password" 
               placeholder="Password" 
               value={this.state.password} 
@@ -113,15 +106,32 @@ class Login extends React.Component {
               </Col>
           </Row>
           <Row>
-            <Col s={6} l={12}>
-              <button className='center-align' onClick={this.handleSubmit.bind(this)}>
+            <Col s={12} l={12}>
+              <button style={{fontSize: '2em'}} className='center-align loginButton' onClick={this.handleSubmit.bind(this)}>
               Submit
               </button>
             </Col>
           </Row>
         </div>
         {showErr}
-        <Footer className="light-blue" copywrite></Footer>
+        </main>
+      </div>
+        <div className='footer'>
+          <footer className="page-footer light-blue">
+            <div className="container">
+              <Row>
+                <Col l={12} s={12}>
+                  <h5 className="welcomeMessage white-text center-align">Your students, engaged at lightspeed.</h5>
+                </Col>
+              </Row>
+            </div>
+            <div className="footer-copyright">
+              <div className="container left copywriter" style={{paddingLeft: '10px'}}>
+              © 2016 Thumbroll
+              </div>
+            </div>
+          </footer>
+        </div>
       </div>
     );
   }

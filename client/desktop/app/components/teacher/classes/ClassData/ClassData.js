@@ -27,7 +27,8 @@ class ClassData extends React.Component {
       newLessonDate: moment(),
       
       newStudent: '',
-      studentError: ''
+      studentError: '',
+
     };
   }
 
@@ -35,17 +36,34 @@ class ClassData extends React.Component {
     return (
       <div>
 
-        <h2 style={{color: '#03A9F4'}} >{this.state.className}</h2>
-        <ul>
-          <li onClick={() => this.setState({
-            displayLessons: true,
-            displayStudents: false,
-          })} style={{
-            cursor: 'default',
-            }}>Lessons</li>
+        <h2 className='sectionHeading' style={{color: '#424242'}} >{this.state.className}</h2>
+        
+        <Row>
+          <Col s={2} l={4}>
+          &nbsp;
+          </Col>
+          <Col s={6} l={4}>
+            <ul className="tabs">
 
-          <li onClick={this.switchToStudentsView.bind(this)} style={{cursor: 'default'}}>Students</li>
-        </ul>
+              <li className='tab col s1 active center-align' onClick={() => this.setState({
+                displayLessons: true,
+                displayStudents: false,
+              })} style={{
+                cursor: 'default',
+                }}
+                style={this.state.displayLessons ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242'}}
+                >Lessons</li>
+              <li className='tab col s1 center-align' 
+                onClick={this.switchToStudentsView.bind(this)} 
+                style={{cursor: 'default'}} 
+                style={!this.state.displayLessons ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242'}}>
+                Students
+              </li>
+            </ul>
+          </Col>
+          <Col s={4} l={4}>
+          </Col>
+        </Row>
         
         <Lessons 
           newLessonDate={this.state.newLessonDate}
@@ -308,18 +326,18 @@ class ClassData extends React.Component {
 const Students = (props) => {
   if(props.display) {
     return (
-      <div>
+      <div className='dataTable'>
         <StudentTable students={props.students} handleStudentClick={props.handleStudentClick} />
         <div>
-          <h3>Add Student</h3>
+          <h5 className='sectionHeading' style={{marginLeft:'20px'}}>Add Student</h5>
           <div>
             <form onSubmit={props.addStudent}>
-              <input type='text' placeholder='email address' value={props.newStudent} onChange={(event) => {
+              <input style={{marginLeft:'30px'}} type='text' placeholder='Student Email' value={props.newStudent} onChange={(event) => {
                 props.changeNewStudent(event.target.value);
               }} />
               
               <div>
-                <button type='submit'>Add</button>
+                <button style={{marginLeft:'30px', fontSize: '1em'}} type='submit'>Add</button>
               </div>
             </form>
           </div>
@@ -342,21 +360,19 @@ const StudentError = (props) => {
 const Lessons = (props) => {
   if(props.display) {
     return (
-      <div>
+      <div className='dataTable'>
         <LessonTable lessons={props.lessons} handleLessonClick={props.handleLessonClick} />
         <div>
-          <h3>New Lesson</h3>
-          <div>
+          <h5 className='sectionHeading' style={{marginLeft:'20px'}} >Add Lesson</h5>
+          <div className='addNew'>
             <form onSubmit={props.addLesson}>
-              <input type='text' value={props.newLessonName} onChange={(event) => {
+              <input placeholder='Lesson Name' style={{maxWidth: '15em', marginLeft:'10px'}} type='text' value={props.newLessonName} onChange={(event) => {
                 props.changeNewLessonName(event.target.value);
               }} />
-              <DatePicker minDate={moment()} selected={props.newLessonDate} onChange={(date) => {
-                props.changeDate(date);
-              }} />
-              <div>
-                <button type='submit'>Add</button>
-              </div>
+                <DatePicker minDate={moment()} selected={props.newLessonDate} onChange={(date) => {
+                  props.changeDate(date);
+                }} />
+                <button style={{marginLeft: '10px', fontSize: '1em'}} type='submit'>Add</button>
             </form>
           </div>
         </div>
@@ -369,63 +385,65 @@ const Lessons = (props) => {
 
 const LessonTable = (props) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th> Lesson </th>
-          <th> Count of Polls </th>
-          <th> Response Count </th>
-          <th> Accuracy </th>
-          <th> Average Thumb </th>
-        </tr>
-      </thead>
-      <tbody>
-      {props.lessons.map((lesson) => {
-        var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
-        return (
-          <tr key={'L' + lesson.lesson_id} 
-            onClick={props.handleLessonClick.bind(null, lesson.lesson_id, lesson.lesson_name)}>
-            <td> {lesson.lesson_name} </td>
-            <td> {lesson.poll_count ? lesson.poll_count : 0} </td>
-            <td> {lesson.response_count? lesson.response_count : 0} </td>
-            <td> {correctRate ? correctRate + '%' : 'N/A'} </td>
-            <td> {lesson.average_thumb ? lesson.average_thumb + '%' : 'N/A'} </td>
+    <div className='tableContainer'>
+      <table className='highlight'>
+        <thead>
+          <tr>
+            <th> Lesson </th>
+            <th> Count of Polls </th>
+            <th> Response Count </th>
+            <th> Accuracy </th>
+            <th> Average Thumb </th>
           </tr>
-        )
-      })}
-    </tbody>
-  </table>
+        </thead>
+        <tbody>
+        {props.lessons.map((lesson) => {
+          var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
+          return (
+            <tr>
+              <td onClick={props.handleLessonClick}> {lesson.lesson_name} </td>
+              <td> {lesson.poll_count ? lesson.poll_count : 0} </td>
+              <td> {lesson.response_count? lesson.response_count : 0} </td>
+              <td> {correctRate ? correctRate + '%' : 'N/A'} </td>
+              <td> {lesson.average_thumb ? lesson.average_thumb + '%' : 'N/A'} </td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
+  </div>
   )
 }
 
 const StudentTable = (props) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th> Name </th>
-          <th> Lessons Attended </th>
-          <th> Response Count </th>
-          <th> PLACEHOLDER </th>
-          <th> Average Thumb </th>
-        </tr>
-      </thead>
-      <tbody>
-      {props.students.map((student) => {
-        // var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
-        return (
-          <tr key={'S' + student.student_id}
-            onClick={props.handleStudentClick.bind(null, student.student_id, student.first_name, student.last_name)}>
-            <td> {student.first_name + ' ' + student.last_name} </td>
-            <td> {student.lesson_count ? student.lesson_count : 0} </td>
-            <td> {student.response_count ? student.response_count : 0} </td>
-            <td> {student.response_count} </td>
-            <td> {student.average_thumb ? student.average_thumb + '%' : 'N/A' } </td>
+    <div className='tableContainer'>
+      <table className='highlight'>
+        <thead style={{maxWidth:'10em'}}>
+          <tr>
+            <th> Name </th>
+            <th> Lessons Attended </th>
+            <th> Response Count </th>
+            <th> PLACEHOLDER </th>
+            <th> Average Thumb </th>
           </tr>
-        )
-      })}
-    </tbody>
-  </table>
+        </thead>
+        <tbody>
+        {props.students.map((student) => {
+          // var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
+          return (
+            <tr>
+              <td onClick={props.handleStudentClick}> {student.first_name + ' ' + student.last_name} </td>
+              <td> {student.lesson_count ? student.lesson_count : 0} </td>
+              <td> {student.response_count ? student.response_count : 0} </td>
+              <td> {student.response_count} </td>
+              <td> {student.average_thumb ? student.average_thumb + '%' : 'N/A' } </td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
+  </div>
   )
 }
 
