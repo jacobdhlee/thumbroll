@@ -1,6 +1,8 @@
 var React = require('react-native');
 var Slider = require('react-native-slider');
 var ThumbRoll = require('./thumbRoll');
+var Button = require('./../../shared/button');
+var NavBar = require('./../../shared/navbar');
 
 var {
   View,
@@ -39,20 +41,30 @@ class ThumbCheck extends React.Component {
     this.setState({value: Math.floor(value)})
   }
   
+  onBack() {
+    this.state.socket.removeListener('closePoll');
+    this.props.navigator.pop();
+  }
+
+  beforeLogout() {
+    this.state.socket.emit('studentLoggingOut', {user:this.state.user});
+  }
+
   render() {
     return (
       <View style={styles.sceneContainer}>
+        <NavBar navi={this.props.navigator} beforeLogout={this.beforeLogout.bind(this)} onBack={this.onBack.bind(this)}>
+          ThumbRoll
+        </NavBar>
         <View style={styles.contentContainer}>
           <View style={styles.titleContainer}>
-            <Text> Enter Percentage </Text>
+            <Text style={styles.textSize}> Enter Percentage </Text>
           </View>
           <View style={styles.bodyContainer}>
             <View style={styles.thumbRollContainer}>
               <ThumbRoll onUpdate={(value)=>{this.valueChange(value);}}/>
             </View>
-            <View>
-              <Text onPress={this.submitResponse.bind(this)}>Submit</Text>
-            </View>
+              <Button onPress={this.submitResponse.bind(this)} text={'Submit'} />
           </View>
         </View>
       </View>
@@ -65,26 +77,24 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'stretch',
-    backgroundColor: '#6ECFBF',
-    // justifyContent: 'flex-start'
+    backgroundColor: 'white',
   },
   contentContainer: {
     marginTop: 20,
-    // flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center'
   },
   titleContainer: {
     alignItems: 'center',
   },
   bodyContainer: {
-    // flex: 1,
-    // justifyContent: 'center',
     alignItems: 'center'
   },
   thumbRollContainer: {
     alignItems: 'stretch',
   },
+  textSize:{
+    fontSize:25,
+    fontWeight: 'bold', 
+  }
 })
 
 var customStyles = StyleSheet.create({
