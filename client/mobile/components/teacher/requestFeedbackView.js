@@ -190,10 +190,14 @@ class RequestFeedbackView extends React.Component {
     var student = studentsObj[randomKey];
     console.log('Calling on:', student);
     this.state.socket.emit('callOnStudent', student);
-    if(student.firstName) {
-      Alert.alert('Called on', student.firstName + ' ' + student.lastName);
+    if(!student || studentsObj === undefined) {
+      Alert.alert('Called on', 'No student sign in yet!');
     } else {
-      Alert.alert('Called on student', student.uid);
+      if(student.firstName) {
+        Alert.alert('Called on', student.firstName + ' ' + student.lastName);
+      } else {
+        Alert.alert('Called on student', student.uid);
+      }
     }
   }
 
@@ -249,6 +253,9 @@ class RequestFeedbackView extends React.Component {
                 Q:{this.state.questionLists.length}
               </Text>
           </TouchableOpacity>
+          <View>
+            <Text>{this.state.lessonId}</Text>
+          </View>
           <TouchableOpacity onPress={this.clickRaisedHand.bind(this)} style={styles.raiseHandBox}>
               <Text style={styles.textSize}>
                 R : {this.state.raisedHandCount}
