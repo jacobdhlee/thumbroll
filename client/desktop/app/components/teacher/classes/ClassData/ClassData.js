@@ -438,8 +438,9 @@ const StudentTable = (props) => {
           var responseRate = (student.response_count || 0) / student.potential_response_count * 100;
           var correctRate = (student.correct_response_count || 0) / student.potential_correct_response_count * 100;
           return (
-            <tr>
-              <td onClick={props.handleStudentClick}> {student.first_name + ' ' + student.last_name} </td>
+            <tr onClick={props.handleStudentClick.bind(null, student.student_id, student.first_name, student.last_name)}
+              key={'S' + student.student_id}>
+              <td> {student.first_name + ' ' + student.last_name} </td>
               <td> {student.lesson_count ? student.lesson_count : 0} </td>
               <td> {!isNaN(responseRate) ? responseRate.toFixed(2) + '%' : 'N/A'} </td>
               <td> {!isNaN(correctRate) ? correctRate.toFixed(2) + '%' : 'N/A'} </td>
