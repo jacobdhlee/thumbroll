@@ -29,7 +29,6 @@ module.exports = {
       + "AND b.date BETWEEN DATE 'today' AND DATE 'tomorrow' "
     ).then(function(data) {
       var results = data[0];
-      console.log(results);
       res.status(200).send(results);
     }).catch(function(err) {
       console.error('Error with query', err)
