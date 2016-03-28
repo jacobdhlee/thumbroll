@@ -185,3 +185,8 @@ In order to run the simulator, navigate to the 'AppDelegate.m' file under the 't
 
 1. If you want to run the XCode iPhone simulator from a development server (e.g., localhost), uncomment Option 1 and comment-out Option 2. Then, click the play button in the top-left corner (or Command + R).
 2. If you want to run the simulator on a physical iPhone device from a pre-bundled file on disk running on a remote server (e.g., Digital Ocean droplet), comment-out Option 1 and uncomment Option 2. Then, click the play button in the top-left corner (or Command + R).
+
+## Image 
+
+Hand by Maico Amorim from the Noun Project
+help by Pham Thi Dieu Linh from the Noun Project

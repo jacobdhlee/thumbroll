@@ -15,6 +15,7 @@ var {
   Alert,
   TextInput,
   Dimensions,
+  Image,
 } = React;
 
 class RequestFeedbackView extends React.Component {
@@ -249,17 +250,23 @@ class RequestFeedbackView extends React.Component {
         </View>
         <View style={styles.studentResponse}>
           <TouchableOpacity onPress={this.clickQuestion.bind(this)} style={styles.questionBox}>
+            <View style={styles.imageBox}>
+              <Image source={require('../../image/question.png')}/>
               <Text style={styles.textSize}>
-                Q:{this.state.questionLists.length}
+                : {this.state.questionLists.length}
               </Text>
+            </View>
           </TouchableOpacity>
           <View>
             <Text>{this.state.lessonId}</Text>
           </View>
           <TouchableOpacity onPress={this.clickRaisedHand.bind(this)} style={styles.raiseHandBox}>
+            <View style={styles.imageBox}>
+              <Image source={require('../../image/raiseHand.png')}/>
               <Text style={styles.textSize}>
-                R : {this.state.raisedHandCount}
+                : {this.state.raisedHandCount}
               </Text>
+            </View>
           </TouchableOpacity>
         </View>
 
@@ -361,6 +368,11 @@ const styles = StyleSheet.create({
     height: 60, 
     width: 100,
   },
+  imageBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  }
 });
 
 module.exports = RequestFeedbackView;
