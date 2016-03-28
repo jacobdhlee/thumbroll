@@ -1,4 +1,5 @@
 var models = require("./../models");
+var sequelize = require('./../models/index').sequelize;
 
 module.exports = {
   getClasses: function(req, res, next) {
@@ -18,8 +19,21 @@ module.exports = {
     //currently being handled by authentication controller, but probably should be here
   },
 
-  getTodaysLesson: function(req, res, next) {
-
+  getTodaysLessons: function(req, res, next) {
+    var teacherId = req.params.teacherId;
+    sequelize.query(
+      'SELECT * FROM classes a '
+      + 'JOIN lessons b ON a.id = b.class_id '
+      + 'WHERE a.teacher_id = ' + teacherId + ' '
+      + "AND b.date BETWEEN DATE 'today' AND DATE 'tomorrow' "
+    ).then(function(data) {
+      var results = data[0];
+      console.log(results);
+      res.status(200).send(results);
+    }).catch(function(err) {
+      console.error('Error with query', err)
+      res.status(500).send(err);
+    });
   },
 
   getClassLessons: function(req, res, next) {
