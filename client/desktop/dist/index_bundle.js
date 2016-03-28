@@ -31875,17 +31875,22 @@
 	          _react2.default.createElement(
 	            'th',
 	            null,
+	            ' Date '
+	          ),
+	          _react2.default.createElement(
+	            'th',
+	            null,
+	            ' Attendence '
+	          ),
+	          _react2.default.createElement(
+	            'th',
+	            null,
 	            ' Count of Polls '
 	          ),
 	          _react2.default.createElement(
 	            'th',
 	            null,
-	            ' Response Count '
-	          ),
-	          _react2.default.createElement(
-	            'th',
-	            null,
-	            ' Accuracy '
+	            ' M.C. Accuracy '
 	          ),
 	          _react2.default.createElement(
 	            'th',
@@ -31922,14 +31927,14 @@
 	              'td',
 	              null,
 	              ' ',
-	              lesson.poll_count ? lesson.poll_count : 0,
+	              lesson.student_count || 0,
 	              ' '
 	            ),
 	            _react2.default.createElement(
 	              'td',
 	              null,
 	              ' ',
-	              lesson.response_count ? lesson.response_count : 0,
+	              lesson.poll_count || 0,
 	              ' '
 	            ),
 	            _react2.default.createElement(

@@ -390,9 +390,10 @@ const LessonTable = (props) => {
         <thead>
           <tr>
             <th> Lesson </th>
+            <th> Date </th>
+            <th> Attendence </th>
             <th> Count of Polls </th>
-            <th> Response Count </th>
-            <th> Accuracy </th>
+            <th> M.C. Accuracy </th>
             <th> Average Thumb </th>
           </tr>
         </thead>
@@ -405,8 +406,8 @@ const LessonTable = (props) => {
               onClick={props.handleLessonClick.bind(null, lesson.lesson_id, lesson.lesson_name)}>
               <td> {lesson.lesson_name} </td>
               <td> {date} </td>
-              <td> {lesson.poll_count ? lesson.poll_count : 0} </td>
-              <td> {lesson.response_count? lesson.response_count : 0} </td>
+              <td> {lesson.student_count || 0} </td>
+              <td> {lesson.poll_count || 0} </td>
               <td> {correctRate ? correctRate + '%' : 'N/A'} </td>
               <td> {lesson.average_thumb ? lesson.average_thumb + '%' : 'N/A'} </td>
             </tr>
