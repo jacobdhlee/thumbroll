@@ -23,7 +23,7 @@ class Classes extends React.Component {
   render(){
     return (
       <div>
-        <Row>
+        <Row className='row'>
           <Col l={1}>
             &nbsp;
           </Col>
@@ -151,7 +151,7 @@ const LessonsToday = (props) => {
   }
   return(
     <div>
-      <h2 className='sectionHeading'>Today's Lessons</h2>
+      <h2 className='sectionHeading lessonsToday'>Today's Lessons</h2>
       <ul>
         {props.lessons.map((lesson) => {
           return (

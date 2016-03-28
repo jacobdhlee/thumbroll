@@ -15,18 +15,20 @@ class LessonData extends React.Component {
 
   render(){
     return (<div>
-      <h3 onClick={this.handleClassClick.bind(this)} style={{color: '#03A9F4'}}>
+      <h3 className='sectionHeading classList' onClick={this.handleClassClick.bind(this)}>
         {this.state.className}
       </h3>
-      <h5 style={{color: '#03A9F4'}}>Lesson: {this.state.lessonName}</h5>
-      <h6> Thumbs Checks </h6>
-      <ThumbsTable data={this.state.data.filter(function(poll){
-        return poll.type === 'thumbs';
-      })} />
-      <h6> Multiple Choice Polls </h6>
-      <MCTable data={this.state.data.filter(function(poll) {
-        return poll.type === 'multiChoice';
-      })} />
+      <h5 className='sectionHeading classList'>'{this.state.lessonName}'</h5>
+      <div className='dataTable'>
+        <ThumbsTable data={this.state.data.filter(function(poll){
+          return poll.type === 'thumbs';
+        })} />
+      </div>
+      <div className='dataTable'>
+        <MCTable data={this.state.data.filter(function(poll) {
+          return poll.type === 'multiChoice';
+        })} />
+      </div>
       <button>Add thumbs check</button>
       <button>Add multiple choice</button>
       
@@ -60,10 +62,11 @@ class LessonData extends React.Component {
 const MCTable = (props) => {
   if(props.data.length) {
     return (
+      <div className='tableContainer'>
       <table>
         <thead>
           <tr>
-            <th> Poll </th>
+            <th> Multiple Choice Polls </th>
             <th> Response Count </th>
             <th> Accuracy Rate </th>
           </tr>
@@ -81,6 +84,7 @@ const MCTable = (props) => {
         })}
       </tbody>
     </table>
+    </div>
     )
   } else {
     return (
@@ -92,10 +96,11 @@ const MCTable = (props) => {
 const ThumbsTable = (props) => {
   if(props.data.length) {
     return (
+      <div className='tableContainer'>
        <table>
         <thead>
           <tr>
-            <th> Poll </th>
+            <th> Thumbs Checks </th>
             <th> Response Count </th>
             <th> Average Response </th>
           </tr>
@@ -112,6 +117,7 @@ const ThumbsTable = (props) => {
         })}
       </tbody>
     </table>
+    </div>
     )
   } else {
     return (

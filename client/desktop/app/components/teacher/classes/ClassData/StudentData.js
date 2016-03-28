@@ -19,7 +19,7 @@ class StudentData extends React.Component {
   render(){
     return (
       <div>
-        <h3 onClick={this.handleClassClick.bind(this)} style={{color: '#03A9F4'}}>
+        <h3 className='sectionHeading' onClick={this.handleClassClick.bind(this)}>
           {this.state.className}
         </h3>
         <h5 style={{color: '#03A9F4'}}> {this.state.firstName + ' ' + this.state.lastName} </h5>

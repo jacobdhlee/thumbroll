@@ -36,9 +36,9 @@ class ClassData extends React.Component {
     return (
       <div>
 
-        <h2 className='sectionHeading' style={{color: '#424242'}} >{this.state.className}</h2>
+        <h2 className='sectionHeading classDataHeading' style={{color: '#424242'}} >{this.state.className}</h2>
         
-        <Row>
+        <Row className='dataRow'>
           <Col s={2} l={4}>
           &nbsp;
           </Col>
