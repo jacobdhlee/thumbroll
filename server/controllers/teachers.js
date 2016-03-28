@@ -18,6 +18,10 @@ module.exports = {
     //currently being handled by authentication controller, but probably should be here
   },
 
+  getTodaysLesson: function(req, res, next) {
+
+  },
+
   getClassLessons: function(req, res, next) {
     var classId = req.params.classId;
     models.lessons.findAll({ where: {
