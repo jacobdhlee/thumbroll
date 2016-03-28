@@ -51,12 +51,12 @@ class ClassData extends React.Component {
               })} style={{
                 cursor: 'default',
                 }}
-                style={this.state.displayLessons ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242'}}
+                style={this.state.displayLessons ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242', cursor:'default'}}
                 >Lessons</li>
               <li className='tab col s1 center-align' 
                 onClick={this.switchToStudentsView.bind(this)} 
                 style={{cursor: 'default'}} 
-                style={!this.state.displayLessons ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242'}}>
+                style={!this.state.displayLessons ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242', cursor:'default'}}>
                 Students
               </li>
             </ul>
@@ -329,16 +329,16 @@ const Students = (props) => {
     return (
       <div className='dataTable'>
         <StudentTable students={props.students} handleStudentClick={props.handleStudentClick} />
-        <div>
-          <h5 className='sectionHeading' style={{marginLeft:'20px'}}>Add Student</h5>
+        <div className='addNew'>
+          <h5 className='sectionHeading' >Add Student</h5>
           <div>
             <form onSubmit={props.addStudent}>
-              <input style={{marginLeft:'30px'}} type='text' placeholder='Student Email' value={props.newStudent} onChange={(event) => {
+              <input type='text' placeholder='Student Email' value={props.newStudent} onChange={(event) => {
                 props.changeNewStudent(event.target.value);
               }} />
               
               <div>
-                <button style={{marginLeft:'30px', fontSize: '1em'}} type='submit'>Add</button>
+                <button style={{marginLeft:'0', fontSize: '1em'}} type='submit'>Add</button>
               </div>
             </form>
           </div>
@@ -363,17 +363,17 @@ const Lessons = (props) => {
     return (
       <div className='dataTable'>
         <LessonTable lessons={props.lessons} handleLessonClick={props.handleLessonClick} />
-        <div>
-          <h5 className='sectionHeading' style={{marginLeft:'20px'}} >Add Lesson</h5>
-          <div className='addNew'>
+        <div className='addNew'>
+          <h5 className='sectionHeading' >Add Lesson</h5>
+          <div>
             <form onSubmit={props.addLesson}>
-              <input placeholder='Lesson Name' style={{maxWidth: '15em', marginLeft:'10px'}} type='text' value={props.newLessonName} onChange={(event) => {
+              <input placeholder='Lesson Name' style={{maxWidth: '200px'}} type='text' value={props.newLessonName} onChange={(event) => {
                 props.changeNewLessonName(event.target.value);
               }} />
                 <DatePicker minDate={moment()} selected={props.newLessonDate} onChange={(date) => {
                   props.changeDate(date);
                 }} />
-                <button style={{marginLeft: '10px', fontSize: '1em'}} type='submit'>Add</button>
+                <button style={{fontSize: '1em'}} type='submit'>Add</button>
             </form>
           </div>
         </div>

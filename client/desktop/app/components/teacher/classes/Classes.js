@@ -23,33 +23,47 @@ class Classes extends React.Component {
   render(){
     return (
       <div>
-        <h2 className='sectionHeading'>Classes</h2>
+        <Row>
+          <Col l={1}>
+            &nbsp;
+          </Col>
+          <Col l={5}>
+            <h2 className='sectionHeading'>Classes</h2>
 
-        {this.state.classes.map((specificClass) => {
-          return (<li style={{cursor: 'default'}} key={"class:"+specificClass.id}>
-            <Link to={`class/${specificClass.id}/lessons`}>{specificClass.name}</Link>
-            </li>)
-         })
-        }
-
-        <div>
-          <form onSubmit={this.addClass.bind(this)}>
-            <input className='newClassForm' type='text' value={this.state.newClassName} onChange={(event) => {
-              this.setState({
-                newClassName: event.target.value
-              });
-            }} />
-            <div>
-              <button type='submit'>Add new class</button>
+            <div className='classList'>
+              {this.state.classes.map((specificClass) => {
+                return (<li className='classListItem' style={{cursor: 'default'}} key={"class:"+specificClass.id}>
+                  <Link to={`class/${specificClass.id}/lessons`}>{specificClass.name}</Link>
+                  </li>)
+               })
+              }
             </div>
-          </form>
-        </div>
 
-        <LessonsToday lessons={this.state.lessons}/>
-      <div>
-        {this.props.children}
-      </div>
+            <div className='newClass'>
+              <h5 className='sectionHeading' style={{minWidth: '200px'}}>Create Class</h5>
+              <div>
+                <form onSubmit={this.addClass.bind(this)}>
+                  <input placeholder='Class Name' className='newClassForm' type='text' value={this.state.newClassName} onChange={(event) => {
+                    this.setState({
+                      newClassName: event.target.value
+                    });
+                  }} />
+                  <div>
+                    <button style={{fontSize: '1em'}} type='submit'>Add</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+        </Col>
+        <Col l={5}>
+            <LessonsToday lessons={this.state.lessons}/>
+          <div>
+            {this.props.children}
+          </div>
+        </Col>
+      </Row>
     </div>
+
     );
   }
 
@@ -104,14 +118,15 @@ class Classes extends React.Component {
 }
 
 const LessonsToday = (props) => {
-  if(!props.lessons) {
+  if(!props.lessons.length) {
     return (
-      <div>
-        <h2>Today's Lessons</h2>
-        <p>There are no lessons today</p>
+      <div >
+        <h2 className='sectionHeading'>Today's Lessons</h2>
+        <p>There are no lessons today.</p>
       </div>
     )
   }
+    console.log(props.lessons);
   return(
     <div>
       <h2 className='sectionHeading'>Today's Lessons</h2>
