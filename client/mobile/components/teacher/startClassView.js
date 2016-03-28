@@ -187,16 +187,15 @@ class StartClassView extends React.Component {
             </ScrollView>
           </View>
         </View>
+
         <Modal visible={this.state.modalVisible} transparent={true} animated={true}>
           <View style={styles.modal}>
-            <View style={{height:this.state.height * 0.6, width:this.state.width * 0.8}}>
+            <View style={{height:this.state.height * 0.6, width:this.state.width * 0.85}}>
               <View style={styles.modalBox}>
-                <Text> Your secret code is: </Text>
-                <Text> {this.state.randomId} </Text>
-                <TouchableHighlight onPress={this.navigateFromModal.bind(this)}>
-                  <Text> Okay </Text>
-                </TouchableHighlight>
+                <Text style={styles.textSize}> Your secret code is: </Text>
+                <Text style={styles.codeSize}> {this.state.randomId} </Text>
               </View>
+              <Button onPress={this.navigateFromModal.bind(this)} text={'Okay'} />
             </View>
           </View>
         </Modal>
@@ -217,23 +216,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  pageText: {
-    fontSize: 20
+  textSize: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: 30,
   },
-  buttonsContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20
-  },
-  buttonContainer: {
-    margin: 20
-  },
-  button: {
-
-  },
-  buttonText: {
-    fontSize: 20
+  codeSize: {
+    fontSize: 25,
+    fontWeight: 'bold',
   },
   modal: {
     flex: 1,
@@ -246,7 +236,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white'
+    backgroundColor: '#e3f2fd'
   }
 });
 

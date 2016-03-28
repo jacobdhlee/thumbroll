@@ -243,13 +243,13 @@ class RequestFeedbackView extends React.Component {
           {this.renderFeedbackOptions(this.state.feedbackOptions)}
           <Button onPress={this.callOnStudent.bind(this)} text={'Call On Student'}/>
         </View>
-          <View style={{flexDirection: 'row', height:60, width: null, alignSelf:'flex-end'}}>
-          <TouchableOpacity onPress={this.clickQuestion.bind(this)}style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'yellow', height: 60, width: 100}}>
+        <View style={styles.studentResponse}>
+          <TouchableOpacity onPress={this.clickQuestion.bind(this)} style={styles.questionBox}>
               <Text style={styles.textSize}>
                 Q:{this.state.questionLists.length}
               </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={this.clickRaisedHand.bind(this)} style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'red', height: 60, width: 100}}>
+          <TouchableOpacity onPress={this.clickRaisedHand.bind(this)} style={styles.raiseHandBox}>
               <Text style={styles.textSize}>
                 R : {this.state.raisedHandCount}
               </Text>
@@ -295,12 +295,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
+
   modal: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.8)',
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   modalBox: {
     flex: 1,
     borderRadius: 10,
@@ -308,22 +310,49 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white'
   },
+
   textSizeModal: {
     fontSize : 20,
     fontWeight: 'bold',
   },
+
   studentName: {
     fontSize: 35,
     fontWeight: 'bold',
   },
+
   studentNameChange:{
     fontSize: 35,
     fontWeight: 'bold',
     color: '#C6C7C3',
   },
+
   textSize: {
     fontSize : 25,
     fontWeight: 'bold',
+  },
+
+  studentResponse: {
+    flexDirection: 'row', 
+    height:60, 
+    width: null, 
+    justifyContent: 'space-between',
+  },
+
+  questionBox: { 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    backgroundColor:'#bbdefb', 
+    height: 60, 
+    width: 100,
+  },
+
+  raiseHandBox: {
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    backgroundColor:'#bbdefb', 
+    height: 60, 
+    width: 100,
   },
 });
 
