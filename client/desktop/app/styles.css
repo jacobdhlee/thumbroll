@@ -85,6 +85,7 @@ footer.footerApp {
   margin-left: 0px;
   color: #424242;
   margin-top: 10px;
+  cursor: pointer;
 }
 
 h2.sectionHeading {
