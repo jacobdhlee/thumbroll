@@ -66,7 +66,7 @@ class Login extends React.Component {
   }
 
   render(){
-    var showErr = this.state.error ? <div> {this.state.error} </div> : <div></div>;
+    var showErr = this.state.error ? <div className='error'> {this.state.error} </div> : <div></div>;
     return (
       <div>
       <div className='center-align'>
@@ -107,7 +107,7 @@ class Login extends React.Component {
           </Row>
           <Row>
             <Col s={12} l={12}>
-              <button style={{fontSize: '2em'}} className='center-align' onClick={this.handleSubmit.bind(this)}>
+              <button style={{fontSize: '2em'}} className='center-align loginButton' onClick={this.handleSubmit.bind(this)}>
               Submit
               </button>
             </Col>
