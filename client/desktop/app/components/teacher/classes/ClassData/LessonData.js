@@ -10,6 +10,8 @@ class LessonData extends React.Component {
       className: this.props.location.state.className,
       classId: this.props.location.state.classId,
       data: [],
+      addThumbs: false,
+      addMultiChoice: false
     };
   }
 
@@ -29,9 +31,10 @@ class LessonData extends React.Component {
           return poll.type === 'multiChoice';
         })} />
       </div>
-      <button>Add thumbs check</button>
-      <button>Add multiple choice</button>
-      
+      <button onClick={this.handleAddThumbs.bind(this)}>Add thumbs check</button>
+      <button onClick={this.handleAddMultiChoice.bind(this)}>Add multiple choice</button>
+      <AddThumbsForm onSubmit={this.handleThumbsFormSubmit.bind(this)} />
+      <AddMultiChoiceForm onSubmit={this.handleMultiChoiceFormSubmit.bind(this)} />      
     </div>)
   }
 
@@ -55,6 +58,72 @@ class LessonData extends React.Component {
   handleClassClick() {
     this.context.router.push({
       pathname: '/class/' + this.state.classId + '/lessons/',
+    });
+  }
+
+  handleAddThumbs() {
+    // Pop out Thumbs form
+    this.setState({
+      addThumbs: true,
+      addMultiChoice: false
+    });
+  }
+
+  handleAddMultiChoice() {
+    // Pop out MultiChoice form
+    this.setState({
+      addThumbs: false,
+      addMultiChoice: true
+    });
+  }
+
+  handleThumbsFormSubmit() {
+    // Submit form data over API
+
+    this.setState({
+     // Wipe relevant states
+    });
+
+    // Call API to grab new poll data
+    // add to state
+    api.getLessonPollsData(this.state.lessonId)
+    .then((response) => {
+      response.json().then((response) => {
+        console.log('Individual lesson data from DB:', response);
+        this.setState({
+          data:response
+        });
+      }).catch((err) => {
+        console.error(err);
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  }
+
+  handleMultiChoiceFormSubmit() {
+    // Submit form data over API
+
+    this.setState({
+     // Wipe relevant states
+    });
+
+    // Call API to grab new poll data
+    // add to state
+    api.getLessonPollsData(this.state.lessonId)
+    .then((response) => {
+      response.json().then((response) => {
+        console.log('Individual lesson data from DB:', response);
+        this.setState({
+          data:response
+        });
+      }).catch((err) => {
+        console.error(err);
+      });
+    })
+    .catch((err) => {
+      console.error(err);
     });
   }
 }
@@ -126,29 +195,26 @@ const ThumbsTable = (props) => {
   }
 }
 
-const AddPoll = (hide) => {
+const AddThumbsForm = (hide) => {
   // add to db
   
 
-  // add to state
-  api.getLessonPollsData(this.state.lessonId)
-  .then((response) => {
-    response.json().then((response) => {
-      console.log('Individual lesson data from DB:', response);
-      this.setState({
-        data:response
-      });
-    }).catch((err) => {
-      console.error(err);
-    });
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+
   return (
     <div>
-      <button>Thumbs Check</button>
-      <button>Multiple Choice</button>
+      <button>Submit</button>
+    </div>
+  )
+};
+
+const AddMultiChoiceForm = (hide) => {
+  // add to db
+  
+
+
+  return (
+    <div>
+      <button>Submit</button>
     </div>
   )
 };

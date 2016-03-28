@@ -29070,7 +29070,7 @@
 	              { className: 'valign' },
 	              _react2.default.createElement(
 	                _reactMaterialize.Row,
-	                null,
+	                { className: 'loginRow' },
 	                _react2.default.createElement(
 	                  _reactMaterialize.Col,
 	                  { s: 12, l: 12 },
@@ -29080,7 +29080,7 @@
 	              ),
 	              _react2.default.createElement(
 	                _reactMaterialize.Row,
-	                null,
+	                { className: 'loginRow' },
 	                _react2.default.createElement(
 	                  _reactMaterialize.Col,
 	                  { s: 12, l: 12 },
@@ -29106,7 +29106,7 @@
 	              { className: 'container' },
 	              _react2.default.createElement(
 	                _reactMaterialize.Row,
-	                null,
+	                { className: 'loginRow' },
 	                _react2.default.createElement(
 	                  _reactMaterialize.Col,
 	                  { l: 12, s: 12 },
@@ -29196,6 +29196,20 @@
 	    return fetch(server + '/logout');
 	  },
 
+	  addClass: function addClass(teacherId, className) {
+	    return fetch(server + '/teachers/classes', {
+	      method: 'POST',
+	      headers: {
+	        'Accept': 'application/json',
+	        'Content-Type': 'application/json'
+	      },
+	      body: JSON.stringify({
+	        className: className,
+	        teacherId: teacherId
+	      })
+	    });
+	  },
+
 	  addLesson: function addLesson(classId, lessonName, lessonDate) {
 	    return fetch(server + '/teachers/lessons', {
 	      method: 'POST',
@@ -29217,21 +29231,6 @@
 
 	  getLessonData: function getLessonData(lessonId) {
 	    return fetch(server + '/teachers/polls/' + lessonId);
-	  },
-
-	  startPoll: function startPoll(pollObject, lessonId, classId) {
-	    return fetch(server + '/teachers/polls', {
-	      method: 'POST',
-	      headers: {
-	        'Accept': 'application/json',
-	        'Content-Type': 'application/json'
-	      },
-	      body: JSON.stringify({
-	        pollObject: pollObject,
-	        lessonId: lessonId,
-	        classId: classId
-	      })
-	    });
 	  },
 
 	  getClasses: function getClasses(teacherId) {
@@ -29256,6 +29255,10 @@
 	        studentEmail: studentEmail
 	      })
 	    });
+	  },
+
+	  getTodaysLessons: function getTodaysLessons(teacherId) {
+	    return fetch(server + '/teachers/' + teacherId + '/lessons/today');
 	  },
 
 	  // Get teacher desktop data:
@@ -31203,7 +31206,8 @@
 	      lessons: [],
 	      newClassName: '',
 	      currentClass: '',
-	      currentStudent: ''
+	      currentStudent: '',
+	      loading: false
 	    };
 	    return _this;
 	  }
@@ -31217,99 +31221,182 @@
 	        'div',
 	        null,
 	        _react2.default.createElement(
-	          'h2',
-	          { className: 'sectionHeading' },
-	          'Classes'
-	        ),
-	        this.state.classes.map(function (specificClass) {
-	          return _react2.default.createElement(
-	            'li',
-	            { style: { cursor: 'default' }, key: "class:" + specificClass.id },
-	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { to: 'class/' + specificClass.id + '/lessons' },
-	              specificClass.name
-	            )
-	          );
-	        }),
-	        _react2.default.createElement(
-	          'div',
-	          null,
+	          _reactMaterialize.Row,
+	          { className: 'row' },
 	          _react2.default.createElement(
-	            'form',
-	            { onSubmit: this.addClass.bind(this) },
-	            _react2.default.createElement('input', { className: 'newClassForm', type: 'text', value: this.state.newClassName, onChange: function onChange(event) {
-	                _this2.setState({
-	                  newClassName: event.target.value
-	                });
-	              } }),
+	            _reactMaterialize.Col,
+	            { l: 1 },
+	            ' '
+	          ),
+	          _react2.default.createElement(
+	            _reactMaterialize.Col,
+	            { l: 5 },
+	            _react2.default.createElement(
+	              'h2',
+	              { className: 'sectionHeading' },
+	              'Classes'
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'classList' },
+	              this.state.classes.map(function (specificClass) {
+	                return _react2.default.createElement(
+	                  'li',
+	                  { className: 'classListItem', style: { cursor: 'default' }, key: "class:" + specificClass.id },
+	                  _react2.default.createElement(
+	                    _reactRouter.Link,
+	                    { to: 'class/' + specificClass.id + '/lessons' },
+	                    specificClass.name
+	                  )
+	                );
+	              })
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'newClass' },
+	              _react2.default.createElement(
+	                'h5',
+	                { className: 'sectionHeading', style: { minWidth: '200px' } },
+	                'Create Class'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                  'form',
+	                  { onSubmit: this.addClass.bind(this) },
+	                  _react2.default.createElement('input', { placeholder: 'Class Name', className: 'newClassForm', type: 'text', value: this.state.newClassName, onChange: function onChange(event) {
+	                      _this2.setState({
+	                        newClassName: event.target.value
+	                      });
+	                    } }),
+	                  _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    _react2.default.createElement(
+	                      'button',
+	                      { style: { fontSize: '1em' }, type: 'submit' },
+	                      'Add'
+	                    )
+	                  )
+	                )
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            _reactMaterialize.Col,
+	            { l: 5 },
+	            _react2.default.createElement(LessonsToday, { handleLessonClick: this.handleLessonClick.bind(this), lessons: this.state.lessons }),
 	            _react2.default.createElement(
 	              'div',
 	              null,
-	              _react2.default.createElement(
-	                'button',
-	                { type: 'submit' },
-	                'Add new class'
-	              )
+	              this.props.children
 	            )
 	          )
-	        ),
-	        _react2.default.createElement(LessonsToday, { lessons: this.state.lessons }),
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          this.props.children
 	        )
 	      );
 	    }
 	  }, {
 	    key: 'addClass',
 	    value: function addClass(e) {
+	      var _this3 = this;
+
 	      e.preventDefault();
 	      // update state with new list item
 	      if (!!this.state.newClassName.trim()) {
-	        var classesCopy = this.state.classes.slice();
-	        classesCopy.push(this.state.newClassName);
-
 	        this.setState({
-	          classes: classesCopy,
-	          newClassName: ''
+	          isLoading: true
+	        });
+	        _api2.default.addClass(this.state.uid, this.state.newClassName).then(function (response) {
+	          if (response.status == 200) {
+	            console.log('Successfully added new class:', _this3.state.newClassName);
+	            _this3.setState({
+	              isLoading: false,
+	              newClassName: ''
+	            });
+	            _api2.default.getClasses(_this3.state.uid).then(function (response) {
+	              if (response.status === 400) {
+	                _this3.setState({
+	                  error: 'No classes found',
+	                  isLoading: false
+	                });
+	                console.error(_this3.state.error);
+	              } else if (response.status === 200) {
+	                response.json().then(function (response) {
+	                  console.log("RESPONSE = ", response);
+	                  _this3.setState({
+	                    classes: response,
+	                    error: false,
+	                    isLoading: false
+	                  });
+	                });
+	              }
+	            });
+	          }
+	        }).catch(function (err) {
+	          console.error(err);
+	          _this3.setState({
+	            loading: false,
+	            newClassName: ''
+	          });
 	        });
 	      }
-
-	      // post to DB with teacher associated
+	    }
+	  }, {
+	    key: 'handleLessonClick',
+	    value: function handleLessonClick(lessonId, lessonName, classId, className) {
+	      this.context.router.push({
+	        pathname: '/class/' + classId + '/lessons/' + lessonId,
+	        state: {
+	          className: className,
+	          lessonId: lessonId,
+	          classId: classId,
+	          lessonName: lessonName
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      var _this3 = this;
+	      var _this4 = this;
 
 	      _auth2.default.checkForSession(function (user) {
 	        if (!user) {
-	          _this3.transitionTo('/login');
+	          _this4.transitionTo('/login');
 	          return;
 	        }
 	        user = user.split('_')[1];
-	        _this3.setState({
+	        _this4.setState({
 	          uid: user
 	        });
-	        _api2.default.getClasses(_this3.state.uid).then(function (response) {
+	        _api2.default.getClasses(_this4.state.uid).then(function (response) {
 	          if (response.status === 400) {
-	            _this3.setState({
+	            _this4.setState({
 	              error: 'No classes found',
 	              isLoading: false
 	            });
-	            console.error(_this3.state.error);
+	            console.error(_this4.state.error);
 	          } else if (response.status === 200) {
 	            response.json().then(function (response) {
 	              console.log("RESPONSE = ", response);
-	              _this3.setState({
+	              _this4.setState({
 	                classes: response,
 	                error: false,
 	                isLoading: false
 	              });
 	            });
 	          }
+	          _api2.default.getTodaysLessons(_this4.state.uid).then(function (response) {
+	            if (response.status === 400) {
+	              console.error('Error getting todays lessons');
+	            } else if (response.status === 200) {
+	              response.json().then(function (response) {
+	                _this4.setState({
+	                  lessons: response
+	                });
+	              });
+	            }
+	          });
 	        });
 	      });
 	    }
@@ -31319,19 +31406,19 @@
 	}(_react2.default.Component);
 
 	var LessonsToday = function LessonsToday(props) {
-	  if (!props.lessons) {
+	  if (!props.lessons.length) {
 	    return _react2.default.createElement(
 	      'div',
 	      null,
 	      _react2.default.createElement(
 	        'h2',
-	        null,
+	        { className: 'sectionHeading' },
 	        'Today\'s Lessons'
 	      ),
 	      _react2.default.createElement(
 	        'p',
 	        null,
-	        'There are no lessons today'
+	        'There are no lessons today.'
 	      )
 	    );
 	  }
@@ -31340,25 +31427,29 @@
 	    null,
 	    _react2.default.createElement(
 	      'h2',
-	      { className: 'sectionHeading' },
+	      { className: 'sectionHeading lessonsToday' },
 	      'Today\'s Lessons'
 	    ),
 	    _react2.default.createElement(
 	      'ul',
-	      null,
+	      { className: 'classList' },
 	      props.lessons.map(function (lesson) {
 	        return _react2.default.createElement(
 	          'li',
-	          { style: { cursor: 'default' }, key: lesson.name },
+	          { className: 'classListItem', style: { cursor: 'pointer' }, key: 'L' + lesson.id },
 	          _react2.default.createElement(
-	            _reactRouter.Link,
-	            { to: 'class/' + lesson.classId + '/lessons/' + lesson.id },
+	            'span',
+	            { onClick: props.handleLessonClick.bind(null, lesson.id, lesson.name, lesson.class_id, lesson.class_name) },
 	            lesson.name
 	          )
 	        );
 	      })
 	    )
 	  );
+	};
+
+	Classes.contextTypes = {
+	  router: _react2.default.PropTypes.any.isRequired
 	};
 
 	module.exports = Classes;
@@ -31449,12 +31540,12 @@
 	        null,
 	        _react2.default.createElement(
 	          'h2',
-	          { className: 'sectionHeading', style: { color: '#424242' } },
+	          { className: 'sectionHeading classDataHeading', style: { color: '#424242' } },
 	          this.state.className
 	        ),
 	        _react2.default.createElement(
 	          _reactMaterialize.Row,
-	          null,
+	          { className: 'dataRow' },
 	          _react2.default.createElement(
 	            _reactMaterialize.Col,
 	            { s: 2, l: 4 },
@@ -31476,7 +31567,7 @@
 	                  }, style: {
 	                    cursor: 'default'
 	                  }
-	                }, 'style', this.state.displayLessons ? { backgroundColor: '#01579b' } : { backgroundColor: '#fafafa', color: '#424242' }),
+	                }, 'style', this.state.displayLessons ? { backgroundColor: '#01579b' } : { backgroundColor: '#fafafa', color: '#424242', cursor: 'default' }),
 	                'Lessons'
 	              ),
 	              _react2.default.createElement(
@@ -31484,7 +31575,7 @@
 	                _defineProperty({ className: 'tab col s1 center-align',
 	                  onClick: this.switchToStudentsView.bind(this),
 	                  style: { cursor: 'default' }
-	                }, 'style', !this.state.displayLessons ? { backgroundColor: '#01579b' } : { backgroundColor: '#fafafa', color: '#424242' }),
+	                }, 'style', !this.state.displayLessons ? { backgroundColor: '#01579b' } : { backgroundColor: '#fafafa', color: '#424242', cursor: 'default' }),
 	                'Students'
 	              )
 	            )
@@ -31501,18 +31592,19 @@
 	          lessons: this.state.classLessons,
 	          display: this.state.displayLessons,
 	          classId: this.state.classId }),
-	        _react2.default.createElement(Students, {
-	          students: this.state.classStudents,
-	          display: this.state.displayStudents,
-	          classId: this.state.classId,
-	          handleStudentClick: this.handleStudentClick.bind(this),
-	          addStudent: this.addStudent.bind(this),
-	          newStudent: this.state.newStudent,
-	          changeNewStudent: this.changeNewStudent.bind(this)
-	        }),
-	        _react2.default.createElement(StudentError, {
-	          studentError: this.state.studentError
-	        })
+	        _react2.default.createElement(
+	          Students,
+	          {
+	            students: this.state.classStudents,
+	            display: this.state.displayStudents,
+	            classId: this.state.classId,
+	            handleStudentClick: this.handleStudentClick.bind(this),
+	            addStudent: this.addStudent.bind(this),
+	            newStudent: this.state.newStudent,
+	            changeNewStudent: this.changeNewStudent.bind(this)
+	          },
+	          _react2.default.createElement(StudentError, { studentError: this.state.studentError })
+	        )
 	      );
 	    }
 	  }, {
@@ -31599,6 +31691,7 @@
 	        state: {
 	          className: this.state.className,
 	          lessonId: lessonId,
+	          classId: this.state.classId,
 	          lessonName: lessonName
 	        }
 	      });
@@ -31701,10 +31794,10 @@
 	        _api2.default.addStudentToClass(this.state.classId, newStudentEmail).then(function (response) {
 	          if (response.status === 400) {
 	            _this6.setState({
-	              error: 'Student not found',
+	              studentError: 'Student not found',
 	              isLoading: false
 	            });
-	            console.log(_this6.state.error);
+	            console.log(_this6.state.studentError);
 	          } else if (response.status === 200) {
 	            response.json().then(function (response) {
 	              console.log('STUDENT WAS CREATED: ' + response.created);
@@ -31719,7 +31812,7 @@
 	                studentsCopy.push(response);
 	                _this6.setState({
 	                  newStudent: '',
-	                  error: false,
+	                  studentError: false,
 	                  isLoading: false
 	                });
 
@@ -31747,7 +31840,7 @@
 	          } else if (response.status === 500) {
 	            console.log("SERVER ERROR: FAILED TO ADD STUDENT");
 	            _this6.setState({
-	              error: "Failed to add student",
+	              studentError: "Failed to add student",
 	              isLoading: false
 	            });
 	          }
@@ -31767,10 +31860,10 @@
 	      _react2.default.createElement(StudentTable, { students: props.students, handleStudentClick: props.handleStudentClick }),
 	      _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'addNew' },
 	        _react2.default.createElement(
 	          'h5',
-	          { className: 'sectionHeading', style: { marginLeft: '20px' } },
+	          { className: 'sectionHeading' },
 	          'Add Student'
 	        ),
 	        _react2.default.createElement(
@@ -31779,7 +31872,7 @@
 	          _react2.default.createElement(
 	            'form',
 	            { onSubmit: props.addStudent },
-	            _react2.default.createElement('input', { style: { marginLeft: '30px' }, type: 'text', placeholder: 'Student Email', value: props.newStudent, onChange: function onChange(event) {
+	            _react2.default.createElement('input', { type: 'text', placeholder: 'Student Email', value: props.newStudent, onChange: function onChange(event) {
 	                props.changeNewStudent(event.target.value);
 	              } }),
 	            _react2.default.createElement(
@@ -31787,11 +31880,12 @@
 	              null,
 	              _react2.default.createElement(
 	                'button',
-	                { style: { marginLeft: '30px', fontSize: '1em' }, type: 'submit' },
+	                { style: { marginLeft: '0', fontSize: '1em' }, type: 'submit' },
 	                'Add'
 	              )
 	            )
-	          )
+	          ),
+	          props.children
 	        )
 	      )
 	    );
@@ -31822,19 +31916,19 @@
 	      _react2.default.createElement(LessonTable, { lessons: props.lessons, handleLessonClick: props.handleLessonClick }),
 	      _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'addNew' },
 	        _react2.default.createElement(
 	          'h5',
-	          { className: 'sectionHeading', style: { marginLeft: '20px' } },
+	          { className: 'sectionHeading' },
 	          'Add Lesson'
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'addNew' },
+	          null,
 	          _react2.default.createElement(
 	            'form',
 	            { onSubmit: props.addLesson },
-	            _react2.default.createElement('input', { placeholder: 'Lesson Name', style: { maxWidth: '15em', marginLeft: '10px' }, type: 'text', value: props.newLessonName, onChange: function onChange(event) {
+	            _react2.default.createElement('input', { placeholder: 'Lesson Name', style: { maxWidth: '200px' }, type: 'text', value: props.newLessonName, onChange: function onChange(event) {
 	                props.changeNewLessonName(event.target.value);
 	              } }),
 	            _react2.default.createElement(_reactDatepicker2.default, { minDate: (0, _moment2.default)(), selected: props.newLessonDate, onChange: function onChange(date) {
@@ -31842,7 +31936,7 @@
 	              } }),
 	            _react2.default.createElement(
 	              'button',
-	              { style: { marginLeft: '10px', fontSize: '1em' }, type: 'submit' },
+	              { style: { fontSize: '1em' }, type: 'submit' },
 	              'Add'
 	            )
 	          )
@@ -31907,7 +32001,7 @@
 	          var date = new Date(lesson.date).toLocaleDateString();
 	          return _react2.default.createElement(
 	            'tr',
-	            { key: 'L' + lesson.lesson_id,
+	            { style: { cursor: 'pointer' }, key: 'L' + lesson.lesson_id,
 	              onClick: props.handleLessonClick.bind(null, lesson.lesson_id, lesson.lesson_name) },
 	            _react2.default.createElement(
 	              'td',
@@ -31941,14 +32035,14 @@
 	              'td',
 	              null,
 	              ' ',
-	              !isNaN(correctRate) ? correctRate + '%' : 'N/A',
+	              !isNaN(correctRate) ? correctRate.toFixed(2) + '%' : 'N/A',
 	              ' '
 	            ),
 	            _react2.default.createElement(
 	              'td',
 	              null,
 	              ' ',
-	              lesson.average_thumb ? lesson.average_thumb + '%' : 'N/A',
+	              lesson.average_thumb ? lesson.average_thumb.toFixed(2) + '%' : 'N/A',
 	              ' '
 	            )
 	          );
@@ -32002,14 +32096,15 @@
 	        'tbody',
 	        null,
 	        props.students.map(function (student) {
+	          var responseRate = (student.response_count || 0) / student.potential_response_count * 100;
 	          var correctRate = (student.correct_response_count || 0) / student.potential_correct_response_count * 100;
-	          console.log(student.correct_response_count, student.potential_correct_response_count, correctRate);
 	          return _react2.default.createElement(
 	            'tr',
-	            null,
+	            { style: { cursor: 'pointer' }, onClick: props.handleStudentClick.bind(null, student.student_id, student.first_name, student.last_name),
+	              key: 'S' + student.student_id },
 	            _react2.default.createElement(
 	              'td',
-	              { onClick: props.handleStudentClick },
+	              null,
 	              ' ',
 	              student.first_name + ' ' + student.last_name,
 	              ' '
@@ -32025,21 +32120,21 @@
 	              'td',
 	              null,
 	              ' ',
-	              student.response_count ? student.response_count : 0,
-	              ' Fix '
-	            ),
-	            _react2.default.createElement(
-	              'td',
-	              null,
-	              ' ',
-	              !isNaN(correctRate) ? correctRate + '%' : 'N/A',
+	              !isNaN(responseRate) ? responseRate.toFixed(2) + '%' : 'N/A',
 	              ' '
 	            ),
 	            _react2.default.createElement(
 	              'td',
 	              null,
 	              ' ',
-	              student.average_thumb ? student.average_thumb + '%' : 'N/A',
+	              !isNaN(correctRate) ? correctRate.toFixed(2) + '%' : 'N/A',
+	              ' '
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              ' ',
+	              student.average_thumb ? student.average_thumb.toFixed(2) + '%' : 'N/A',
 	              ' '
 	            )
 	          );
@@ -32091,7 +32186,10 @@
 	      lessonId: _this.props.params.lessonId,
 	      lessonName: _this.props.location.state.lessonName,
 	      className: _this.props.location.state.className,
-	      data: []
+	      classId: _this.props.location.state.classId,
+	      data: [],
+	      addThumbs: false,
+	      addMultiChoice: false
 	    };
 	    return _this;
 	  }
@@ -32103,42 +32201,47 @@
 	        'div',
 	        null,
 	        _react2.default.createElement(
-	          'h3',
-	          { style: { color: '#03A9F4' } },
-	          this.state.className
+	          'h2',
+	          { className: 'sectionHeading classList', onClick: this.handleClassClick.bind(this) },
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'pointer' },
+	            this.state.className
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'h5',
-	          { style: { color: '#03A9F4' } },
-	          'Lesson: ',
-	          this.state.lessonName
+	          { className: 'sectionHeading classList' },
+	          '\'',
+	          this.state.lessonName,
+	          '\''
 	        ),
 	        _react2.default.createElement(
-	          'h6',
-	          null,
-	          ' Thumbs Checks '
+	          'div',
+	          { className: 'dataTable' },
+	          _react2.default.createElement(ThumbsTable, { data: this.state.data.filter(function (poll) {
+	              return poll.type === 'thumbs';
+	            }) })
 	        ),
-	        _react2.default.createElement(ThumbsTable, { data: this.state.data.filter(function (poll) {
-	            return poll.type === 'thumbs';
-	          }) }),
 	        _react2.default.createElement(
-	          'h6',
-	          null,
-	          ' Multiple Choice Polls '
+	          'div',
+	          { className: 'dataTable' },
+	          _react2.default.createElement(MCTable, { data: this.state.data.filter(function (poll) {
+	              return poll.type === 'multiChoice';
+	            }) })
 	        ),
-	        _react2.default.createElement(MCTable, { data: this.state.data.filter(function (poll) {
-	            return poll.type === 'multiChoice';
-	          }) }),
 	        _react2.default.createElement(
 	          'button',
-	          null,
+	          { onClick: this.handleAddThumbs.bind(this) },
 	          'Add thumbs check'
 	        ),
 	        _react2.default.createElement(
 	          'button',
-	          null,
+	          { onClick: this.handleAddMultiChoice.bind(this) },
 	          'Add multiple choice'
-	        )
+	        ),
+	        _react2.default.createElement(AddThumbsForm, { onSubmit: this.handleThumbsFormSubmit.bind(this) }),
+	        _react2.default.createElement(AddMultiChoiceForm, { onSubmit: this.handleMultiChoiceFormSubmit.bind(this) })
 	      );
 	    }
 	  }, {
@@ -32159,6 +32262,83 @@
 	        console.error(err);
 	      });
 	    }
+	  }, {
+	    key: 'handleClassClick',
+	    value: function handleClassClick() {
+	      this.context.router.push({
+	        pathname: '/class/' + this.state.classId + '/lessons/'
+	      });
+	    }
+	  }, {
+	    key: 'handleAddThumbs',
+	    value: function handleAddThumbs() {
+	      // Pop out Thumbs form
+	      this.setState({
+	        addThumbs: true,
+	        addMultiChoice: false
+	      });
+	    }
+	  }, {
+	    key: 'handleAddMultiChoice',
+	    value: function handleAddMultiChoice() {
+	      // Pop out MultiChoice form
+	      this.setState({
+	        addThumbs: false,
+	        addMultiChoice: true
+	      });
+	    }
+	  }, {
+	    key: 'handleThumbsFormSubmit',
+	    value: function handleThumbsFormSubmit() {
+	      var _this3 = this;
+
+	      // Submit form data over API
+
+	      this.setState({
+	        // Wipe relevant states
+	      });
+
+	      // Call API to grab new poll data
+	      // add to state
+	      _api2.default.getLessonPollsData(this.state.lessonId).then(function (response) {
+	        response.json().then(function (response) {
+	          console.log('Individual lesson data from DB:', response);
+	          _this3.setState({
+	            data: response
+	          });
+	        }).catch(function (err) {
+	          console.error(err);
+	        });
+	      }).catch(function (err) {
+	        console.error(err);
+	      });
+	    }
+	  }, {
+	    key: 'handleMultiChoiceFormSubmit',
+	    value: function handleMultiChoiceFormSubmit() {
+	      var _this4 = this;
+
+	      // Submit form data over API
+
+	      this.setState({
+	        // Wipe relevant states
+	      });
+
+	      // Call API to grab new poll data
+	      // add to state
+	      _api2.default.getLessonPollsData(this.state.lessonId).then(function (response) {
+	        response.json().then(function (response) {
+	          console.log('Individual lesson data from DB:', response);
+	          _this4.setState({
+	            data: response
+	          });
+	        }).catch(function (err) {
+	          console.error(err);
+	        });
+	      }).catch(function (err) {
+	        console.error(err);
+	      });
+	    }
 	  }]);
 
 	  return LessonData;
@@ -32167,66 +32347,66 @@
 	var MCTable = function MCTable(props) {
 	  if (props.data.length) {
 	    return _react2.default.createElement(
-	      'table',
-	      null,
+	      'div',
+	      { className: 'tableContainer' },
 	      _react2.default.createElement(
-	        'thead',
+	        'table',
 	        null,
 	        _react2.default.createElement(
-	          'tr',
+	          'thead',
 	          null,
 	          _react2.default.createElement(
-	            'th',
-	            null,
-	            ' Poll '
-	          ),
-	          _react2.default.createElement(
-	            'th',
-	            null,
-	            ' Response Count '
-	          ),
-	          _react2.default.createElement(
-	            'th',
-	            null,
-	            ' Correct Answer '
-	          ),
-	          _react2.default.createElement(
-	            'th',
-	            null,
-	            ' Correct Responses '
-	          )
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'tbody',
-	        null,
-	        props.data.map(function (poll) {
-	          return _react2.default.createElement(
 	            'tr',
-	            { key: 'P' + poll.poll_id },
+	            null,
 	            _react2.default.createElement(
-	              'td',
+	              'th',
 	              null,
-	              ' ',
-	              poll.poll_name || 'N/A',
-	              ' '
+	              ' Multiple Choice Polls '
 	            ),
 	            _react2.default.createElement(
-	              'td',
+	              'th',
 	              null,
-	              ' ',
-	              poll.answer || 'N/A',
-	              ' '
+	              ' Response Count '
 	            ),
 	            _react2.default.createElement(
-	              'td',
+	              'th',
 	              null,
-	              ' ',
-	              poll.correct_response_count || 'N/A',
-	              ' '
+	              ' Accuracy Rate '
 	            )
-	          );
-	        })
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tbody',
+	          null,
+	          props.data.map(function (poll) {
+	            var correctRate = (poll.correct_response_count || 0) / poll.response_count * 100;
+	            return _react2.default.createElement(
+	              'tr',
+	              { key: 'P' + poll.poll_id },
+	              _react2.default.createElement(
+	                'td',
+	                null,
+	                ' ',
+	                poll.poll_name || 'N/A',
+	                ' '
+	              ),
+	              _react2.default.createElement(
+	                'td',
+	                null,
+	                ' ',
+	                poll.response_count || 0,
+	                ' '
+	              ),
+	              _react2.default.createElement(
+	                'td',
+	                null,
+	                ' ',
+	                !isNaN(correctRate) ? correctRate.toFixed(2) + '%' : 'N/A',
+	                ' '
+	              )
+	            );
+	          })
+	        )
 	      )
 	    );
 	  } else {
@@ -32241,61 +32421,65 @@
 	var ThumbsTable = function ThumbsTable(props) {
 	  if (props.data.length) {
 	    return _react2.default.createElement(
-	      'table',
-	      null,
+	      'div',
+	      { className: 'tableContainer' },
 	      _react2.default.createElement(
-	        'thead',
+	        'table',
 	        null,
 	        _react2.default.createElement(
-	          'tr',
+	          'thead',
 	          null,
 	          _react2.default.createElement(
-	            'th',
-	            null,
-	            ' Poll '
-	          ),
-	          _react2.default.createElement(
-	            'th',
-	            null,
-	            ' Response Count '
-	          ),
-	          _react2.default.createElement(
-	            'th',
-	            null,
-	            ' Average Response '
-	          )
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'tbody',
-	        null,
-	        props.data.map(function (poll) {
-	          return _react2.default.createElement(
 	            'tr',
-	            { key: 'P' + poll.poll_id },
+	            null,
 	            _react2.default.createElement(
-	              'td',
+	              'th',
 	              null,
-	              ' ',
-	              poll.poll_name || 'N/A',
-	              ' '
+	              ' Thumbs Checks '
 	            ),
 	            _react2.default.createElement(
-	              'td',
+	              'th',
 	              null,
-	              ' ',
-	              poll.response_count || 0,
-	              ' '
+	              ' Response Count '
 	            ),
 	            _react2.default.createElement(
-	              'td',
+	              'th',
 	              null,
-	              ' ',
-	              poll.average_thumb + '%',
-	              ' '
+	              ' Average Response '
 	            )
-	          );
-	        })
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tbody',
+	          null,
+	          props.data.map(function (poll) {
+	            return _react2.default.createElement(
+	              'tr',
+	              { key: 'P' + poll.poll_id },
+	              _react2.default.createElement(
+	                'td',
+	                null,
+	                ' ',
+	                poll.poll_name || 'N/A',
+	                ' '
+	              ),
+	              _react2.default.createElement(
+	                'td',
+	                null,
+	                ' ',
+	                poll.response_count || 0,
+	                ' '
+	              ),
+	              _react2.default.createElement(
+	                'td',
+	                null,
+	                ' ',
+	                poll.average_thumb.toFixed(2) + '%',
+	                ' '
+	              )
+	            );
+	          })
+	        )
 	      )
 	    );
 	  } else {
@@ -32307,36 +32491,36 @@
 	  }
 	};
 
-	var AddPoll = function AddPoll(hide) {
+	var AddThumbsForm = function AddThumbsForm(hide) {
 	  // add to db
 
-	  // add to state
-	  _api2.default.getLessonPollsData(undefined.state.lessonId).then(function (response) {
-	    response.json().then(function (response) {
-	      console.log('Individual lesson data from DB:', response);
-	      undefined.setState({
-	        data: response
-	      });
-	    }).catch(function (err) {
-	      console.error(err);
-	    });
-	  }).catch(function (err) {
-	    console.error(err);
-	  });
 	  return _react2.default.createElement(
 	    'div',
 	    null,
 	    _react2.default.createElement(
 	      'button',
 	      null,
-	      'Thumbs Check'
-	    ),
+	      'Submit'
+	    )
+	  );
+	};
+
+	var AddMultiChoiceForm = function AddMultiChoiceForm(hide) {
+	  // add to db
+
+	  return _react2.default.createElement(
+	    'div',
+	    null,
 	    _react2.default.createElement(
 	      'button',
 	      null,
-	      'Multiple Choice'
+	      'Submit'
 	    )
 	  );
+	};
+
+	LessonData.contextTypes = {
+	  router: _react2.default.PropTypes.any.isRequired
 	};
 
 	module.exports = LessonData;
@@ -32393,18 +32577,26 @@
 	        'div',
 	        null,
 	        _react2.default.createElement(
-	          'h3',
-	          { onClick: this.handleClassClick.bind(this), style: { color: '#03A9F4' } },
-	          this.state.className
+	          'h2',
+	          { className: 'sectionHeading classList', onClick: this.handleClassClick.bind(this) },
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'pointer' },
+	            this.state.className
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'h5',
-	          { style: { color: '#03A9F4' } },
+	          { className: 'sectionHeading classList' },
 	          ' ',
 	          this.state.firstName + ' ' + this.state.lastName,
 	          ' '
 	        ),
-	        _react2.default.createElement(DataTable, { data: this.state.data })
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'dataTable' },
+	          _react2.default.createElement(DataTable, { data: this.state.data })
+	        )
 	      );
 	    }
 	  }, {
@@ -32438,86 +32630,112 @@
 	}(_react2.default.Component);
 
 	var DataTable = function DataTable(props) {
+	  var previousLesson = -1;
 	  return _react2.default.createElement(
-	    'table',
-	    null,
+	    'div',
+	    { className: 'tableContainer' },
 	    _react2.default.createElement(
-	      'thead',
+	      'table',
 	      null,
 	      _react2.default.createElement(
-	        'tr',
+	        'thead',
 	        null,
 	        _react2.default.createElement(
-	          'th',
-	          null,
-	          ' Lesson '
-	        ),
-	        _react2.default.createElement(
-	          'th',
-	          null,
-	          ' Poll '
-	        ),
-	        _react2.default.createElement(
-	          'th',
-	          null,
-	          ' Poll Type '
-	        ),
-	        _react2.default.createElement(
-	          'th',
-	          null,
-	          ' Correct Answer '
-	        ),
-	        _react2.default.createElement(
-	          'th',
-	          null,
-	          ' Student Response '
-	        )
-	      )
-	    ),
-	    _react2.default.createElement(
-	      'tbody',
-	      null,
-	      props.data.map(function (poll) {
-	        return _react2.default.createElement(
 	          'tr',
-	          { key: 'P' + poll.poll_id },
+	          null,
 	          _react2.default.createElement(
-	            'td',
+	            'th',
 	            null,
-	            ' ',
-	            poll.lesson_name ? poll.lesson_name : 'N/A',
-	            ' '
+	            ' Lesson '
 	          ),
 	          _react2.default.createElement(
-	            'td',
+	            'th',
 	            null,
-	            ' ',
-	            poll.poll_name ? poll.poll_name : 'N/A',
-	            ' '
+	            ' Date '
 	          ),
 	          _react2.default.createElement(
-	            'td',
+	            'th',
 	            null,
-	            ' ',
-	            poll.type,
-	            ' '
+	            ' Poll '
 	          ),
 	          _react2.default.createElement(
-	            'td',
+	            'th',
 	            null,
-	            ' ',
-	            poll.correct_answer ? poll.correct_answer : 'N/A',
-	            ' '
+	            ' Poll Type '
 	          ),
 	          _react2.default.createElement(
-	            'td',
+	            'th',
 	            null,
-	            ' ',
-	            poll.type == 'thumbs' ? poll.student_answer + '%' : poll.student_answer,
-	            ' '
+	            ' Correct Answer '
+	          ),
+	          _react2.default.createElement(
+	            'th',
+	            null,
+	            ' Student Response '
 	          )
-	        );
-	      })
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'tbody',
+	        null,
+	        props.data.map(function (poll) {
+	          var hideLesson = poll.lesson_id == previousLesson;
+	          previousLesson = poll.lesson_id;
+	          var date = new Date(poll.date).toLocaleDateString();
+	          var studentResponse = '';
+	          if (poll.student_answer) {
+	            studentResponse = poll.type == 'thumbs' ? poll.student_answer + '%' : poll.student_answer;
+	          } else {
+	            studentResponse = 'N/A';
+	          }
+	          return _react2.default.createElement(
+	            'tr',
+	            { key: 'P' + poll.poll_id },
+	            _react2.default.createElement(
+	              'th',
+	              null,
+	              ' ',
+	              hideLesson ? '' : poll.lesson_name ? poll.lesson_name : 'N/A',
+	              ' '
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              ' ',
+	              date,
+	              ' '
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              ' ',
+	              poll.poll_name ? poll.poll_name : 'N/A',
+	              ' '
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              ' ',
+	              poll.type,
+	              ' '
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              ' ',
+	              poll.correct_answer ? poll.correct_answer : 'N/A',
+	              ' '
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              ' ',
+	              studentResponse,
+	              ' '
+	            )
+	          );
+	        })
+	      )
 	    )
 	  );
 	};
@@ -46148,6 +46366,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var auth = __webpack_require__(261);
+
 	var Profile = function (_React$Component) {
 	  _inherits(Profile, _React$Component);
 
@@ -46166,6 +46386,14 @@
 	  }
 
 	  _createClass(Profile, [{
+	    key: 'handleLogout',
+	    value: function handleLogout() {
+	      auth.logout();
+	      this.context.router.push({
+	        pathname: '/login'
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -46173,56 +46401,45 @@
 	        null,
 	        _react2.default.createElement(
 	          'h2',
-	          null,
-	          'Profile'
+	          { className: 'sectionHeading' },
+	          'Settings'
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          null,
+	          { className: 'profile', style: { marginLeft: '20%' } },
 	          _react2.default.createElement(
-	            'span',
+	            'div',
 	            null,
-	            'Name: '
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              'Name: '
+	            ),
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              this.state.teacherData.name
+	            )
 	          ),
 	          _react2.default.createElement(
-	            'span',
+	            'div',
 	            null,
-	            this.state.teacherData.name
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              'Email: '
+	            ),
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              this.state.teacherData.email
+	            )
 	          )
 	        ),
 	        _react2.default.createElement(
-	          'div',
-	          null,
-	          _react2.default.createElement(
-	            'span',
-	            null,
-	            'Email: '
-	          ),
-	          _react2.default.createElement(
-	            'span',
-	            null,
-	            this.state.teacherData.email
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'li',
-	          null,
-	          _react2.default.createElement(
-	            'button',
-	            null,
-	            'Edit'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'li',
-	          { onClick: function onClick() {
-	              auth.logout();
-	            } },
-	          _react2.default.createElement(
-	            'button',
-	            null,
-	            'Logout'
-	          )
+	          'button',
+	          { onClick: this.handleLogout.bind(this), style: { marginLeft: '20%' } },
+	          'Logout'
 	        )
 	      );
 	    }
@@ -46230,6 +46447,10 @@
 
 	  return Profile;
 	}(_react2.default.Component);
+
+	Profile.contextTypes = {
+	  router: _react2.default.PropTypes.any.isRequired
+	};
 
 	module.exports = Profile;
 
@@ -46268,7 +46489,7 @@
 
 
 	// module
-	exports.push([module.id, "html, body, h1, h2, h3, h4, ul, ol, li, p, a {\n  padding: 0;\n  border: 0;\n  margin: 0;\n}\n\nbody {\n  height: 100%;\n  width: 100%;\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column;\n  background-color: #fafafa;\n  overflow: scroll;\n}\n\nmain {\n  flex: 1 0 auto;\n}\n\nul {\n  list-style: none;\n}\n\nli {\n  color: black;\n  list-style: none;\n}\n\n.backgroundVideo{\n  height: 100%;\n  width: 100%;\n  top: 0;\n  padding: none;\n  position: fixed;\n  z-index: -100\n}\n\nfooter {\n  width:100%;\n  height:140px;\n  position: absolute;\n  bottom:0;\n  left:0;\n}\n\nfooter.footerApp{\n  width:0;\n  height:0;\n  position: fixed;\n  bottom:0;\n  left:0;\n}\n\nfooter.footerApp {\n  margin-top: 100px;\n  width:100%;\n  height:60px;\n  bottom:0;\n  left:0;\n  padding: 10px;\n}\n\n.title {\n  font-family: 'Lato', sans-serif;\n  font-weight: 100;\n  padding-left: 10px;\n}\n\n.titleCheck {\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n}\n\n.sectionHeading {\n  font-family: 'Lato', sans-serif;\n  font-weight: 900;\n  margin: 20px;\n  color: #424242;\n}\n\n.settingsButton {\n  float: left;\n  text-align: left;\n}\n.copywriter {\n  float: right;\n  font-family: 'Lato', sans-serif;\n  font-weight: 100;\n  color: #fafafa;\n}\n\n.welcomeTopBar {\n  padding-bottom: 10px;\n}\n\n.welcomeMessage {\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  font-size: 1.5em;\n}\n\n.callToAction {\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  color: #fafafa;\n}\n\ninput:not([type]):focus:not([readonly]),\ninput[type=text]:focus:not([readonly]),\ninput[type=password]:focus:not([readonly]),\ninput[type=email]:focus:not([readonly]),\ninput[type=url]:focus:not([readonly]),\ninput[type=time]:focus:not([readonly]),\ninput[type=date]:focus:not([readonly]),\ninput[type=datetime-local]:focus:not([readonly]),\ninput[type=tel]:focus:not([readonly]),\ninput[type=number]:focus:not([readonly]),\ninput[type=search]:focus:not([readonly]),\ntextarea.materialize-textarea:focus:not([readonly]) {\n    border-bottom: 1px solid #03a9f4;\n    box-shadow: 0 1px 0 0 #03a9f4;\n}\n\n\nbutton {\n  background-color: transparent;\n  color: #fafafa;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\nbutton:active {\n    outline: none;\n    background-color: #fafafa;\n}\n\nbutton:focus {\n    outline: none;\n    background-color: #03a9f4;\n}\n\n\nbutton {\n  background-color: #fafafa;\n  color: #424242;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\nbutton:active .login{\n    outline: none;\n    background-color: #01579b;\n}\n\n.loginButton:active{\n    outline: none;\n    background-color: #03a9f4;\n}\n\n.loginButton{\n  background-color: transparent;\n  color: #fafafa;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\n.tableContainer {\n  margin-left: 200px;\n  margin-right: 200px;\n}\n\n#tableHeader {\n  max-width: 90%;\n}\n\n.tabs .tab {\n  border: 2px solid #03a9f4;\n  text-transform: none;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  font-size: 1.5em;\n  max-width: 100%;\n  color: #fafafa;\n}\n.tab:first-child {\n  border: 2px solid #03a9f4;\n  border-right: none;\n}\n\n.tab:active{\n  background-color: #bf360c;\n}\n\n.dateContainer {\n  max-width: '15em';\n\n  margin-left:'10px';\n}\n\ninput:not([type]), input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {\n    background-color: transparent;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    border-radius: 0;\n    outline: none;\n    height: 3rem;\n    width: 10%; \n    font-size: 1rem;\n    margin: 0 0 10px 10px;\n    padding: 0;\n    box-shadow: none;\n    box-sizing: content-box;\n    transition: all .3s;\n}\n\n.addNew {\n  margin-left: 20px;\n}\n\n.error {\n  color: #fafafa;\n}\n\n.dataTable {\n  margin-bottom: 70px;\n}", ""]);
+	exports.push([module.id, "html, body, h1, h2, h3, h4, ul, ol, li, p, a {\n  padding: 0;\n  border: 0;\n  margin: 0;\n}\n\nbody {\n  height: 100%;\n  width: 100%;\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column;\n  background-color: #fafafa;\n  overflow: scroll;\n}\n\nmain {\n  flex: 1 0 auto;\n}\n\np {\n  font-weight: 200;\n  font-family: 'Lato', sans-serif;\n  margin-left: 20%;\n}\n\nul {\n  list-style: none;\n}\n\nli {\n  color: black;\n  list-style: none;\n}\n\n.backgroundVideo{\n  height: 100%;\n  width: 100%;\n  top: 0;\n  padding: none;\n  position: fixed;\n  z-index: -100\n}\n\nfooter {\n  width:100%;\n  height:116px;\n  position: absolute;\n  bottom:0;\n  left:0;\n}\n\nfooter.footerApp{\n  width:0;\n  height:0;\n  position: fixed;\n  bottom:0;\n  left:0;\n}\n\nfooter.footerApp {\n  margin-top: 100px;\n  width:100%;\n  height:45px;\n  bottom:0;\n  left:0;\n  padding: 10px;\n}\n\n.title {\n  font-family: 'Lato', sans-serif;\n  font-weight: 100;\n  padding-left: 10px;\n}\n\n.titleCheck {\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n}\n\n.sectionHeading {\n  font-family: 'Lato', sans-serif;\n  font-weight: 900;\n  margin: 20px;\n  margin-left: 0px;\n  color: #424242;\n  margin-top: 10px;\n}\n.pointer {\n  cursor: pointer;\n}\n\nh2.sectionHeading {\n  font-family: 'Lato', sans-serif;\n  font-weight: 900;\n  margin: 30px;\n  margin-left: 20%;\n  margin-bottom: 3%;\n  color: #424242;\n}\n\nh2.classDataHeading {\n  margin-bottom: 1%;\n}\n\n.settingsButton {\n  float: left;\n  text-align: left;\n}\n.copywriter {\n  float: right;\n  font-family: 'Lato', sans-serif;\n  font-weight: 100;\n  color: #fafafa;\n}\n\n.welcomeTopBar {\n  padding-bottom: 10px;\n}\n\n.welcomeMessage {\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  font-size: 1.5em;\n  margin-top:0px;\n  margin-bottom: 1em;\n}\n\n.callToAction {\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  color: #fafafa;\n}\n\ninput:not([type]):focus:not([readonly]),\ninput[type=text]:focus:not([readonly]),\ninput[type=password]:focus:not([readonly]),\ninput[type=email]:focus:not([readonly]),\ninput[type=url]:focus:not([readonly]),\ninput[type=time]:focus:not([readonly]),\ninput[type=date]:focus:not([readonly]),\ninput[type=datetime-local]:focus:not([readonly]),\ninput[type=tel]:focus:not([readonly]),\ninput[type=number]:focus:not([readonly]),\ninput[type=search]:focus:not([readonly]),\ntextarea.materialize-textarea:focus:not([readonly]) {\n    border-bottom: 1px solid #03a9f4;\n    box-shadow: 0 1px 0 0 #03a9f4;\n}\n\n\nbutton {\n  background-color: transparent;\n  color: #fafafa;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\nbutton:active {\n    outline: none;\n    color: #03a9f4;\n    background-color: #03a9f4;\n}\n\nbutton:focus {\n  background-color: #fafafa;\n}\n\n\nbutton {\n  background-color: #fafafa;\n  color: #424242;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\nbutton:active .login{\n    outline: none;\n    background-color: #01579b;\n}\n\n.loginButton:active{\n    outline: none;\n    background-color: #03a9f4;\n}\n\n.loginButton{\n  background-color: transparent;\n  color: #fafafa;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\n.tableContainer {\n  margin-left: 20%;\n  margin-right: 20%;\n}\n\n#tableHeader {\n  max-width: 90%;\n}\n\n.tabs .tab {\n  border: 2px solid #03a9f4;\n  text-transform: none;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  font-size: 1.5em;\n  max-width: 100%;\n  color: #fafafa;\n}\n.tab:first-child {\n  border: 2px solid #03a9f4;\n  border-right: none;\n}\n\n.tab:active{\n  background-color: #bf360c;\n}\n\n.dateContainer {\n  max-width: '15em';\n\n  margin-left:'10px';\n}\n\ninput:not([type]), input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {\n    background-color: transparent;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    border-radius: 0;\n    outline: none;\n    height: 3rem;\n    width: 20%; \n    font-size: 1rem;\n    margin: 0 0 10px 0px;\n    padding: 0;\n    box-shadow: none;\n    box-sizing: content-box;\n    transition: all .3s;\n}\n\n.addNew {\n  margin-left: 20%;\n  margin-right: 20%;\n}\n\n.error {\n  color: #fafafa;\n}\n\n.dataTable {\n  margin-bottom: 70px;\n}\n\n.classList {\n  margin-left: 20%;\n}\n\n.classListItem {\n  font-size: 2em;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  color: #03a9f4;\n}\n\n.newClassForm {\n  max-width: 200px;\n}\n\n.newClass {\n  margin-left: 20%;\n  width: 200%; \n}\n\n.lessonsToday {\n  margin-bottom: 20px;\n}\n\n.row {\n  margin-bottom: 200px;\n}\n\n.dataRow {\n  margin-left: 30%;\n  margin-right: 30%;\n  margin-bottom: 10px;\n  margin-top: 0;\n}\n\n.loginRow {\n  margin-bottom: 0px;\n}\n\n.profile {\n  font-size: 1.5em;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  margin-bottom: 30px;\n}", ""]);
 
 	// exports
 
