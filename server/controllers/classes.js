@@ -165,7 +165,7 @@ module.exports = {
     sequelize.query(
       // May want to start queries with classes for less selecting
       'SELECT w.student_id, w.first_name, w.last_name, w.lesson_count, ' 
-      + 'x.response_count, y.correct_response_count, z.average_thumb FROM '
+      + 'x.response_count, y.correct_response_count, v.potential_correct_response_count, z.average_thumb FROM '
         + '(SELECT a.id AS student_id, a.firstname AS first_name, a.lastname AS last_name, '
         + 'COUNT(distinct d.lesson_id) AS lesson_count ' 
         + 'FROM students a '
@@ -203,7 +203,17 @@ module.exports = {
         + 'WHERE b.class_id = ' + classId + ' '
         + "AND d.type = 'thumbs' " 
         + 'GROUP BY a.id) z '
-      + 'ON w.student_id = z.student_id '
+      + 'ON w.student_id = z.student_id LEFT JOIN '
+        + '(SELECT a.id AS student_id, '
+        + 'COUNT(c.*) AS potential_correct_response_count ' 
+        + 'FROM students a '
+        + 'JOIN students_classes b ON a.id = b.student_id '
+        + 'LEFT JOIN poll_responses c ON a.id = c.student_id '
+        + 'LEFT JOIN polls d ON d.id = c.poll_id '
+        + 'WHERE b.class_id = ' + classId + ' '
+        + 'AND d.answer IS NOT NULL '
+        + 'GROUP BY a.id) v '
+      + 'ON w.student_id = v.student_id'
     ).then(function(data) {
       var results = data[0];
       console.log(results);

@@ -32002,7 +32002,8 @@
 	        'tbody',
 	        null,
 	        props.students.map(function (student) {
-	          // var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
+	          var correctRate = (student.correct_response_count || 0) / student.potential_correct_response_count * 100;
+	          console.log(student.correct_response_count, student.potential_correct_response_count, correctRate);
 	          return _react2.default.createElement(
 	            'tr',
 	            null,
@@ -32025,13 +32026,13 @@
 	              null,
 	              ' ',
 	              student.response_count ? student.response_count : 0,
-	              ' '
+	              ' Fix '
 	            ),
 	            _react2.default.createElement(
 	              'td',
 	              null,
 	              ' ',
-	              student.response_count,
+	              !isNaN(correctRate) ? correctRate + '%' : 'N/A',
 	              ' '
 	            ),
 	            _react2.default.createElement(

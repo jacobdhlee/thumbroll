@@ -434,13 +434,14 @@ const StudentTable = (props) => {
         </thead>
         <tbody>
         {props.students.map((student) => {
-          // var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
+          var correctRate = (student.correct_response_count || 0) / student.potential_correct_response_count * 100;
+          console.log(student.correct_response_count, student.potential_correct_response_count, correctRate);
           return (
             <tr>
               <td onClick={props.handleStudentClick}> {student.first_name + ' ' + student.last_name} </td>
               <td> {student.lesson_count ? student.lesson_count : 0} </td>
-              <td> {student.response_count ? student.response_count : 0} </td>
-              <td> {student.response_count} </td>
+              <td> {student.response_count ? student.response_count : 0} Fix </td>
+              <td> {!isNaN(correctRate) ? correctRate + '%' : 'N/A'} </td>
               <td> {student.average_thumb ? student.average_thumb + '%' : 'N/A' } </td>
             </tr>
           )
