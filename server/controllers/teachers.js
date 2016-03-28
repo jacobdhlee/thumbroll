@@ -22,7 +22,8 @@ module.exports = {
   getTodaysLessons: function(req, res, next) {
     var teacherId = req.params.teacherId;
     sequelize.query(
-      'SELECT * FROM classes a '
+      'SELECT a.id AS class_id, b.* ' 
+      + 'FROM classes a '
       + 'JOIN lessons b ON a.id = b.class_id '
       + 'WHERE a.teacher_id = ' + teacherId + ' '
       + "AND b.date BETWEEN DATE 'today' AND DATE 'tomorrow' "
