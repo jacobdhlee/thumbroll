@@ -197,13 +197,23 @@ models.sequelize.sync({force: true}).then(function () {
   models.polls.create({
     type: 'thumbs',
     lesson_id: 2,
+    sent: true
   });
 
   models.polls.create({
     type: 'multiChoice',
     lesson_id: 3,
-    answer: 'A'
-  });
+    name: "Easy Europe question",
+    answer: 'A',
+    sent: true,
+    preset_data: JSON.stringify({
+      subType: "ABC", 
+      question: "Which of these countries starts with 'A'?",
+      A: "Austria",
+      B: "Germany",    
+      C: "Prussia"
+    })
+  }).then(function(data){console.log(data);});
 
   models.polls.create({
     type: 'thumbs',
