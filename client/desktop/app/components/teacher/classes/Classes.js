@@ -56,7 +56,7 @@ class Classes extends React.Component {
             </div>
         </Col>
         <Col l={5}>
-            <LessonsToday lessons={this.state.lessons}/>
+            <LessonsToday handleLessonClick={this.handleLessonClick.bind(this)} lessons={this.state.lessons}/>
           <div>
             {this.props.children}
           </div>
@@ -81,6 +81,18 @@ class Classes extends React.Component {
     }
 
     // post to DB with teacher associated
+  }
+
+  handleLessonClick(lessonId, lessonName, classId, className) {
+    this.context.router.push({
+      pathname: '/class/' + classId + '/lessons/' + lessonId,
+      state: { 
+        className: className,
+        lessonId: lessonId,
+        classId: classId,
+        lessonName: lessonName
+      }
+    });
   }
 
   componentWillMount(){
@@ -109,10 +121,21 @@ class Classes extends React.Component {
               error: false,
               isLoading: false
             });
-
           });
         }
-      })
+        api.getTodaysLessons(this.state.uid)
+        .then((response) => {
+          if(response.status === 400) {
+            console.error('Error getting todays lessons');
+          } else if(response.status === 200) {
+            response.json().then((response) => {
+              this.setState({
+                lessons: response
+              });
+            });
+          }
+        });
+      });
     })
   }
 }
@@ -126,19 +149,26 @@ const LessonsToday = (props) => {
       </div>
     )
   }
-    console.log(props.lessons);
   return(
     <div>
       <h2 className='sectionHeading'>Today's Lessons</h2>
       <ul>
         {props.lessons.map((lesson) => {
-          return (<li style={{cursor: 'default'}} key={lesson.name}>
-            <Link to={`class/${lesson.classId}/lessons/${lesson.id}`}>{lesson.name}</Link>
-            </li>)
-         })}
+          return (
+            <li style={{cursor: 'default'}} key={'L' + lesson.id}>
+              <span onClick={props.handleLessonClick.bind(null, lesson.id, lesson.name, lesson.class_id, lesson.class_name)}>
+                {lesson.name}
+              </span>
+            </li>
+          )
+        })}
       </ul>
     </div>
   )
 }
+
+Classes.contextTypes = {
+  router: React.PropTypes.any.isRequired
+};
 
 module.exports = Classes;

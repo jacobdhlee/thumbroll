@@ -4,7 +4,6 @@ var sequelize = require('./../models/index').sequelize;
 module.exports = {
   getLessons: function(req, res, next) {
     var classId = req.params.classId;
-    console.log(classId);
     models.lessons.findAll({ where: {
         class_id: classId
       }
@@ -104,7 +103,6 @@ module.exports = {
       + 'ON w.lesson_id = u.lesson_id'
     ).then(function(data) {
       var results = data[0];
-      console.log(results);
       res.status(200).send(results);
     }).catch(function(err) {
       console.error('Error with query', err)
@@ -152,7 +150,6 @@ module.exports = {
       + 'ON w.poll_id = z.poll_id '
     ).then(function(data) {
       var results = data[0];
-      console.log(results);
       res.status(200).send(results);
     }).catch(function(err) {
       console.error('Error with query', err)
@@ -223,7 +220,6 @@ module.exports = {
       + 'ON u.class_id = ' + classId
     ).then(function(data) {
       var results = data[0];
-      console.log(results);
       res.status(200).send(results);
     }).catch(function(err) {
       console.error('Error with query', err)
@@ -248,7 +244,6 @@ module.exports = {
       + 'AND d.class_id = ' + classId + ' '
     ).then(function(data) {
       var results = data[0];
-      console.log(results);
       res.status(200).send(results);
     }).catch(function(err) {
       console.error('Error with query', err)
