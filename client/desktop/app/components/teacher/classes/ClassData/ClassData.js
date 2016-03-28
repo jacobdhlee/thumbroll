@@ -202,27 +202,25 @@ class ClassData extends React.Component {
           });
 
           // Fetch new class data
-
-                api.getClassLessonsData(this.state.classId)
-                .then((response) => {
-                  if(response.status === 400){
-                    this.setState({
-                       error: 'Data forbidden',
-                       isLoading: false
-                     });
-                    console.error(this.state.error);
-                  } else if (response.status === 200) {
-                    response.json().then((response) => {
-                     console.log("Class lessons from DB:", response);   
-                      this.setState({
-                        classLessons: response,
-                        error: false,
-                        isLoading: false
-                      });
-                    });
-                  }
+          api.getClassLessonsData(this.state.classId)
+          .then((response) => {
+            if(response.status === 400){
+              this.setState({
+                 error: 'Data forbidden',
+                 isLoading: false
+               });
+              console.error(this.state.error);
+            } else if (response.status === 200) {
+              response.json().then((response) => {
+               console.log("Class lessons from DB:", response);   
+                this.setState({
+                  classLessons: response,
+                  error: false,
+                  isLoading: false
                 });
-  
+              });
+            }
+          });
         }
       });
       

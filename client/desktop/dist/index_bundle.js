@@ -31598,7 +31598,6 @@
 	            });
 
 	            // Fetch new class data
-
 	            _api2.default.getClassLessonsData(_this5.state.classId).then(function (response) {
 	              if (response.status === 400) {
 	                _this5.setState({
