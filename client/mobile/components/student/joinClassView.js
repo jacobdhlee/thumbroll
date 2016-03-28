@@ -145,29 +145,27 @@ class JoinClassView extends React.Component {
         </View>
         
 
-        <Modal visible={this.state.modalVisible} transparent={true} animated={true}>
+        <Modal visible={this.state.modalVisible} transparent={true} animated={false}>
           <View style={styles.modal}>
-            <View style={{height:this.state.height * 0.6, width:this.state.width * 0.8}}>
+            <View style={{height:this.state.height * 0.7, width:this.state.width * 0.9}}>
               <View style={styles.modalBox}>
-                <Text> Enter the secret code from your lecturer: </Text>
-                <TextInput
-                  autoCapitalize={'none'}
-                  autoCorrect={false}
-                  maxLength={4}
-                  style={styles.userInput}
-                  keyboardType='numeric'
-                  value={this.state.secretCode}
-                  returnKeyType={'done'}
-                  onChange={this.handleCodeChange.bind(this)}
-                  onSubmitEditing={this.handleModalSubmit.bind(this)}
-                />
-                <TouchableHighlight onPress={this.handleModalSubmit.bind(this)}>
-                  <Text> Enter </Text>
-                </TouchableHighlight>
-                <TouchableHighlight onPress={this.handleModalCancel.bind(this)}>
-                  <Text> Cancel </Text>
-                </TouchableHighlight>
+                <Text style={styles.modalTextSize}> Enter the secret code </Text>
+                <View>
+                  <TextInput
+                    autoCapitalize={'none'}
+                    autoCorrect={false}
+                    maxLength={4}
+                    style={styles.userInput}
+                    keyboardType='numeric'
+                    value={this.state.secretCode}
+                    returnKeyType={'done'}
+                    onChange={this.handleCodeChange.bind(this)}
+                    onSubmitEditing={this.handleModalSubmit.bind(this)}
+                  />
+                </View>
               </View>
+              <Button onPress={this.handleModalSubmit.bind(this)} text={'Enter'} />
+              <Button onPress={this.handleModalCancel.bind(this)} text={'Cancel'} />
             </View>
           </View>
         </Modal>
@@ -193,10 +191,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white'
+    backgroundColor: '#e3f2fd'
+  },
+  modalTextSize: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
   userInput: {
-    height: 50,
+    backgroundColor: '#e1f5fe',
+    width: 300,
+    height: 45,
     padding: 4,
     fontSize: 18,
     borderWidth: 1,
