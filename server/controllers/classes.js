@@ -164,7 +164,7 @@ module.exports = {
     var classId = req.params.classId;
     sequelize.query(
       // May want to start queries with classes for less selecting
-      'SELECT w.student_id, w.first_name, w.last_name, w.lesson_count, u.potential_response_count, ' 
+      'SELECT w.student_id, w.first_name, w.last_name, w.lesson_count, '// u.potential_response_count, ' 
       + 'x.response_count, y.correct_response_count, v.potential_correct_response_count, z.average_thumb FROM '
         + '(SELECT a.id AS student_id, a.firstname AS first_name, a.lastname AS last_name, '
         + 'COUNT(distinct d.lesson_id) AS lesson_count ' 
@@ -213,14 +213,14 @@ module.exports = {
         + 'WHERE b.class_id = ' + classId + ' '
         + 'AND d.answer IS NOT NULL '
         + 'GROUP BY a.id) v '
-      + 'ON w.student_id = v.student_id LEFT JOIN '
-        + '(SELECT a.class_id, COUNT(b.*) AS potential_response_count ' 
-        + 'FROM lessons a '
-        + 'JOIN polls b ON a.id = b.lesson_id '
-        + 'WHERE a.class_id = ' + classId + ' '
-        + "AND a.date < '" + new Date().toISOString().split('T')[0] + "' "
-        + 'GROUP BY a.class_id) u '
-      + 'ON u.class_id = ' + classId
+      + 'ON w.student_id = v.student_id '
+      //   + 'LEFT JOIN (SELECT a.class_id, COUNT(b.*) AS potential_response_count ' 
+      //   + 'FROM lessons a '
+      //   + 'JOIN polls b ON a.id = b.lesson_id '
+      //   + 'WHERE a.class_id = ' + classId + ' '
+      //   + 'AND b.sent = TRUE '
+      //   + 'GROUP BY a.class_id) u '
+      // + 'ON u.class_id = ' + classId
     ).then(function(data) {
       var results = data[0];
       console.log(results);
