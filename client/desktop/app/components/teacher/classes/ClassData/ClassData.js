@@ -399,9 +399,12 @@ const LessonTable = (props) => {
         <tbody>
         {props.lessons.map((lesson) => {
           var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
+          var date = new Date(lesson.date).toLocaleDateString();
           return (
-            <tr>
-              <td onClick={props.handleLessonClick}> {lesson.lesson_name} </td>
+            <tr key={'L' + lesson.lesson_id} 
+              onClick={props.handleLessonClick.bind(null, lesson.lesson_id, lesson.lesson_name)}>
+              <td> {lesson.lesson_name} </td>
+              <td> {date} </td>
               <td> {lesson.poll_count ? lesson.poll_count : 0} </td>
               <td> {lesson.response_count? lesson.response_count : 0} </td>
               <td> {correctRate ? correctRate + '%' : 'N/A'} </td>
