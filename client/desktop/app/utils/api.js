@@ -112,7 +112,7 @@ module.exports = {
 
   getTodaysLessons: (teacherId) => {
     return fetch(server + '/teachers/' + teacherId + '/lessons/today');
-  }
+  },
 
   // Get teacher desktop data:
   getClassLessonsData: (classId) => {
