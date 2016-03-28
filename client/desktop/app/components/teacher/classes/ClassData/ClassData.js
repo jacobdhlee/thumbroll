@@ -195,12 +195,44 @@ class ClassData extends React.Component {
            lessonsCopy.push(response);
 
             this.setState({
-              lessons: lessonsCopy,
               newLessonName: '',
               error: false,
               isLoading: false,
             });
           });
+
+          // Fetch new class data
+          api.getClassName(this.state.classId)
+          .then((response) => {
+            if(response.status === 200) {
+              response.json().then((response) => {
+                this.setState({
+                  className: response.name
+                });
+                api.getClassLessonsData(this.state.classId)
+                .then((response) => {
+                  if(response.status === 400){
+                    this.setState({
+                       error: 'Data forbidden',
+                       isLoading: false
+                     });
+                    console.error(this.state.error);
+                  } else if (response.status === 200) {
+                    response.json().then((response) => {
+                     console.log("Class lessons from DB:", response);   
+                      this.setState({
+                        classLessons: response,
+                        error: false,
+                        isLoading: false
+                      });
+                    });
+                  }
+                });
+              });
+            }
+          })
+          
+
         }
       });
       
@@ -243,14 +275,33 @@ class ClassData extends React.Component {
              console.log(this.state.studentError);
            } else {
              console.log("ADDED STUDENT = ", response);  
-             var studentsCopy = this.state.students.slice();
+             var studentsCopy = this.state.classStudents.slice();
              studentsCopy.push(response);
-
               this.setState({
-                students: studentsCopy,
                 newStudent: '',
                 error: false,
                 isLoading: false
+              });
+
+              // Fetch student stats again
+              api.getClassStudentsData(this.state.classId)
+              .then((response) => {
+                if(response.status === 400){
+                  this.setState({
+                     error: 'Data forbidden',
+                     isLoading: false
+                   });
+                  console.error(this.state.error);
+                } else if (response.status === 200) {
+                  response.json().then((response) => {
+                   console.log("Class students from DB:", response);   
+                    this.setState({
+                      classStudents: response,
+                      error: false,
+                      isLoading: false
+                    });
+                  });
+                }
               });
             }
           });

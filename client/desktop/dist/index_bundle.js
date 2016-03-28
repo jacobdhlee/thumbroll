@@ -31614,11 +31614,39 @@
 	              lessonsCopy.push(response);
 
 	              _this5.setState({
-	                lessons: lessonsCopy,
 	                newLessonName: '',
 	                error: false,
 	                isLoading: false
 	              });
+	            });
+
+	            // Fetch new class data
+	            _api2.default.getClassName(_this5.state.classId).then(function (response) {
+	              if (response.status === 200) {
+	                response.json().then(function (response) {
+	                  _this5.setState({
+	                    className: response.name
+	                  });
+	                  _api2.default.getClassLessonsData(_this5.state.classId).then(function (response) {
+	                    if (response.status === 400) {
+	                      _this5.setState({
+	                        error: 'Data forbidden',
+	                        isLoading: false
+	                      });
+	                      console.error(_this5.state.error);
+	                    } else if (response.status === 200) {
+	                      response.json().then(function (response) {
+	                        console.log("Class lessons from DB:", response);
+	                        _this5.setState({
+	                          classLessons: response,
+	                          error: false,
+	                          isLoading: false
+	                        });
+	                      });
+	                    }
+	                  });
+	                });
+	              }
 	            });
 	          }
 	        });
@@ -31665,14 +31693,32 @@
 	                console.log(_this6.state.studentError);
 	              } else {
 	                console.log("ADDED STUDENT = ", response);
-	                var studentsCopy = _this6.state.students.slice();
+	                var studentsCopy = _this6.state.classStudents.slice();
 	                studentsCopy.push(response);
-
 	                _this6.setState({
-	                  students: studentsCopy,
 	                  newStudent: '',
 	                  error: false,
 	                  isLoading: false
+	                });
+
+	                // Fetch student stats again
+	                _api2.default.getClassStudentsData(_this6.state.classId).then(function (response) {
+	                  if (response.status === 400) {
+	                    _this6.setState({
+	                      error: 'Data forbidden',
+	                      isLoading: false
+	                    });
+	                    console.error(_this6.state.error);
+	                  } else if (response.status === 200) {
+	                    response.json().then(function (response) {
+	                      console.log("Class students from DB:", response);
+	                      _this6.setState({
+	                        classStudents: response,
+	                        error: false,
+	                        isLoading: false
+	                      });
+	                    });
+	                  }
 	                });
 	              }
 	            });
