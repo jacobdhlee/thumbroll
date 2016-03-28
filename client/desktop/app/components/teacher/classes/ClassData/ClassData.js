@@ -409,8 +409,8 @@ const LessonTable = (props) => {
               <td> {date} </td>
               <td> {lesson.student_count || 0} </td>
               <td> {lesson.poll_count || 0} </td>
-              <td> {!isNaN(correctRate) ? correctRate + '%' : 'N/A'} </td>
-              <td> {lesson.average_thumb ? lesson.average_thumb + '%' : 'N/A'} </td>
+              <td> {!isNaN(correctRate) ? correctRate.toFixed(2) + '%' : 'N/A'} </td>
+              <td> {lesson.average_thumb ? lesson.average_thumb.toFixed(2) + '%' : 'N/A'} </td>
             </tr>
           )
         })}
@@ -435,15 +435,15 @@ const StudentTable = (props) => {
         </thead>
         <tbody>
         {props.students.map((student) => {
+          var responseRate = (student.response_count || 0) / student.potential_response_count * 100;
           var correctRate = (student.correct_response_count || 0) / student.potential_correct_response_count * 100;
-          console.log(student.correct_response_count, student.potential_correct_response_count, correctRate);
           return (
             <tr>
               <td onClick={props.handleStudentClick}> {student.first_name + ' ' + student.last_name} </td>
               <td> {student.lesson_count ? student.lesson_count : 0} </td>
-              <td> {student.response_count ? student.response_count : 0} Fix </td>
-              <td> {!isNaN(correctRate) ? correctRate + '%' : 'N/A'} </td>
-              <td> {student.average_thumb ? student.average_thumb + '%' : 'N/A' } </td>
+              <td> {!isNaN(responseRate) ? responseRate.toFixed(2) + '%' : 'N/A'} </td>
+              <td> {!isNaN(correctRate) ? correctRate.toFixed(2) + '%' : 'N/A'} </td>
+              <td> {student.average_thumb ? student.average_thumb.toFixed(2) + '%' : 'N/A' } </td>
             </tr>
           )
         })}

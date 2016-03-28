@@ -75,7 +75,7 @@ const MCTable = (props) => {
             <tr key={'P' + poll.poll_id} >
               <td> {poll.poll_name || 'N/A'} </td>
               <td> {poll.response_count || 0} </td>
-              <td> {!isNaN(correctRate) ? correctRate + '%' : 'N/A'} </td>
+              <td> {!isNaN(correctRate) ? correctRate.toFixed(2) + '%' : 'N/A'} </td>
             </tr>
           )
         })}
@@ -106,7 +106,7 @@ const ThumbsTable = (props) => {
             <tr key={'P' + poll.poll_id} >
               <td> {poll.poll_name || 'N/A'} </td>
               <td> {poll.response_count || 0} </td>
-              <td> {poll.average_thumb + '%'} </td>
+              <td> {poll.average_thumb.toFixed(2) + '%'} </td>
             </tr>
           )
         })}

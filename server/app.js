@@ -197,6 +197,7 @@ models.sequelize.sync({force: true}).then(function () {
   models.polls.create({
     type: 'thumbs',
     lesson_id: 2,
+    name: 'Default thumbs 11:03AM',
     sent: true
   });
 
@@ -217,7 +218,24 @@ models.sequelize.sync({force: true}).then(function () {
 
   models.polls.create({
     type: 'thumbs',
-    lesson_id: 3
+    lesson_id: 3,
+    name: 'Default thumbs 11:05AM',
+    sent: true
+  });
+
+  models.polls.create({
+    type: 'multiChoice',
+    lesson_id: 3,
+    answer: 'B',
+    name: 'American Presidents',
+    sent: false,
+    preset_data: JSON.stringify({ 
+      question: "Who is my favorite president?",
+      A: 'Lincoln',
+      B: 'Carter',    
+      C: 'Clinton',
+      D: 'Jackson'
+    })
   });
 
   models.poll_responses.create({
