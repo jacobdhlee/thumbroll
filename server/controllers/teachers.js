@@ -22,7 +22,7 @@ module.exports = {
   getTodaysLessons: function(req, res, next) {
     var teacherId = req.params.teacherId;
     sequelize.query(
-      'SELECT a.id AS class_id, b.* ' 
+      'SELECT a.id AS class_id, a.name as class_name, b.* ' 
       + 'FROM classes a '
       + 'JOIN lessons b ON a.id = b.class_id '
       + 'WHERE a.teacher_id = ' + teacherId + ' '

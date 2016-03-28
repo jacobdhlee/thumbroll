@@ -83,13 +83,13 @@ class Classes extends React.Component {
     // post to DB with teacher associated
   }
 
-  handleLessonClick(lessonId, lessonName) {
+  handleLessonClick(lessonId, lessonName, classId, className) {
     this.context.router.push({
-      pathname: '/class/' + this.state.classId + '/lessons/' + lessonId,
+      pathname: '/class/' + classId + '/lessons/' + lessonId,
       state: { 
-        className: this.state.className,
+        className: className,
         lessonId: lessonId,
-        classId: this.state.classId,
+        classId: classId,
         lessonName: lessonName
       }
     });
@@ -156,7 +156,9 @@ const LessonsToday = (props) => {
         {props.lessons.map((lesson) => {
           return (
             <li style={{cursor: 'default'}} key={'L' + lesson.id}>
-              <span onClick={props.handleLessonClick.bind(null, lesson.id, lesson.name)}>{lesson.name}</span>
+              <span onClick={props.handleLessonClick.bind(null, lesson.id, lesson.name, lesson.class_id, lesson.class_name)}>
+                {lesson.name}
+              </span>
             </li>
           )
         })}
