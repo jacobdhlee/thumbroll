@@ -31903,7 +31903,7 @@
 	        'tbody',
 	        null,
 	        props.lessons.map(function (lesson) {
-	          var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
+	          var correctRate = (lesson.correct_response_count || 0) / lesson.potential_correct_responses_count * 100;
 	          var date = new Date(lesson.date).toLocaleDateString();
 	          return _react2.default.createElement(
 	            'tr',
@@ -31941,7 +31941,7 @@
 	              'td',
 	              null,
 	              ' ',
-	              correctRate ? correctRate + '%' : 'N/A',
+	              !isNaN(correctRate) ? correctRate + '%' : 'N/A',
 	              ' '
 	            ),
 	            _react2.default.createElement(
@@ -31984,12 +31984,12 @@
 	          _react2.default.createElement(
 	            'th',
 	            null,
-	            ' Response Count '
+	            ' Response Rate '
 	          ),
 	          _react2.default.createElement(
 	            'th',
 	            null,
-	            ' PLACEHOLDER '
+	            ' M.C. Accuracy '
 	          ),
 	          _react2.default.createElement(
 	            'th',

@@ -399,7 +399,7 @@ const LessonTable = (props) => {
         </thead>
         <tbody>
         {props.lessons.map((lesson) => {
-          var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
+          var correctRate = (lesson.correct_response_count || 0) / lesson.potential_correct_responses_count * 100;
           var date = new Date(lesson.date).toLocaleDateString();
           return (
             <tr key={'L' + lesson.lesson_id} 
@@ -408,7 +408,7 @@ const LessonTable = (props) => {
               <td> {date} </td>
               <td> {lesson.student_count || 0} </td>
               <td> {lesson.poll_count || 0} </td>
-              <td> {correctRate ? correctRate + '%' : 'N/A'} </td>
+              <td> {!isNaN(correctRate) ? correctRate + '%' : 'N/A'} </td>
               <td> {lesson.average_thumb ? lesson.average_thumb + '%' : 'N/A'} </td>
             </tr>
           )
@@ -427,8 +427,8 @@ const StudentTable = (props) => {
           <tr>
             <th> Name </th>
             <th> Lessons Attended </th>
-            <th> Response Count </th>
-            <th> PLACEHOLDER </th>
+            <th> Response Rate </th>
+            <th> M.C. Accuracy </th>
             <th> Average Thumb </th>
           </tr>
         </thead>
