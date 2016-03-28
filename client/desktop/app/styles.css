@@ -129,9 +129,12 @@ button:focus {
     outline: none;
     background-color: #03a9f4;
 }
+
 .tableContainer {
-  margin: 10px;
+  margin-left: 200px;
+  margin-right: 200px;
 }
+
 #tableHeader {
   max-width: 90%;
 }

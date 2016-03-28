@@ -39,18 +39,29 @@ class ClassData extends React.Component {
         <h2 className='sectionHeading' style={{color: '#424242'}} >{this.state.className}</h2>
         
         <Row>
-          <Col s={6} l={12}>
+          <Col l={4}>
+          &nbsp;
+          </Col>
+          <Col s={6} l={4}>
             <ul className="tabs">
-            <li className='tab col s1 active' onClick={() => this.setState({
-              displayLessons: true,
-              displayStudents: false,
-            })} style={{
-              cursor: 'default',
-              }}
-              style={this.state.displayLessons ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242'}}
-              >Lessons</li>
-            <li className='tab col s1' onClick={this.switchToStudentsView.bind(this)} style={{cursor: 'default'}} style={!this.state.displayLessons ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242'}}>Students</li>
+
+              <li className='tab col s1 active center-align' onClick={() => this.setState({
+                displayLessons: true,
+                displayStudents: false,
+              })} style={{
+                cursor: 'default',
+                }}
+                style={this.state.displayLessons ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242'}}
+                >Lessons</li>
+              <li className='tab col s1 center-align' 
+                onClick={this.switchToStudentsView.bind(this)} 
+                style={{cursor: 'default'}} 
+                style={!this.state.displayLessons ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242'}}>
+                Students
+              </li>
             </ul>
+          </Col>
+          <Col l={4}>
           </Col>
         </Row>
         
@@ -410,32 +421,33 @@ const LessonTable = (props) => {
 
 const StudentTable = (props) => {
   return (
-    <table>
-      <thead style={{maxWidth:'10em'}}>
-        <tr>
-          <th> Name </th>
-          <th> Lessons Attended </th>
-          <th> Response Count </th>
-          <th> PLACEHOLDER </th>
-          <th> Average Thumb </th>
-        </tr>
-      </thead>
-      <tbody>
-      {props.students.map((student) => {
-        // var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
-        return (
-          <tr key={'S' + student.student_id}
-            onClick={props.handleStudentClick.bind(null, student.student_id, student.first_name, student.last_name)}>
-            <td> {student.first_name + ' ' + student.last_name} </td>
-            <td> {student.lesson_count ? student.lesson_count : 0} </td>
-            <td> {student.response_count ? student.response_count : 0} </td>
-            <td> {student.response_count} </td>
-            <td> {student.average_thumb ? student.average_thumb + '%' : 'N/A' } </td>
+    <div className='tableContainer'>
+      <table className='highlight'>
+        <thead style={{maxWidth:'10em'}}>
+          <tr>
+            <th> Name </th>
+            <th> Lessons Attended </th>
+            <th> Response Count </th>
+            <th> PLACEHOLDER </th>
+            <th> Average Thumb </th>
           </tr>
-        )
-      })}
-    </tbody>
-  </table>
+        </thead>
+        <tbody>
+        {props.students.map((student) => {
+          // var correctRate = lesson.correct_response_count / lesson.potential_correct_responses_count * 100;
+          return (
+            <tr>
+              <td onClick={props.handleStudentClick}> {student.first_name + ' ' + student.last_name} </td>
+              <td> {student.lesson_count ? student.lesson_count : 0} </td>
+              <td> {student.response_count ? student.response_count : 0} </td>
+              <td> {student.response_count} </td>
+              <td> {student.average_thumb ? student.average_thumb + '%' : 'N/A' } </td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
+  </div>
   )
 }
 
