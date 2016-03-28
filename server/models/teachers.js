@@ -21,11 +21,6 @@ module.exports = function(sequelize, DataTypes) {
           onDelete: 'set null',
           onUpdate: 'cascade'
         }); 
-        teachers.hasMany(models.polls, {
-          foreignKey: 'teacher_id',
-          onDelete: 'set null',
-          onUpdate: 'cascade'
-        }); 
       }
     }
   });

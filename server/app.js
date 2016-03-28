@@ -197,12 +197,20 @@ models.sequelize.sync({force: true}).then(function () {
   models.polls.create({
     type: 'thumbs',
     lesson_id: 2,
+    sent: true
   });
 
   models.polls.create({
     type: 'multiChoice',
     lesson_id: 3,
-    answer: 'A'
+    answer: 'A',
+    sent: true,
+    preset_data: JSON.stringify({
+      type: "multiChoice", 
+      A: "Austria",
+      B: "Germany",    
+      C: "Prussia"
+    })
   });
 
   models.polls.create({

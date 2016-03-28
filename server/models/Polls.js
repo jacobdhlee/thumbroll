@@ -15,7 +15,8 @@ module.exports = function(sequelize, DataTypes) {
     name: DataTypes.STRING, 
     type: DataTypes.ENUM('thumbs', 'multiChoice'),
     answer: DataTypes.STRING, 
-    preset_data: DataTypes.STRING
+    preset_data: DataTypes.JSON,
+    sent: DataTypes.BOOLEAN
   }, {
     timestamps: false,
     classMethods: {
