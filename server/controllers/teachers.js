@@ -98,7 +98,8 @@ module.exports = {
       console.log('Incoming poll for class', classId);
       models.polls.create({
         type: type,
-        lesson_id: lessonId
+        lesson_id: lessonId,
+        sent: true
       })
       .then(function(data) {
         var pollInformation = {
