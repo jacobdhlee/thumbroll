@@ -28,18 +28,22 @@ class NavBar extends React.Component {
     this.props.navi.popToTop();
   }
   render () {
-    var backButton = '<'
+    var backButton = '<<'
     return (
       <View>
         <View style={styles.nav}>
-          <TouchableOpacity onPress={this.handleBackPress.bind(this)}>
-            <Text style={styles.textSize}> {backButton} </Text>
+          <TouchableOpacity style={styles.back}onPress={this.handleBackPress.bind(this)}>
+            <View>
+              <Text style={styles.textSize}> {backButton} </Text>
+            </View>
           </TouchableOpacity>
-           <View>
+          <View>
             <Text style={styles.textSizeOne}>{this.props.children}</Text>
           </View>
-           <TouchableOpacity onPress={this.logout.bind(this)}>
-            <Text style={styles.textSize}>Logout</Text>
+         <TouchableOpacity style={styles.logout} onPress={this.logout.bind(this)}>
+            <View>
+              <Text style={styles.textSize}>Logout</Text>
+            </View>
           </TouchableOpacity>
         </View>
       </View>
@@ -56,9 +60,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#0277bd',
     alignItems: 'center',
   },
+  back: {
+    height: 50,
+    width: 50,
+    justifyContent: 'center',
+  },
+  logout:{
+    height: 50,
+    width: 55,
+    justifyContent: 'center',
+  },
   textSize: {
     justifyContent: 'center',
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: 'bold',
     color: 'white',
   },
