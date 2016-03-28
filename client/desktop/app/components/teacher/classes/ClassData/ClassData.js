@@ -202,13 +202,7 @@ class ClassData extends React.Component {
           });
 
           // Fetch new class data
-          api.getClassName(this.state.classId)
-          .then((response) => {
-            if(response.status === 200) {
-              response.json().then((response) => {
-                this.setState({
-                  className: response.name
-                });
+
                 api.getClassLessonsData(this.state.classId)
                 .then((response) => {
                   if(response.status === 400){
@@ -228,11 +222,7 @@ class ClassData extends React.Component {
                     });
                   }
                 });
-              });
-            }
-          })
-          
-
+  
         }
       });
       
