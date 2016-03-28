@@ -158,6 +158,13 @@ models.sequelize.sync({force: true}).then(function () {
   models.lessons.create({
     name: 'CS101 - Week 3',
     class_id: 2,
+    date: moment().format()
+
+  });
+
+  models.lessons.create({
+    name: 'CS101 - Week 4',
+    class_id: 2,
     date: moment().add(1, 'weeks').format()
 
   });
