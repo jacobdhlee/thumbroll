@@ -31880,7 +31880,7 @@
 	          _react2.default.createElement(
 	            'th',
 	            null,
-	            ' Attendence '
+	            ' Attendance '
 	          ),
 	          _react2.default.createElement(
 	            'th',

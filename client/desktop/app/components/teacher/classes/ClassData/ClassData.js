@@ -391,7 +391,7 @@ const LessonTable = (props) => {
           <tr>
             <th> Lesson </th>
             <th> Date </th>
-            <th> Attendence </th>
+            <th> Attendance </th>
             <th> Count of Polls </th>
             <th> M.C. Accuracy </th>
             <th> Average Thumb </th>
