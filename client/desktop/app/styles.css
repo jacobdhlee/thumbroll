@@ -125,9 +125,46 @@ button {
   font-weight: 400;
   padding: 0 10px 0 10px;
 }
+
+button:active {
+    outline: none;
+    background-color: #fafafa;
+}
+
 button:focus {
     outline: none;
     background-color: #03a9f4;
+}
+
+
+button {
+  background-color: #fafafa;
+  color: #424242;
+  border: 2px solid #03a9f4;
+  border-radius: 2px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  padding: 0 10px 0 10px;
+}
+
+button:active .login{
+    outline: none;
+    background-color: #01579b;
+}
+
+.loginButton:active{
+    outline: none;
+    background-color: #03a9f4;
+}
+
+.loginButton{
+  background-color: transparent;
+  color: #fafafa;
+  border: 2px solid #03a9f4;
+  border-radius: 2px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  padding: 0 10px 0 10px;
 }
 
 .tableContainer {
@@ -157,7 +194,7 @@ button:focus {
   background-color: #bf360c;
 }
 
-.dateContainer{
+.dateContainer {
   max-width: '15em';
 
   margin-left:'10px';
@@ -177,4 +214,12 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
     box-shadow: none;
     box-sizing: content-box;
     transition: all .3s;
+}
+
+.addNew {
+  margin-left: 20px;
+}
+
+.error {
+  color: #fafafa;
 }

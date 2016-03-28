@@ -39,7 +39,7 @@ class ClassData extends React.Component {
         <h2 className='sectionHeading' style={{color: '#424242'}} >{this.state.className}</h2>
         
         <Row>
-          <Col l={4}>
+          <Col s={2} l={4}>
           &nbsp;
           </Col>
           <Col s={6} l={4}>
@@ -61,7 +61,7 @@ class ClassData extends React.Component {
               </li>
             </ul>
           </Col>
-          <Col l={4}>
+          <Col s={4} l={4}>
           </Col>
         </Row>
         
@@ -329,15 +329,15 @@ const Students = (props) => {
       <div>
         <StudentTable students={props.students} handleStudentClick={props.handleStudentClick} />
         <div>
-          <h5 className='sectionHeading'>Add Student</h5>
+          <h5 className='sectionHeading' style={{marginLeft:'20px'}}>Add Student</h5>
           <div>
             <form onSubmit={props.addStudent}>
-              <input type='text' placeholder='email address' value={props.newStudent} onChange={(event) => {
+              <input style={{marginLeft:'30px'}} type='text' placeholder='Student Email' value={props.newStudent} onChange={(event) => {
                 props.changeNewStudent(event.target.value);
               }} />
               
               <div>
-                <button style={{marginLeft: '10px', fontSize: '1em', backgroundColor:'#01579b'}} type='submit'>Add</button>
+                <button style={{marginLeft:'30px', fontSize: '1em'}} type='submit'>Add</button>
               </div>
             </form>
           </div>
@@ -363,20 +363,16 @@ const Lessons = (props) => {
       <div>
         <LessonTable lessons={props.lessons} handleLessonClick={props.handleLessonClick} />
         <div>
-          <h5 className='sectionHeading' style={{marginLeft:'10px'}} >Add Lesson</h5>
-          <div>
+          <h5 className='sectionHeading' style={{marginLeft:'20px'}} >Add Lesson</h5>
+          <div className='addNew'>
             <form onSubmit={props.addLesson}>
-              <input style={{maxWidth: '15em', marginLeft:'10px'}} type='text' value={props.newLessonName} onChange={(event) => {
+              <input placeholder='Lesson Name' style={{maxWidth: '15em', marginLeft:'10px'}} type='text' value={props.newLessonName} onChange={(event) => {
                 props.changeNewLessonName(event.target.value);
               }} />
-              <div className='dateContainer'>
                 <DatePicker minDate={moment()} selected={props.newLessonDate} onChange={(date) => {
                   props.changeDate(date);
                 }} />
-              </div>
-              <div>
-                <button style={{marginLeft: '10px', fontSize: '1em', backgroundColor:'#01579b'}} type='submit'>Add</button>
-              </div>
+                <button style={{marginLeft: '10px', fontSize: '1em'}} type='submit'>Add</button>
             </form>
           </div>
         </div>
