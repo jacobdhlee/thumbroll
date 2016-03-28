@@ -19,9 +19,9 @@ class StudentData extends React.Component {
   render(){
     return (
       <div>
-        <h3 className='sectionHeading classList' onClick={this.handleClassClick.bind(this)}>
-          {this.state.className}
-        </h3>
+        <h2 className='sectionHeading classList' onClick={this.handleClassClick.bind(this)}>
+          <span className='pointer'>{this.state.className}</span>
+        </h2>
         <h5 className='sectionHeading classList'> {this.state.firstName + ' ' + this.state.lastName} </h5>
         <div className='dataTable'>
         <DataTable data={this.state.data} />
