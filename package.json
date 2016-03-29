@@ -18,6 +18,8 @@
     "body-parser": "^1.15.0",
     "cookie-parser": "^1.4.1",
     "cookie-session": "^2.0.0-alpha.1",
+    "d3": "^3.5.16",
+    "d3-tip": "^0.6.7",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "express-sessions": "^1.0.5",
