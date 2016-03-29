@@ -84,11 +84,10 @@ class ClassData extends React.Component {
           addStudent={this.addStudent.bind(this)}
           newStudent={this.state.newStudent}
           changeNewStudent={this.changeNewStudent.bind(this)}
-          />
+          >
+          <StudentError studentError={this.state.studentError}/>
+        </Students>
 
-        <StudentError 
-          studentError={this.state.studentError}
-        />
       </div>
     )
   }
@@ -268,10 +267,10 @@ class ClassData extends React.Component {
       .then((response) => {
         if(response.status === 400){
           this.setState({
-             error: 'Student not found',
+             studentError: 'Student not found',
              isLoading: false
            });
-          console.log(this.state.error);
+          console.log(this.state.studentError);
         } else if (response.status === 200) {
           response.json().then((response) => {
            console.log('STUDENT WAS CREATED: ' + response.created)
@@ -286,7 +285,7 @@ class ClassData extends React.Component {
              studentsCopy.push(response);
               this.setState({
                 newStudent: '',
-                error: false,
+                studentError: false,
                 isLoading: false
               });
 
@@ -315,7 +314,7 @@ class ClassData extends React.Component {
         } else if (response.status === 500) {
           console.log("SERVER ERROR: FAILED TO ADD STUDENT");   
           this.setState({
-            error: "Failed to add student",
+            studentError: "Failed to add student",
             isLoading: false
           });
         }
@@ -341,6 +340,7 @@ const Students = (props) => {
                 <button style={{marginLeft:'0', fontSize: '1em'}} type='submit'>Add</button>
               </div>
             </form>
+            {props.children}
           </div>
         </div>
       </div>
