@@ -160,9 +160,9 @@ button {
 }
 
 button:active {
-    outline: none;
-    color: #03a9f4;
-    background-color: #03a9f4;
+  outline: none;
+  color: #03a9f4;
+  background-color: #03a9f4;
 }
 
 button:focus {
@@ -188,6 +188,10 @@ button:active .login{
 .loginButton:active{
     outline: none;
     background-color: #03a9f4;
+}
+
+.loginButton:focus {
+  background-color: transparent;
 }
 
 .loginButton{

@@ -334,7 +334,7 @@ const Students = (props) => {
           <h5 className='sectionHeading' >Add Student</h5>
           <div>
             <form onSubmit={props.addStudent}>
-              <input type='text' placeholder='Student Email' value={props.newStudent} onChange={(event) => {
+              <input type='text' style={{minWidth: '20em'}} placeholder='Student Email' value={props.newStudent} onChange={(event) => {
                 props.changeNewStudent(event.target.value);
               }} />
               
