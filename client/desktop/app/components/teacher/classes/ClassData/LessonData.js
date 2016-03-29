@@ -33,8 +33,15 @@ class LessonData extends React.Component {
       </div>
       <button onClick={this.handleAddThumbs.bind(this)}>Add thumbs check</button>
       <button onClick={this.handleAddMultiChoice.bind(this)}>Add multiple choice</button>
-      <AddThumbsForm onSubmit={this.handleThumbsFormSubmit.bind(this)} />
-      <AddMultiChoiceForm onSubmit={this.handleMultiChoiceFormSubmit.bind(this)} />      
+
+      <AddThumbsForm 
+        handleFormSubmit={this.handleThumbsFormSubmit.bind(this)} 
+
+      />
+      <AddMultiChoiceForm 
+        handleFormSubmit={this.handleMultiChoiceFormSubmit.bind(this)} 
+
+      />
     </div>)
   }
 
@@ -195,28 +202,46 @@ const ThumbsTable = (props) => {
   }
 }
 
-const AddThumbsForm = (hide) => {
-  // add to db
-  
-
-
-  return (
-    <div>
-      <button>Submit</button>
-    </div>
-  )
+const AddThumbsForm = (props) => {
+  if (this.props.addThumbs) {
+    return (
+      <form onSubmit={this.handleThumbsFormSubmit}>
+        <input placeholder='Class Name' className='newClassForm' type='text' value={this.state.newClassName} onChange={(event) => {
+          this.setState({
+            newClassName: event.target.value
+          });
+        }} />
+        <div>
+          <button style={{fontSize: '1em'}} type='submit'>Add</button>
+        </div>
+      </form>
+    )
+  } else {
+    return (
+      <div></div>
+      )
+  }
 };
 
-const AddMultiChoiceForm = (hide) => {
-  // add to db
-  
-
-
-  return (
-    <div>
-      <button>Submit</button>
-    </div>
-  )
+const AddMultiChoiceForm = (props) => {
+  if (this.props.addMultiChoice) {
+    return (
+      <form onSubmit={this.handleMultiChoiceFormSubmit}>
+        <input placeholder='Class Name' className='newClassForm' type='text' value={this.state.newClassName} onChange={(event) => {
+          this.setState({
+            newClassName: event.target.value
+          });
+        }} />
+        <div>
+          <button style={{fontSize: '1em'}} type='submit'>Add</button>
+        </div>
+      </form>
+    )
+  } else {
+    return (
+      <div></div>
+      )
+  }
 };
 
 LessonData.contextTypes = {

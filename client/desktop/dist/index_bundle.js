@@ -32240,8 +32240,14 @@
 	          { onClick: this.handleAddMultiChoice.bind(this) },
 	          'Add multiple choice'
 	        ),
-	        _react2.default.createElement(AddThumbsForm, { onSubmit: this.handleThumbsFormSubmit.bind(this) }),
-	        _react2.default.createElement(AddMultiChoiceForm, { onSubmit: this.handleMultiChoiceFormSubmit.bind(this) })
+	        _react2.default.createElement(AddThumbsForm, {
+	          handleFormSubmit: this.handleThumbsFormSubmit.bind(this)
+
+	        }),
+	        _react2.default.createElement(AddMultiChoiceForm, {
+	          handleFormSubmit: this.handleMultiChoiceFormSubmit.bind(this)
+
+	        })
 	      );
 	    }
 	  }, {
@@ -32491,32 +32497,54 @@
 	  }
 	};
 
-	var AddThumbsForm = function AddThumbsForm(hide) {
-	  // add to db
-
-	  return _react2.default.createElement(
-	    'div',
-	    null,
-	    _react2.default.createElement(
-	      'button',
-	      null,
-	      'Submit'
-	    )
-	  );
+	var AddThumbsForm = function AddThumbsForm(props) {
+	  if (undefined.props.addThumbs) {
+	    return _react2.default.createElement(
+	      'form',
+	      { onSubmit: undefined.handleThumbsFormSubmit },
+	      _react2.default.createElement('input', { placeholder: 'Class Name', className: 'newClassForm', type: 'text', value: undefined.state.newClassName, onChange: function onChange(event) {
+	          undefined.setState({
+	            newClassName: event.target.value
+	          });
+	        } }),
+	      _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'button',
+	          { style: { fontSize: '1em' }, type: 'submit' },
+	          'Add'
+	        )
+	      )
+	    );
+	  } else {
+	    return _react2.default.createElement('div', null);
+	  }
 	};
 
-	var AddMultiChoiceForm = function AddMultiChoiceForm(hide) {
-	  // add to db
-
-	  return _react2.default.createElement(
-	    'div',
-	    null,
-	    _react2.default.createElement(
-	      'button',
-	      null,
-	      'Submit'
-	    )
-	  );
+	var AddMultiChoiceForm = function AddMultiChoiceForm(props) {
+	  if (undefined.props.addMultiChoice) {
+	    return _react2.default.createElement(
+	      'form',
+	      { onSubmit: undefined.handleMultiChoiceFormSubmit },
+	      _react2.default.createElement('input', { placeholder: 'Class Name', className: 'newClassForm', type: 'text', value: undefined.state.newClassName, onChange: function onChange(event) {
+	          undefined.setState({
+	            newClassName: event.target.value
+	          });
+	        } }),
+	      _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'button',
+	          { style: { fontSize: '1em' }, type: 'submit' },
+	          'Add'
+	        )
+	      )
+	    );
+	  } else {
+	    return _react2.default.createElement('div', null);
+	  }
 	};
 
 	LessonData.contextTypes = {
