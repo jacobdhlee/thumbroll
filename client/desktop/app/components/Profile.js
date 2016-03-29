@@ -16,19 +16,21 @@ class Profile extends React.Component {
     return(
       <div>
         <h2 className='sectionHeading'>Settings</h2>
-          <div>
-            <span>Name: </span><span>{this.state.teacherData.name}</span>
+        <div className='profile' style={{marginLeft: '20%'}}>
+          
+          <div >
+            <span>First Name: </span><span>{this.state.teacherData.name}</span>
           </div>
+          
           <div>
-          <span>Email: </span><span>{this.state.teacherData.email}</span>
+            <span>Email: </span><span>{this.state.teacherData.email}</span>
           </div>
-          <li>
-          <button>Edit</button>
-          </li>
+
           <li onClick={()=>{ auth.logout();
           }}>
-          <button>Logout</button>
           </li>
+        </div>
+        <button style={{marginLeft: '20%'}}>Logout</button>
       </div>
     )
   }
