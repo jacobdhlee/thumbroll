@@ -557,7 +557,7 @@ class StudentChart extends React.Component {
 
   render(){
     return (
-      <div className='chartContainer' style={{padding:'10px'}}>
+      <div className='chartContainer center-align' style={{padding:'10px'}}>
         <svg width={this.width} height={this.height}>
         </svg>
       </div>

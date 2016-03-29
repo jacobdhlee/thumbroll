@@ -317,22 +317,28 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
 }
 .axis path, .axis line {
   fill: none;
-  stroke: black;
+  stroke: #424242;
   shape-rendering: crispEdges;
 }
 
-.axis text {
-  font-family: sans-serif;
+.axis text, .axisLabel {
+  font-family: 'Lato', sans-serif;
   font-size: 11px;
+  color: #424242;
+}
+
+.axisLabel {
+  font-size: 15px;
 }
 
 .studentChartNode {
-  fill:red;
-  stroke:black;
+  fill:#e65100;
+  stroke:#424242;
+  stroke-width:2px;
 }
 
 .studentChartNode:hover {
-  stroke-width: 3px;
+  stroke-width: 4px;
 }
 
 .d3-tip {
