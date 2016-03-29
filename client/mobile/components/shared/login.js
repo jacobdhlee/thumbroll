@@ -22,7 +22,6 @@ var {
   Navigator,
   Switch,
   Dimensions,
-  Image,
 } = React;
 
 class Login extends React.Component {
