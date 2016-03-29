@@ -55,7 +55,7 @@ class ClassStandbyView extends React.Component {
       user: this.state.user,
       socket: this.state.socket,
       sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromBottom,
+        ...Navigator.SceneConfigs.HorizontalSwipeJump,
         gestures: {}
       }
     })
@@ -68,7 +68,7 @@ class ClassStandbyView extends React.Component {
       user: this.state.user,
       socket: this.state.socket,
       sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromBottom,
+        ...Navigator.SceneConfigs.HorizontalSwipeJump,
         gestures: {}
       }
     })
@@ -123,17 +123,20 @@ class ClassStandbyView extends React.Component {
         <View>
           <Text onPress={this.multiPage.bind(this)} >MutipleChoice</Text>
         </View>
-        <View style={styles.container}>
+        <View style={{alignItems: 'center'}}>
           <Text style={styles.textSizeOne}>Waiting for Teacher!</Text>
+        </View>
+        <View style={styles.container}>
           <Button onPress={this.raiseHand.bind(this)} text={'RaiseHand'}/>
           <Button onPress={this.askQuestion.bind(this)}text={'Ask short Question'} />
         </View>
 
-        <Modal visible={this.state.modal} transparent={true} animated={true}>
+        <Modal visible={this.state.modal} transparent={true} animated={false}>
           <View style={styles.modal}>
             <View style={{height:this.state.height * 0.9, width:this.state.width * 0.9}}>
               <View style={styles.modalBox}>
-                <Text> Enter your Question </Text>
+                <Text style={styles.modalTextSize}> Enter your Question </Text>
+                <View>
                 <TextInput
                   autoCapitalize={'sentences'}
                   autoCorrect={true}
@@ -146,7 +149,8 @@ class ClassStandbyView extends React.Component {
                   onChangeText={(text) => this.setState({ question: text})}
                   value={this.state.question}
                 />
-                <TouchableOpacity>
+                </View>
+                <TouchableOpacity style={{width: 200}}>
                   <Button onPress={this.closeQuestion.bind(this)} text={'submit'} />
                 </TouchableOpacity>
               </View>
@@ -179,14 +183,25 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white'
+    backgroundColor: '#e3f2fd'
   },
-
+  modalBoxView: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalTextSize: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
   textSize: {
     fontSize : 20
   },
 
   userInput: {
+    backgroundColor: '#e1f5fe',
+    width: 300,
     height: 300,
     padding: 4,
     fontSize: 18,

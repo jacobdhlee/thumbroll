@@ -15,6 +15,7 @@ var {
   Alert,
   TextInput,
   Dimensions,
+  Image,
 } = React;
 
 class RequestFeedbackView extends React.Component {
@@ -190,10 +191,14 @@ class RequestFeedbackView extends React.Component {
     var student = studentsObj[randomKey];
     console.log('Calling on:', student);
     this.state.socket.emit('callOnStudent', student);
-    if(student.firstName) {
-      Alert.alert('Called on', student.firstName + ' ' + student.lastName);
+    if(!student || studentsObj === undefined) {
+      Alert.alert('Called on', 'No student sign in yet!');
     } else {
-      Alert.alert('Called on student', student.uid);
+      if(student.firstName) {
+        Alert.alert('Called on', student.firstName + ' ' + student.lastName);
+      } else {
+        Alert.alert('Called on student', student.uid);
+      }
     }
   }
 
@@ -211,7 +216,7 @@ class RequestFeedbackView extends React.Component {
           feedbackOption: feedbackOption,
           socket: this.state.socket,
           sceneConfig: {
-            ...Navigator.SceneConfigs.FloatFromRight,
+            ...Navigator.SceneConfigs.HorizontalSwipeJump,
             gestures: {}
           }
         });
@@ -243,16 +248,25 @@ class RequestFeedbackView extends React.Component {
           {this.renderFeedbackOptions(this.state.feedbackOptions)}
           <Button onPress={this.callOnStudent.bind(this)} text={'Call On Student'}/>
         </View>
-          <View style={{flexDirection: 'row', height:60, width: null, alignSelf:'flex-end'}}>
-          <TouchableOpacity onPress={this.clickQuestion.bind(this)}style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'yellow', height: 60, width: 100}}>
+        <View style={styles.studentResponse}>
+          <TouchableOpacity onPress={this.clickQuestion.bind(this)} style={styles.questionBox}>
+            <View style={styles.imageBox}>
+              <Image source={require('../../image/question.png')}/>
               <Text style={styles.textSize}>
-                Q:{this.state.questionLists.length}
+                : {this.state.questionLists.length}
               </Text>
+            </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={this.clickRaisedHand.bind(this)} style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'red', height: 60, width: 100}}>
+          <View>
+            <Text>{this.state.lessonId}</Text>
+          </View>
+          <TouchableOpacity onPress={this.clickRaisedHand.bind(this)} style={styles.raiseHandBox}>
+            <View style={styles.imageBox}>
+              <Image source={require('../../image/raiseHand.png')}/>
               <Text style={styles.textSize}>
-                R : {this.state.raisedHandCount}
+                : {this.state.raisedHandCount}
               </Text>
+            </View>
           </TouchableOpacity>
         </View>
 
@@ -295,12 +309,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
+
   modal: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.8)',
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   modalBox: {
     flex: 1,
     borderRadius: 10,
@@ -308,23 +324,55 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white'
   },
+
   textSizeModal: {
     fontSize : 20,
     fontWeight: 'bold',
   },
+
   studentName: {
     fontSize: 35,
     fontWeight: 'bold',
   },
+
   studentNameChange:{
     fontSize: 35,
     fontWeight: 'bold',
     color: '#C6C7C3',
   },
+
   textSize: {
     fontSize : 25,
     fontWeight: 'bold',
   },
+
+  studentResponse: {
+    flexDirection: 'row', 
+    height:60, 
+    width: null, 
+    justifyContent: 'space-between',
+  },
+
+  questionBox: { 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    backgroundColor:'#bbdefb', 
+    height: 60, 
+    width: 100,
+  },
+
+  raiseHandBox: {
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    backgroundColor:'#bbdefb', 
+    height: 60, 
+    width: 100,
+  },
+  imageBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  }
 });
 
 module.exports = RequestFeedbackView;

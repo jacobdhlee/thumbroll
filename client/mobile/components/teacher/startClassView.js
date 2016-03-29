@@ -105,7 +105,7 @@ class StartClassView extends React.Component {
       getActiveStudents: this.getActiveStudents.bind(this),
       socket: this.state.socket,
       sceneConfig: {
-        ...Navigator.SceneConfigs.FloatFromRight,
+        ...Navigator.SceneConfigs.HorizontalSwipeJump,
         gestures: {}
       }
     });
@@ -154,7 +154,7 @@ class StartClassView extends React.Component {
           getActiveStudents: this.getActiveStudents.bind(this),
           socket: this.socket,
           sceneConfig: {
-            ...Navigator.SceneConfigs.FloatFromRight,
+            ...Navigator.SceneConfigs.HorizontalSwipeJump,
             gestures: {}
           }
         });
@@ -177,22 +177,25 @@ class StartClassView extends React.Component {
     return (
       <View style={{flex: 1}}> 
         <NavBar navi={this.props.navigator}>Your Classes</NavBar>
-        <ScrollView>
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Button onPress={this.selectQuickClass.bind(this)} text={'Start Quick Class'} />
-            {this.renderClasses(this.state.classes)}
+        <View style={styles.viewTopContainer}>
+          <View>
+            <ScrollView>
+              <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Button onPress={this.selectQuickClass.bind(this)} text={'Start Quick Class'} />
+                {this.renderClasses(this.state.classes)}
+              </View>
+            </ScrollView>
           </View>
-        </ScrollView>
+        </View>
+
         <Modal visible={this.state.modalVisible} transparent={true} animated={true}>
           <View style={styles.modal}>
-            <View style={{height:this.state.height * 0.6, width:this.state.width * 0.8}}>
+            <View style={{height:this.state.height * 0.6, width:this.state.width * 0.85}}>
               <View style={styles.modalBox}>
-                <Text> Your secret code is: </Text>
-                <Text> {this.state.randomId} </Text>
-                <TouchableHighlight onPress={this.navigateFromModal.bind(this)}>
-                  <Text> Okay </Text>
-                </TouchableHighlight>
+                <Text style={styles.textSize}> Your secret code is: </Text>
+                <Text style={styles.codeSize}> {this.state.randomId} </Text>
               </View>
+              <Button onPress={this.navigateFromModal.bind(this)} text={'Okay'} />
             </View>
           </View>
         </Modal>
@@ -202,42 +205,38 @@ class StartClassView extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  viewTopContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    flexDirection: 'column',  
+  },
   viewContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  pageText: {
-    fontSize: 20
+  textSize: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: 30,
   },
-  buttonsContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20
-  },
-  buttonContainer: {
-    margin: 20
-  },
-  button: {
-
-  },
-  buttonText: {
-    fontSize: 20
+  codeSize: {
+    fontSize: 25,
+    fontWeight: 'bold',
   },
   modal: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.8)',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   modalBox: {
     flex: 1,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white'
+    backgroundColor: '#e3f2fd',
   }
 });
 

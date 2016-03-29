@@ -5,14 +5,22 @@ var {
   Text,
   StyleSheet,
   TouchableOpacity,
+  Dimensions,
 } = React;
 
 class Button extends React.Component {
-  
+  constructor(props){
+    super(props);
+    var {height, width} = Dimensions.get('window');
+    this.state = {
+      height: height,
+      width: width,
+    }
+  }
   render () {
     return (
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.buttons} onPress={this.props.onPress}>
+        <TouchableOpacity style={[styles.buttons, {width: this.state.width * 0.85}]} onPress={this.props.onPress}>
           <Text style={styles.textSize}>
             {this.props.text}
           </Text>
@@ -22,16 +30,16 @@ class Button extends React.Component {
   }
 }
 
+
 const styles = StyleSheet.create({
   buttons: {
-    height: 60,
-    width: 340,
-    backgroundColor:'#6FC3D1',
-    borderColor: '#6FC3D1',
-    borderWidth: 2,
-    borderRadius: 10,
-    marginTop: 20,
-    marginBottom: 20,
+    height: 50,
+    backgroundColor:'#03a9f4',
+    borderColor: '#03a9f4',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 10,
+    marginBottom: 10,
     justifyContent: 'center',
   },
   buttonContainer: {
@@ -39,7 +47,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textSize: {
-    fontSize: 30,
+    fontSize: 22,
     alignSelf: 'center',
     color: 'white'
   },
