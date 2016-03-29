@@ -470,8 +470,17 @@ class StudentChart extends React.Component {
     var xOffset = 50;
     var yOffset = 50;
 
-    var tip = d3.tip().attr('class', 'd3-tip').html(function(d) { 
-      return d.first_name + ' ' + d.last_name;
+    var tip = d3.tip().attr('class', 'd3-tip').html(function(d) {
+      var responseRate = (d.response_count || 0) / d.potential_response_count * 100;
+      var correctRate = (d.correct_response_count || 0) / d.potential_correct_response_count * 100;
+      var avgThumb = d.average_thumb;
+      responseRate = d.potential_response_count ? responseRate.toFixed(1) + '%' : 'N/A';
+      correctRate = d.potential_correct_response_count ? correctRate.toFixed(1) + '%' : 'N/A';
+      avgThumb = avgThumb ? avgThumb.toFixed(1) + '%' : 'N/A';
+      return d.first_name + ' ' + d.last_name + '<br/>' +
+        'Avg Thumb: ' + avgThumb + '<br/>' +
+        'Response Rate: ' + responseRate + '<br/>' + 
+        'Accuracy Rate: ' + correctRate;
     });
     d3.select('svg').call(tip);
 
