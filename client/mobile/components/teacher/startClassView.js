@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.8)',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   modalBox: {
     flex: 1,
