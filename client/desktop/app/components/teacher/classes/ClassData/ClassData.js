@@ -6,6 +6,8 @@ import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import api from '../../../../utils/api';
 require('react-datepicker/dist/react-datepicker.css');
+require('d3');
+d3.tip = require('d3-tip');
 import {Button, Card, Row, Col} from 'react-materialize';
 
 
@@ -343,6 +345,7 @@ const Students = (props) => {
             {props.children}
           </div>
         </div>
+        <StudentChart students={props.students} />
       </div>
     )
   } else {
@@ -453,6 +456,102 @@ const StudentTable = (props) => {
   </div>
   )
 }
+
+
+class StudentChart extends React.Component { 
+  constructor(props) {
+    super(props);
+    this.width = 500;
+    this.height = 500;
+  }
+
+  componentWillReceiveProps(props) {
+    //add axes
+    var xOffset = 50;
+    var yOffset = 50;
+
+    var tip = d3.tip().attr('class', 'd3-tip').html(function(d) { 
+      return d.first_name + ' ' + d.last_name;
+    });
+    d3.select('svg').call(tip);
+
+    var mapToChart = function(percent, xOrY) {
+      if(xOrY == 'y') {
+        return (100 - percent) / 100 * (this.height - 2 * yOffset) + yOffset;
+      } else {
+        return percent / 100 * (this.width - 2 * xOffset) + xOffset;
+      }
+    }.bind(this);
+
+    var xAxisScale = d3.scale.linear()
+      .domain([0,100])
+      .range([xOffset, this.width - xOffset]);
+    var yAxisScale = d3.scale.linear()
+      .domain([0,100])
+      .range([this.height - yOffset, yOffset]);
+    var xAxis = d3.svg.axis()
+      .scale(xAxisScale)
+      .orient('bottom');
+    var yAxis = d3.svg.axis()
+      .scale(yAxisScale)
+      .orient('left');
+
+    var xAxisGroup = d3.select('svg').append('g')
+      .attr('class', 'axis')
+      .attr('transform', 'translate( 0,' + (this.height - yOffset) + ')')
+      .call(xAxis);
+    var yAxisGroup = d3.select('svg').append('g')
+      .attr('class', 'axis')
+      .attr('transform', 'translate(' + xOffset + ', 0)')
+      .call(yAxis);
+
+    d3.select('svg').append('text')
+      .attr('class', 'axisLabel')
+      .attr('text-anchor', 'end')
+      .attr('x', this.width / 2 + xOffset)
+      .attr('y', this.height - 10)
+      .text('Response Rate (%)');
+
+    d3.select('svg').append('text')
+      .attr('class', 'axisLabel')
+      .attr('text-anchor', 'end')
+      .attr('y', 6)
+      .attr('x', -this.height / 2 + 10)
+      .attr('dy', '.75em')
+      .attr('transform', 'rotate(-90)')
+      .text('Accuracy Rate (%)');
+    
+    //render students
+    d3.select('svg').selectAll('.student')
+      .data(props.students)
+      .enter()
+      .append('circle')
+      .attr('class', 'studentChartNode')
+      .attr('r', function(d) {
+        return d.average_thumb / 5 + 5 || 5;
+      })
+      .attr('cx', function(d) {
+        var responseRate = (d.response_count || 0) / d.potential_response_count * 100;
+        return mapToChart(responseRate, '`x');
+      })
+      .attr('cy', function(d) {
+        var correctRate = (d.correct_response_count || 0) / d.potential_correct_response_count * 100;
+        return mapToChart(correctRate, 'y');
+      })
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
+  }
+
+  render(){
+    return (
+      <div className='chartContainer' style={{padding:'10px'}}>
+        <svg width={this.width} height={this.height}>
+        </svg>
+      </div>
+    )
+  }
+}
+
 
 ClassData.contextTypes = {
   router: React.PropTypes.any.isRequired
