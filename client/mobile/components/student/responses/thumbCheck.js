@@ -106,7 +106,7 @@ var customStyles = StyleSheet.create({
       width: 30,
       height: 30,
       borderRadius: 30 / 2,
-      backgroundColor: 'white',
+      backgroundColor: '#424242',
       borderColor: '#30a935',
       borderWidth: 2,
     }
