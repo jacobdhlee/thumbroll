@@ -403,7 +403,7 @@ const LessonTable = (props) => {
           var correctRate = (lesson.correct_response_count || 0) / lesson.potential_correct_responses_count * 100;
           var date = new Date(lesson.date).toLocaleDateString();
           return (
-            <tr key={'L' + lesson.lesson_id} 
+            <tr style={{cursor: 'pointer'}} key={'L' + lesson.lesson_id} 
               onClick={props.handleLessonClick.bind(null, lesson.lesson_id, lesson.lesson_name)}>
               <td> {lesson.lesson_name} </td>
               <td> {date} </td>
@@ -438,7 +438,7 @@ const StudentTable = (props) => {
           var responseRate = (student.response_count || 0) / student.potential_response_count * 100;
           var correctRate = (student.correct_response_count || 0) / student.potential_correct_response_count * 100;
           return (
-            <tr onClick={props.handleStudentClick.bind(null, student.student_id, student.first_name, student.last_name)}
+            <tr style={{cursor: 'pointer'}} onClick={props.handleStudentClick.bind(null, student.student_id, student.first_name, student.last_name)}
               key={'S' + student.student_id}>
               <td> {student.first_name + ' ' + student.last_name} </td>
               <td> {student.lesson_count ? student.lesson_count : 0} </td>
