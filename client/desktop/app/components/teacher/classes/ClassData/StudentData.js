@@ -19,11 +19,13 @@ class StudentData extends React.Component {
   render(){
     return (
       <div>
-        <h3 onClick={this.handleClassClick.bind(this)} style={{color: '#03A9F4'}}>
-          {this.state.className}
-        </h3>
-        <h5 style={{color: '#03A9F4'}}> {this.state.firstName + ' ' + this.state.lastName} </h5>
+        <h2 className='sectionHeading classList' onClick={this.handleClassClick.bind(this)}>
+          <span className='pointer'>{this.state.className}</span>
+        </h2>
+        <h5 className='sectionHeading classList'> {this.state.firstName + ' ' + this.state.lastName} </h5>
+        <div className='dataTable'>
         <DataTable data={this.state.data} />
+        </div>
       </div>
     )
   }
@@ -56,30 +58,32 @@ class StudentData extends React.Component {
 
 const DataTable = (props) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th> Lesson </th>
-          <th> Poll </th>
-          <th> Poll Type </th>
-          <th> Correct Answer </th>
-          <th> Student Response </th>
-        </tr>
-      </thead>
-      <tbody>
-      {props.data.map((poll) => {
-        return (
-          <tr key={'P' + poll.poll_id} >
-            <td> {poll.lesson_name ? poll.lesson_name : 'N/A'} </td>
-            <td> {poll.poll_name ? poll.poll_name : 'N/A'} </td>
-            <td> {poll.type} </td>
-            <td> {poll.correct_answer ? poll.correct_answer : 'N/A'} </td>
-            <td> {poll.type == 'thumbs' ? poll.student_answer + '%' :  poll.student_answer} </td>
+    <div className='tableContainer'>
+      <table>
+        <thead>
+          <tr>
+            <th> Lesson </th>
+            <th> Poll </th>
+            <th> Poll Type </th>
+            <th> Correct Answer </th>
+            <th> Student Response </th>
           </tr>
-        )
-      })}
-    </tbody>
-  </table>
+        </thead>
+        <tbody>
+        {props.data.map((poll) => {
+          return (
+            <tr key={'P' + poll.poll_id} >
+              <td> {poll.lesson_name ? poll.lesson_name : 'N/A'} </td>
+              <td> {poll.poll_name ? poll.poll_name : 'N/A'} </td>
+              <td> {poll.type} </td>
+              <td> {poll.correct_answer ? poll.correct_answer : 'N/A'} </td>
+              <td> {poll.type == 'thumbs' ? poll.student_answer + '%' :  poll.student_answer} </td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
+  </div>
   )
 }
 

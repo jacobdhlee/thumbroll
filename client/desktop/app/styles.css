@@ -84,6 +84,10 @@ footer.footerApp {
   margin: 20px;
   margin-left: 0px;
   color: #424242;
+  margin-top: 10px;
+}
+.pointer {
+  cursor: pointer;
 }
 
 h2.sectionHeading {
@@ -93,6 +97,10 @@ h2.sectionHeading {
   margin-left: 20%;
   margin-bottom: 3%;
   color: #424242;
+}
+
+h2.classDataHeading {
+  margin-bottom: 1%;
 }
 
 .settingsButton {
@@ -260,6 +268,7 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
   font-size: 2em;
   font-family: 'Lato', sans-serif;
   font-weight: 300;
+  color: #03a9f4;
 }
 
 .newClassForm {
@@ -271,3 +280,17 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
   width: 200%; 
 }
 
+.lessonsToday {
+  margin-bottom: 20px;
+}
+
+.row {
+  margin-bottom: 200px;
+}
+
+.dataRow {
+  margin-left: 30%;
+  margin-right: 30%;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
