@@ -18,6 +18,7 @@ module.exports = function(app, io) {
   app.get('/teachers/polls/:lessonId', utils.checkUser, teachersController.getLessonPolls);  
   
   app.get('/teachers/classes/:classId/lessons', utils.checkUser, teachersController.getClassLessons);
+  
   //get lessons mobile for teachers
   app.get('/teachers/lessons/:classId', teachersController.getClassLessons);
   app.get('/teachers/classes/:teacherId', teachersController.getClasses);
@@ -32,12 +33,14 @@ module.exports = function(app, io) {
   app.get('/classes/:classId/students', classesController.getClassStudentsData);
   app.get('/classes/:classId/students/:studentId', classesController.getStudentPollsData);
 
+  // Add new class
+  app.post('/teachers/classes', teachersController.addClass);
+
   // Add new lesson to class
   app.post('/teachers/lessons', teachersController.addClassLesson);
 
   app.post('/students/ready', utils.checkUser, studentsController.readyStage.bind(null, io));
   // app.get(utils.checkUser, '/', rootController.root);
-  app.post('/teachers/classes', teachersController.addClasses);
   
   // Add student to class
   app.post('/teachers/class/student', teachersController.addStudentToClass);
