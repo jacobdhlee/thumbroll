@@ -496,31 +496,6 @@ class StudentChart extends React.Component {
       .scale(yAxisScale)
       .orient('left');
 
-    var xAxisGroup = d3.select('svg').append('g')
-      .attr('class', 'axis')
-      .attr('transform', 'translate( 0,' + (this.height - yOffset) + ')')
-      .call(xAxis);
-    var yAxisGroup = d3.select('svg').append('g')
-      .attr('class', 'axis')
-      .attr('transform', 'translate(' + xOffset + ', 0)')
-      .call(yAxis);
-
-    d3.select('svg').append('text')
-      .attr('class', 'axisLabel')
-      .attr('text-anchor', 'end')
-      .attr('x', this.width / 2 + xOffset)
-      .attr('y', this.height - 10)
-      .text('Response Rate (%)');
-
-    d3.select('svg').append('text')
-      .attr('class', 'axisLabel')
-      .attr('text-anchor', 'end')
-      .attr('y', 6)
-      .attr('x', -this.height / 2 + 10)
-      .attr('dy', '.75em')
-      .attr('transform', 'rotate(-90)')
-      .text('Accuracy Rate (%)');
-    
     //render students
     d3.select('svg').selectAll('.student')
       .data(props.students)
@@ -540,6 +515,34 @@ class StudentChart extends React.Component {
       })
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide);
+
+    //Render axes
+    var xAxisGroup = d3.select('svg').append('g')
+      .attr('class', 'axis')
+      .attr('transform', 'translate( 0,' + (this.height - yOffset) + ')')
+      .call(xAxis);
+    var yAxisGroup = d3.select('svg').append('g')
+      .attr('class', 'axis')
+      .attr('transform', 'translate(' + xOffset + ', 0)')
+      .call(yAxis);
+
+    //Render axis labels
+    d3.select('svg').append('text')
+      .attr('class', 'axisLabel')
+      .attr('text-anchor', 'end')
+      .attr('x', this.width / 2 + xOffset)
+      .attr('y', this.height - 10)
+      .text('Response Rate (%)');
+
+    d3.select('svg').append('text')
+      .attr('class', 'axisLabel')
+      .attr('text-anchor', 'end')
+      .attr('y', 6)
+      .attr('x', -this.height / 2 + 10)
+      .attr('dy', '.75em')
+      .attr('transform', 'rotate(-90)')
+      .text('Accuracy Rate (%)');
+    
   }
 
   render(){
