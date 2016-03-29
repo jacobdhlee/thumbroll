@@ -1,5 +1,6 @@
 import React from 'react'
 import {Route, RouteHandler, Link, Button} from 'react-router'
+var auth = require('./../utils/auth');
 
 class Profile extends React.Component {
   constructor(props){
@@ -10,6 +11,13 @@ class Profile extends React.Component {
         email: 'teachy@teach.er'
       }
     };
+  }
+
+  handleLogout() {
+    auth.logout();
+    this.context.router.push({
+      pathname: '/login'
+    });
   }
 
   render(){
@@ -25,16 +33,15 @@ class Profile extends React.Component {
           <div>
             <span>Email: </span><span>{this.state.teacherData.email}</span>
           </div>
-
-          <li onClick={()=>{ auth.logout();
-          }}>
-          </li>
         </div>
-        <button style={{marginLeft: '20%'}}>Logout</button>
+        <button onClick={this.handleLogout.bind(this)} style={{marginLeft: '20%'}}>Logout</button>
       </div>
     )
   }
 }
 
+Profile.contextTypes = {
+  router: React.PropTypes.any.isRequired
+};
 
 module.exports = Profile;
