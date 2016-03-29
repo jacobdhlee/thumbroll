@@ -88,7 +88,7 @@ class Login extends React.Component {
         </Row>
 
         <div className='valign'>
-          <Row>
+          <Row className='loginRow'>
             <Col s={12} l={12}>
               <input style={{fontSize: '3em'}} style={{maxWidth: '10em'}} className='center-align callToAction'
               type="text" 
@@ -105,7 +105,7 @@ class Login extends React.Component {
               />
               </Col>
           </Row>
-          <Row>
+          <Row className='loginRow'>
             <Col s={12} l={12}>
               <button style={{fontSize: '2em'}} className='center-align loginButton' onClick={this.handleSubmit.bind(this)}>
               Submit
@@ -119,7 +119,7 @@ class Login extends React.Component {
         <div className='footer'>
           <footer className="page-footer light-blue">
             <div className="container">
-              <Row>
+              <Row className='loginRow'>
                 <Col l={12} s={12}>
                   <h5 className="welcomeMessage white-text center-align">Your students, engaged at lightspeed.</h5>
                 </Col>
