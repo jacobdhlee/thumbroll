@@ -27,7 +27,6 @@ class Login extends React.Component {
 
   handleSubmit() {
     // Invoke controller to send POST request
-
     auth.login(this.state.username, this.state.password, (success) => {
       if(success) {
         this.setState({

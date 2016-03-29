@@ -28979,7 +28979,6 @@
 	      var _this2 = this;
 
 	      // Invoke controller to send POST request
-
 	      _auth2.default.login(this.state.username, this.state.password, function (success) {
 	        if (success) {
 	          _this2.setState({
@@ -29264,6 +29263,41 @@
 	  // Get teacher desktop data:
 	  getClassLessonsData: function getClassLessonsData(classId) {
 	    return fetch(server + '/classes/' + classId + '/lessons');
+	  },
+
+	  addThumbPoll: function addThumbPoll(lessonId, title, question) {
+	    return fetch(server + '/teachers/class/student', {
+	      method: 'POST',
+	      headers: {
+	        'Accept': 'application/json',
+	        'Content-Type': 'application/json'
+	      },
+	      body: JSON.stringify({
+	        lessonId: lessonId,
+	        title: title,
+	        question: question
+	      })
+	    });
+	  },
+
+	  addMultiChoicePoll: function addMultiChoicePoll(lessonId, title, question, answer, A, B, C, D) {
+	    return fetch(server + '/teachers/class/student', {
+	      method: 'POST',
+	      headers: {
+	        'Accept': 'application/json',
+	        'Content-Type': 'application/json'
+	      },
+	      body: JSON.stringify({
+	        lessonId: lessonId,
+	        title: title,
+	        question: question,
+	        answer: answer,
+	        A: A,
+	        B: B,
+	        C: C,
+	        D: D
+	      })
+	    });
 	  },
 
 	  getLessonPollsData: function getLessonPollsData(lessonId) {
@@ -32251,6 +32285,7 @@
 	        ),
 	        _react2.default.createElement(AddThumbsForm, {
 	          onSubmit: this.handleThumbsFormSubmit.bind(this),
+	          lessonId: this.props.lessonId,
 	          addThumbs: this.state.addThumbs,
 	          thumbsTitle: this.state.thumbsTitle,
 	          thumbsQuestion: this.state.thumbsQuestion,
@@ -32259,6 +32294,7 @@
 	        }),
 	        _react2.default.createElement(AddMultiChoiceForm, {
 	          onSubmit: this.handleMultiChoiceFormSubmit.bind(this),
+	          lessonId: this.props.lessonId,
 	          addMultiChoice: this.state.addMultiChoice,
 	          multiTitle: this.state.multiTitle,
 	          multiQuestion: this.state.multiQuestion,
@@ -32372,13 +32408,9 @@
 
 	      // Submit form data over API
 
-	      this.setState({
-	        // Wipe relevant states
-	      });
-
 	      // Call API to grab new poll data
 	      // add to state
-	      _api2.default.getLessonPollsData(this.state.lessonId).then(function (response) {
+	      _api2.default.getLessonPollsData(props.lessonId, props.thumbsTitle, props.thumbsQuestion).then(function (response) {
 	        response.json().then(function (response) {
 	          console.log('Individual lesson data from DB:', response);
 	          _this3.setState({
@@ -32390,6 +32422,12 @@
 	      }).catch(function (err) {
 	        console.error(err);
 	      });
+
+	      this.setState({
+	        // Wipe relevant states
+	        thumbsTitle: "",
+	        thumbsQuestion: ""
+	      });
 	    }
 	  }, {
 	    key: 'handleMultiChoiceFormSubmit',
@@ -32398,13 +32436,9 @@
 
 	      // Submit form data over API
 
-	      this.setState({
-	        // Wipe relevant states
-	      });
-
 	      // Call API to grab new poll data
 	      // add to state
-	      _api2.default.getLessonPollsData(this.state.lessonId).then(function (response) {
+	      _api2.default.getLessonPollsData(props.lessonId, props.multiTitle, props.multiQuestion, props.multiAnswer, props.multiA, props.multiB, props.multiC, props.multiD).then(function (response) {
 	        response.json().then(function (response) {
 	          console.log('Individual lesson data from DB:', response);
 	          _this4.setState({
@@ -32415,6 +32449,17 @@
 	        });
 	      }).catch(function (err) {
 	        console.error(err);
+	      });
+
+	      this.setState({
+	        // Wipe relevant states
+	        multiTitle: "",
+	        multiQuestion: "",
+	        multiAnswer: "",
+	        multiA: "",
+	        multiB: "",
+	        multiC: "",
+	        multiD: ""
 	      });
 	    }
 	  }]);
@@ -32581,13 +32626,31 @@
 	      ),
 	      _react2.default.createElement(
 	        'form',
-	        { onSubmit: props.addStudent },
-	        _react2.default.createElement('input', { type: 'text', placeholder: 'Title (for your records)', value: props.thumbsTitle, onChange: function onChange(event) {
-	            props.handleThumbsTitleChange(event);
-	          } }),
-	        _react2.default.createElement('input', { type: 'text', placeholder: 'Question', value: props.thumbsQuestion, onChange: function onChange(event) {
-	            props.handleThumbsQuestionChange(event);
-	          } }),
+	        { onSubmit: props.addStudent, className: 'pollForm' },
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'text',
+	            null,
+	            'Title'
+	          ),
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Title (for your records)', value: props.thumbsTitle, onChange: function onChange(event) {
+	              props.handleThumbsTitleChange(event);
+	            } })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'text',
+	            null,
+	            'Question'
+	          ),
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Question', value: props.thumbsQuestion, onChange: function onChange(event) {
+	              props.handleThumbsQuestionChange(event);
+	            } })
+	        ),
 	        _react2.default.createElement(
 	          'div',
 	          null,
@@ -32616,25 +32679,79 @@
 	      ),
 	      _react2.default.createElement(
 	        'form',
-	        { onSubmit: props.handleMultiChoiceFormSubmit },
-	        _react2.default.createElement('input', { type: 'text', placeholder: 'Short title (for your records)', value: props.multiTitle, onChange: function onChange(event) {
-	            props.handleMultiTitleChange(event);
-	          } }),
-	        _react2.default.createElement('input', { type: 'text', placeholder: 'Question', value: props.multiQuestion, onChange: function onChange(event) {
-	            props.handleMultiQuestionChange(event);
-	          } }),
-	        _react2.default.createElement('input', { type: 'text', placeholder: 'Option A', value: props.multiA, onChange: function onChange(event) {
-	            props.handleMultiAChange(event);
-	          } }),
-	        _react2.default.createElement('input', { type: 'text', placeholder: 'Option B', value: props.multiB, onChange: function onChange(event) {
-	            props.handleMultiBChange(event);
-	          } }),
-	        _react2.default.createElement('input', { type: 'text', placeholder: 'Option C', value: props.multiC, onChange: function onChange(event) {
-	            props.handleMultiCChange(event);
-	          } }),
-	        _react2.default.createElement('input', { type: 'text', placeholder: 'Option D', value: props.multiD, onChange: function onChange(event) {
-	            props.handleMultiDChange(event);
-	          } }),
+	        { onSubmit: props.handleMultiChoiceFormSubmit, className: 'pollForm' },
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'text',
+	            null,
+	            'Short Title'
+	          ),
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Short title (for your records)', value: props.multiTitle, onChange: function onChange(event) {
+	              props.handleMultiTitleChange(event);
+	            } })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'text',
+	            null,
+	            'Question'
+	          ),
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Question', value: props.multiQuestion, onChange: function onChange(event) {
+	              props.handleMultiQuestionChange(event);
+	            } })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'text',
+	            null,
+	            'Option A'
+	          ),
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Option A', value: props.multiA, onChange: function onChange(event) {
+	              props.handleMultiAChange(event);
+	            } })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'text',
+	            null,
+	            'Option B'
+	          ),
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Option B', value: props.multiB, onChange: function onChange(event) {
+	              props.handleMultiBChange(event);
+	            } })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'text',
+	            null,
+	            'Option C'
+	          ),
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Option C', value: props.multiC, onChange: function onChange(event) {
+	              props.handleMultiCChange(event);
+	            } })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'text',
+	            null,
+	            'Option D'
+	          ),
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Option D', value: props.multiD, onChange: function onChange(event) {
+	              props.handleMultiDChange(event);
+	            } })
+	        ),
 	        _react2.default.createElement(
 	          'div',
 	          null,
@@ -46621,7 +46738,7 @@
 
 
 	// module
-	exports.push([module.id, "html, body, h1, h2, h3, h4, ul, ol, li, p, a {\n  padding: 0;\n  border: 0;\n  margin: 0;\n}\n\nbody {\n  height: 100%;\n  width: 100%;\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column;\n  background-color: #fafafa;\n  overflow: scroll;\n}\n\nmain {\n  flex: 1 0 auto;\n}\n\np {\n  font-weight: 200;\n  font-family: 'Lato', sans-serif;\n  margin-left: 20%;\n}\n\nul {\n  list-style: none;\n}\n\nli {\n  color: black;\n  list-style: none;\n}\n\n.backgroundVideo{\n  height: 100%;\n  width: 100%;\n  top: 0;\n  padding: none;\n  position: fixed;\n  z-index: -100\n}\n\nfooter {\n  width:100%;\n  height:116px;\n  position: absolute;\n  bottom:0;\n  left:0;\n}\n\nfooter.footerApp{\n  width:0;\n  height:0;\n  position: fixed;\n  bottom:0;\n  left:0;\n}\n\nfooter.footerApp {\n  margin-top: 100px;\n  width:100%;\n  height:45px;\n  bottom:0;\n  left:0;\n  padding: 10px;\n}\n\n.title {\n  font-family: 'Lato', sans-serif;\n  font-weight: 100;\n  padding-left: 10px;\n}\n\n.titleCheck {\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n}\n\n.sectionHeading {\n  font-family: 'Lato', sans-serif;\n  font-weight: 900;\n  margin: 20px;\n  margin-left: 0px;\n  color: #424242;\n  margin-top: 10px;\n}\n.pointer {\n  cursor: pointer;\n}\n\nh2.sectionHeading {\n  font-family: 'Lato', sans-serif;\n  font-weight: 900;\n  margin: 30px;\n  margin-left: 20%;\n  margin-bottom: 3%;\n  color: #424242;\n}\n\nh2.classDataHeading {\n  margin-bottom: 1%;\n}\n\n.settingsButton {\n  float: left;\n  text-align: left;\n}\n.copywriter {\n  float: right;\n  font-family: 'Lato', sans-serif;\n  font-weight: 100;\n  color: #fafafa;\n}\n\n.welcomeTopBar {\n  padding-bottom: 10px;\n}\n\n.welcomeMessage {\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  font-size: 1.5em;\n  margin-top:0px;\n  margin-bottom: 1em;\n}\n\n.callToAction {\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  color: #fafafa;\n}\n\ninput:not([type]):focus:not([readonly]),\ninput[type=text]:focus:not([readonly]),\ninput[type=password]:focus:not([readonly]),\ninput[type=email]:focus:not([readonly]),\ninput[type=url]:focus:not([readonly]),\ninput[type=time]:focus:not([readonly]),\ninput[type=date]:focus:not([readonly]),\ninput[type=datetime-local]:focus:not([readonly]),\ninput[type=tel]:focus:not([readonly]),\ninput[type=number]:focus:not([readonly]),\ninput[type=search]:focus:not([readonly]),\ntextarea.materialize-textarea:focus:not([readonly]) {\n    border-bottom: 1px solid #03a9f4;\n    box-shadow: 0 1px 0 0 #03a9f4;\n}\n\n\nbutton {\n  background-color: transparent;\n  color: #fafafa;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\nbutton:active {\n    outline: none;\n    color: #03a9f4;\n    background-color: #03a9f4;\n}\n\nbutton:focus {\n  background-color: #fafafa;\n}\n\n\nbutton {\n  background-color: #fafafa;\n  color: #424242;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\nbutton:active .login{\n    outline: none;\n    background-color: #01579b;\n}\n\n.loginButton:active{\n    outline: none;\n    background-color: #03a9f4;\n}\n\n.loginButton{\n  background-color: transparent;\n  color: #fafafa;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\n.tableContainer {\n  margin-left: 20%;\n  margin-right: 20%;\n}\n\n#tableHeader {\n  max-width: 90%;\n}\n\n.tabs .tab {\n  border: 2px solid #03a9f4;\n  text-transform: none;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  font-size: 1.5em;\n  max-width: 100%;\n  color: #fafafa;\n}\n.tab:first-child {\n  border: 2px solid #03a9f4;\n  border-right: none;\n}\n\n.tab:active{\n  background-color: #bf360c;\n}\n\n.dateContainer {\n  max-width: '15em';\n\n  margin-left:'10px';\n}\n\ninput:not([type]), input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {\n    background-color: transparent;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    border-radius: 0;\n    outline: none;\n    height: 3rem;\n    width: 20%; \n    font-size: 1rem;\n    margin: 0 0 10px 0px;\n    padding: 0;\n    box-shadow: none;\n    box-sizing: content-box;\n    transition: all .3s;\n}\n\n.addNew {\n  margin-left: 20%;\n  margin-right: 20%;\n}\n\n.error {\n  color: #fafafa;\n}\n\n.dataTable {\n  margin-bottom: 70px;\n}\n\n.classList {\n  margin-left: 20%;\n}\n\n.classListItem {\n  font-size: 2em;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  color: #03a9f4;\n}\n\n.newClassForm {\n  max-width: 200px;\n}\n\n.newClass {\n  margin-left: 20%;\n  width: 200%; \n}\n\n.lessonsToday {\n  margin-bottom: 20px;\n}\n\n.row {\n  margin-bottom: 200px;\n}\n\n.dataRow {\n  margin-left: 30%;\n  margin-right: 30%;\n  margin-bottom: 10px;\n  margin-top: 0;\n}\n\n.loginRow {\n  margin-bottom: 0px;\n}\n\n.profile {\n  font-size: 1.5em;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  margin-bottom: 30px;\n}", ""]);
+	exports.push([module.id, "html, body, h1, h2, h3, h4, ul, ol, li, p, a {\n  padding: 0;\n  border: 0;\n  margin: 0;\n}\n\nbody {\n  height: 100%;\n  width: 100%;\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column;\n  background-color: #fafafa;\n  overflow: scroll;\n}\n\nmain {\n  flex: 1 0 auto;\n}\n\np {\n  font-weight: 200;\n  font-family: 'Lato', sans-serif;\n  margin-left: 20%;\n}\n\nul {\n  list-style: none;\n}\n\nli {\n  color: black;\n  list-style: none;\n}\n\n.backgroundVideo{\n  height: 100%;\n  width: 100%;\n  top: 0;\n  padding: none;\n  position: fixed;\n  z-index: -100\n}\n\nfooter {\n  width:100%;\n  height:116px;\n  position: absolute;\n  bottom:0;\n  left:0;\n}\n\nfooter.footerApp{\n  width:0;\n  height:0;\n  position: fixed;\n  bottom:0;\n  left:0;\n}\n\nfooter.footerApp {\n  margin-top: 100px;\n  width:100%;\n  height:45px;\n  bottom:0;\n  left:0;\n  padding: 10px;\n}\n\n.title {\n  font-family: 'Lato', sans-serif;\n  font-weight: 100;\n  padding-left: 10px;\n}\n\n.titleCheck {\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n}\n\n.sectionHeading {\n  font-family: 'Lato', sans-serif;\n  font-weight: 900;\n  margin: 20px;\n  margin-left: 0px;\n  color: #424242;\n  margin-top: 10px;\n}\n.pointer {\n  cursor: pointer;\n}\n\nh2.sectionHeading {\n  font-family: 'Lato', sans-serif;\n  font-weight: 900;\n  margin: 30px;\n  margin-left: 20%;\n  margin-bottom: 3%;\n  color: #424242;\n}\n\nh2.classDataHeading {\n  margin-bottom: 1%;\n}\n\n.settingsButton {\n  float: left;\n  text-align: left;\n}\n.copywriter {\n  float: right;\n  font-family: 'Lato', sans-serif;\n  font-weight: 100;\n  color: #fafafa;\n}\n\n.welcomeTopBar {\n  padding-bottom: 10px;\n}\n\n.welcomeMessage {\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  font-size: 1.5em;\n  margin-top:0px;\n  margin-bottom: 1em;\n}\n\n.callToAction {\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  color: #fafafa;\n}\n\ninput:not([type]):focus:not([readonly]),\ninput[type=text]:focus:not([readonly]),\ninput[type=password]:focus:not([readonly]),\ninput[type=email]:focus:not([readonly]),\ninput[type=url]:focus:not([readonly]),\ninput[type=time]:focus:not([readonly]),\ninput[type=date]:focus:not([readonly]),\ninput[type=datetime-local]:focus:not([readonly]),\ninput[type=tel]:focus:not([readonly]),\ninput[type=number]:focus:not([readonly]),\ninput[type=search]:focus:not([readonly]),\ntextarea.materialize-textarea:focus:not([readonly]) {\n    border-bottom: 1px solid #03a9f4;\n    box-shadow: 0 1px 0 0 #03a9f4;\n}\n\n\nbutton {\n  background-color: transparent;\n  color: #fafafa;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\nbutton:active {\n    outline: none;\n    color: #03a9f4;\n    background-color: #03a9f4;\n}\n\nbutton:focus {\n  background-color: #fafafa;\n}\n\n\nbutton {\n  background-color: #fafafa;\n  color: #424242;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\nbutton:active .login{\n    outline: none;\n    background-color: #01579b;\n}\n\n.loginButton:active{\n    outline: none;\n    background-color: #03a9f4;\n}\n\n.loginButton{\n  background-color: transparent;\n  color: #fafafa;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\n.tableContainer {\n  margin-left: 20%;\n  margin-right: 20%;\n}\n\n#tableHeader {\n  max-width: 90%;\n}\n\n.tabs .tab {\n  border: 2px solid #03a9f4;\n  text-transform: none;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  font-size: 1.5em;\n  max-width: 100%;\n  color: #fafafa;\n}\n.tab:first-child {\n  border: 2px solid #03a9f4;\n  border-right: none;\n}\n\n.tab:active{\n  background-color: #bf360c;\n}\n\n.dateContainer {\n  max-width: '15em';\n\n  margin-left:'10px';\n}\n\ninput:not([type]), input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {\n    background-color: transparent;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    border-radius: 0;\n    outline: none;\n    height: 3rem;\n    width: 20%; \n    font-size: 1rem;\n    margin: 0 0 10px 0px;\n    padding: 0;\n    box-shadow: none;\n    box-sizing: content-box;\n    transition: all .3s;\n}\n\n.addNew {\n  margin-left: 20%;\n  margin-right: 20%;\n}\n\n.error {\n  color: #fafafa;\n}\n\n.dataTable {\n  margin-bottom: 70px;\n}\n\n.classList {\n  margin-left: 20%;\n}\n\n.classListItem {\n  font-size: 2em;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  color: #03a9f4;\n}\n\n.newClassForm {\n  max-width: 200px;\n}\n\n.newClass {\n  margin-left: 20%;\n  width: 200%; \n}\n\n.lessonsToday {\n  margin-bottom: 20px;\n}\n\n.row {\n  margin-bottom: 200px;\n}\n\n.dataRow {\n  margin-left: 30%;\n  margin-right: 30%;\n  margin-bottom: 10px;\n  margin-top: 0;\n}\n\n.loginRow {\n  margin-bottom: 0px;\n}\n\n.profile {\n  font-size: 1.5em;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  margin-bottom: 30px;\n}\n\n.pollForm {\n  margin-bottom: 100px;\n}", ""]);
 
 	// exports
 

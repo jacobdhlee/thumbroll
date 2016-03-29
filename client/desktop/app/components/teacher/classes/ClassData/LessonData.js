@@ -44,6 +44,7 @@ class LessonData extends React.Component {
       <button onClick={this.handleAddMultiChoice.bind(this)}>Add multiple choice</button>
       <AddThumbsForm 
         onSubmit={this.handleThumbsFormSubmit.bind(this)} 
+        lessonId={this.props.lessonId}
         addThumbs={this.state.addThumbs}
         thumbsTitle={this.state.thumbsTitle}
         thumbsQuestion={this.state.thumbsQuestion}
@@ -52,6 +53,7 @@ class LessonData extends React.Component {
       />
       <AddMultiChoiceForm 
         onSubmit={this.handleMultiChoiceFormSubmit.bind(this)}
+        lessonId={this.props.lessonId}
         addMultiChoice={this.state.addMultiChoice}
         multiTitle={this.state.multiTitle}
         multiQuestion={this.state.multiQuestion}
@@ -149,13 +151,9 @@ class LessonData extends React.Component {
   handleThumbsFormSubmit() {
     // Submit form data over API
 
-    this.setState({
-     // Wipe relevant states
-    });
-
     // Call API to grab new poll data
     // add to state
-    api.getLessonPollsData(this.state.lessonId)
+    api.getLessonPollsData(props.lessonId, props.thumbsTitle, props.thumbsQuestion)
     .then((response) => {
       response.json().then((response) => {
         console.log('Individual lesson data from DB:', response);
@@ -168,19 +166,24 @@ class LessonData extends React.Component {
     })
     .catch((err) => {
       console.error(err);
+    });
+
+    this.setState({
+     // Wipe relevant states
+     thumbsTitle: "",
+     thumbsQuestion: ""
     });
   }
 
   handleMultiChoiceFormSubmit() {
     // Submit form data over API
 
-    this.setState({
-     // Wipe relevant states
-    });
+
 
     // Call API to grab new poll data
     // add to state
-    api.getLessonPollsData(this.state.lessonId)
+    api.getLessonPollsData(props.lessonId, props.multiTitle, props.multiQuestion, 
+      props.multiAnswer, props.multiA, props.multiB, props.multiC, props.multiD)
     .then((response) => {
       response.json().then((response) => {
         console.log('Individual lesson data from DB:', response);
@@ -193,6 +196,17 @@ class LessonData extends React.Component {
     })
     .catch((err) => {
       console.error(err);
+    });
+
+    this.setState({
+      // Wipe relevant states
+      multiTitle: "",
+      multiQuestion: "",
+      multiAnswer: "",
+      multiA: "",
+      multiB: "",
+      multiC: "",
+      multiD: ""
     });
   }
 }
@@ -269,14 +283,19 @@ const AddThumbsForm = (props) => {
     return (
       <div>
         <h5 className='sectionHeading' >New Thumbs Check</h5>
-        <form onSubmit={props.addStudent}>
-          <input type='text' placeholder='Title (for your records)' value={props.thumbsTitle} onChange={(event) => {
-            props.handleThumbsTitleChange(event);
-          }} />
-          <input type='text' placeholder='Question' value={props.thumbsQuestion} onChange={(event) => {
-            props.handleThumbsQuestionChange(event);
-          }} />
-          
+        <form onSubmit={props.addStudent} className="pollForm">
+          <div>
+            <text>Title</text>
+            <input type='text' placeholder='Title (for your records)' value={props.thumbsTitle} onChange={(event) => {
+              props.handleThumbsTitleChange(event);
+            }} />
+          </div>
+          <div>
+            <text>Question</text>
+            <input type='text' placeholder='Question' value={props.thumbsQuestion} onChange={(event) => {
+             props.handleThumbsQuestionChange(event);
+            }} />
+          </div>
           <div>
             <button style={{marginLeft:'0', fontSize: '1em'}} type='submit'>Add</button>
           </div>
@@ -295,25 +314,43 @@ const AddMultiChoiceForm = (props) => {
     return (
       <div>
         <h5 className='sectionHeading' >New Multiple Choice</h5>
-        <form onSubmit={props.handleMultiChoiceFormSubmit}>
-          <input type='text' placeholder='Short title (for your records)' value={props.multiTitle} onChange={(event) => {
-            props.handleMultiTitleChange(event);
-          }} />
-          <input type='text' placeholder='Question' value={props.multiQuestion} onChange={(event) => {
-            props.handleMultiQuestionChange(event);
-          }} />
-          <input type='text' placeholder='Option A' value={props.multiA} onChange={(event) => {
-            props.handleMultiAChange(event);
-          }} />
-          <input type='text' placeholder='Option B' value={props.multiB} onChange={(event) => {
-            props.handleMultiBChange(event);
-          }} />
-          <input type='text' placeholder='Option C' value={props.multiC} onChange={(event) => {
-            props.handleMultiCChange(event);
-          }} />
-          <input type='text' placeholder='Option D' value={props.multiD} onChange={(event) => {
-            props.handleMultiDChange(event);
-          }} />
+        <form onSubmit={props.handleMultiChoiceFormSubmit} className="pollForm">
+          <div>
+            <text>Short Title</text>
+            <input type='text' placeholder='Short title (for your records)' value={props.multiTitle} onChange={(event) => {
+              props.handleMultiTitleChange(event);
+            }} />
+          </div>
+          <div>
+            <text>Question</text>
+            <input type='text' placeholder='Question' value={props.multiQuestion} onChange={(event) => {
+              props.handleMultiQuestionChange(event);
+            }} />
+          </div>
+          <div>
+            <text>Option A</text>
+            <input type='text' placeholder='Option A' value={props.multiA} onChange={(event) => {
+              props.handleMultiAChange(event);
+            }} />
+          </div>
+          <div>
+            <text>Option B</text>
+            <input type='text' placeholder='Option B' value={props.multiB} onChange={(event) => {
+              props.handleMultiBChange(event);
+            }} />
+          </div>
+          <div>
+            <text>Option C</text>
+            <input type='text' placeholder='Option C' value={props.multiC} onChange={(event) => {
+              props.handleMultiCChange(event);
+            }} />
+          </div>
+          <div>
+            <text>Option D</text>
+            <input type='text' placeholder='Option D' value={props.multiD} onChange={(event) => {
+              props.handleMultiDChange(event);
+            }} />
+          </div>
           
           <div>
             <button style={{marginLeft:'0', fontSize: '1em'}} type='submit'>Add</button>

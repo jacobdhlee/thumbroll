@@ -85,6 +85,21 @@ module.exports = {
     });
   },
 
+  addThumbPoll: function(req, res, next) {
+    req.body.
+  },
+
+  addMultiChoicePoll: function(req, res, next) {
+    var lessonId = req.body.lessonId,
+    var title = req.body.title,
+    var question = req.body.question,
+    var answer = req.body.answer,
+    var optionA = req.body.A,
+    var optionB = req.body.B,
+    var optionC = req.body.C,
+    var optionD = req.body.D
+  },
+
   pollClass: function(io, req, res, next) {
     var lessonId = req.body.lessonId;
     var classId = req.body.classId;

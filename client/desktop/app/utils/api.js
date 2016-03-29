@@ -118,6 +118,42 @@ module.exports = {
     return fetch(server + '/classes/' + classId + '/lessons');
   },
 
+  addThumbPoll: (lessonId, title, question) => {
+    return fetch(server + '/teachers/class/student', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        lessonId: lessonId,
+        title: title,
+        question: question
+      })
+    });
+  },
+
+  addMultiChoicePoll: (lessonId, title, question, answer, A, B, C, D) => {
+    return fetch(server + '/teachers/class/student', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        lessonId: lessonId,
+        title: title,
+        question: question,
+        answer: answer,
+        A: A,
+        B: B,
+        C: C,
+        D: D
+      })
+    });
+  },
+
+
   getLessonPollsData: (lessonId) => {
     return fetch(server + '/lessons/' + lessonId + '/polls');
   },
