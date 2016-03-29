@@ -232,7 +232,7 @@ models.sequelize.sync({force: true}).then(function () {
 
   models.polls.create({
     type: 'multiChoice',
-    lesson_id: 3,
+    lesson_id: 4,
     answer: 'B',
     name: 'American Presidents',
     sent: false,
