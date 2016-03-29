@@ -46,6 +46,21 @@ module.exports = {
     return fetch(server + '/logout');
   },
 
+  addClass: (teacherId, className) => {
+    return fetch(server + '/teachers/classes', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        className: className,
+        teacherId: teacherId,
+      });
+    }); 
+  },
+  }
+
   addLesson: (classId, lessonName, lessonDate) => {
     return fetch(server + '/teachers/lessons', {
       method: 'POST',
@@ -67,21 +82,6 @@ module.exports = {
 
   getLessonData: (lessonId) => {
     return fetch(server + '/teachers/polls/' + lessonId);
-  },
-  
-  startPoll: (pollObject, lessonId, classId) => {    
-    return fetch(server + '/teachers/polls', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        pollObject: pollObject,
-        lessonId: lessonId,
-        classId: classId
-      })
-    });
   },
 
   getClasses: (teacherId) => {

@@ -71,16 +71,10 @@ class Classes extends React.Component {
     e.preventDefault();
     // update state with new list item
     if(!!this.state.newClassName.trim()){
-      var classesCopy = this.state.classes.slice();
-      classesCopy.push(this.state.newClassName);
-
-      this.setState({
-        classes: classesCopy,
-        newClassName: ''
-      });
+      // post to DB with teacher associated
+      
     }
 
-    // post to DB with teacher associated
   }
 
   handleLessonClick(lessonId, lessonName, classId, className) {
