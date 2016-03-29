@@ -133,21 +133,22 @@ class ClassStandbyView extends React.Component {
 
         <Modal visible={this.state.modal} transparent={true} animated={false}>
           <View style={styles.modal}>
-            <View style={{height:this.state.height * 0.9, width:this.state.width * 0.85}}>
+            <View style={{height:this.state.height * 0.9, width:this.state.width * 0.9}}>
               <View style={styles.modalBox}>
                 <Text style={styles.modalTextSize}> Enter your Question </Text>
                 <View>
                 <TextInput
                   autoCapitalize={'sentences'}
                   autoCorrect={true}
-                  style={styles.userInput}
+                  style={[styles.userInput, {width:this.state.width * 0.85}]}
                   keyboardType='default'
                   returnKeyType={'done'}
                   keyboardAppearance='dark'
                   clearTextOnFocus={true}
-                  multiline={true}
+                  multiline={false}
                   onChangeText={(text) => this.setState({ question: text})}
                   value={this.state.question}
+                  onSubmitEditing={this.closeQuestion.bind(this)}
                 />
                 </View>
                 <TouchableOpacity style={{width: 200}}>
@@ -201,7 +202,6 @@ const styles = StyleSheet.create({
 
   userInput: {
     backgroundColor: '#e1f5fe',
-    width: 300,
     height: 300,
     padding: 4,
     fontSize: 18,
