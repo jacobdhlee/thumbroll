@@ -32253,7 +32253,9 @@
 	          onSubmit: this.handleThumbsFormSubmit.bind(this),
 	          addThumbs: this.state.addThumbs,
 	          thumbsTitle: this.state.thumbsTitle,
-	          thumbsQuestion: this.state.thumbsQuestion
+	          thumbsQuestion: this.state.thumbsQuestion,
+	          handleThumbsTitleChange: this.handleThumbsTitleChange.bind(this),
+	          handleThumbsQuestionChange: this.handleThumbsQuestionChange.bind(this)
 	        }),
 	        _react2.default.createElement(AddMultiChoiceForm, {
 	          onSubmit: this.handleMultiChoiceFormSubmit.bind(this),
@@ -32264,7 +32266,14 @@
 	          multiA: this.state.multiA,
 	          multiB: this.state.multiB,
 	          multiC: this.state.multiC,
-	          multiD: this.state.multiD
+	          multiD: this.state.multiD,
+	          handleMultiTitleChange: this.handleMultiTitleChange.bind(this),
+	          handleMultiQuestionChange: this.handleMultiQuestionChange.bind(this),
+	          handleMultiAnswerChange: this.handleMultiAnswerChange.bind(this),
+	          handleMultiAChange: this.handleMultiAChange.bind(this),
+	          handleMultiBChange: this.handleMultiBChange.bind(this),
+	          handleMultiCChange: this.handleMultiCChange.bind(this),
+	          handleMultiDChange: this.handleMultiDChange.bind(this)
 	        })
 	      );
 	    }
@@ -32310,6 +32319,51 @@
 	        addThumbs: false,
 	        addMultiChoice: true
 	      });
+	    }
+	  }, {
+	    key: 'handleThumbsTitleChange',
+	    value: function handleThumbsTitleChange(e) {
+	      this.setState({ thumbsTitle: e.target.value });
+	    }
+	  }, {
+	    key: 'handleThumbsQuestionChange',
+	    value: function handleThumbsQuestionChange(e) {
+	      this.setState({ thumbsQuestion: e.target.value });
+	    }
+	  }, {
+	    key: 'handleMultiTitleChange',
+	    value: function handleMultiTitleChange(e) {
+	      this.setState({ multiTitle: e.target.value });
+	    }
+	  }, {
+	    key: 'handleMultiQuestionChange',
+	    value: function handleMultiQuestionChange(e) {
+	      this.setState({ multiQuestion: e.target.value });
+	    }
+	  }, {
+	    key: 'handleMultiAnswerChange',
+	    value: function handleMultiAnswerChange(e) {
+	      this.setState({ multiAnswer: e.target.value });
+	    }
+	  }, {
+	    key: 'handleMultiAChange',
+	    value: function handleMultiAChange(e) {
+	      this.setState({ multiA: e.target.value });
+	    }
+	  }, {
+	    key: 'handleMultiBChange',
+	    value: function handleMultiBChange(e) {
+	      this.setState({ multiB: e.target.value });
+	    }
+	  }, {
+	    key: 'handleMultiCChange',
+	    value: function handleMultiCChange(e) {
+	      this.setState({ multiC: e.target.value });
+	    }
+	  }, {
+	    key: 'handleMultiDChange',
+	    value: function handleMultiDChange(e) {
+	      this.setState({ multiD: e.target.value });
 	    }
 	  }, {
 	    key: 'handleThumbsFormSubmit',
@@ -32518,18 +32572,30 @@
 	var AddThumbsForm = function AddThumbsForm(props) {
 	  if (props.addThumbs) {
 	    return _react2.default.createElement(
-	      'form',
-	      { onSubmit: props.addStudent },
-	      _react2.default.createElement('input', { type: 'text', placeholder: 'Thumbs Check Title', value: props.newStudent, onChange: function onChange(event) {
-	          props.changeNewStudent(event.target.value);
-	        } }),
+	      'div',
+	      null,
 	      _react2.default.createElement(
-	        'div',
-	        null,
+	        'h5',
+	        { className: 'sectionHeading' },
+	        'New Thumbs Check'
+	      ),
+	      _react2.default.createElement(
+	        'form',
+	        { onSubmit: props.addStudent },
+	        _react2.default.createElement('input', { type: 'text', placeholder: 'Title (for your records)', value: props.thumbsTitle, onChange: function onChange(event) {
+	            props.handleThumbsTitleChange(event);
+	          } }),
+	        _react2.default.createElement('input', { type: 'text', placeholder: 'Question', value: props.thumbsQuestion, onChange: function onChange(event) {
+	            props.handleThumbsQuestionChange(event);
+	          } }),
 	        _react2.default.createElement(
-	          'button',
-	          { style: { marginLeft: '0', fontSize: '1em' }, type: 'submit' },
-	          'Add'
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'button',
+	            { style: { marginLeft: '0', fontSize: '1em' }, type: 'submit' },
+	            'Add'
+	          )
 	        )
 	      )
 	    );
@@ -32541,18 +32607,42 @@
 	var AddMultiChoiceForm = function AddMultiChoiceForm(props) {
 	  if (props.addMultiChoice) {
 	    return _react2.default.createElement(
-	      'form',
-	      { onSubmit: props.addStudent },
-	      _react2.default.createElement('input', { type: 'text', placeholder: 'Multiple Choice Title', value: props.newStudent, onChange: function onChange(event) {
-	          props.changeNewStudent(event.target.value);
-	        } }),
+	      'div',
+	      null,
 	      _react2.default.createElement(
-	        'div',
-	        null,
+	        'h5',
+	        { className: 'sectionHeading' },
+	        'New Multiple Choice'
+	      ),
+	      _react2.default.createElement(
+	        'form',
+	        { onSubmit: props.handleMultiChoiceFormSubmit },
+	        _react2.default.createElement('input', { type: 'text', placeholder: 'Short title (for your records)', value: props.multiTitle, onChange: function onChange(event) {
+	            props.handleMultiTitleChange(event);
+	          } }),
+	        _react2.default.createElement('input', { type: 'text', placeholder: 'Question', value: props.multiQuestion, onChange: function onChange(event) {
+	            props.handleMultiQuestionChange(event);
+	          } }),
+	        _react2.default.createElement('input', { type: 'text', placeholder: 'Option A', value: props.multiA, onChange: function onChange(event) {
+	            props.handleMultiAChange(event);
+	          } }),
+	        _react2.default.createElement('input', { type: 'text', placeholder: 'Option B', value: props.multiB, onChange: function onChange(event) {
+	            props.handleMultiBChange(event);
+	          } }),
+	        _react2.default.createElement('input', { type: 'text', placeholder: 'Option C', value: props.multiC, onChange: function onChange(event) {
+	            props.handleMultiCChange(event);
+	          } }),
+	        _react2.default.createElement('input', { type: 'text', placeholder: 'Option D', value: props.multiD, onChange: function onChange(event) {
+	            props.handleMultiDChange(event);
+	          } }),
 	        _react2.default.createElement(
-	          'button',
-	          { style: { marginLeft: '0', fontSize: '1em' }, type: 'submit' },
-	          'Add'
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'button',
+	            { style: { marginLeft: '0', fontSize: '1em' }, type: 'submit' },
+	            'Add'
+	          )
 	        )
 	      )
 	    );

@@ -47,6 +47,8 @@ class LessonData extends React.Component {
         addThumbs={this.state.addThumbs}
         thumbsTitle={this.state.thumbsTitle}
         thumbsQuestion={this.state.thumbsQuestion}
+        handleThumbsTitleChange={this.handleThumbsTitleChange.bind(this)}
+        handleThumbsQuestionChange={this.handleThumbsQuestionChange.bind(this)}
       />
       <AddMultiChoiceForm 
         onSubmit={this.handleMultiChoiceFormSubmit.bind(this)}
@@ -58,6 +60,13 @@ class LessonData extends React.Component {
         multiB={this.state.multiB}
         multiC={this.state.multiC}
         multiD={this.state.multiD}
+        handleMultiTitleChange={this.handleMultiTitleChange.bind(this)}
+        handleMultiQuestionChange={this.handleMultiQuestionChange.bind(this)}
+        handleMultiAnswerChange={this.handleMultiAnswerChange.bind(this)}
+        handleMultiAChange={this.handleMultiAChange.bind(this)}
+        handleMultiBChange={this.handleMultiBChange.bind(this)}
+        handleMultiCChange={this.handleMultiCChange.bind(this)}
+        handleMultiDChange={this.handleMultiDChange.bind(this)}
       />      
     </div>)
   }
@@ -99,6 +108,42 @@ class LessonData extends React.Component {
       addThumbs: false,
       addMultiChoice: true
     });
+  }
+
+  handleThumbsTitleChange(e) {
+    this.setState({ thumbsTitle: e.target.value });
+  }
+
+  handleThumbsQuestionChange(e) {
+    this.setState({ thumbsQuestion: e.target.value });
+  }
+  
+  handleMultiTitleChange(e) {
+    this.setState({ multiTitle: e.target.value });
+  }
+
+  handleMultiQuestionChange(e) {
+    this.setState({ multiQuestion: e.target.value });
+  }
+
+  handleMultiAnswerChange(e) {
+    this.setState({ multiAnswer: e.target.value });
+  }
+
+  handleMultiAChange(e) {
+    this.setState({ multiA: e.target.value });
+  }
+
+  handleMultiBChange(e) {
+    this.setState({ multiB: e.target.value });
+  }
+
+  handleMultiCChange(e) {
+    this.setState({ multiC: e.target.value });
+  }
+
+  handleMultiDChange(e) {
+    this.setState({ multiD: e.target.value });
   }
 
   handleThumbsFormSubmit() {
@@ -222,15 +267,21 @@ const ThumbsTable = (props) => {
 const AddThumbsForm = (props) => {
   if (props.addThumbs) {
     return (
-      <form onSubmit={props.addStudent}>
-        <input type='text' placeholder='Thumbs Check Title' value={props.newStudent} onChange={(event) => {
-          props.changeNewStudent(event.target.value);
-        }} />
-        
-        <div>
-          <button style={{marginLeft:'0', fontSize: '1em'}} type='submit'>Add</button>
-        </div>
-      </form>
+      <div>
+        <h5 className='sectionHeading' >New Thumbs Check</h5>
+        <form onSubmit={props.addStudent}>
+          <input type='text' placeholder='Title (for your records)' value={props.thumbsTitle} onChange={(event) => {
+            props.handleThumbsTitleChange(event);
+          }} />
+          <input type='text' placeholder='Question' value={props.thumbsQuestion} onChange={(event) => {
+            props.handleThumbsQuestionChange(event);
+          }} />
+          
+          <div>
+            <button style={{marginLeft:'0', fontSize: '1em'}} type='submit'>Add</button>
+          </div>
+        </form>
+      </div>
     )  
   } else {
     return (
@@ -242,15 +293,33 @@ const AddThumbsForm = (props) => {
 const AddMultiChoiceForm = (props) => {
   if (props.addMultiChoice) {
     return (
-      <form onSubmit={props.addStudent}>
-        <input type='text' placeholder='Multiple Choice Title' value={props.newStudent} onChange={(event) => {
-          props.changeNewStudent(event.target.value);
-        }} />
-        
-        <div>
-          <button style={{marginLeft:'0', fontSize: '1em'}} type='submit'>Add</button>
-        </div>
-      </form>
+      <div>
+        <h5 className='sectionHeading' >New Multiple Choice</h5>
+        <form onSubmit={props.handleMultiChoiceFormSubmit}>
+          <input type='text' placeholder='Short title (for your records)' value={props.multiTitle} onChange={(event) => {
+            props.handleMultiTitleChange(event);
+          }} />
+          <input type='text' placeholder='Question' value={props.multiQuestion} onChange={(event) => {
+            props.handleMultiQuestionChange(event);
+          }} />
+          <input type='text' placeholder='Option A' value={props.multiA} onChange={(event) => {
+            props.handleMultiAChange(event);
+          }} />
+          <input type='text' placeholder='Option B' value={props.multiB} onChange={(event) => {
+            props.handleMultiBChange(event);
+          }} />
+          <input type='text' placeholder='Option C' value={props.multiC} onChange={(event) => {
+            props.handleMultiCChange(event);
+          }} />
+          <input type='text' placeholder='Option D' value={props.multiD} onChange={(event) => {
+            props.handleMultiDChange(event);
+          }} />
+          
+          <div>
+            <button style={{marginLeft:'0', fontSize: '1em'}} type='submit'>Add</button>
+          </div>
+        </form>
+      </div>
     )
   } else {
     return (
