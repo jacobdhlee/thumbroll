@@ -238,7 +238,8 @@ module.exports = {
       + 'JOIN lessons b ON a.lesson_id = b.id '
       + 'LEFT JOIN poll_responses c ON a.id = c.poll_id AND c.student_id = ' + studentId + ' '
       + 'WHERE a.sent = TRUE '
-      + 'AND b.class_id = ' + classId
+      + 'AND b.class_id = ' + classId + ' '
+      + 'ORDER BY b.date, b.id, a.id '
     ).then(function(data) {
       var results = data[0];
       res.status(200).send(results);
