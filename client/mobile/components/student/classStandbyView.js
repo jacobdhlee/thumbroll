@@ -133,7 +133,7 @@ class ClassStandbyView extends React.Component {
 
         <Modal visible={this.state.modal} transparent={true} animated={false}>
           <View style={styles.modal}>
-            <View style={{height:this.state.height * 0.9, width:this.state.width * 0.9}}>
+            <View style={{height:this.state.height * 0.9, width:this.state.width * 0.85}}>
               <View style={styles.modalBox}>
                 <Text style={styles.modalTextSize}> Enter your Question </Text>
                 <View>

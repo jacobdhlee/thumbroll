@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
   textSizeOne: {
     fontSize: 25,
     justifyContent: 'center',
+    color: 'white',
   },
 })
 
