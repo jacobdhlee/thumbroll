@@ -32189,7 +32189,16 @@
 	      classId: _this.props.location.state.classId,
 	      data: [],
 	      addThumbs: false,
-	      addMultiChoice: false
+	      addMultiChoice: false,
+	      thumbsTitle: "",
+	      thumbsQuestion: "",
+	      multiTitle: "",
+	      multiQuestion: "",
+	      multiAnswer: "",
+	      multiA: "",
+	      multiB: "",
+	      multiC: "",
+	      multiD: ""
 	    };
 	    return _this;
 	  }
@@ -32241,12 +32250,21 @@
 	          'Add multiple choice'
 	        ),
 	        _react2.default.createElement(AddThumbsForm, {
-	          handleFormSubmit: this.handleThumbsFormSubmit.bind(this)
-
+	          onSubmit: this.handleThumbsFormSubmit.bind(this),
+	          addThumbs: this.state.addThumbs,
+	          thumbsTitle: this.state.thumbsTitle,
+	          thumbsQuestion: this.state.thumbsQuestion
 	        }),
 	        _react2.default.createElement(AddMultiChoiceForm, {
-	          handleFormSubmit: this.handleMultiChoiceFormSubmit.bind(this)
-
+	          onSubmit: this.handleMultiChoiceFormSubmit.bind(this),
+	          addMultiChoice: this.state.addMultiChoice,
+	          multiTitle: this.state.multiTitle,
+	          multiQuestion: this.state.multiQuestion,
+	          multiAnswer: this.state.multiAnswer,
+	          multiA: this.state.multiA,
+	          multiB: this.state.multiB,
+	          multiC: this.state.multiC,
+	          multiD: this.state.multiD
 	        })
 	      );
 	    }
@@ -32498,21 +32516,19 @@
 	};
 
 	var AddThumbsForm = function AddThumbsForm(props) {
-	  if (undefined.props.addThumbs) {
+	  if (props.addThumbs) {
 	    return _react2.default.createElement(
 	      'form',
-	      { onSubmit: undefined.handleThumbsFormSubmit },
-	      _react2.default.createElement('input', { placeholder: 'Class Name', className: 'newClassForm', type: 'text', value: undefined.state.newClassName, onChange: function onChange(event) {
-	          undefined.setState({
-	            newClassName: event.target.value
-	          });
+	      { onSubmit: props.addStudent },
+	      _react2.default.createElement('input', { type: 'text', placeholder: 'Thumbs Check Title', value: props.newStudent, onChange: function onChange(event) {
+	          props.changeNewStudent(event.target.value);
 	        } }),
 	      _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
 	          'button',
-	          { style: { fontSize: '1em' }, type: 'submit' },
+	          { style: { marginLeft: '0', fontSize: '1em' }, type: 'submit' },
 	          'Add'
 	        )
 	      )
@@ -32523,21 +32539,19 @@
 	};
 
 	var AddMultiChoiceForm = function AddMultiChoiceForm(props) {
-	  if (undefined.props.addMultiChoice) {
+	  if (props.addMultiChoice) {
 	    return _react2.default.createElement(
 	      'form',
-	      { onSubmit: undefined.handleMultiChoiceFormSubmit },
-	      _react2.default.createElement('input', { placeholder: 'Class Name', className: 'newClassForm', type: 'text', value: undefined.state.newClassName, onChange: function onChange(event) {
-	          undefined.setState({
-	            newClassName: event.target.value
-	          });
+	      { onSubmit: props.addStudent },
+	      _react2.default.createElement('input', { type: 'text', placeholder: 'Multiple Choice Title', value: props.newStudent, onChange: function onChange(event) {
+	          props.changeNewStudent(event.target.value);
 	        } }),
 	      _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
 	          'button',
-	          { style: { fontSize: '1em' }, type: 'submit' },
+	          { style: { marginLeft: '0', fontSize: '1em' }, type: 'submit' },
 	          'Add'
 	        )
 	      )

@@ -11,7 +11,16 @@ class LessonData extends React.Component {
       classId: this.props.location.state.classId,
       data: [],
       addThumbs: false,
-      addMultiChoice: false
+      addMultiChoice: false,
+      thumbsTitle: "",
+      thumbsQuestion: "",
+      multiTitle: "",
+      multiQuestion: "",
+      multiAnswer: "",
+      multiA: "",
+      multiB: "",
+      multiC: "",
+      multiD: ""
     };
   }
 
@@ -33,15 +42,23 @@ class LessonData extends React.Component {
       </div>
       <button onClick={this.handleAddThumbs.bind(this)}>Add thumbs check</button>
       <button onClick={this.handleAddMultiChoice.bind(this)}>Add multiple choice</button>
-
       <AddThumbsForm 
-        handleFormSubmit={this.handleThumbsFormSubmit.bind(this)} 
-
+        onSubmit={this.handleThumbsFormSubmit.bind(this)} 
+        addThumbs={this.state.addThumbs}
+        thumbsTitle={this.state.thumbsTitle}
+        thumbsQuestion={this.state.thumbsQuestion}
       />
       <AddMultiChoiceForm 
-        handleFormSubmit={this.handleMultiChoiceFormSubmit.bind(this)} 
-
-      />
+        onSubmit={this.handleMultiChoiceFormSubmit.bind(this)}
+        addMultiChoice={this.state.addMultiChoice}
+        multiTitle={this.state.multiTitle}
+        multiQuestion={this.state.multiQuestion}
+        multiAnswer={this.state.multiAnswer}
+        multiA={this.state.multiA}
+        multiB={this.state.multiB}
+        multiC={this.state.multiC}
+        multiD={this.state.multiD}
+      />      
     </div>)
   }
 
@@ -203,19 +220,18 @@ const ThumbsTable = (props) => {
 }
 
 const AddThumbsForm = (props) => {
-  if (this.props.addThumbs) {
+  if (props.addThumbs) {
     return (
-      <form onSubmit={this.handleThumbsFormSubmit}>
-        <input placeholder='Class Name' className='newClassForm' type='text' value={this.state.newClassName} onChange={(event) => {
-          this.setState({
-            newClassName: event.target.value
-          });
+      <form onSubmit={props.addStudent}>
+        <input type='text' placeholder='Thumbs Check Title' value={props.newStudent} onChange={(event) => {
+          props.changeNewStudent(event.target.value);
         }} />
+        
         <div>
-          <button style={{fontSize: '1em'}} type='submit'>Add</button>
+          <button style={{marginLeft:'0', fontSize: '1em'}} type='submit'>Add</button>
         </div>
       </form>
-    )
+    )  
   } else {
     return (
       <div></div>
@@ -224,16 +240,15 @@ const AddThumbsForm = (props) => {
 };
 
 const AddMultiChoiceForm = (props) => {
-  if (this.props.addMultiChoice) {
+  if (props.addMultiChoice) {
     return (
-      <form onSubmit={this.handleMultiChoiceFormSubmit}>
-        <input placeholder='Class Name' className='newClassForm' type='text' value={this.state.newClassName} onChange={(event) => {
-          this.setState({
-            newClassName: event.target.value
-          });
+      <form onSubmit={props.addStudent}>
+        <input type='text' placeholder='Multiple Choice Title' value={props.newStudent} onChange={(event) => {
+          props.changeNewStudent(event.target.value);
         }} />
+        
         <div>
-          <button style={{fontSize: '1em'}} type='submit'>Add</button>
+          <button style={{marginLeft:'0', fontSize: '1em'}} type='submit'>Add</button>
         </div>
       </form>
     )
