@@ -54,12 +54,12 @@ class ClassData extends React.Component {
                 cursor: 'default',
                 }}
                 style={this.state.displayLessons ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242', cursor:'default'}}
-                >Lessons</li>
+                ><span className='pointer'>Lessons</span></li>
               <li className='tab col s1 center-align' 
                 onClick={this.switchToStudentsView.bind(this)} 
                 style={{cursor: 'default'}} 
                 style={!this.state.displayLessons ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242', cursor:'default'}}>
-                Students
+                <span className='pointer'>Students</span>
               </li>
             </ul>
           </Col>
