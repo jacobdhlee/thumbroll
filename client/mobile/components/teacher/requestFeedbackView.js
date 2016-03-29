@@ -46,11 +46,7 @@ class RequestFeedbackView extends React.Component {
       raisedHandCount: 0,
       count: 0,
       questionLists:[],
-      poll:[{type: 'multiChoice', name: 'abc', answer:'A', preset_data: {question: "Who is my favorite president?",
-      A: 'Lincoln',
-      B: 'Carter',    
-      C: 'Clinton',
-      D: 'Jackson'}}, {type: 'thumbs', name:'default'}],
+      poll:[],
       pollModal: false,
     };
     //populate feedbackOptions with anything custom from lesson
@@ -112,6 +108,20 @@ class RequestFeedbackView extends React.Component {
     })
     .catch(function(err){
       console.error(err);
+    })
+
+    api.getLessonPolls(lesson)
+    .then(function(resp){
+      if(resp.status === 500) {
+        console.error('Error for getting poll data')
+      } else if(resp.status === 200) {
+        var poll = JSON.parse(resp._bodyInit).filter(function(polls) {
+          return polls.sent === false
+        });
+        that.setState({
+          poll: poll,
+        })
+      }
     })
   }
 
@@ -253,7 +263,7 @@ class RequestFeedbackView extends React.Component {
       this.setState({
         pollModal: false
       })
-      
+
     })
     .catch((err) => {
       console.error('Error starting poll', err);
