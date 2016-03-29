@@ -19,7 +19,7 @@ class Profile extends React.Component {
         <div className='profile' style={{marginLeft: '20%'}}>
           
           <div >
-            <span>First Name: </span><span>{this.state.teacherData.name}</span>
+            <span>Name: </span><span>{this.state.teacherData.name}</span>
           </div>
           
           <div>
