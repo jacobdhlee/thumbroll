@@ -56,10 +56,9 @@ module.exports = {
       body: JSON.stringify({
         className: className,
         teacherId: teacherId,
-      });
+      })
     }); 
   },
-  }
 
   addLesson: (classId, lessonName, lessonDate) => {
     return fetch(server + '/teachers/lessons', {

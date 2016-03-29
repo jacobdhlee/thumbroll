@@ -16,7 +16,8 @@ class Classes extends React.Component {
       lessons: [],
       newClassName : '',
       currentClass: '',
-      currentStudent: ''
+      currentStudent: '',
+      loading: false
     };
   }
 
@@ -71,8 +72,45 @@ class Classes extends React.Component {
     e.preventDefault();
     // update state with new list item
     if(!!this.state.newClassName.trim()){
-      // post to DB with teacher associated
-      
+      this.setState({
+        isLoading:true
+      });
+      api.addClass(this.state.uid, this.state.newClassName)
+      .then((response) => {
+        if(response.status == 200) {
+          console.log('Successfully added new class:', this.state.newClassName);
+          this.setState({
+            isLoading:false,
+            newClassName: ''
+          });
+          api.getClasses(this.state.uid)
+          .then((response) => {
+            if(response.status === 400){
+              this.setState({
+                 error: 'No classes found',
+                 isLoading: false
+               });
+              console.error(this.state.error);
+            } else if (response.status === 200) {
+              response.json().then((response) => {
+                console.log("RESPONSE = ", response);   
+                this.setState({
+                  classes: response,
+                  error: false,
+                  isLoading: false
+                });
+              });
+            }
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        this.setState({
+          loading:false,
+          newClassName: ''
+        });
+      });      
     }
 
   }
