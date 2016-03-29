@@ -73,8 +73,7 @@ module.exports = {
   getLessonPolls: function(req, res, next) {
     var lessonId = req.params.lessonId;
     models.polls.findAll({ where: {
-      lesson_id: lessonId,
-      //TODO?: preset: true
+      lesson_id: lessonId
       }
     })
     .then(function(polls) {
