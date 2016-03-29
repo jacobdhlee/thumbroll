@@ -63,6 +63,7 @@ const DataTable = (props) => {
         <thead>
           <tr>
             <th> Lesson </th>
+            <th> Date </th>
             <th> Poll </th>
             <th> Poll Type </th>
             <th> Correct Answer </th>
@@ -71,13 +72,21 @@ const DataTable = (props) => {
         </thead>
         <tbody>
         {props.data.map((poll) => {
+          var date = new Date(poll.date).toLocaleDateString();
+          var studentResponse = '';
+          if(poll.student_answer) {
+            studentResponse = poll.type == 'thumbs' ? poll.student_answer + '%' : poll.student_answer;
+          } else {
+            studentResponse = 'N/A'
+          }
           return (
             <tr key={'P' + poll.poll_id} >
               <td> {poll.lesson_name ? poll.lesson_name : 'N/A'} </td>
+              <td> {date} </td>
               <td> {poll.poll_name ? poll.poll_name : 'N/A'} </td>
               <td> {poll.type} </td>
               <td> {poll.correct_answer ? poll.correct_answer : 'N/A'} </td>
-              <td> {poll.type == 'thumbs' ? poll.student_answer + '%' :  poll.student_answer} </td>
+              <td> {studentResponse} </td>
             </tr>
           )
         })}
