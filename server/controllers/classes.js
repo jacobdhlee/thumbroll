@@ -34,7 +34,6 @@ module.exports = {
 
   getCurrentLesson: function(req, res, next){
     var lessonId = req.params.lessonId;
-    console.log('lessonId >>>>>>>>>>>>>', lessonId)
     models.lessons.findOne({
       where: {
         id: lessonId,

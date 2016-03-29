@@ -21,7 +21,8 @@ var {
   ActivityIndicatorIOS,
   Navigator,
   Switch,
-  Dimensions
+  Dimensions,
+  Image,
 } = React;
 
 class Login extends React.Component {
