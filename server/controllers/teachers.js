@@ -137,11 +137,11 @@ module.exports = {
     }
   },
 
-  addClasses: function(req, res, next) {
+  addClass: function(req, res, next) {
     var teacherId = req.body.teacherId;
-    var name = req.body.name;
+    var className = req.body.className;
     models.classes.create({
-      name: name,
+      name: className,
       teacher_id: teacherId,
     })
     .then(function(data) {
