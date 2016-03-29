@@ -26,6 +26,7 @@ class RequestFeedbackView extends React.Component {
       lessonId: this.props.route.lessonId,
       classId: this.props.route.classId,
       socket: this.props.route.socket,
+      lesson: '',
       modal: false,
       modalQuestion: false,
       height: height,
@@ -87,6 +88,25 @@ class RequestFeedbackView extends React.Component {
         questionLists: questionLists,
       })
     }.bind(this))
+  }
+
+  componentWillMount(){
+    var lesson = this.state.lessonId;
+    var that = this;
+    api.getCurrentLesson(lesson)
+    .then(function(resp){
+      if(resp.status === 500) {
+        console.error('Error for getting lesson data')
+      } else if(resp.status === 200) {
+        var lessons = JSON.parse(resp._bodyInit);
+        that.setState({
+          lesson: lessons.name,
+        })
+      }
+    })
+    .catch(function(err){
+      console.error(err);
+    })
   }
 
   answeredQuestion() {
@@ -257,8 +277,8 @@ class RequestFeedbackView extends React.Component {
               </Text>
             </View>
           </TouchableOpacity>
-          <View>
-            <Text>{this.state.lessonId}</Text>
+          <View style={styles.currentLessonBox}>
+            <Text style={styles.currentLesson}>{this.state.lesson}</Text>
           </View>
           <TouchableOpacity onPress={this.clickRaisedHand.bind(this)} style={styles.raiseHandBox}>
             <View style={styles.imageBox}>
@@ -344,6 +364,7 @@ const styles = StyleSheet.create({
   textSize: {
     fontSize : 25,
     fontWeight: 'bold',
+    color: '#fafafa'
   },
 
   studentResponse: {
@@ -356,7 +377,7 @@ const styles = StyleSheet.create({
   questionBox: { 
     alignItems: 'center', 
     justifyContent: 'center', 
-    backgroundColor:'#bbdefb', 
+    backgroundColor:'#01579b', 
     height: 60, 
     width: 100,
   },
@@ -364,7 +385,7 @@ const styles = StyleSheet.create({
   raiseHandBox: {
     alignItems: 'center', 
     justifyContent: 'center', 
-    backgroundColor:'#bbdefb', 
+    backgroundColor:'#01579b', 
     height: 60, 
     width: 100,
   },
@@ -372,6 +393,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  currentLessonBox: {
+    alignItems: 'center', 
+    justifyContent: 'center',
+    backgroundColor: '#01579b',
+    width: 170, 
+  },
+  currentLesson: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fafafa',
   }
 });
 

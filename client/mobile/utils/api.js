@@ -50,6 +50,10 @@ module.exports = {
     }); 
   },
   
+  getCurrentLesson: (lessonId) => {
+    return fetch(server +'/teachers/lesson/' + lessonId);
+  },
+
   getStudentClasses: (studentId) => {
     return fetch(server + '/students/classes/' + studentId);
   },

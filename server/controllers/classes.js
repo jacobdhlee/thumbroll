@@ -32,6 +32,21 @@ module.exports = {
     })
   },
 
+  getCurrentLesson: function(req, res, next){
+    var lessonId = req.params.lessonId;
+    models.lessons.findOne({
+      where: {
+        id: lessonId,
+      }
+    })
+    .then(function(data){
+      res.status(200).send(data);
+    })
+    .catch(function(error){
+      res.status(500).send(error);
+    })
+  },
+  
   getClassName: function(req, res, next) {
     var classId = req.params.classId;
     models.classes.findOne({ where: {
