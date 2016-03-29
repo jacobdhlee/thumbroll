@@ -511,6 +511,7 @@ class StudentChart extends React.Component {
       })
       .attr('cy', function(d) {
         var correctRate = (d.correct_response_count || 0) / d.potential_correct_response_count * 100;
+        correctRate = correctRate || 0;
         return mapToChart(correctRate, 'y');
       })
       .on('mouseover', tip.show)
