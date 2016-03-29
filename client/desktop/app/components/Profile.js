@@ -33,10 +33,8 @@ class Profile extends React.Component {
           <div>
             <span>Email: </span><span>{this.state.teacherData.email}</span>
           </div>
-          <li onClick={this.handleLogout.bind(this)}>
-          </li>
         </div>
-        <button style={{marginLeft: '20%'}}>Logout</button>
+        <button onClick={this.handleLogout.bind(this)} style={{marginLeft: '20%'}}>Logout</button>
       </div>
     )
   }
