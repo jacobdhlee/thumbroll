@@ -233,7 +233,7 @@ class Signup extends React.Component {
             <TouchableHighlight
               style={styles.button}
               onPress={this.handleSubmit.bind(this)}
-              underlayColor='#e66365'
+              underlayColor='#01579b'
             >
               <Text style={styles.buttonText}> Sign Up </Text>
             </TouchableHighlight>
