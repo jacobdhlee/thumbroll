@@ -32133,11 +32133,16 @@
 	    _this7.height = 300;
 	    _this7.xOffset = 50;
 	    _this7.yOffset = 50;
+	    _this7.state = {
+	      displayThumbs: true,
+	      displayAttendance: false
+	    };
 	    return _this7;
 	  }
 
 	  _createClass(LessonChart, [{
 	    key: 'componentDidMount',
+	    // displayAccuracy: false,
 	    value: function componentDidMount() {
 	      //Render axes
 	      var xOffset = this.xOffset;
@@ -32152,9 +32157,54 @@
 	      d3.select('svg').append('line').attr('class', 'axis').attr('x1', xOffset).attr('y1', this.height - yOffset).attr('x2', this.width - xOffset).attr('y2', this.height - yOffset);
 
 	      //Render axis labels
-	      d3.select('svg').append('text').attr('class', 'axisLabel').attr('text-anchor', 'end').attr('y', 6).attr('x', -this.height / 2 + yOffset + 20).attr('dy', '.75em').attr('transform', 'rotate(-90)').text('Average Thumb Poll (%)');
+	      d3.select('svg').append('text').attr('class', 'xAxisLabel axisLabel').attr('text-anchor', 'end').attr('y', 6).attr('x', -this.height / 2 + yOffset + 20).attr('dy', '.75em').attr('transform', 'rotate(-90)').text('Average Thumb Poll (%)');
 
 	      d3.select('svg').append('text').attr('class', 'axisLabel').attr('text-anchor', 'end').attr('y', this.height - 30).attr('x', this.width / 2 + xOffset).attr('dy', '.75em').text('Lessons');
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate(props) {
+	      console.log(this.state.displayThumbs);
+	      var mapToChart = function (percent) {
+	        return (100 - percent) / 100 * (this.height - 2 * yOffset) + yOffset;
+	      }.bind(this);
+	      var xOffset = this.xOffset;
+	      var yOffset = this.yOffset;
+	      var barWidth = Math.floor((this.width - 2 * xOffset) / props.lessons.length);
+
+	      d3.select('svg').selectAll('.xAxisLabel').remove();
+
+	      d3.select('svg').append('text').attr('class', 'xAxisLabel axisLabel').attr('text-anchor', 'end').attr('y', 6).attr('x', -this.height / 2 + yOffset + 20).attr('dy', '.75em').attr('transform', 'rotate(-90)').text(function (d) {
+	        if (this.state.displayThumbs) {
+	          return 'Average Thumb Poll (%)';
+	        } else if (this.state.displayAccuracy) {
+	          return 'Accuracy (%)';
+	        }
+	      }.bind(this));
+
+	      if (this.state.displayThumbs) {
+	        d3.select('svg').selectAll('.lessonChartBar').data(props.lessons, function (d) {
+	          return d.lesson_id;
+	        }).transition().duration(500).attr('y', function (d) {
+	          var avgThumb = d.average_thumb || 1;
+	          return mapToChart(avgThumb);
+	        }).attr('width', barWidth - 20).attr('height', function (d) {
+	          var avgThumb = d.average_thumb || 1;
+	          return mapToChart(100 - avgThumb) - yOffset;
+	        }.bind(this));
+	      } else {
+	        d3.select('svg').selectAll('.lessonChartBar').data(props.lessons, function (d) {
+	          return d.lesson_id;
+	        }).transition().duration(500).attr('y', function (d) {
+	          var correctRate = (d.correct_response_count || 0) / d.potential_correct_responses_count * 100;
+	          correctRate = correctRate ? correctRate : 1;
+	          return mapToChart(correctRate);
+	        }).attr('height', function (d) {
+	          var correctRate = (d.correct_response_count || 0) / d.potential_correct_responses_count * 100;
+	          correctRate = correctRate ? correctRate : 1;
+	          return mapToChart(100 - correctRate) - yOffset;
+	        }.bind(this));
+	      }
 	    }
 	  }, {
 	    key: 'componentWillReceiveProps',
@@ -32205,10 +32255,62 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this8 = this;
+
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'chartContainer center-align', style: { padding: '10px' } },
-	        _react2.default.createElement('svg', { width: this.width, height: this.height })
+	        _react2.default.createElement('svg', { width: this.width, height: this.height }),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            _reactMaterialize.Row,
+	            { className: 'dataRow' },
+	            _react2.default.createElement(
+	              _reactMaterialize.Col,
+	              { s: 2, l: 4 },
+	              ' '
+	            ),
+	            _react2.default.createElement(
+	              _reactMaterialize.Col,
+	              { s: 6, l: 4 },
+	              _react2.default.createElement(
+	                'ul',
+	                { className: 'tabs' },
+	                _react2.default.createElement(
+	                  'li',
+	                  _defineProperty({ className: 'tab col s1 active center-align',
+	                    onClick: function onClick() {
+	                      _this8.setState({ displayAccuracy: false, displayThumbs: true });
+	                    },
+	                    style: { cursor: 'default' }
+	                  }, 'style', this.state.displayThumbs ? { backgroundColor: '#01579b' } : { backgroundColor: '#fafafa', color: '#424242', cursor: 'default' }),
+	                  _react2.default.createElement(
+	                    'span',
+	                    { className: 'pointer' },
+	                    'Thumbs'
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'li',
+	                  _defineProperty({ className: 'tab col s1 center-align',
+	                    onClick: function onClick() {
+	                      _this8.setState({ displayAccuracy: true, displayThumbs: false });
+	                    },
+	                    style: { cursor: 'default' }
+	                  }, 'style', this.state.displayAccuracy ? { backgroundColor: '#01579b' } : { backgroundColor: '#fafafa', color: '#424242', cursor: 'default' }),
+	                  _react2.default.createElement(
+	                    'span',
+	                    { className: 'pointer' },
+	                    'Accuracy'
+	                  )
+	                )
+	              )
+	            ),
+	            _react2.default.createElement(_reactMaterialize.Col, { s: 4, l: 4 })
+	          )
+	        )
 	      );
 	    }
 	  }]);
@@ -32314,11 +32416,11 @@
 	  function StudentChart(props) {
 	    _classCallCheck(this, StudentChart);
 
-	    var _this8 = _possibleConstructorReturn(this, Object.getPrototypeOf(StudentChart).call(this, props));
+	    var _this9 = _possibleConstructorReturn(this, Object.getPrototypeOf(StudentChart).call(this, props));
 
-	    _this8.width = 500;
-	    _this8.height = 500;
-	    return _this8;
+	    _this9.width = 500;
+	    _this9.height = 500;
+	    return _this9;
 	  }
 
 	  _createClass(StudentChart, [{
