@@ -94,35 +94,41 @@ class RequestFeedbackView extends React.Component {
 
   componentWillMount(){
     var lesson = this.state.lessonId;
-    var that = this;
-    api.getCurrentLesson(lesson)
-    .then(function(resp){
-      if(resp.status === 500) {
-        console.error('Error for getting lesson data')
-      } else if(resp.status === 200) {
-        var lessons = JSON.parse(resp._bodyInit);
-        that.setState({
-          lesson: lessons.name,
-        })
-      }
-    })
-    .catch(function(err){
-      console.error(err);
-    })
-
-    api.getLessonPolls(lesson)
-    .then(function(resp){
-      if(resp.status === 500) {
-        console.error('Error for getting poll data');
-      } else if(resp.status === 200) {
-        var poll = JSON.parse(resp._bodyInit).filter(function(polls) {
-          return polls.sent === false
-        });
-        that.setState({
-          poll: poll,
-        })
-      }
-    })
+    if( lesson === 'Quick Class') {
+      this.setState({
+        lesson: 'Quick Class',
+      })
+    } else {
+      var that = this;
+      api.getCurrentLesson(lesson)
+      .then(function(resp){
+        if(resp.status === 500) {
+          console.error('Error for getting lesson data')
+        } else if(resp.status === 200) {
+          var lessons = JSON.parse(resp._bodyInit);
+          that.setState({
+            lesson: lessons.name,
+          })
+        }
+      })
+      .catch(function(err){
+        console.error(err);
+      })
+      api.getLessonPolls(lesson)
+      .then(function(resp){
+        console.log('resp >>>>>>>', resp)
+        if(resp.status === 500) {
+          console.error('Error for getting poll data');
+        } else if(resp.status === 200) {
+          var poll = JSON.parse(resp._bodyInit).filter(function(polls) {
+            return polls.sent === false
+          });
+          that.setState({
+            poll: poll,
+          })
+        }
+      })
+    }
   }
 
   answeredQuestion() {

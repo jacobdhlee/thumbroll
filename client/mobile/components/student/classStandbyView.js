@@ -48,7 +48,9 @@ class ClassStandbyView extends React.Component {
       }
     })
   }
-
+  componentWillMount() {
+    console.log('this.state.class >>>>>???>>>>???>>>>', this.state.class)
+  }
   thumbcheckPage(pollInfo) {
     this.props.navigator.push({
       component: ThumbCheck,
@@ -108,9 +110,9 @@ class ClassStandbyView extends React.Component {
   }
 
   render(){
-    var name = this.state.class.class.name;
+    var name = this.state.class.name;
     if(!name) {
-      name = this.state.class.name;
+      name = name = this.state.class.class.name;
     }
     return(
       <View style={{flex:1}}>
