@@ -5,6 +5,7 @@ var Button = require('./../../shared/button');
 var {
   View,
   Text,
+  StyleSheet,
 } = React;
 
 class MultiChoice extends React.Component {
@@ -14,12 +15,31 @@ class MultiChoice extends React.Component {
       socket: this.props.route.socket,
       user: this.props.route.user,
       pollInfo: this.props.route.pollInfo,
+      questionFromTeacher: '',
+      choice: '',
     }
+    var that = this
     this.state.socket.on('closePoll', function(data) {
       this.state.socket.removeListener('closePoll');
       this.props.navigator.pop();
     }.bind(this));
   }  
+  componentWillMount(){
+    var question = this.state.pollInfo.pollObject.preset_data
+    if(question) {
+      var questionNanswer = JSON.parse(question);
+      var teacherQuestion = questionNanswer.question
+      this.setState({
+        questionFromTeacher: teacherQuestion,
+        choice: questionNanswer
+      })
+    } else {
+      var empty = {A: '', B: '', C: '', D: ''}
+      this.setState({
+        choice: empty
+      })
+    }
+  }
 
   submitAnswer(answer) {
     console.log('Student',this.state.userId,'answered',answer,'to poll',this.state.pollInfo.pollId);
@@ -54,14 +74,22 @@ class MultiChoice extends React.Component {
           MultiChoice
         </NavBar>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          {this.renderButton("A")}
-          {this.renderButton("B")}
-          {this.renderButton("C")}
-          {this.renderButton("D")}
+          <Text style={styles.textSize}>{this.state.questionFromTeacher}</Text>
+          {this.renderButton('A  '+ this.state.choice["A"])}
+          {this.renderButton("B  " + this.state.choice["B"])}
+          {this.renderButton("C  " + this.state.choice["C"])}
+          {this.renderButton("D  " + this.state.choice["D"])}
         </View>
       </View>
     )
   }
 }
+const styles = StyleSheet.create({
+  textSize: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  }
+})
 
 module.exports = MultiChoice;

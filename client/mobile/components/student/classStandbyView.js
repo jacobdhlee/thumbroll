@@ -27,7 +27,7 @@ class ClassStandbyView extends React.Component {
       user: this.props.route.user,
       class: this.props.route.class,
       modal: false,
-      question: ''
+      question: '',
     };
     var that = this;
     this.state.socket.on('teacherJoinedRoom', () => {
@@ -45,7 +45,7 @@ class ClassStandbyView extends React.Component {
       } else if(pollInfo.pollObject.id == 2) {
         that.multiPage(pollInfo);
       }
-    });
+    })
   }
 
   thumbcheckPage(pollInfo) {

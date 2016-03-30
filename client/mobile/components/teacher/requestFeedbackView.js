@@ -118,6 +118,7 @@ class RequestFeedbackView extends React.Component {
         var poll = JSON.parse(resp._bodyInit).filter(function(polls) {
           return polls.sent === false
         });
+        console.log('polls >>>>?????>>>>>>>>', poll)
         that.setState({
           poll: poll,
         })
@@ -244,6 +245,7 @@ class RequestFeedbackView extends React.Component {
       if(response.status === 500) {
         console.error('Server error', response);
       } else if(response.status === 201) {
+        console.log('feedbackOption dkafjadsklfjaslk>>>>>>>>', feedbackOption);
         var pollId = JSON.parse(response._bodyText).pollId;
         this.props.navigator.push({
           component: FeedbackView,
@@ -259,7 +261,6 @@ class RequestFeedbackView extends React.Component {
       } else {
         console.error('Error getting poll data', response);
       }
-
       this.setState({
         pollModal: false
       })
@@ -286,8 +287,8 @@ class RequestFeedbackView extends React.Component {
 
   listOfPoll (list) {
     return list.map((poll, index) => {
-      if(poll.type === 'multiChoice') { poll.id = 1 }
-      if(poll.type === 'thumbs') { poll.id = 2 }
+      if(poll.type === 'multiChoice') { poll.id = 2 }
+      if(poll.type === 'thumbs') { poll.id = 1 }
       return (
         <Button key={index} text={poll.name} onPress={this.selectFeebackOption.bind(this, poll)}/>
       )
