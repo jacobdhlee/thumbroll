@@ -300,11 +300,15 @@ class RequestFeedbackView extends React.Component {
     })
   }
 
+  previousSection() {
+    this.props.navigator.pop();
+  }
+
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <NavBar navi={this.props.navigator} beforeLogout={this.beforeLogout.bind(this)} 
-          onBack={this.dismissClass.bind(this)}>
+          onBack={this.previousSection.bind(this)}>
           Request Feedback
         </NavBar>
         <View style={styles.viewContainer}>
