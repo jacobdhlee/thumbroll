@@ -62,6 +62,10 @@ class RequestFeedbackView extends React.Component {
         }
       } else {
         for(var i = 0; i < raisedHandList.length; i++){
+          if(data.user.uid === raisedHandList[i].id && raisedHandList[i].active === false) {
+            raisedHandCount += 1;
+            raisedHandList[i].active = true;
+          }
           if(raisedHandList.length < 5 && data.user.uid !== raisedHandList[i].id) {
             raisedHandCount += 1;
             if(data.user.firstName) {
