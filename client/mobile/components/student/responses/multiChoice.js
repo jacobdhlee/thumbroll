@@ -42,6 +42,7 @@ class MultiChoice extends React.Component {
   }
 
   submitAnswer(answer) {
+    answer = answer.slice(0,1)
     console.log('Student',this.state.userId,'answered',answer,'to poll',this.state.pollInfo.pollId);
     this.state.socket.emit('studentResponse', {
       user: this.state.user,
