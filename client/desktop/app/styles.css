@@ -377,5 +377,5 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
 }
 
 .errorMessage {
-  margin-bottom: 100px;
+  margin-bottom: 60px;
 }

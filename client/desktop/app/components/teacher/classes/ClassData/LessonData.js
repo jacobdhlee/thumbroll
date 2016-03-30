@@ -211,7 +211,7 @@ class LessonData extends React.Component {
         self.setState({
           formError: "Please enter all required fields"
         });
-        console.log("Please enter all required fields");
+        console.log(self.state.formError);
       }
   }
 
@@ -307,7 +307,7 @@ const MCTable = (props) => {
     )
   } else {
     return (
-      <div> No Multiple Choice Polls </div>
+      <div></div>
 
     )
   }
@@ -341,7 +341,7 @@ const ThumbsTable = (props) => {
     )
   } else {
     return (
-      <div> No Thumbs Check Polls </div>
+      <div></div>
     )
   }
 }
@@ -449,7 +449,11 @@ const AddMultiChoiceForm = (props) => {
 
 const ErrorMessage = (props) => {
   if (props.formError) {
-    return (<div className='errorMessage'> {props.formError} </div>)
+    return (
+      <div className='errorMessage'> 
+        {props.formError} 
+      </div>
+    )
   } else {
     return (<div></div>)
   }
