@@ -1,4 +1,5 @@
 var React = require('react-native');
+var Button = require('./../shared/button');
 
 var {
   View,
@@ -29,15 +30,13 @@ class TeacherQCModal extends React.Component {
     return (
       <Modal visible={this.props.visible} transparent={true} animated={true}>
         <View style={styles.modal}>
-          <View style={{height:this.state.height * 0.6, width:this.state.width * 0.8}}>
+          <View style={{height:this.state.height * 0.5, width:this.state.width * 0.85}}>
             <View style={styles.modalBox}>
-              <Text> Your secret code is: </Text>
-              <Text> {this.props.randomId} </Text>
-              <TouchableHighlight onPress={this.handleEnter.bind(this)}>
-                <Text> Okay </Text>
-              </TouchableHighlight>
+              <Text style={styles.modalTextSize}> Your secret code is: </Text>
+              <Text style={styles.modalTextSize}> {this.props.randomId} </Text>
             </View>
           </View>
+          <Button onPress={this.handleEnter.bind(this)} text={'Okay'} />
         </View>
       </Modal>
     );
@@ -46,25 +45,23 @@ class TeacherQCModal extends React.Component {
 
 const styles = StyleSheet.create({
   modal: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.8)',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  modalBox: {
-    flex: 1,
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white'
-  },
-  userInput: {
-    height: 50,
-    padding: 4,
-    fontSize: 18,
-    borderWidth: 1,
-    borderRadius: 4,
-  }
+      flex: 1,
+      backgroundColor: 'rgba(0,0,0,0.8)',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    modalBox: {
+      flex: 1,
+      borderRadius: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#e3f2fd'
+    },
+    modalTextSize: {
+      fontSize: 25,
+      fontWeight: 'bold',
+      marginBottom: 20,
+    },
 });
 
 module.exports = TeacherQCModal;
