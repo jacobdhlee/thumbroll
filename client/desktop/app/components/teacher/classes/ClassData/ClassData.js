@@ -458,7 +458,7 @@ class LessonChart extends React.Component {
     this.state = {
       displayThumbs: true,
       displayAttendance: false,
-      // displayAccuracy: false,
+      displayAccuracy: false,
     };
   }
 
@@ -468,16 +468,16 @@ class LessonChart extends React.Component {
     var yOffset = this.yOffset
 
     //Render axes
-    var yAxisScale = d3.scale.linear()
+    this.yAxisScale = d3.scale.linear()
       .domain([0,100])
       .range([this.height - yOffset, yOffset]);
-    var yAxis = d3.svg.axis()
-      .scale(yAxisScale)
+    this.yAxis = d3.svg.axis()
+      .scale(this.yAxisScale)
       .orient('left');
     var yAxisGroup = d3.select('svg').append('g')
-      .attr('class', 'axis')
+      .attr('class', 'axis yaxis')
       .attr('transform', 'translate(' + xOffset + ', 0)')
-      .call(yAxis);
+      .call(this.yAxis);
 
     d3.select('svg').append('line')
       .attr('class', 'axis')
@@ -544,8 +544,12 @@ class LessonChart extends React.Component {
           return 'Average Thumb Poll (%)'
         } else if (nextState.displayAccuracy) {
           return 'Accuracy (%)'
-        } 
+        } else if (nextState.displayAttendance) {
+          return 'Attendance'
+        }
       }.bind(this));
+
+    //Scale axis depending on state
 
     //Set functions for height and y based on state
     var heightFunc;
@@ -559,6 +563,8 @@ class LessonChart extends React.Component {
         var avgThumb = d.average_thumb || 1;
         return mapToChart(avgThumb); 
       };
+      this.yAxisScale.domain([0, 100])
+
     } else if(nextState.displayAccuracy) {
       heightFunc = function(d) {
         var correctRate = (d.correct_response_count || 0) / d.potential_correct_responses_count * 100;
@@ -569,8 +575,35 @@ class LessonChart extends React.Component {
         var correctRate = (d.correct_response_count || 0) / d.potential_correct_responses_count * 100;
         correctRate = correctRate ? correctRate : 1;
         return mapToChart(correctRate); 
+      }; 
+      this.yAxisScale.domain([0, 100])
+
+    } else if(nextState.displayAttendance) {
+      var max = Math.max.apply(null, nextProps.lessons.map(function(lesson) {
+        return lesson.student_count;
+      }));
+      var ceil = Math.ceil(max / 10) * 10;
+      mapToChart = function(percent) {
+        return (ceil - percent) / ceil * (this.height - 2 * yOffset) + yOffset;
+      }.bind(this);  
+      
+      heightFunc = function(d) {
+        var attendance = d.student_count;
+        // attendance = Number(attendance) ? attendance : 1;
+        return mapToChart(ceil - attendance) - yOffset;
       };
+      yFunc = function(d) {
+        var attendance = d.student_count;
+        // attendance = Number(attendance) ? attendance : 1;
+        return mapToChart(attendance); 
+      };
+      this.yAxisScale.domain([0, ceil])
     }
+
+    //Adjust height of axis:
+    d3.select('svg').select('.yaxis')
+        .transition().duration(500)
+        .call(this.yAxis);
 
     //Adjust height and width on existing lessons
     d3.select('svg').selectAll('.lessonChartBar')
@@ -617,15 +650,21 @@ class LessonChart extends React.Component {
               <ul className="tabs">
 
                 <li className='tab col s1 active center-align' 
-                  onClick={() => {this.setState({displayAccuracy:false, displayThumbs: true})}} 
+                  onClick={() => {this.setState({displayAccuracy: false, displayThumbs: true, displayAttendance: false})}} 
                   style={{cursor: 'default'}}
                   style={this.state.displayThumbs ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242', cursor:'default'}}
                   ><span className='pointer'>Thumbs</span></li>
                 <li className='tab col s1 center-align' 
-                  onClick={() => {this.setState({displayAccuracy:true, displayThumbs: false})}} 
+                  onClick={() => {this.setState({displayAccuracy: true, displayThumbs: false, displayAttendance: false})}} 
                   style={{cursor: 'default'}} 
                   style={this.state.displayAccuracy ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242', cursor:'default'}}>
                   <span className='pointer'>Accuracy</span>
+                </li>
+                <li className='tab col s1 center-align' 
+                  onClick={() => {this.setState({displayAccuracy: false, displayThumbs: false, displayAttendance: true})}} 
+                  style={{cursor: 'default'}} 
+                  style={this.state.displayAttendance ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242', cursor:'default'}}>
+                  <span className='pointer'>Attendance</span>
                 </li>
 
               </ul>
