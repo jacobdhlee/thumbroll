@@ -117,8 +117,8 @@ class ClassStandbyView extends React.Component {
           beforeLogout={this.beforeLogout.bind(this)}>
           {name}
         </NavBar>
-        <View style={{alignItems: 'center'}}>
-          <Text style={styles.textSizeOne}>Waiting for Teacher!</Text>
+        <View style={{alignItems: 'center', backgroundColor: '#424242'}}>
+          <Text style={styles.textSizeOne}>Waiting for Teacher</Text>
         </View>
         <View style={styles.container}>
           <Button onPress={this.raiseHand.bind(this)} text={'Raise Hand'}/>
@@ -139,10 +139,11 @@ class ClassStandbyView extends React.Component {
                   returnKeyType={'done'}
                   keyboardAppearance='dark'
                   clearTextOnFocus={true}
-                  multiline={false}
+                  multiline={true}
                   onChangeText={(text) => this.setState({ question: text})}
                   value={this.state.question}
                   onSubmitEditing={this.closeQuestion.bind(this)}
+                  blurOnSubmit={true}
                 />
                 </View>
                 <TouchableOpacity style={{width: 200}}>
@@ -178,7 +179,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#e3f2fd'
+    backgroundColor: '#424242',
   },
   modalBoxView: {
     flexDirection: 'column',
@@ -187,8 +188,9 @@ const styles = StyleSheet.create({
   },
   modalTextSize: {
     fontSize: 25,
-    fontWeight: 'bold',
+    fontWeight: 'normal',
     marginBottom: 20,
+    color: '#fafafa'
   },
   textSize: {
     fontSize : 20
@@ -210,11 +212,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#424242'
   },
 
   textSizeOne: {
     fontSize : 35,
-    fontWeight: 'bold',
+    fontWeight: 'normal',
+    color: '#fafafa'
   }
 })
 module.exports = ClassStandbyView;

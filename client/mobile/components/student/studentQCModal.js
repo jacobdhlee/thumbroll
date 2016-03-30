@@ -79,7 +79,7 @@ class StudentQCModal extends React.Component {
 const styles = StyleSheet.create({
   modal: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.8)',
+    backgroundColor: '#424242',
     justifyContent: 'center',
     alignItems: 'center'
   },
