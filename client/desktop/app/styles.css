@@ -377,5 +377,20 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
 }
 
 .errorMessage {
-  margin-bottom: 60px;
+  margin-bottom: 0;
+  text-align: center;
+  color:red;
+}
+
+.newPollButton {
+  margin: 5px 1px;
+}
+
+.newPoll {
+  margin-left: 20%;
+}
+
+.newPollInput {
+  margin-left: 20em;
+  padding: 20px;
 }
