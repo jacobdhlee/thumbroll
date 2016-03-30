@@ -159,7 +159,7 @@ module.exports = {
     var classId = req.body.classId;
     var name = req.body.name;
     var pollObject = req.body.pollObject;
-    var type = req.body.pollObject.type;
+    var type = pollObject.type;
     
     // quick class polls are not saved
     if(lessonId === 'Quick Class') {
@@ -177,25 +177,46 @@ module.exports = {
 
     if(lessonId !== 'Quick Class') {
       console.log('Incoming poll for class', classId);
-      models.polls.create({
-        type: type,
-        name: name,
-        lesson_id: lessonId,
-        sent: true
-      })
-      .then(function(data) {
-        var pollInformation = {
-          lessonId: lessonId,
-          pollObject: pollObject,
-          pollId: data.dataValues.id
-        }
-        io.sockets.to('room' + classId).emit('newPoll', pollInformation);
-        res.status(201).send(pollInformation);
-      })
-      .catch(function(err) {
-        console.error('Error saving poll to DB:', err);
-        res.status(500).send(err);
-      });
+      console.log('!!!!!!!!!!!!', pollObject.id);
+      if(pollObject.id !== undefined) {
+        models.polls.update(
+          { sent: true },
+          { where:{ id:pollObject.id } }
+        )
+        .then(function(data) {
+          var pollInformation = {
+            lessonId: lessonId,
+            pollObject: pollObject,
+            pollId: pollObject.id
+          }
+          io.sockets.to('room' + classId).emit('newPoll', pollInformation);
+          res.status(201).send(pollInformation);
+        })
+        .catch(function(err) {
+          console.error('Error updating poll in DB:', err);
+          res.status(500).send(err);
+        });
+      } else {
+        models.polls.create({
+          type: type,
+          name: name,
+          lesson_id: lessonId,
+          sent: true
+        })
+        .then(function(data) {
+          var pollInformation = {
+            lessonId: lessonId,
+            pollObject: pollObject,
+            pollId: data.dataValues.id
+          }
+          io.sockets.to('room' + classId).emit('newPoll', pollInformation);
+          res.status(201).send(pollInformation);
+        })
+        .catch(function(err) {
+          console.error('Error saving poll to DB:', err);
+          res.status(500).send(err);
+        });
+      }
     }
   },
 

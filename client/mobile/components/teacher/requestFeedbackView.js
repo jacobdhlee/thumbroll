@@ -244,7 +244,7 @@ class RequestFeedbackView extends React.Component {
   }
 
   selectFeedbackOption(feedbackOption) {
-    // console.log('FEEDBACK SELECTED:', feedbackOption);
+    console.log('FEEDBACK SELECTED:', feedbackOption);
     api.startPoll(feedbackOption, this.state.lessonId, this.state.classId)
     .then((response) => {
       if(response.status === 500) {
