@@ -177,17 +177,17 @@ models.sequelize.sync({force: true}).then(function () {
   });
   
   models.students_classes.create({
-    class_id: 2,
+    class_id: 1,
     student_id: 1
   });
 
   models.students_classes.create({
-    class_id: 4,
+    class_id: 3,
     student_id: 2
   });
 
   models.students_classes.create({
-    class_id: 2,
+    class_id: 1,
     student_id: 3
   });
 
