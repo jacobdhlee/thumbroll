@@ -665,6 +665,7 @@ class StudentChart extends React.Component {
       })
       .attr('cx', function(d) {
         var responseRate = (d.response_count || 0) / d.potential_response_count * 100;
+        responseRate = responseRate || 0;
         return mapToChart(responseRate, '`x');
       })
       .attr('cy', function(d) {
