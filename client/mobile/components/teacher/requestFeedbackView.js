@@ -33,12 +33,12 @@ class RequestFeedbackView extends React.Component {
       width: width,
       feedbackOptions: [
         {
-          id: 1,
+          type: 'thumbs',
           name: 'Thumbs Check',
           /*options:{for preset answers?}*/
         },
         {
-          id: 2,
+          type: 'multichoice',
           name: 'Multiple Choice'
         }
       ],
@@ -46,7 +46,7 @@ class RequestFeedbackView extends React.Component {
       raisedHandCount: 0,
       count: 0,
       questionLists:[],
-      poll:[],
+      polls:[],
       pollModal: false,
     };
     //populate feedbackOptions with anything custom from lesson
@@ -116,15 +116,14 @@ class RequestFeedbackView extends React.Component {
       })
       api.getLessonPolls(lesson)
       .then(function(resp){
-        console.log('resp >>>>>>>', resp)
         if(resp.status === 500) {
           console.error('Error for getting poll data');
         } else if(resp.status === 200) {
-          var poll = JSON.parse(resp._bodyInit).filter(function(polls) {
+          var polls = JSON.parse(resp._bodyInit).filter(function(polls) {
             return polls.sent === false
           });
           that.setState({
-            poll: poll,
+            polls: polls,
           })
         }
       })
@@ -244,7 +243,8 @@ class RequestFeedbackView extends React.Component {
     }
   }
 
-  selectFeebackOption(feedbackOption) {
+  selectFeedbackOption(feedbackOption) {
+    // console.log('FEEDBACK SELECTED:', feedbackOption);
     api.startPoll(feedbackOption, this.state.lessonId, this.state.classId)
     .then((response) => {
       if(response.status === 500) {
@@ -278,7 +278,7 @@ class RequestFeedbackView extends React.Component {
   renderFeedbackOptions(feedbackOptions) {
     return feedbackOptions.map((feedbackOption, index) => {
       return (      
-        <Button key={index} onPress={this.selectFeebackOption.bind(this, feedbackOption)} text={feedbackOption.name} />
+        <Button key={index} onPress={this.selectFeedbackOption.bind(this, feedbackOption)} text={feedbackOption.name} />
       )
     })
   }
@@ -291,10 +291,8 @@ class RequestFeedbackView extends React.Component {
 
   listOfPoll (list) {
     return list.map((poll, index) => {
-      if(poll.type === 'multiChoice') { poll.id = 2 }
-      if(poll.type === 'thumbs') { poll.id = 1 }
       return (
-        <Button key={index} text={poll.name} onPress={this.selectFeebackOption.bind(this, poll)}/>
+        <Button key={index} text={poll.name} onPress={this.selectFeedbackOption.bind(this, poll)}/>
       )
     })
   }
@@ -365,7 +363,7 @@ class RequestFeedbackView extends React.Component {
           <View style={styles.modal}>
             <View style={{height:this.state.height * 0.9, width:this.state.width * 0.9}}>
               <View style={styles.modalBox}>
-                {this.listOfPoll(this.state.poll)}
+                {this.listOfPoll(this.state.polls)}
               </View>
               <Button onPress={this.presetPoll.bind(this)} text={'Close'}/>
             </View>
