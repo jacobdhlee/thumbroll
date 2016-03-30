@@ -177,7 +177,6 @@ module.exports = {
 
     if(lessonId !== 'Quick Class') {
       console.log('Incoming poll for class', classId);
-      console.log('!!!!!!!!!!!!', pollObject.id);
       if(pollObject.id !== undefined) {
         models.polls.update(
           { sent: true },
