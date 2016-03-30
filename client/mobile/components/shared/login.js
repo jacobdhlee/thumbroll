@@ -233,12 +233,13 @@ class Login extends React.Component {
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
     );
     return (
-      <View style={{flex: 1, backgroundColor: '#bbdefb'}}> 
+      <View style={{flex: 1, backgroundColor: '#fafafa'}}> 
         <View style={styles.loginContainer}>
 
           <View style={styles.headerContainer}>
+
             <Text style={styles.headerText}>
-              Header Will Go Here
+              Thumbroll
             </Text>
           </View>
 
@@ -329,7 +330,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 18,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   loginContainer: {
     flex: 1,
@@ -366,7 +367,7 @@ const styles = StyleSheet.create({
   teacherButton: {
     height: 45,
     flexDirection: 'row',
-    backgroundColor: 'red',
+    backgroundColor: '#e65100',
     borderColor: 'transparent',
     borderWidth: 1,
     borderRadius: 4,

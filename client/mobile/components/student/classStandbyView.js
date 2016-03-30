@@ -75,7 +75,7 @@ class ClassStandbyView extends React.Component {
   }
   raiseHand() {
     this.state.socket.emit('raiseHand', {user: this.state.user});
-    Alert.alert('Raise Hand', 'Wating for the teacher response');
+    Alert.alert('Hand Raised!');
     console.log('raiseHand');
 
   }
@@ -102,7 +102,7 @@ class ClassStandbyView extends React.Component {
       question: '',
     })
     return (
-      Alert.alert('Question submit', 'Wating for the teacher response')
+      Alert.alert('Question submitted!')
     )
   }
 
@@ -127,8 +127,8 @@ class ClassStandbyView extends React.Component {
           <Text style={styles.textSizeOne}>Waiting for Teacher!</Text>
         </View>
         <View style={styles.container}>
-          <Button onPress={this.raiseHand.bind(this)} text={'RaiseHand'}/>
-          <Button onPress={this.askQuestion.bind(this)}text={'Ask short Question'} />
+          <Button onPress={this.raiseHand.bind(this)} text={'Raise Hand'}/>
+          <Button onPress={this.askQuestion.bind(this)}text={'Ask Question'} />
         </View>
 
         <Modal visible={this.state.modal} transparent={true} animated={false}>
