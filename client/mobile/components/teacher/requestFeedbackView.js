@@ -113,12 +113,11 @@ class RequestFeedbackView extends React.Component {
     api.getLessonPolls(lesson)
     .then(function(resp){
       if(resp.status === 500) {
-        console.error('Error for getting poll data')
+        console.error('Error for getting poll data');
       } else if(resp.status === 200) {
         var poll = JSON.parse(resp._bodyInit).filter(function(polls) {
           return polls.sent === false
         });
-        console.log('polls >>>>?????>>>>>>>>', poll)
         that.setState({
           poll: poll,
         })
@@ -245,7 +244,6 @@ class RequestFeedbackView extends React.Component {
       if(response.status === 500) {
         console.error('Server error', response);
       } else if(response.status === 201) {
-        console.log('feedbackOption dkafjadsklfjaslk>>>>>>>>', feedbackOption);
         var pollId = JSON.parse(response._bodyText).pollId;
         this.props.navigator.push({
           component: FeedbackView,
