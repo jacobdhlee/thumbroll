@@ -46,6 +46,8 @@ class RequestFeedbackView extends React.Component {
       raisedHandCount: 0,
       count: 0,
       questionLists:[],
+      poll:[],
+      pollModal: false,
     };
     //populate feedbackOptions with anything custom from lesson
     this.state.socket.on('studentRaisedHand', function(data){
@@ -106,6 +108,20 @@ class RequestFeedbackView extends React.Component {
     })
     .catch(function(err){
       console.error(err);
+    })
+
+    api.getLessonPolls(lesson)
+    .then(function(resp){
+      if(resp.status === 500) {
+        console.error('Error for getting poll data');
+      } else if(resp.status === 200) {
+        var poll = JSON.parse(resp._bodyInit).filter(function(polls) {
+          return polls.sent === false
+        });
+        that.setState({
+          poll: poll,
+        })
+      }
     })
   }
 
@@ -243,6 +259,10 @@ class RequestFeedbackView extends React.Component {
       } else {
         console.error('Error getting poll data', response);
       }
+      this.setState({
+        pollModal: false
+      })
+
     })
     .catch((err) => {
       console.error('Error starting poll', err);
@@ -256,6 +276,23 @@ class RequestFeedbackView extends React.Component {
       )
     })
   }
+
+  presetPoll() {
+    this.setState({
+      pollModal: !this.state.pollModal,
+    })
+  }
+
+  listOfPoll (list) {
+    return list.map((poll, index) => {
+      if(poll.type === 'multiChoice') { poll.id = 2 }
+      if(poll.type === 'thumbs') { poll.id = 1 }
+      return (
+        <Button key={index} text={poll.name} onPress={this.selectFeebackOption.bind(this, poll)}/>
+      )
+    })
+  }
+
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
@@ -267,6 +304,7 @@ class RequestFeedbackView extends React.Component {
           <Button onPress={this.dismissClass.bind(this)} text={'Dismiss Class'}/>
           {this.renderFeedbackOptions(this.state.feedbackOptions)}
           <Button onPress={this.callOnStudent.bind(this)} text={'Call On Student'}/>
+          <Button onPress={this.presetPoll.bind(this)} text={'Preset Poll'} />
         </View>
         <View style={styles.studentResponse}>
           <TouchableOpacity onPress={this.clickQuestion.bind(this)} style={styles.questionBox}>
@@ -317,6 +355,16 @@ class RequestFeedbackView extends React.Component {
           </View>
         </Modal>
 
+        <Modal visible={this.state.pollModal} transparent={true} animated={false}>
+          <View style={styles.modal}>
+            <View style={{height:this.state.height * 0.9, width:this.state.width * 0.9}}>
+              <View style={styles.modalBox}>
+                {this.listOfPoll(this.state.poll)}
+              </View>
+              <Button onPress={this.presetPoll.bind(this)} text={'Close'}/>
+            </View>
+          </View>
+        </Modal>
       </View>
     )
   }

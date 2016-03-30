@@ -117,6 +117,5 @@ module.exports = function(io) {
       io.sockets.to(room).emit('studentLeftRoom', data);
       room = undefined;
     });
-
   });
 };

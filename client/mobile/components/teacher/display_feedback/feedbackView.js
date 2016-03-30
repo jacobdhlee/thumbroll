@@ -39,7 +39,6 @@ class FeedbackView extends React.Component {
     };
 
     this.state.socket.on('studentResponseForTeacher', (studentData) => {
-      
       // MultiChoice case
       if(typeof studentData.answer === 'string') {
         var currentStudentMultiChoiceData = this.state.studentMultiChoiceData.data.slice();
