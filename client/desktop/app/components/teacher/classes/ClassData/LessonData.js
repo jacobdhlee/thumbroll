@@ -148,34 +148,49 @@ class LessonData extends React.Component {
     this.setState({ multiD: e.target.value });
   }
 
-  handleThumbsFormSubmit() {
+  handleThumbsFormSubmit(e) {
     // Submit form data over API
+    console.log("Submit thumbs was clicked!")
+    var lessonId = this.state.lessonId;
+    var self = this;
 
-    // Call API to grab new poll data
-    // add to state
-    api.getLessonPollsData(props.lessonId, props.thumbsTitle, props.thumbsQuestion)
-    .then((response) => {
-      response.json().then((response) => {
-        console.log('Individual lesson data from DB:', response);
-        this.setState({
-          data:response
+    api.addThumbPoll(lessonId, this.state.thumbsTitle, this.state.thumbsQuestion)
+    .then(function(response){
+      if (response) {
+        console.log("POST RESPONSE: ", response);
+
+        // Call API to grab new poll data
+        api.getLessonPollsData(lessonId)
+        .then((response) => {
+          response.json().then((response) => {
+            console.log('Individual lesson data from DB:', response);
+            self.setState({
+              data:response
+            });
+          }).catch((err) => {
+            console.error(err);
+          });
+        })
+        .catch((err) => {
+          console.error(err);
         });
-      }).catch((err) => {
-        console.error(err);
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-    });
 
-    this.setState({
-     // Wipe relevant states
-     thumbsTitle: "",
-     thumbsQuestion: ""
-    });
+        // add to state
+        self.setState({
+         // Wipe relevant states
+         thumbsTitle: "",
+         thumbsQuestion: ""
+        });
+      } else {
+        console.log("POST ERROR")
+      }
+    }).catch(function(err){
+      console.log("ERROR POSTING: ", err);
+    })
+
   }
 
-  handleMultiChoiceFormSubmit() {
+  handleMultiChoiceFormSubmit(e) {
     // Submit form data over API
 
 
@@ -263,7 +278,7 @@ const ThumbsTable = (props) => {
             <tr key={'P' + poll.poll_id} >
               <td> {poll.poll_name || 'N/A'} </td>
               <td> {poll.response_count || 0} </td>
-              <td> {poll.average_thumb.toFixed(2) + '%'} </td>
+              <td> {poll.average_thumb ? poll.average_thumb.toFixed(2) + '%' : 'N/A'} </td>
             </tr>
           )
         })}
@@ -297,7 +312,7 @@ const AddThumbsForm = (props) => {
             }} />
           </div>
           <div>
-            <button style={{marginLeft:'0', fontSize: '1em'}} type='submit'>Add</button>
+            <button onClick={props.onSubmit} style={{marginLeft:'0', fontSize: '1em'}} type='submit'>Add</button>
           </div>
         </form>
       </div>
@@ -353,7 +368,7 @@ const AddMultiChoiceForm = (props) => {
           </div>
           
           <div>
-            <button style={{marginLeft:'0', fontSize: '1em'}} type='submit'>Add</button>
+            <button onClick={props.onSubmit} style={{marginLeft:'0', fontSize: '1em'}} type='submit'>Add</button>
           </div>
         </form>
       </div>

@@ -119,7 +119,7 @@ module.exports = {
   },
 
   addThumbPoll: (lessonId, title, question) => {
-    return fetch(server + '/teachers/class/student', {
+    return fetch(server + '/classes/lessons/thumbs', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -128,13 +128,14 @@ module.exports = {
       body: JSON.stringify({
         lessonId: lessonId,
         title: title,
+        type: "thumbs",
         question: question
       })
     });
   },
 
   addMultiChoicePoll: (lessonId, title, question, answer, A, B, C, D) => {
-    return fetch(server + '/teachers/class/student', {
+    return fetch(server + '/classes/lessons/multiChoice', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -143,6 +144,7 @@ module.exports = {
       body: JSON.stringify({
         lessonId: lessonId,
         title: title,
+        type: "multiChoice",
         question: question,
         answer: answer,
         A: A,
