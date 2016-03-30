@@ -114,12 +114,13 @@ class ClassStandbyView extends React.Component {
     }
     return(
       <View style={{flex:1}}>
-      <ScrollView scrollEnabled={false}
-        style={{backgroundColor: '#424242'}}>
+      <View style={{flex:1}}>
         <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)} 
           beforeLogout={this.beforeLogout.bind(this)}>
           {name}
         </NavBar>
+      <ScrollView scrollEnabled={false}
+        style={{backgroundColor: '#424242'}}>
         <View style={{alignItems: 'center', backgroundColor: '#424242'}}>
           <Text style={styles.textSizeOne}>Waiting for Teacher</Text>
         </View>
@@ -158,6 +159,7 @@ class ClassStandbyView extends React.Component {
         </Modal>
 
       </ScrollView>
+      </View>
       </View>
     )
   }
