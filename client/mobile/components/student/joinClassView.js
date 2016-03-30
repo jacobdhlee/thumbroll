@@ -115,7 +115,7 @@ class JoinClassView extends React.Component {
   handleModalCancel() {
     this.setState({
       secretCode: '',
-      modalVisible: false
+      modalVisible: false,
     });
   }
 
