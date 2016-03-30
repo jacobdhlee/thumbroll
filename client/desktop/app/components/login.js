@@ -80,7 +80,7 @@ class Login extends React.Component {
           poster="http://raw.githubusercontent.com/ronik-design/react-drive-in/master/example/glacier.jpg"
         />
 
-        <Row style={{marginTop:'2em'}}>
+        <Row style={{marginTop:'2em', marginBottom:'4em'}}>
         <Col s={12} l={12}>
           <h2 style={{fontSize: '3em'}} className='center-align callToAction'
           >Login</h2>
