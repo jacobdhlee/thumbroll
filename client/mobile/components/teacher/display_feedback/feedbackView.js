@@ -100,14 +100,14 @@ class FeedbackView extends React.Component {
   }
 
   renderChart() {
-    if(this.state.feedbackOption.id === 1) {
+    if(this.state.feedbackOption.type == 'thumbs') {
       return (
         <View style={{ width: this.state.width, height: this.state.height * 0.7}}>
           <Text style={styles.responseStatContainer}>Average Response: {this.state.studentThumbsData.average}</Text>
           {React.createElement(PercentageChart, this.state.studentThumbsData)}
         </View>
       )
-    } else if(this.state.feedbackOption.id === 2) {
+    } else if(this.state.feedbackOption.type == 'multiChoice') {
       return (
         <View style={{ width: this.state.width, height: this.state.height * 0.7}}>
           <Text style={styles.responseStatContainer}>Number of responses: {this.state.studentMultiChoiceData.data.length}</Text>
