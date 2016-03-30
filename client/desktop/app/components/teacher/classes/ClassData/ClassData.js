@@ -463,8 +463,6 @@ class LessonChart extends React.Component {
   }
 
   componentDidMount() {
-    console.log('COMPONENTDIDMOUNT');
-    
     //Helpers
     var xOffset = this.xOffset;
     var yOffset = this.yOffset
@@ -473,11 +471,9 @@ class LessonChart extends React.Component {
     var yAxisScale = d3.scale.linear()
       .domain([0,100])
       .range([this.height - yOffset, yOffset]);
-
     var yAxis = d3.svg.axis()
       .scale(yAxisScale)
       .orient('left');
-
     var yAxisGroup = d3.select('svg').append('g')
       .attr('class', 'axis')
       .attr('transform', 'translate(' + xOffset + ', 0)')
@@ -520,75 +516,22 @@ class LessonChart extends React.Component {
     d3.select('svg').call(this.tip);
   }
 
-  componentWillReceiveProps(props) {
-    console.log('COMPONENTWILLRECEIVEPROPS');
+  componentWillUpdate(nextProps, nextState) {
+    //Helpers
     var xOffset = this.xOffset;
     var yOffset = this.yOffset;
-    var barWidth = Math.floor((this.width - 2 * xOffset) / props.lessons.length);
+    var barWidth = Math.floor((this.width - 2 * xOffset) / nextProps.lessons.length);
 
     var mapToChart = function(percent) {
       return (100 - percent) / 100 * (this.height - 2 * yOffset) + yOffset;
     }.bind(this);
 
-    //adjust width on existing lessons
-    d3.select('svg').selectAll('.lessonChartBar')
-      .data(props.lessons, function(d) {
-        return d.lesson_id;
-      })
-      .transition()
-      .duration(500)
-      .attr('x', function(d, i) {
-        return 10 + xOffset + i * barWidth;
-      })
-      .attr('y', function(d) {
-        var avgThumb = d.average_thumb || 1;
-        return mapToChart(avgThumb); 
-      })
-      .attr('width', barWidth - 20)
-      .attr('height', function(d) {
-        var avgThumb = d.average_thumb || 1;
-        return mapToChart(100 - avgThumb) - yOffset;
-      }.bind(this));
-
-    //render new lessons
-    d3.select('svg').selectAll('.lessonChartBar')
-      .data(props.lessons, function(d) {
-        return d.lesson_id;
-      })
-      .enter()
-      .append('rect')
-      .attr('class', 'lessonChartBar')
-      .attr('x', function(d, i) {
-        return 10 + xOffset + i * barWidth;
-      })
-      .attr('y', function(d) {
-        var avgThumb = d.average_thumb || 1;
-        return mapToChart(avgThumb); 
-      })
-      .attr('width', barWidth - 20)
-      .attr('height', function(d) {
-        var avgThumb = d.average_thumb || 1;
-        return mapToChart(100 - avgThumb) - yOffset;
-      }.bind(this))
-      .on('mouseover', this.tip.show)
-      .on('mouseout', this.tip.hide);
-  }
-
-  componentDidUpdate(props) {
-    console.log('COMPONENTDIDUPDATE');
-    var mapToChart = function(percent) {
-      return (100 - percent) / 100 * (this.height - 2 * yOffset) + yOffset;
-    }.bind(this);
-    var xOffset = this.xOffset;
-    var yOffset = this.yOffset;
-    var barWidth = Math.floor((this.width - 2 * xOffset) / props.lessons.length);
-
-    //remove axis label
+    //Remove existing axis label
     d3.select('svg')
       .selectAll('.xAxisLabel')
       .remove();
 
-    //append new axis label based on state
+    //Add new axis label depending on state
     d3.select('svg').append('text')
       .attr('class', 'xAxisLabel axisLabel')
       .attr('text-anchor', 'end')
@@ -597,51 +540,71 @@ class LessonChart extends React.Component {
       .attr('dy', '.75em')
       .attr('transform', 'rotate(-90)')
       .text(function(d) {
-        if(this.state.displayThumbs) {
+        if(nextState.displayThumbs) {
           return 'Average Thumb Poll (%)'
-        } else if (this.state.displayAccuracy) {
+        } else if (nextState.displayAccuracy) {
           return 'Accuracy (%)'
         } 
       }.bind(this));
 
-    //Redraw heights of bars based on data indicated by state
-    if(this.state.displayThumbs) {
-      d3.select('svg').selectAll('.lessonChartBar')
-        .data(props.lessons, function(d) {
-          return d.lesson_id;
-        })
-        .transition().duration(500)
-        .attr('y', function(d) {
-          var avgThumb = d.average_thumb || 1;
-          return mapToChart(avgThumb); 
-        })
-        .attr('width', barWidth - 20)
-        .attr('height', function(d) {
-          var avgThumb = d.average_thumb || 1;
-          return mapToChart(100 - avgThumb) - yOffset;
-        }.bind(this))
-    } else {
-      d3.select('svg').selectAll('.lessonChartBar')
-        .data(props.lessons, function(d) {
-          return d.lesson_id;
-        })
-        .transition().duration(500)
-        .attr('y', function(d) {
-          var correctRate = (d.correct_response_count || 0) / d.potential_correct_responses_count * 100;
-          correctRate = correctRate ? correctRate : 1;
-          return mapToChart(correctRate); 
-        })
-        .attr('height', function(d) {
-          var correctRate = (d.correct_response_count || 0) / d.potential_correct_responses_count * 100;
-          correctRate = correctRate ? correctRate : 1;
-          return mapToChart(100 - correctRate) - yOffset;
-        }.bind(this))
+    //Set functions for height and y based on state
+    var heightFunc;
+    var yFunc;
+    if(nextState.displayThumbs) {
+      heightFunc = function(d) {
+        var avgThumb = d.average_thumb || 1;
+        return mapToChart(100 - avgThumb) - yOffset;
+      };
+      yFunc = function(d) {
+        var avgThumb = d.average_thumb || 1;
+        return mapToChart(avgThumb); 
+      };
+    } else if(nextState.displayAccuracy) {
+      heightFunc = function(d) {
+        var correctRate = (d.correct_response_count || 0) / d.potential_correct_responses_count * 100;
+        correctRate = correctRate ? correctRate : 1;
+        return mapToChart(100 - correctRate) - yOffset;
+      };
+      yFunc = function(d) {
+        var correctRate = (d.correct_response_count || 0) / d.potential_correct_responses_count * 100;
+        correctRate = correctRate ? correctRate : 1;
+        return mapToChart(correctRate); 
+      };
     }
+
+    //Adjust height and width on existing lessons
+    d3.select('svg').selectAll('.lessonChartBar')
+      .data(nextProps.lessons, function(d) {
+        return d.lesson_id;
+      })
+      .transition()
+      .duration(500)
+      .attr('x', function(d, i) {
+        return 10 + xOffset + i * barWidth;
+      })
+      .attr('y', yFunc)
+      .attr('width', barWidth - 20)
+      .attr('height', heightFunc);
+
+    //Render new lessons
+    d3.select('svg').selectAll('.lessonChartBar')
+      .data(nextProps.lessons, function(d) {
+        return d.lesson_id;
+      })
+      .enter()
+      .append('rect')
+      .attr('class', 'lessonChartBar')
+      .attr('x', function(d, i) {
+        return 10 + xOffset + i * barWidth;
+      })
+      .attr('y', yFunc)
+      .attr('width', barWidth - 20)
+      .attr('height', heightFunc)
+      .on('mouseover', this.tip.show)
+      .on('mouseout', this.tip.hide);
   }
 
   render(){
-    console.log('RENDER');
-
     return (
       <div className='chartContainer center-align' style={{padding:'10px'}}>
         <svg width={this.width} height={this.height} />
