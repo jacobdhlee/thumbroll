@@ -19,7 +19,8 @@ var {
   TouchableOpacity,
   TouchableHighlight,
   ScrollView,
-  ListView
+  ListView,
+  StatusBar
 } = React;
 
 class StartClassView extends React.Component {
@@ -176,6 +177,9 @@ class StartClassView extends React.Component {
   render() {
     return (
       <View style={{flex: 1}}> 
+        <StatusBar
+            barStyle='light-content'
+          />
         <NavBar navi={this.props.navigator}>Your Classes</NavBar>
         <View style={styles.viewTopContainer}>
           <View>

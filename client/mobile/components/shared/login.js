@@ -22,6 +22,7 @@ var {
   Navigator,
   Switch,
   Dimensions,
+  StatusBar,
 } = React;
 
 class Login extends React.Component {
@@ -234,6 +235,9 @@ class Login extends React.Component {
     );
     return (
       <View style={{flex: 1, backgroundColor: '#fafafa'}}> 
+        <StatusBar
+          barStyle='default'
+        />
         <View style={styles.loginContainer}>
 
           <View style={styles.headerContainer}>
@@ -355,7 +359,7 @@ const styles = StyleSheet.create({
   studentButton: {
     height: 45,
     flexDirection: 'row',
-    backgroundColor: '#219dff',
+    backgroundColor: '#424242',
     borderColor: 'transparent',
     borderWidth: 1,
     borderRadius: 4,
@@ -367,7 +371,7 @@ const styles = StyleSheet.create({
   teacherButton: {
     height: 45,
     flexDirection: 'row',
-    backgroundColor: '#e65100',
+    backgroundColor: '#03a9f4',
     borderColor: 'transparent',
     borderWidth: 1,
     borderRadius: 4,

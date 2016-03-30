@@ -228,12 +228,12 @@ class RequestFeedbackView extends React.Component {
     console.log('Calling on:', student);
     this.state.socket.emit('callOnStudent', student);
     if(!student || studentsObj === undefined) {
-      Alert.alert('Called on', 'No student sign in yet!');
+      Alert.alert('No student has yet signed in');
     } else {
       if(student.firstName) {
-        Alert.alert('Called on', student.firstName + ' ' + student.lastName);
+        Alert.alert('Selected', student.firstName + ' ' + student.lastName);
       } else {
-        Alert.alert('Called on student', student.uid);
+        Alert.alert('Selected student', student.uid);
       }
     }
   }
