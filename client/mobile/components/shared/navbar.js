@@ -53,11 +53,12 @@ class NavBar extends React.Component {
 const styles = StyleSheet.create({
   nav: {
     flex: 0.2,
-    marginTop: 20,
-    height: 50,
+    marginTop: 0,
+    paddingTop: 20,
+    height: 75,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#01579b',
+    backgroundColor: '#03a9f4',
     alignItems: 'center',
   },
   back: {
@@ -74,12 +75,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     fontSize: 15,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#fafafa',
   },
   textSizeOne: {
     fontSize: 25,
     justifyContent: 'center',
-    color: 'white',
+    color: '#fafafa',
   },
 })
 

@@ -20,6 +20,7 @@ var {
   TouchableOpacity,
   Navigator,
   ScrollView,
+  StatusBar
 } = React;
 
 
@@ -132,7 +133,10 @@ class JoinClassView extends React.Component {
   render() {
     return (
       <View style={{flex:1}}>
-        <NavBar navi={this.props.navigator}>Enrollled Classes</NavBar>
+      <StatusBar
+          barStyle='light-content'
+        />
+        <NavBar navi={this.props.navigator}>Enrolled Classes</NavBar>
         <View style={styles.container}>
           <View>
             <ScrollView>
@@ -179,6 +183,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',  
     justifyContent: 'center',
+    backgroundColor: '#424242'
   },
   modal: {
     flex: 1,
@@ -191,7 +196,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#e3f2fd'
+    backgroundColor: '#424242'
   },
   modalTextSize: {
     fontSize: 25,
