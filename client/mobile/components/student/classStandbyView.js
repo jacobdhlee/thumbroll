@@ -147,7 +147,6 @@ class ClassStandbyView extends React.Component {
                   onChangeText={(text) => this.setState({ question: text})}
                   value={this.state.question}
                   onSubmitEditing={this.closeQuestion.bind(this)}
-                  blurOnSubmit={true}
                 />
                 </View>
                 <TouchableOpacity style={{width: 200}}>
