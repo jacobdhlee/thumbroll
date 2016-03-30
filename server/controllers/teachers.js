@@ -138,10 +138,10 @@ module.exports = {
       preset_data: JSON.stringify({
         subType: subType, 
         question: question,
-        A: A,
-        B: B,    
-        C: C,
-        D: D
+        A: optionA,
+        B: optionB,    
+        C: optionC,
+        D: optionD
       })
     }).then(function(data){
       if (data) {

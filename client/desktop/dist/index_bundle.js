@@ -32430,34 +32430,45 @@
 	  }, {
 	    key: 'handleMultiChoiceFormSubmit',
 	    value: function handleMultiChoiceFormSubmit(e) {
-	      var _this3 = this;
-
 	      // Submit form data over API
+	      console.log("Submit thumbs was clicked!");
+	      var lessonId = this.state.lessonId;
+	      var self = this;
 
-	      // Call API to grab new poll data
-	      // add to state
-	      _api2.default.getLessonPollsData(props.lessonId, props.multiTitle, props.multiQuestion, props.multiAnswer, props.multiA, props.multiB, props.multiC, props.multiD).then(function (response) {
-	        response.json().then(function (response) {
-	          console.log('Individual lesson data from DB:', response);
-	          _this3.setState({
-	            data: response
+	      _api2.default.addMultiChoicePoll(lessonId, this.state.multiTitle, this.state.multiQuestion, this.state.multiAnswer, this.state.multiA, this.state.multiB, this.state.multiC, this.state.multiD).then(function (response) {
+	        if (response) {
+	          console.log("POST RESPONSE: ", response);
+
+	          // Call API to grab new poll data
+	          _api2.default.getLessonPollsData(lessonId).then(function (response) {
+	            response.json().then(function (response) {
+	              console.log('Individual lesson data from DB:', response);
+	              self.setState({
+	                data: response
+	              });
+	            }).catch(function (err) {
+	              console.error(err);
+	            });
+	          }).catch(function (err) {
+	            console.error(err);
 	          });
-	        }).catch(function (err) {
-	          console.error(err);
-	        });
-	      }).catch(function (err) {
-	        console.error(err);
-	      });
 
-	      this.setState({
-	        // Wipe relevant states
-	        multiTitle: "",
-	        multiQuestion: "",
-	        multiAnswer: "",
-	        multiA: "",
-	        multiB: "",
-	        multiC: "",
-	        multiD: ""
+	          // add to state
+	          self.setState({
+	            // Wipe relevant states
+	            multiTitle: "",
+	            multiQuestion: "",
+	            multiAnswer: "",
+	            multiA: "",
+	            multiB: "",
+	            multiC: "",
+	            multiD: ""
+	          });
+	        } else {
+	          console.log("POST ERROR");
+	        }
+	      }).catch(function (err) {
+	        console.log("ERROR POSTING: ", err);
 	      });
 	    }
 	  }]);
@@ -32700,6 +32711,18 @@
 	          ),
 	          _react2.default.createElement('input', { type: 'text', placeholder: 'Question', value: props.multiQuestion, onChange: function onChange(event) {
 	              props.handleMultiQuestionChange(event);
+	            } })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'text',
+	            null,
+	            'Answer'
+	          ),
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Answer', value: props.multiAnswer, onChange: function onChange(event) {
+	              props.handleMultiAnswerChange(event);
 	            } })
 	        ),
 	        _react2.default.createElement(

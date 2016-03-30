@@ -192,37 +192,49 @@ class LessonData extends React.Component {
 
   handleMultiChoiceFormSubmit(e) {
     // Submit form data over API
+    console.log("Submit thumbs was clicked!")
+    var lessonId = this.state.lessonId;
+    var self = this;
 
+    api.addMultiChoicePoll(lessonId, this.state.multiTitle, this.state.multiQuestion, 
+      this.state.multiAnswer, this.state.multiA, this.state.multiB, this.state.multiC, this.state.multiD)
+    .then(function(response){
+      if (response) {
+        console.log("POST RESPONSE: ", response);
 
-
-    // Call API to grab new poll data
-    // add to state
-    api.getLessonPollsData(props.lessonId, props.multiTitle, props.multiQuestion, 
-      props.multiAnswer, props.multiA, props.multiB, props.multiC, props.multiD)
-    .then((response) => {
-      response.json().then((response) => {
-        console.log('Individual lesson data from DB:', response);
-        this.setState({
-          data:response
+        // Call API to grab new poll data
+        api.getLessonPollsData(lessonId)
+        .then((response) => {
+          response.json().then((response) => {
+            console.log('Individual lesson data from DB:', response);
+            self.setState({
+              data:response
+            });
+          }).catch((err) => {
+            console.error(err);
+          });
+        })
+        .catch((err) => {
+          console.error(err);
         });
-      }).catch((err) => {
-        console.error(err);
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-    });
 
-    this.setState({
-      // Wipe relevant states
-      multiTitle: "",
-      multiQuestion: "",
-      multiAnswer: "",
-      multiA: "",
-      multiB: "",
-      multiC: "",
-      multiD: ""
-    });
+        // add to state
+        self.setState({
+         // Wipe relevant states
+         multiTitle: "",
+         multiQuestion: "",
+         multiAnswer: "",
+         multiA: "",
+         multiB: "",
+         multiC: "",
+         multiD: ""
+        });
+      } else {
+        console.log("POST ERROR")
+      }
+    }).catch(function(err){
+      console.log("ERROR POSTING: ", err);
+    })
   }
 }
 
@@ -340,6 +352,12 @@ const AddMultiChoiceForm = (props) => {
             <text>Question</text>
             <input type='text' placeholder='Question' value={props.multiQuestion} onChange={(event) => {
               props.handleMultiQuestionChange(event);
+            }} />
+          </div>
+          <div>
+            <text>Answer</text>
+            <input type='text' placeholder='Answer' value={props.multiAnswer} onChange={(event) => {
+              props.handleMultiAnswerChange(event);
             }} />
           </div>
           <div>
