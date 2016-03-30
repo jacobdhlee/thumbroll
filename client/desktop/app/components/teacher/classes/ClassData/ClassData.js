@@ -458,7 +458,7 @@ class LessonChart extends React.Component {
     this.state = {
       displayThumbs: true,
       displayAttendance: false,
-      // displayAccuracy: false,
+      displayAccuracy: false,
     };
   }
 
@@ -544,7 +544,9 @@ class LessonChart extends React.Component {
           return 'Average Thumb Poll (%)'
         } else if (nextState.displayAccuracy) {
           return 'Accuracy (%)'
-        } 
+        } else if (nextState.displayAttendance) {
+          return 'Attendance'
+        }
       }.bind(this));
 
     //Set functions for height and y based on state
@@ -569,7 +571,16 @@ class LessonChart extends React.Component {
         var correctRate = (d.correct_response_count || 0) / d.potential_correct_responses_count * 100;
         correctRate = correctRate ? correctRate : 1;
         return mapToChart(correctRate); 
+      } 
+    } else if(nextState.displayAttendance) {
+      heightFunc = function(d) {
+        var attendance = lesson.student_count || 1;
+        return mapToChart(100 - attendance) - yOffset;
       };
+      yFunc = function(d) {
+        var attendance = lesson.student_count || 1;
+        return mapToChart(attendance); 
+      } 
     }
 
     //Adjust height and width on existing lessons
@@ -617,12 +628,12 @@ class LessonChart extends React.Component {
               <ul className="tabs">
 
                 <li className='tab col s1 active center-align' 
-                  onClick={() => {this.setState({displayAccuracy:false, displayThumbs: true})}} 
+                  onClick={() => {this.setState({displayAccuracy:false, displayThumbs: true, displayAttendance: false})}} 
                   style={{cursor: 'default'}}
                   style={this.state.displayThumbs ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242', cursor:'default'}}
                   ><span className='pointer'>Thumbs</span></li>
                 <li className='tab col s1 center-align' 
-                  onClick={() => {this.setState({displayAccuracy:true, displayThumbs: false})}} 
+                  onClick={() => {this.setState({displayAccuracy:true, displayThumbs: false, displayAttendance: false})}} 
                   style={{cursor: 'default'}} 
                   style={this.state.displayAccuracy ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242', cursor:'default'}}>
                   <span className='pointer'>Accuracy</span>
