@@ -20,7 +20,8 @@ class LessonData extends React.Component {
       multiA: "",
       multiB: "",
       multiC: "",
-      multiD: ""
+      multiD: "",
+      formError: ""
     };
   }
 
@@ -69,7 +70,8 @@ class LessonData extends React.Component {
         handleMultiBChange={this.handleMultiBChange.bind(this)}
         handleMultiCChange={this.handleMultiCChange.bind(this)}
         handleMultiDChange={this.handleMultiDChange.bind(this)}
-      />      
+      />
+      <ErrorMessage formError={this.state.formError} />
     </div>)
   }
 
@@ -189,6 +191,9 @@ class LessonData extends React.Component {
       });
     } else {
         // Mandatory fields not entered
+        self.setState({
+          formError: "Please enter all required fields"
+        });
         console.log("Please enter all required fields");
       }
   }
@@ -245,6 +250,9 @@ class LessonData extends React.Component {
 
     } else {
       // Mandatory fields not entered
+      self.setState({
+        formError: "Please enter all required fields"
+      });
       console.log("Please enter all required fields");
 
     }
@@ -328,16 +336,19 @@ const AddThumbsForm = (props) => {
         <form onSubmit={props.addStudent} className="pollForm">
           <div>
             <text>Title</text>
+            <text className='required'>*</text>
             <input type='text' placeholder='Title (for your records)' value={props.thumbsTitle} onChange={(event) => {
               props.handleThumbsTitleChange(event);
             }} />
           </div>
           <div>
             <text>Question</text>
+            <text className='required'>*</text>
             <input type='text' placeholder='Question' value={props.thumbsQuestion} onChange={(event) => {
              props.handleThumbsQuestionChange(event);
             }} />
           </div>
+          <text className='requiredText'>*required fields</text>
           <div>
             <button onClick={props.onSubmit} style={{marginLeft:'0', fontSize: '1em'}} type='submit'>Add</button>
           </div>
@@ -359,30 +370,35 @@ const AddMultiChoiceForm = (props) => {
         <form onSubmit={props.handleMultiChoiceFormSubmit} className="pollForm">
           <div>
             <text>Short Title</text>
+            <text className='required'>*</text>
             <input type='text' placeholder='Short title (for your records)' value={props.multiTitle} onChange={(event) => {
               props.handleMultiTitleChange(event);
             }} />
           </div>
           <div>
             <text>Question</text>
+            <text className='required'>*</text>
             <input type='text' placeholder='Question' value={props.multiQuestion} onChange={(event) => {
               props.handleMultiQuestionChange(event);
             }} />
           </div>
           <div>
             <text>Answer</text>
+            <text className='required'>*</text>
             <input type='text' placeholder='Answer' value={props.multiAnswer} onChange={(event) => {
               props.handleMultiAnswerChange(event);
             }} />
           </div>
           <div>
             <text>Option A</text>
+            <text className='required'>*</text>
             <input type='text' placeholder='Option A' value={props.multiA} onChange={(event) => {
               props.handleMultiAChange(event);
             }} />
           </div>
           <div>
             <text>Option B</text>
+            <text className='required'>*</text>
             <input type='text' placeholder='Option B' value={props.multiB} onChange={(event) => {
               props.handleMultiBChange(event);
             }} />
@@ -412,6 +428,14 @@ const AddMultiChoiceForm = (props) => {
       )
   }
 };
+
+const ErrorMessage = (props) => {
+  if (props.formError) {
+    return (<div className='errorMessage'> {props.formError} </div>)
+  } else {
+    return (<div></div>)
+  }
+}
 
 LessonData.contextTypes = {
   router: React.PropTypes.any.isRequired

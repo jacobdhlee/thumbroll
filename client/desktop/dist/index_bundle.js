@@ -31571,8 +31571,6 @@
 	  _createClass(ClassData, [{
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
-
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -31597,14 +31595,8 @@
 	              { className: 'tabs' },
 	              _react2.default.createElement(
 	                'li',
-	                _defineProperty({ className: 'tab col s1 active center-align', onClick: function onClick() {
-	                    return _this2.setState({
-	                      displayLessons: true,
-	                      displayStudents: false
-	                    });
-	                  }, style: {
-	                    cursor: 'default'
-	                  }
+	                _defineProperty({ className: 'tab col s1 active center-align', onClick: this.switchToLessonsView.bind(this),
+	                  style: { cursor: 'default' }
 	                }, 'style', this.state.displayLessons ? { backgroundColor: '#01579b' } : { backgroundColor: '#fafafa', color: '#424242', cursor: 'default' }),
 	                _react2.default.createElement(
 	                  'span',
@@ -31656,25 +31648,25 @@
 	  }, {
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      var _this3 = this;
+	      var _this2 = this;
 
 	      _api2.default.getClassName(this.state.classId).then(function (response) {
 	        if (response.status === 200) {
 	          response.json().then(function (response) {
-	            _this3.setState({
+	            _this2.setState({
 	              className: response.name
 	            });
-	            _api2.default.getClassLessonsData(_this3.state.classId).then(function (response) {
+	            _api2.default.getClassLessonsData(_this2.state.classId).then(function (response) {
 	              if (response.status === 400) {
-	                _this3.setState({
+	                _this2.setState({
 	                  error: 'Data forbidden',
 	                  isLoading: false
 	                });
-	                console.error(_this3.state.error);
+	                console.error(_this2.state.error);
 	              } else if (response.status === 200) {
 	                response.json().then(function (response) {
 	                  console.log("Class lessons from DB:", response);
-	                  _this3.setState({
+	                  _this2.setState({
 	                    classLessons: response,
 	                    error: false,
 	                    isLoading: false
@@ -31703,7 +31695,7 @@
 	  }, {
 	    key: 'switchToStudentsView',
 	    value: function switchToStudentsView() {
-	      var _this4 = this;
+	      var _this3 = this;
 
 	      this.setState({
 	        displayStudents: true,
@@ -31712,6 +31704,35 @@
 	      });
 	      _api2.default.getClassStudentsData(this.state.classId).then(function (response) {
 	        if (response.status === 400) {
+	          _this3.setState({
+	            error: 'Data forbidden',
+	            isLoading: false
+	          });
+	          console.error(_this3.state.error);
+	        } else if (response.status === 200) {
+	          response.json().then(function (response) {
+	            console.log("Class students from DB:", response);
+	            _this3.setState({
+	              classStudents: response,
+	              error: false,
+	              isLoading: false
+	            });
+	          });
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'switchToLessonsView',
+	    value: function switchToLessonsView() {
+	      var _this4 = this;
+
+	      this.setState({
+	        displayStudents: false,
+	        displayLessons: true,
+	        isLoading: true
+	      });
+	      _api2.default.getClassLessonsData(this.state.classId).then(function (response) {
+	        if (response.status === 400) {
 	          _this4.setState({
 	            error: 'Data forbidden',
 	            isLoading: false
@@ -31719,9 +31740,9 @@
 	          console.error(_this4.state.error);
 	        } else if (response.status === 200) {
 	          response.json().then(function (response) {
-	            console.log("Class students from DB:", response);
+	            console.log("Class lessons from DB:", response);
 	            _this4.setState({
-	              classStudents: response,
+	              classLessons: response,
 	              error: false,
 	              isLoading: false
 	            });
@@ -31988,7 +32009,8 @@
 	            )
 	          )
 	        )
-	      )
+	      ),
+	      _react2.default.createElement(LessonChart, { lessons: props.lessons })
 	    );
 	  } else {
 	    return _react2.default.createElement('div', null);
@@ -32099,6 +32121,101 @@
 	  );
 	};
 
+	var LessonChart = function (_React$Component2) {
+	  _inherits(LessonChart, _React$Component2);
+
+	  function LessonChart(props) {
+	    _classCallCheck(this, LessonChart);
+
+	    var _this7 = _possibleConstructorReturn(this, Object.getPrototypeOf(LessonChart).call(this, props));
+
+	    _this7.width = 700;
+	    _this7.height = 300;
+	    _this7.xOffset = 50;
+	    _this7.yOffset = 50;
+	    return _this7;
+	  }
+
+	  _createClass(LessonChart, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      //Render axes
+	      var xOffset = this.xOffset;
+	      var yOffset = this.yOffset;
+
+	      var yAxisScale = d3.scale.linear().domain([0, 100]).range([this.height - yOffset, yOffset]);
+
+	      var yAxis = d3.svg.axis().scale(yAxisScale).orient('left');
+
+	      var yAxisGroup = d3.select('svg').append('g').attr('class', 'axis').attr('transform', 'translate(' + xOffset + ', 0)').call(yAxis);
+
+	      d3.select('svg').append('line').attr('class', 'axis').attr('x1', xOffset).attr('y1', this.height - yOffset).attr('x2', this.width - xOffset).attr('y2', this.height - yOffset);
+
+	      //Render axis labels
+	      d3.select('svg').append('text').attr('class', 'axisLabel').attr('text-anchor', 'end').attr('y', 6).attr('x', -this.height / 2 + yOffset + 20).attr('dy', '.75em').attr('transform', 'rotate(-90)').text('Average Thumb Poll (%)');
+
+	      d3.select('svg').append('text').attr('class', 'axisLabel').attr('text-anchor', 'end').attr('y', this.height - 30).attr('x', this.width / 2 + xOffset).attr('dy', '.75em').text('Lessons');
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(props) {
+	      var xOffset = this.xOffset;
+	      var yOffset = this.yOffset;
+	      var barWidth = Math.floor((this.width - 2 * xOffset) / props.lessons.length);
+
+	      var tip = d3.tip().attr('class', 'd3-tip').html(function (d) {
+	        var correctRate = (d.correct_response_count || 0) / d.potential_correct_responses_count * 100;
+	        var avgThumb = d.average_thumb;
+	        correctRate = d.potential_correct_responses_count ? correctRate.toFixed(1) + '%' : 'N/A';
+	        avgThumb = avgThumb ? avgThumb.toFixed(1) + '%' : 'N/A';
+	        return d.lesson_name + '<br/>' + 'Avg Thumb: ' + avgThumb + '<br/>' + 'Attendance: ' + d.student_count + '<br/>' + 'Accuracy Rate: ' + correctRate;
+	      });
+	      d3.select('svg').call(tip);
+
+	      var mapToChart = function (percent) {
+	        return (100 - percent) / 100 * (this.height - 2 * yOffset) + yOffset;
+	      }.bind(this);
+
+	      //render existing lessons
+	      d3.select('svg').selectAll('.lessonChartBar').data(props.lessons, function (d) {
+	        return d.lesson_id;
+	      }).transition().duration(500).attr('x', function (d, i) {
+	        return 10 + xOffset + i * barWidth;
+	      }).attr('y', function (d) {
+	        var avgThumb = d.average_thumb || 1;
+	        return mapToChart(avgThumb);
+	      }).attr('width', barWidth - 20).attr('height', function (d) {
+	        var avgThumb = d.average_thumb || 1;
+	        return mapToChart(100 - avgThumb) - yOffset;
+	      }.bind(this));
+
+	      //render new lessons
+	      d3.select('svg').selectAll('.lessonChartBar').data(props.lessons, function (d) {
+	        return d.lesson_id;
+	      }).enter().append('rect').attr('class', 'lessonChartBar').attr('x', function (d, i) {
+	        return 10 + xOffset + i * barWidth;
+	      }).attr('y', function (d) {
+	        var avgThumb = d.average_thumb || 1;
+	        return mapToChart(avgThumb);
+	      }).attr('width', barWidth - 20).attr('height', function (d) {
+	        var avgThumb = d.average_thumb || 1;
+	        return mapToChart(100 - avgThumb) - yOffset;
+	      }.bind(this)).on('mouseover', tip.show).on('mouseout', tip.hide);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'chartContainer center-align', style: { padding: '10px' } },
+	        _react2.default.createElement('svg', { width: this.width, height: this.height })
+	      );
+	    }
+	  }]);
+
+	  return LessonChart;
+	}(_react2.default.Component);
+
 	var StudentTable = function StudentTable(props) {
 	  return _react2.default.createElement(
 	    'div',
@@ -32191,17 +32308,17 @@
 	  );
 	};
 
-	var StudentChart = function (_React$Component2) {
-	  _inherits(StudentChart, _React$Component2);
+	var StudentChart = function (_React$Component3) {
+	  _inherits(StudentChart, _React$Component3);
 
 	  function StudentChart(props) {
 	    _classCallCheck(this, StudentChart);
 
-	    var _this7 = _possibleConstructorReturn(this, Object.getPrototypeOf(StudentChart).call(this, props));
+	    var _this8 = _possibleConstructorReturn(this, Object.getPrototypeOf(StudentChart).call(this, props));
 
-	    _this7.width = 500;
-	    _this7.height = 500;
-	    return _this7;
+	    _this8.width = 500;
+	    _this8.height = 500;
+	    return _this8;
 	  }
 
 	  _createClass(StudentChart, [{
@@ -32236,10 +32353,11 @@
 	      var yAxis = d3.svg.axis().scale(yAxisScale).orient('left');
 
 	      //render students
-	      d3.select('svg').selectAll('.student').data(props.students).enter().append('circle').attr('class', 'studentChartNode').attr('r', function (d) {
+	      d3.select('svg').selectAll('.studentChartNode').data(props.students).enter().append('circle').attr('class', 'studentChartNode').attr('r', function (d) {
 	        return d.average_thumb / 5 + 5 || 5;
 	      }).attr('cx', function (d) {
 	        var responseRate = (d.response_count || 0) / d.potential_response_count * 100;
+	        responseRate = responseRate || 0;
 	        return mapToChart(responseRate, '`x');
 	      }).attr('cy', function (d) {
 	        var correctRate = (d.correct_response_count || 0) / d.potential_correct_response_count * 100;
@@ -32261,7 +32379,7 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'chartContainer', style: { padding: '10px' } },
+	        { className: 'chartContainer center-align', style: { padding: '10px' } },
 	        _react2.default.createElement('svg', { width: this.width, height: this.height })
 	      );
 	    }
@@ -32324,7 +32442,8 @@
 	      multiA: "",
 	      multiB: "",
 	      multiC: "",
-	      multiD: ""
+	      multiD: "",
+	      formError: ""
 	    };
 	    return _this;
 	  }
@@ -32402,7 +32521,8 @@
 	          handleMultiBChange: this.handleMultiBChange.bind(this),
 	          handleMultiCChange: this.handleMultiCChange.bind(this),
 	          handleMultiDChange: this.handleMultiDChange.bind(this)
-	        })
+	        }),
+	        _react2.default.createElement(ErrorMessage, { formError: this.state.formError })
 	      );
 	    }
 	  }, {
@@ -32533,6 +32653,9 @@
 	        });
 	      } else {
 	        // Mandatory fields not entered
+	        self.setState({
+	          formError: "Please enter all required fields"
+	        });
 	        console.log("Please enter all required fields");
 	      }
 	    }
@@ -32583,6 +32706,9 @@
 	        });
 	      } else {
 	        // Mandatory fields not entered
+	        self.setState({
+	          formError: "Please enter all required fields"
+	        });
 	        console.log("Please enter all required fields");
 	      }
 	    }
@@ -32759,6 +32885,11 @@
 	            null,
 	            'Title'
 	          ),
+	          _react2.default.createElement(
+	            'text',
+	            { className: 'required' },
+	            '*'
+	          ),
 	          _react2.default.createElement('input', { type: 'text', placeholder: 'Title (for your records)', value: props.thumbsTitle, onChange: function onChange(event) {
 	              props.handleThumbsTitleChange(event);
 	            } })
@@ -32771,9 +32902,19 @@
 	            null,
 	            'Question'
 	          ),
+	          _react2.default.createElement(
+	            'text',
+	            { className: 'required' },
+	            '*'
+	          ),
 	          _react2.default.createElement('input', { type: 'text', placeholder: 'Question', value: props.thumbsQuestion, onChange: function onChange(event) {
 	              props.handleThumbsQuestionChange(event);
 	            } })
+	        ),
+	        _react2.default.createElement(
+	          'text',
+	          { className: 'requiredText' },
+	          '*required fields'
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -32812,6 +32953,11 @@
 	            null,
 	            'Short Title'
 	          ),
+	          _react2.default.createElement(
+	            'text',
+	            { className: 'required' },
+	            '*'
+	          ),
 	          _react2.default.createElement('input', { type: 'text', placeholder: 'Short title (for your records)', value: props.multiTitle, onChange: function onChange(event) {
 	              props.handleMultiTitleChange(event);
 	            } })
@@ -32823,6 +32969,11 @@
 	            'text',
 	            null,
 	            'Question'
+	          ),
+	          _react2.default.createElement(
+	            'text',
+	            { className: 'required' },
+	            '*'
 	          ),
 	          _react2.default.createElement('input', { type: 'text', placeholder: 'Question', value: props.multiQuestion, onChange: function onChange(event) {
 	              props.handleMultiQuestionChange(event);
@@ -32836,6 +32987,11 @@
 	            null,
 	            'Answer'
 	          ),
+	          _react2.default.createElement(
+	            'text',
+	            { className: 'required' },
+	            '*'
+	          ),
 	          _react2.default.createElement('input', { type: 'text', placeholder: 'Answer', value: props.multiAnswer, onChange: function onChange(event) {
 	              props.handleMultiAnswerChange(event);
 	            } })
@@ -32848,6 +33004,11 @@
 	            null,
 	            'Option A'
 	          ),
+	          _react2.default.createElement(
+	            'text',
+	            { className: 'required' },
+	            '*'
+	          ),
 	          _react2.default.createElement('input', { type: 'text', placeholder: 'Option A', value: props.multiA, onChange: function onChange(event) {
 	              props.handleMultiAChange(event);
 	            } })
@@ -32859,6 +33020,11 @@
 	            'text',
 	            null,
 	            'Option B'
+	          ),
+	          _react2.default.createElement(
+	            'text',
+	            { className: 'required' },
+	            '*'
 	          ),
 	          _react2.default.createElement('input', { type: 'text', placeholder: 'Option B', value: props.multiB, onChange: function onChange(event) {
 	              props.handleMultiBChange(event);
@@ -32898,6 +33064,20 @@
 	          )
 	        )
 	      )
+	    );
+	  } else {
+	    return _react2.default.createElement('div', null);
+	  }
+	};
+
+	var ErrorMessage = function ErrorMessage(props) {
+	  if (props.formError) {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'errorMessage' },
+	      ' ',
+	      props.formError,
+	      ' '
 	    );
 	  } else {
 	    return _react2.default.createElement('div', null);
@@ -56743,7 +56923,7 @@
 
 
 	// module
-	exports.push([module.id, "html, body, h1, h2, h3, h4, ul, ol, li, p, a {\n  padding: 0;\n  border: 0;\n  margin: 0;\n}\n\nbody {\n  height: 100%;\n  width: 100%;\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column;\n  background-color: #fafafa;\n  overflow: scroll;\n}\n\nmain {\n  flex: 1 0 auto;\n}\n\np {\n  font-weight: 200;\n  font-family: 'Lato', sans-serif;\n  margin-left: 20%;\n}\n\nul {\n  list-style: none;\n}\n\nli {\n  color: black;\n  list-style: none;\n}\n\n.backgroundVideo{\n  height: 100%;\n  width: 100%;\n  top: 0;\n  padding: none;\n  position: fixed;\n  z-index: -100\n}\n\nfooter {\n  width:100%;\n  height:116px;\n  position: absolute;\n  bottom:0;\n  left:0;\n}\n\nfooter.footerApp{\n  width:0;\n  height:0;\n  position: fixed;\n  bottom:0;\n  left:0;\n}\n\nfooter.footerApp {\n  margin-top: 100px;\n  width:100%;\n  height:45px;\n  bottom:0;\n  left:0;\n  padding: 10px;\n}\n\n.title {\n  font-family: 'Lato', sans-serif;\n  font-weight: 100;\n  padding-left: 10px;\n}\n\n.titleCheck {\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n}\n\n.sectionHeading {\n  font-family: 'Lato', sans-serif;\n  font-weight: 900;\n  margin: 20px;\n  margin-left: 0px;\n  color: #424242;\n  margin-top: 10px;\n}\n.pointer {\n  cursor: pointer;\n}\n\nh2.sectionHeading {\n  font-family: 'Lato', sans-serif;\n  font-weight: 900;\n  margin: 30px;\n  margin-left: 20%;\n  margin-bottom: 3%;\n  color: #424242;\n}\n\nh2.classDataHeading {\n  margin-bottom: 1%;\n}\n\n.settingsButton {\n  float: left;\n  text-align: left;\n}\n.copywriter {\n  float: right;\n  font-family: 'Lato', sans-serif;\n  font-weight: 100;\n  color: #fafafa;\n}\n\n.welcomeTopBar {\n  padding-bottom: 10px;\n}\n\n.welcomeMessage {\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  font-size: 1.5em;\n  margin-top:0px;\n  margin-bottom: 1em;\n}\n\n.callToAction {\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  color: #fafafa;\n}\n\ninput:not([type]):focus:not([readonly]),\ninput[type=text]:focus:not([readonly]),\ninput[type=password]:focus:not([readonly]),\ninput[type=email]:focus:not([readonly]),\ninput[type=url]:focus:not([readonly]),\ninput[type=time]:focus:not([readonly]),\ninput[type=date]:focus:not([readonly]),\ninput[type=datetime-local]:focus:not([readonly]),\ninput[type=tel]:focus:not([readonly]),\ninput[type=number]:focus:not([readonly]),\ninput[type=search]:focus:not([readonly]),\ntextarea.materialize-textarea:focus:not([readonly]) {\n    border-bottom: 1px solid #03a9f4;\n    box-shadow: 0 1px 0 0 #03a9f4;\n}\n\n\nbutton {\n  background-color: transparent;\n  color: #fafafa;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\nbutton:active {\n  outline: none;\n  color: #03a9f4;\n  background-color: #03a9f4;\n}\n\nbutton:focus {\n  background-color: #fafafa;\n}\n\n\nbutton {\n  background-color: #fafafa;\n  color: #424242;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\nbutton:active .login{\n    outline: none;\n    background-color: #01579b;\n}\n\n.loginButton:active{\n    outline: none;\n    background-color: #03a9f4;\n}\n\n.loginButton:focus {\n  background-color: transparent;\n}\n\n.loginButton{\n  background-color: transparent;\n  color: #fafafa;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\n.tableContainer {\n  margin-left: 20%;\n  margin-right: 20%;\n}\n\n#tableHeader {\n  max-width: 90%;\n}\n\n.tabs .tab {\n  border: 2px solid #03a9f4;\n  text-transform: none;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  font-size: 1.5em;\n  max-width: 100%;\n  color: #fafafa;\n}\n.tab:first-child {\n  border: 2px solid #03a9f4;\n  border-right: none;\n}\n\n.tab:active{\n  background-color: #bf360c;\n}\n\n.dateContainer {\n  max-width: '15em';\n\n  margin-left:'10px';\n}\n\ninput:not([type]), input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {\n    background-color: transparent;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    border-radius: 0;\n    outline: none;\n    height: 3rem;\n    width: 20%; \n    font-size: 1rem;\n    margin: 0 0 10px 0px;\n    padding: 0;\n    box-shadow: none;\n    box-sizing: content-box;\n    transition: all .3s;\n}\n\n.addNew {\n  margin-left: 20%;\n  margin-right: 20%;\n}\n\n.error {\n  color: #fafafa;\n}\n\n.dataTable {\n  margin-bottom: 70px;\n}\n\n.classList {\n  margin-left: 20%;\n}\n\n.classListItem {\n  font-size: 2em;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  color: #03a9f4;\n}\n\n.newClassForm {\n  max-width: 200px;\n}\n\n.newClass {\n  margin-left: 20%;\n  width: 200%; \n}\n\n.lessonsToday {\n  margin-bottom: 20px;\n}\n\n.row {\n  margin-bottom: 200px;\n}\n\n.dataRow {\n  margin-left: 30%;\n  margin-right: 30%;\n  margin-bottom: 10px;\n  margin-top: 0;\n}\n\n.loginRow {\n  margin-bottom: 0px;\n}\n\n.profile {\n  font-size: 1.5em;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  margin-bottom: 30px;\n}\n\n.pollForm {\n  margin-bottom: 100px;\n}\n.axis path, .axis line {\n  fill: none;\n  stroke: black;\n  shape-rendering: crispEdges;\n}\n\n.axis text {\n  font-family: sans-serif;\n  font-size: 11px;\n}\n\n.studentChartNode {\n  fill:red;\n  stroke:black;\n}\n\n.studentChartNode:hover {\n  stroke-width: 3px;\n}\n\n.d3-tip {\n  line-height: 1;\n  font-weight: bold;\n  padding: 12px;\n  background: rgba(0, 0, 0, 0.8);\n  color: #fff;\n  border-radius: 2px;\n}\n\n/* Creates a small triangle extender for the tooltip */\n.d3-tip:after {\n  box-sizing: border-box;\n  display: inline;\n  font-size: 10px;\n  width: 100%;\n  line-height: 1;\n  color: rgba(0, 0, 0, 0.8);\n  content: \"\\25BC\";\n  position: absolute;\n  text-align: center;\n}\n\n/* Style northward tooltips differently */\n.d3-tip.n:after {\n  margin: -1px 0 0 0;\n  top: 100%;\n  left: 0;\n}\n", ""]);
+	exports.push([module.id, "html, body, h1, h2, h3, h4, ul, ol, li, p, a {\n  padding: 0;\n  border: 0;\n  margin: 0;\n}\n\nbody {\n  height: 100%;\n  width: 100%;\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column;\n  background-color: #fafafa;\n  overflow: scroll;\n}\n\nmain {\n  flex: 1 0 auto;\n}\n\np {\n  font-weight: 200;\n  font-family: 'Lato', sans-serif;\n  margin-left: 20%;\n}\n\nul {\n  list-style: none;\n}\n\nli {\n  color: black;\n  list-style: none;\n}\n\n.backgroundVideo{\n  height: 100%;\n  width: 100%;\n  top: 0;\n  padding: none;\n  position: fixed;\n  z-index: -100\n}\n\nfooter {\n  width:100%;\n  height:116px;\n  position: absolute;\n  bottom:0;\n  left:0;\n}\n\nfooter.footerApp{\n  width:0;\n  height:0;\n  position: fixed;\n  bottom:0;\n  left:0;\n}\n\nfooter.footerApp {\n  margin-top: 100px;\n  width:100%;\n  height:45px;\n  bottom:0;\n  left:0;\n  padding: 10px;\n}\n\n.title {\n  font-family: 'Lato', sans-serif;\n  font-weight: 100;\n  padding-left: 10px;\n}\n\n.titleCheck {\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n}\n\n.sectionHeading {\n  font-family: 'Lato', sans-serif;\n  font-weight: 900;\n  margin: 20px;\n  margin-left: 0px;\n  color: #424242;\n  margin-top: 10px;\n}\n.pointer {\n  cursor: pointer;\n}\n\nh2.sectionHeading {\n  font-family: 'Lato', sans-serif;\n  font-weight: 900;\n  margin: 30px;\n  margin-left: 20%;\n  margin-bottom: 3%;\n  color: #424242;\n}\n\nh2.classDataHeading {\n  margin-bottom: 1%;\n}\n\n.settingsButton {\n  float: left;\n  text-align: left;\n}\n.copywriter {\n  float: right;\n  font-family: 'Lato', sans-serif;\n  font-weight: 100;\n  color: #fafafa;\n}\n\n.welcomeTopBar {\n  padding-bottom: 10px;\n}\n\n.welcomeMessage {\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  font-size: 1.5em;\n  margin-top:0px;\n  margin-bottom: 1em;\n}\n\n.callToAction {\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  color: #fafafa;\n}\n\ninput:not([type]):focus:not([readonly]),\ninput[type=text]:focus:not([readonly]),\ninput[type=password]:focus:not([readonly]),\ninput[type=email]:focus:not([readonly]),\ninput[type=url]:focus:not([readonly]),\ninput[type=time]:focus:not([readonly]),\ninput[type=date]:focus:not([readonly]),\ninput[type=datetime-local]:focus:not([readonly]),\ninput[type=tel]:focus:not([readonly]),\ninput[type=number]:focus:not([readonly]),\ninput[type=search]:focus:not([readonly]),\ntextarea.materialize-textarea:focus:not([readonly]) {\n    border-bottom: 1px solid #03a9f4;\n    box-shadow: 0 1px 0 0 #03a9f4;\n}\n\n\nbutton {\n  background-color: transparent;\n  color: #fafafa;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\nbutton:active {\n  outline: none;\n  color: #03a9f4;\n  background-color: #03a9f4;\n}\n\nbutton:focus {\n  background-color: #fafafa;\n}\n\n\nbutton {\n  background-color: #fafafa;\n  color: #424242;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\nbutton:active .login{\n    outline: none;\n    background-color: #01579b;\n}\n\n.loginButton:active{\n    outline: none;\n    background-color: #03a9f4;\n}\n\n.loginButton:focus {\n  background-color: transparent;\n}\n\n.loginButton{\n  background-color: transparent;\n  color: #fafafa;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\n.tableContainer {\n  margin-left: 20%;\n  margin-right: 20%;\n}\n\n#tableHeader {\n  max-width: 90%;\n}\n\n.tabs .tab {\n  border: 2px solid #03a9f4;\n  text-transform: none;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  font-size: 1.5em;\n  max-width: 100%;\n  color: #fafafa;\n}\n.tab:first-child {\n  border: 2px solid #03a9f4;\n  border-right: none;\n}\n\n.tab:active{\n  background-color: #bf360c;\n}\n\n.dateContainer {\n  max-width: '15em';\n\n  margin-left:'10px';\n}\n\ninput:not([type]), input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {\n    background-color: transparent;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    border-radius: 0;\n    outline: none;\n    height: 3rem;\n    width: 20%; \n    font-size: 1rem;\n    margin: 0 0 10px 0px;\n    padding: 0;\n    box-shadow: none;\n    box-sizing: content-box;\n    transition: all .3s;\n}\n\n.addNew {\n  margin-left: 20%;\n  margin-right: 20%;\n}\n\n.error {\n  color: #fafafa;\n}\n\n.dataTable {\n  margin-bottom: 70px;\n}\n\n.classList {\n  margin-left: 20%;\n}\n\n.classListItem {\n  font-size: 2em;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  color: #03a9f4;\n}\n\n.newClassForm {\n  max-width: 200px;\n}\n\n.newClass {\n  margin-left: 20%;\n  width: 200%; \n}\n\n.lessonsToday {\n  margin-bottom: 20px;\n}\n\n.row {\n  margin-bottom: 200px;\n}\n\n.dataRow {\n  margin-left: 30%;\n  margin-right: 30%;\n  margin-bottom: 10px;\n  margin-top: 0;\n}\n\n.loginRow {\n  margin-bottom: 0px;\n}\n\n.profile {\n  font-size: 1.5em;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  margin-bottom: 30px;\n}\n\n.pollForm {\n  margin-bottom: 100px;\n}\n\n.axis, .axis path, .axis line {\n  fill: none;\n  stroke: #424242;\n  shape-rendering: crispEdges;\n}\n\n.axis text, .axisLabel {\n  font-family: 'Lato', sans-serif;\n  font-size: 11px;\n  color: #424242;\n}\n\n.axisLabel {\n  font-size: 15px;\n}\n\n.studentChartNode, .lessonChartBar {\n  fill:#e65100;\n  stroke:#424242;\n  stroke-width:2px;\n}\n\n.lessonChartBar {\n  stroke-width:0px;\n}\n\n.studentChartNode:hover, .lessonChartBar:hover {\n  stroke-width: 4px;\n}\n\n.d3-tip {\n  line-height: 1;\n  font-weight: bold;\n  padding: 12px;\n  background: rgba(0, 0, 0, 0.8);\n  color: #fff;\n  border-radius: 2px;\n}\n\n/* Creates a small triangle extender for the tooltip */\n.d3-tip:after {\n  box-sizing: border-box;\n  display: inline;\n  font-size: 10px;\n  width: 100%;\n  line-height: 1;\n  color: rgba(0, 0, 0, 0.8);\n  content: \"\\25BC\";\n  position: absolute;\n  text-align: center;\n}\n\n/* Style northward tooltips differently */\n.d3-tip.n:after {\n  margin: -1px 0 0 0;\n  top: 100%;\n  left: 0;\n}\n\n.errorMessage {\n  margin-bottom: 100px;\n}", ""]);
 
 	// exports
 
