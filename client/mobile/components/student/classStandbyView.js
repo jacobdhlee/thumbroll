@@ -117,12 +117,6 @@ class ClassStandbyView extends React.Component {
           beforeLogout={this.beforeLogout.bind(this)}>
           {name}
         </NavBar>
-        <View>
-          <Text onPress={this.thumbcheckPage.bind(this)} >ThumbCheck</Text>
-        </View>
-        <View>
-          <Text onPress={this.multiPage.bind(this)} >MutipleChoice</Text>
-        </View>
         <View style={{alignItems: 'center'}}>
           <Text style={styles.textSizeOne}>Waiting for Teacher!</Text>
         </View>
