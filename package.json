@@ -4,6 +4,7 @@
   "description": "A real-time student feedback and analytics platform",
   "author": "Shane McGraw <shanemcgraw17@gmail.com>, Ian Deboisblanc, Jake Pace, Jacob Lee",
   "main": "server.js",
+  "private": true,
   "scripts": {
     "start": "node server/app.js",
     "test": "node_modules/.bin/mocha test/test.js"
