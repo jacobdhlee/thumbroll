@@ -154,87 +154,102 @@ class LessonData extends React.Component {
     var lessonId = this.state.lessonId;
     var self = this;
 
-    api.addThumbPoll(lessonId, this.state.thumbsTitle, this.state.thumbsQuestion)
-    .then(function(response){
-      if (response) {
-        console.log("POST RESPONSE: ", response);
+    if (this.state.thumbsTitle && this.state.thumbsQuestion) {
+      api.addThumbPoll(lessonId, this.state.thumbsTitle, this.state.thumbsQuestion)
+      .then(function(response){
+        if (response) {
+          console.log("POST RESPONSE: ", response);
 
-        // Call API to grab new poll data
-        api.getLessonPollsData(lessonId)
-        .then((response) => {
-          response.json().then((response) => {
-            console.log('Individual lesson data from DB:', response);
-            self.setState({
-              data:response
+          // Call API to grab new poll data
+          api.getLessonPollsData(lessonId)
+          .then((response) => {
+            response.json().then((response) => {
+              console.log('Individual lesson data from DB:', response);
+              self.setState({
+                data:response
+              });
+            }).catch((err) => {
+              console.error(err);
             });
-          }).catch((err) => {
+          })
+          .catch((err) => {
             console.error(err);
           });
-        })
-        .catch((err) => {
-          console.error(err);
-        });
 
-        // add to state
-        self.setState({
-         // Wipe relevant states
-         thumbsTitle: "",
-         thumbsQuestion: ""
-        });
-      } else {
-        console.log("POST ERROR")
+          // Wipe relevant states
+          self.setState({
+           thumbsTitle: "",
+           thumbsQuestion: ""
+          });
+        } else {
+          console.log("POST ERROR")
+        }
+      }).catch(function(err){
+        console.log("ERROR POSTING: ", err);
+      });
+    } else {
+        // Mandatory fields not entered
+        console.log("Please enter all required fields");
       }
-    }).catch(function(err){
-      console.log("ERROR POSTING: ", err);
-    })
-
   }
 
   handleMultiChoiceFormSubmit(e) {
     // Submit form data over API
+
     console.log("Submit thumbs was clicked!")
     var lessonId = this.state.lessonId;
     var self = this;
 
-    api.addMultiChoicePoll(lessonId, this.state.multiTitle, this.state.multiQuestion, 
-      this.state.multiAnswer, this.state.multiA, this.state.multiB, this.state.multiC, this.state.multiD)
-    .then(function(response){
-      if (response) {
-        console.log("POST RESPONSE: ", response);
 
-        // Call API to grab new poll data
-        api.getLessonPollsData(lessonId)
-        .then((response) => {
-          response.json().then((response) => {
-            console.log('Individual lesson data from DB:', response);
-            self.setState({
-              data:response
+    if (this.state.multiTitle && this.state.multiQuestion && this.state.multiAnswer 
+      && this.state.multiA && this.state.multiB) {
+      api.addMultiChoicePoll(lessonId, this.state.multiTitle, this.state.multiQuestion, 
+        this.state.multiAnswer, this.state.multiA, this.state.multiB, this.state.multiC, this.state.multiD)
+      .then(function(response){
+        if (response) {
+          console.log("POST RESPONSE: ", response);
+
+          // Call API to grab new poll data
+          api.getLessonPollsData(lessonId)
+          .then((response) => {
+            response.json().then((response) => {
+              console.log('Individual lesson data from DB:', response);
+              self.setState({
+                data:response
+              });
+            }).catch((err) => {
+              console.error(err);
             });
-          }).catch((err) => {
+          })
+          .catch((err) => {
             console.error(err);
           });
-        })
-        .catch((err) => {
-          console.error(err);
-        });
 
-        // add to state
-        self.setState({
-         // Wipe relevant states
-         multiTitle: "",
-         multiQuestion: "",
-         multiAnswer: "",
-         multiA: "",
-         multiB: "",
-         multiC: "",
-         multiD: ""
-        });
-      } else {
-        console.log("POST ERROR")
-      }
-    }).catch(function(err){
-      console.log("ERROR POSTING: ", err);
-    })
+          // add to state
+          self.setState({
+           // Wipe relevant states
+           multiTitle: "",
+           multiQuestion: "",
+           multiAnswer: "",
+           multiA: "",
+           multiB: "",
+           multiC: "",
+           multiD: ""
+          });
+        } else {
+          console.log("POST ERROR")
+        }
+      }).catch(function(err){
+        console.log("ERROR POSTING: ", err);
+      })
+
+    } else {
+      // Mandatory fields not entered
+      console.log("Please enter all required fields");
+
+    }
+
+
   }
 }
 
