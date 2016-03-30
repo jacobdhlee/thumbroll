@@ -221,7 +221,7 @@ models.sequelize.sync({force: true}).then(function () {
       B: "Germany",    
       C: "Prussia"
     })
-  }).then(function(data){console.log(data);});
+  });
 
   models.polls.create({
     type: 'thumbs',

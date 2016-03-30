@@ -73,8 +73,7 @@ module.exports = {
   getLessonPolls: function(req, res, next) {
     var lessonId = req.params.lessonId;
     models.polls.findAll({ where: {
-      lesson_id: lessonId,
-      //TODO?: preset: true
+      lesson_id: lessonId
       }
     })
     .then(function(polls) {
@@ -82,6 +81,75 @@ module.exports = {
     })
     .catch(function(err) {
       console.error('Error getting class lessons from DB:', err);
+      res.status(500).send(err);
+    });
+  },
+
+  addThumbPoll: function(req, res, next) {
+    var lessonId = req.body.lessonId;
+    var type = req.body.type;
+    var title = req.body.title;
+    var question = req.body.question;
+
+    models.polls.create({
+      type: type,
+      lesson_id: lessonId,
+      name: title,
+      sent: false,
+      preset_data: JSON.stringify({
+        subType: "thumbs", 
+        question: question,
+      })
+    }).then(function(data){
+      if (data) {
+        res.status(201).send(data);
+      } else {
+        res.status(500).send("Server error - poll could not be added")
+      }
+    }).catch(function(err) {
+      res.status(500).send(err);
+    });
+
+  },
+
+  addMultiChoicePoll: function(req, res, next) {
+    var lessonId = req.body.lessonId;
+    var type = req.body.type;
+    var title = req.body.title
+    var question = req.body.question;
+    var answer = req.body.answer;
+    var optionA = req.body.A || null;
+    var optionB = req.body.B || null;
+    var optionC = req.body.C || null;
+    var optionD = req.body.D || null;
+    var subType = "";
+
+    if (optionA) {subType += "A";}
+    if (optionB) {subType += "B";}
+    if (optionC) {subType += "C";}
+    if (optionD) {subType += "D";}
+
+    models.polls.create({
+      type: type,
+      lesson_id: lessonId,
+      name: title,
+      answer: answer,
+      sent: false,
+      preset_data: JSON.stringify({
+        subType: subType, 
+        question: question,
+        A: optionA,
+        B: optionB,    
+        C: optionC,
+        D: optionD
+      })
+    }).then(function(data){
+      if (data) {
+        res.status(201).send(data);
+      } else {
+        res.status(500).send("Server error - poll could not be added")
+      }
+    }).catch(function(err) {
       res.status(500).send(err);
     });
   },

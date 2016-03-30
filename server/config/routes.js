@@ -12,7 +12,8 @@ module.exports = function(app, io) {
   app.get('/logout', authenticationController.logout);
 
   app.get('/checkAuth', authenticationController.checkAuth);
-    
+  
+  // Add new polls (including quick polls)
   app.post('/teachers/polls/', utils.checkUser, teachersController.pollClass.bind(null, io));
 
   app.get('/teachers/polls/:lessonId', utils.checkUser, teachersController.getLessonPolls);  
@@ -44,4 +45,10 @@ module.exports = function(app, io) {
   
   // Add student to class
   app.post('/teachers/class/student', teachersController.addStudentToClass);
+
+  // Add new thumb poll to lesson
+  app.post('/classes/lessons/thumbs', teachersController.addThumbPoll);
+
+  // Add new multiChoice poll to lesson
+  app.post('/classes/lessons/multiChoice', teachersController.addMultiChoicePoll);
 };

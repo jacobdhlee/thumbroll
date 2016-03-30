@@ -312,6 +312,9 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
   margin-bottom: 30px;
 }
 
+.pollForm {
+  margin-bottom: 100px;
+}
 .axis path, .axis line {
   fill: none;
   stroke: black;

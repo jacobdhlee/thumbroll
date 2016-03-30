@@ -10,6 +10,17 @@ class LessonData extends React.Component {
       className: this.props.location.state.className,
       classId: this.props.location.state.classId,
       data: [],
+      addThumbs: false,
+      addMultiChoice: false,
+      thumbsTitle: "",
+      thumbsQuestion: "",
+      multiTitle: "",
+      multiQuestion: "",
+      multiAnswer: "",
+      multiA: "",
+      multiB: "",
+      multiC: "",
+      multiD: ""
     };
   }
 
@@ -29,9 +40,36 @@ class LessonData extends React.Component {
           return poll.type === 'multiChoice';
         })} />
       </div>
-      <button>Add thumbs check</button>
-      <button>Add multiple choice</button>
-      
+      <button onClick={this.handleAddThumbs.bind(this)}>Add thumbs check</button>
+      <button onClick={this.handleAddMultiChoice.bind(this)}>Add multiple choice</button>
+      <AddThumbsForm 
+        onSubmit={this.handleThumbsFormSubmit.bind(this)} 
+        lessonId={this.props.lessonId}
+        addThumbs={this.state.addThumbs}
+        thumbsTitle={this.state.thumbsTitle}
+        thumbsQuestion={this.state.thumbsQuestion}
+        handleThumbsTitleChange={this.handleThumbsTitleChange.bind(this)}
+        handleThumbsQuestionChange={this.handleThumbsQuestionChange.bind(this)}
+      />
+      <AddMultiChoiceForm 
+        onSubmit={this.handleMultiChoiceFormSubmit.bind(this)}
+        lessonId={this.props.lessonId}
+        addMultiChoice={this.state.addMultiChoice}
+        multiTitle={this.state.multiTitle}
+        multiQuestion={this.state.multiQuestion}
+        multiAnswer={this.state.multiAnswer}
+        multiA={this.state.multiA}
+        multiB={this.state.multiB}
+        multiC={this.state.multiC}
+        multiD={this.state.multiD}
+        handleMultiTitleChange={this.handleMultiTitleChange.bind(this)}
+        handleMultiQuestionChange={this.handleMultiQuestionChange.bind(this)}
+        handleMultiAnswerChange={this.handleMultiAnswerChange.bind(this)}
+        handleMultiAChange={this.handleMultiAChange.bind(this)}
+        handleMultiBChange={this.handleMultiBChange.bind(this)}
+        handleMultiCChange={this.handleMultiCChange.bind(this)}
+        handleMultiDChange={this.handleMultiDChange.bind(this)}
+      />      
     </div>)
   }
 
@@ -56,6 +94,162 @@ class LessonData extends React.Component {
     this.context.router.push({
       pathname: '/class/' + this.state.classId + '/lessons/',
     });
+  }
+
+  handleAddThumbs() {
+    // Pop out Thumbs form
+    this.setState({
+      addThumbs: true,
+      addMultiChoice: false
+    });
+  }
+
+  handleAddMultiChoice() {
+    // Pop out MultiChoice form
+    this.setState({
+      addThumbs: false,
+      addMultiChoice: true
+    });
+  }
+
+  handleThumbsTitleChange(e) {
+    this.setState({ thumbsTitle: e.target.value });
+  }
+
+  handleThumbsQuestionChange(e) {
+    this.setState({ thumbsQuestion: e.target.value });
+  }
+  
+  handleMultiTitleChange(e) {
+    this.setState({ multiTitle: e.target.value });
+  }
+
+  handleMultiQuestionChange(e) {
+    this.setState({ multiQuestion: e.target.value });
+  }
+
+  handleMultiAnswerChange(e) {
+    this.setState({ multiAnswer: e.target.value });
+  }
+
+  handleMultiAChange(e) {
+    this.setState({ multiA: e.target.value });
+  }
+
+  handleMultiBChange(e) {
+    this.setState({ multiB: e.target.value });
+  }
+
+  handleMultiCChange(e) {
+    this.setState({ multiC: e.target.value });
+  }
+
+  handleMultiDChange(e) {
+    this.setState({ multiD: e.target.value });
+  }
+
+  handleThumbsFormSubmit(e) {
+    // Submit form data over API
+    console.log("Submit thumbs was clicked!")
+    var lessonId = this.state.lessonId;
+    var self = this;
+
+    if (this.state.thumbsTitle && this.state.thumbsQuestion) {
+      api.addThumbPoll(lessonId, this.state.thumbsTitle, this.state.thumbsQuestion)
+      .then(function(response){
+        if (response) {
+          console.log("POST RESPONSE: ", response);
+
+          // Call API to grab new poll data
+          api.getLessonPollsData(lessonId)
+          .then((response) => {
+            response.json().then((response) => {
+              console.log('Individual lesson data from DB:', response);
+              self.setState({
+                data:response
+              });
+            }).catch((err) => {
+              console.error(err);
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+
+          // Wipe relevant states
+          self.setState({
+           thumbsTitle: "",
+           thumbsQuestion: ""
+          });
+        } else {
+          console.log("POST ERROR")
+        }
+      }).catch(function(err){
+        console.log("ERROR POSTING: ", err);
+      });
+    } else {
+        // Mandatory fields not entered
+        console.log("Please enter all required fields");
+      }
+  }
+
+  handleMultiChoiceFormSubmit(e) {
+    // Submit form data over API
+
+    console.log("Submit thumbs was clicked!")
+    var lessonId = this.state.lessonId;
+    var self = this;
+
+
+    if (this.state.multiTitle && this.state.multiQuestion && this.state.multiAnswer 
+      && this.state.multiA && this.state.multiB) {
+      api.addMultiChoicePoll(lessonId, this.state.multiTitle, this.state.multiQuestion, 
+        this.state.multiAnswer, this.state.multiA, this.state.multiB, this.state.multiC, this.state.multiD)
+      .then(function(response){
+        if (response) {
+          console.log("POST RESPONSE: ", response);
+
+          // Call API to grab new poll data
+          api.getLessonPollsData(lessonId)
+          .then((response) => {
+            response.json().then((response) => {
+              console.log('Individual lesson data from DB:', response);
+              self.setState({
+                data:response
+              });
+            }).catch((err) => {
+              console.error(err);
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+
+          // add to state
+          self.setState({
+           // Wipe relevant states
+           multiTitle: "",
+           multiQuestion: "",
+           multiAnswer: "",
+           multiA: "",
+           multiB: "",
+           multiC: "",
+           multiD: ""
+          });
+        } else {
+          console.log("POST ERROR")
+        }
+      }).catch(function(err){
+        console.log("ERROR POSTING: ", err);
+      })
+
+    } else {
+      // Mandatory fields not entered
+      console.log("Please enter all required fields");
+
+    }
+
+
   }
 }
 
@@ -111,7 +305,7 @@ const ThumbsTable = (props) => {
             <tr key={'P' + poll.poll_id} >
               <td> {poll.poll_name || 'N/A'} </td>
               <td> {poll.response_count || 0} </td>
-              <td> {poll.average_thumb.toFixed(2) + '%'} </td>
+              <td> {poll.average_thumb ? poll.average_thumb.toFixed(2) + '%' : 'N/A'} </td>
             </tr>
           )
         })}
@@ -126,15 +320,97 @@ const ThumbsTable = (props) => {
   }
 }
 
-const AddPoll = (hide) => {
-  // add to state
-  // post to DB
-  return (
-    <div>
-      <button>Thumbs Check</button>
-      <button>Multiple Choice</button>
-    </div>
-  )
+const AddThumbsForm = (props) => {
+  if (props.addThumbs) {
+    return (
+      <div>
+        <h5 className='sectionHeading' >New Thumbs Check</h5>
+        <form onSubmit={props.addStudent} className="pollForm">
+          <div>
+            <text>Title</text>
+            <input type='text' placeholder='Title (for your records)' value={props.thumbsTitle} onChange={(event) => {
+              props.handleThumbsTitleChange(event);
+            }} />
+          </div>
+          <div>
+            <text>Question</text>
+            <input type='text' placeholder='Question' value={props.thumbsQuestion} onChange={(event) => {
+             props.handleThumbsQuestionChange(event);
+            }} />
+          </div>
+          <div>
+            <button onClick={props.onSubmit} style={{marginLeft:'0', fontSize: '1em'}} type='submit'>Add</button>
+          </div>
+        </form>
+      </div>
+    )  
+  } else {
+    return (
+      <div></div>
+      )
+  }
+};
+
+const AddMultiChoiceForm = (props) => {
+  if (props.addMultiChoice) {
+    return (
+      <div>
+        <h5 className='sectionHeading' >New Multiple Choice</h5>
+        <form onSubmit={props.handleMultiChoiceFormSubmit} className="pollForm">
+          <div>
+            <text>Short Title</text>
+            <input type='text' placeholder='Short title (for your records)' value={props.multiTitle} onChange={(event) => {
+              props.handleMultiTitleChange(event);
+            }} />
+          </div>
+          <div>
+            <text>Question</text>
+            <input type='text' placeholder='Question' value={props.multiQuestion} onChange={(event) => {
+              props.handleMultiQuestionChange(event);
+            }} />
+          </div>
+          <div>
+            <text>Answer</text>
+            <input type='text' placeholder='Answer' value={props.multiAnswer} onChange={(event) => {
+              props.handleMultiAnswerChange(event);
+            }} />
+          </div>
+          <div>
+            <text>Option A</text>
+            <input type='text' placeholder='Option A' value={props.multiA} onChange={(event) => {
+              props.handleMultiAChange(event);
+            }} />
+          </div>
+          <div>
+            <text>Option B</text>
+            <input type='text' placeholder='Option B' value={props.multiB} onChange={(event) => {
+              props.handleMultiBChange(event);
+            }} />
+          </div>
+          <div>
+            <text>Option C</text>
+            <input type='text' placeholder='Option C' value={props.multiC} onChange={(event) => {
+              props.handleMultiCChange(event);
+            }} />
+          </div>
+          <div>
+            <text>Option D</text>
+            <input type='text' placeholder='Option D' value={props.multiD} onChange={(event) => {
+              props.handleMultiDChange(event);
+            }} />
+          </div>
+          
+          <div>
+            <button onClick={props.onSubmit} style={{marginLeft:'0', fontSize: '1em'}} type='submit'>Add</button>
+          </div>
+        </form>
+      </div>
+    )
+  } else {
+    return (
+      <div></div>
+      )
+  }
 };
 
 LessonData.contextTypes = {
