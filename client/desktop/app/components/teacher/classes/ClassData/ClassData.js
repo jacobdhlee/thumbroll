@@ -474,6 +474,11 @@ class LessonChart extends React.Component {
       .attr('transform', 'translate(' + xOffset + ', 0)')
       .call(yAxis);
 
+    d3.select('svg').append('line')
+      .attr('class', 'axis')
+      .attr('x1', xOffset).attr('y1', this.height - yOffset)
+      .attr('x2', this.width - xOffset).attr('y2', this.height - yOffset)
+
     //Render axis labels
     d3.select('svg').append('text')
       .attr('class', 'axisLabel')
@@ -483,11 +488,17 @@ class LessonChart extends React.Component {
       .attr('dy', '.75em')
       .attr('transform', 'rotate(-90)')
       .text('Average Thumb Poll (%)'); 
+
+    d3.select('svg').append('text')
+      .attr('class', 'axisLabel')
+      .attr('text-anchor', 'end')
+      .attr('y', this.height - 30)
+      .attr('x', this.width / 2 + xOffset)
+      .attr('dy', '.75em')
+      .text('Lessons');
   }
 
   componentWillReceiveProps(props) {
-
-    //add axes
     var xOffset = this.xOffset;
     var yOffset = this.yOffset;
     var barWidth = Math.floor((this.width - 2 * xOffset) / props.lessons.length);
@@ -499,7 +510,6 @@ class LessonChart extends React.Component {
     var mapToChart = function(percent) {
       return (100 - percent) / 100 * (this.height - 2 * yOffset) + yOffset;
     }.bind(this);
-
 
     //render existing lessons
     d3.select('svg').selectAll('.lessonChartBar')

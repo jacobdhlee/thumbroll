@@ -315,7 +315,8 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
 .pollForm {
   margin-bottom: 100px;
 }
-.axis path, .axis line {
+
+.axis, .axis path, .axis line {
   fill: none;
   stroke: #424242;
   shape-rendering: crispEdges;
@@ -331,13 +332,17 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
   font-size: 15px;
 }
 
-.studentChartNode {
+.studentChartNode, .lessonChartBar {
   fill:#e65100;
   stroke:#424242;
   stroke-width:2px;
 }
 
-.studentChartNode:hover {
+.lessonChartBar {
+  stroke-width:0px;
+}
+
+.studentChartNode:hover, .lessonChartBar:hover {
   stroke-width: 4px;
 }
 
