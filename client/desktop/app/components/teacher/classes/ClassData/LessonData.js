@@ -1,5 +1,6 @@
-import React from 'react'
+import React from 'react';
 import api from '../../../../utils/api';
+import moment from 'moment';
 
 class LessonData extends React.Component {
   constructor(props){
@@ -27,6 +28,11 @@ class LessonData extends React.Component {
   }
 
   render(){
+    const self = this;
+    const showButtons = new Date(this.state.lessonDate) > Date.now() ? <div>
+                          <button onClick={this.handleAddThumbs.bind(self)}>Add thumbs check</button>
+                          <button onClick={this.handleAddMultiChoice.bind(self)}>Add multiple choice</button>
+                        </div> : <div></div>;
     return (<div>
       <h2 className='sectionHeading classList' onClick={this.handleClassClick.bind(this)}>
         <span className='pointer'>{this.state.className}</span>
@@ -42,8 +48,9 @@ class LessonData extends React.Component {
           return poll.type === 'multiChoice';
         })} />
       </div>
-      <button onClick={this.handleAddThumbs.bind(this)}>Add thumbs check</button>
-      <button onClick={this.handleAddMultiChoice.bind(this)}>Add multiple choice</button>
+      
+      {showButtons}
+      
       <AddThumbsForm 
         onSubmit={this.handleThumbsFormSubmit.bind(this)} 
         lessonId={this.props.lessonId}
@@ -99,16 +106,18 @@ class LessonData extends React.Component {
     });
   }
 
-  handleAddThumbs() {
+  handleAddThumbs(e) {
     // Pop out Thumbs form
+    e.preventDefault();
     this.setState({
       addThumbs: true,
       addMultiChoice: false
     });
   }
 
-  handleAddMultiChoice() {
+  handleAddMultiChoice(e) {
     // Pop out MultiChoice form
+    e.preventDefault();
     this.setState({
       addThumbs: false,
       addMultiChoice: true
@@ -153,6 +162,7 @@ class LessonData extends React.Component {
 
   handleThumbsFormSubmit(e) {
     // Submit form data over API
+    e.preventDefault();
     console.log("Submit thumbs was clicked!")
     var lessonId = this.state.lessonId;
     var self = this;
@@ -201,7 +211,7 @@ class LessonData extends React.Component {
 
   handleMultiChoiceFormSubmit(e) {
     // Submit form data over API
-
+    e.preventDefault();
     console.log("Submit thumbs was clicked!")
     var lessonId = this.state.lessonId;
     var self = this;

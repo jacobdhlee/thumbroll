@@ -32513,6 +32513,10 @@
 
 	var _api2 = _interopRequireDefault(_api);
 
+	var _moment = __webpack_require__(271);
+
+	var _moment2 = _interopRequireDefault(_moment);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -32555,6 +32559,21 @@
 	  _createClass(LessonData, [{
 	    key: 'render',
 	    value: function render() {
+	      var self = this;
+	      var showButtons = new Date(this.state.lessonDate) > Date.now() ? _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: this.handleAddThumbs.bind(self) },
+	          'Add thumbs check'
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: this.handleAddMultiChoice.bind(self) },
+	          'Add multiple choice'
+	        )
+	      ) : _react2.default.createElement('div', null);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -32588,16 +32607,7 @@
 	              return poll.type === 'multiChoice';
 	            }) })
 	        ),
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.handleAddThumbs.bind(this) },
-	          'Add thumbs check'
-	        ),
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.handleAddMultiChoice.bind(this) },
-	          'Add multiple choice'
-	        ),
+	        showButtons,
 	        _react2.default.createElement(AddThumbsForm, {
 	          onSubmit: this.handleThumbsFormSubmit.bind(this),
 	          lessonId: this.props.lessonId,
@@ -32656,8 +32666,9 @@
 	    }
 	  }, {
 	    key: 'handleAddThumbs',
-	    value: function handleAddThumbs() {
+	    value: function handleAddThumbs(e) {
 	      // Pop out Thumbs form
+	      e.preventDefault();
 	      this.setState({
 	        addThumbs: true,
 	        addMultiChoice: false
@@ -32665,8 +32676,9 @@
 	    }
 	  }, {
 	    key: 'handleAddMultiChoice',
-	    value: function handleAddMultiChoice() {
+	    value: function handleAddMultiChoice(e) {
 	      // Pop out MultiChoice form
+	      e.preventDefault();
 	      this.setState({
 	        addThumbs: false,
 	        addMultiChoice: true
@@ -32721,6 +32733,7 @@
 	    key: 'handleThumbsFormSubmit',
 	    value: function handleThumbsFormSubmit(e) {
 	      // Submit form data over API
+	      e.preventDefault();
 	      console.log("Submit thumbs was clicked!");
 	      var lessonId = this.state.lessonId;
 	      var self = this;
@@ -32767,7 +32780,7 @@
 	    key: 'handleMultiChoiceFormSubmit',
 	    value: function handleMultiChoiceFormSubmit(e) {
 	      // Submit form data over API
-
+	      e.preventDefault();
 	      console.log("Submit thumbs was clicked!");
 	      var lessonId = this.state.lessonId;
 	      var self = this;

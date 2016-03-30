@@ -1,9 +1,9 @@
-import React from 'react'
-import {Route, RouteHandler, Router, Link} from 'react-router'
-import LessonData from './LessonData'
-import StudentData from './StudentData'
-import DatePicker from 'react-datepicker'
-import moment from 'moment'
+import React from 'react';
+import {Route, RouteHandler, Router, Link} from 'react-router';
+import LessonData from './LessonData';
+import StudentData from './StudentData';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
 import api from '../../../../utils/api';
 require('react-datepicker/dist/react-datepicker.css');
 require('d3');
