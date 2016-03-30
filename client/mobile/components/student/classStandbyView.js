@@ -35,7 +35,7 @@ class ClassStandbyView extends React.Component {
     });
 
     this.state.socket.on('teacherCalledOnStudent', () => {
-      Alert.alert('Teacher Message', 'You Got selected');
+      Alert.alert('You got called on!');
     })
 
     this.state.socket.on('newPoll', function(pollInfo) {
@@ -75,7 +75,7 @@ class ClassStandbyView extends React.Component {
   }
   raiseHand() {
     this.state.socket.emit('raiseHand', {user: this.state.user});
-    Alert.alert('Hand Raised!');
+    Alert.alert('Hand raised!');
     console.log('raiseHand');
 
   }
