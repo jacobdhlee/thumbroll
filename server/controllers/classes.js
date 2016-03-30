@@ -115,7 +115,8 @@ module.exports = {
         + 'WHERE a.class_id = ' + classId + ' '
         + 'AND b.answer IS NOT NULL '
         + 'GROUP BY a.id) u '
-      + 'ON w.lesson_id = u.lesson_id'
+      + 'ON w.lesson_id = u.lesson_id '
+      + 'ORDER BY w.date'
     ).then(function(data) {
       var results = data[0];
       res.status(200).send(results);
