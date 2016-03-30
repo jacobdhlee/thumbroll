@@ -31,7 +31,7 @@ class MultiChoice extends React.Component {
       var teacherQuestion = questionNanswer.question
       this.setState({
         questionFromTeacher: teacherQuestion,
-        choice: questionNanswer
+        choice: questionNanswer,
       })
     } else {
       var empty = {A: '', B: '', C: '', D: ''}
