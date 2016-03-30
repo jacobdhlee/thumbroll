@@ -25,8 +25,8 @@ class MultiChoice extends React.Component {
     }.bind(this));
   }  
   componentWillMount(){
-    var question = this.state.pollInfo.pollObject.preset_data
-    if(question) {
+    if(this.state.pollInfo.pollObject.preset_data) {
+      var question = this.state.pollInfo.pollObject.preset_data;
       var questionNanswer = JSON.parse(question);
       var teacherQuestion = questionNanswer.question
       this.setState({

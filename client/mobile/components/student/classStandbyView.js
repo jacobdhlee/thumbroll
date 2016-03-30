@@ -152,7 +152,7 @@ class ClassStandbyView extends React.Component {
                 />
                 </View>
                 <TouchableOpacity style={{width: 200}}>
-                  <Button onPress={this.closeQuestion.bind(this)} text={'submit'} />
+                  <Button onPress={this.closeQuestion.bind(this)} text={'Submit'} />
                 </TouchableOpacity>
               </View>
             </View>
