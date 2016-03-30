@@ -62,6 +62,10 @@ class RequestFeedbackView extends React.Component {
         }
       } else {
         for(var i = 0; i < raisedHandList.length; i++){
+          if(data.user.uid === raisedHandList[i].id && raisedHandList[i].active === false) {
+            raisedHandCount += 1;
+            raisedHandList[i].active = true;
+          }
           if(raisedHandList.length < 5 && data.user.uid !== raisedHandList[i].id) {
             raisedHandCount += 1;
             if(data.user.firstName) {
@@ -296,11 +300,15 @@ class RequestFeedbackView extends React.Component {
     })
   }
 
+  previousSection() {
+    this.props.navigator.pop();
+  }
+
   render() {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <NavBar navi={this.props.navigator} beforeLogout={this.beforeLogout.bind(this)} 
-          onBack={this.dismissClass.bind(this)}>
+          onBack={this.previousSection.bind(this)}>
           Request Feedback
         </NavBar>
         <View style={styles.viewContainer}>
@@ -334,7 +342,7 @@ class RequestFeedbackView extends React.Component {
 
         <Modal visible={this.state.modal} transparent={true} animated={true}>
           <View style={styles.modal}>
-            <View style={{height:this.state.height * 0.8, width:this.state.width * 0.9}}>
+            <View style={{height:this.state.height * 0.8, width:this.state.width * 0.85}}>
               <View style={styles.modalBox}>
                 <Text style={styles.textSizeModal}> Raised hand student: </Text>
                 {this.listStudent(this.state.raisedHandList)}
@@ -347,7 +355,7 @@ class RequestFeedbackView extends React.Component {
 
         <Modal visible={this.state.modalQuestion} transparent={true} animated={true}>
           <View style={styles.modal}>
-            <View style={{height:this.state.height * 0.8, width:this.state.width * 0.9}}>
+            <View style={{height:this.state.height * 0.8, width:this.state.width * 0.85}}>
               <View style={styles.modalBox}>
                 <Text style={styles.textSizeModal}> Question </Text>
                 {this.listQuestion(this.state.questionLists)}
@@ -360,7 +368,7 @@ class RequestFeedbackView extends React.Component {
 
         <Modal visible={this.state.pollModal} transparent={true} animated={false}>
           <View style={styles.modal}>
-            <View style={{height:this.state.height * 0.9, width:this.state.width * 0.9}}>
+            <View style={{height:this.state.height * 0.8, width:this.state.width * 0.85}}>
               <View style={styles.modalBox}>
                 {this.listOfPoll(this.state.polls)}
               </View>
@@ -454,7 +462,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#fafafa',
-  }
+  },
 });
 
 module.exports = RequestFeedbackView;
