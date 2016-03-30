@@ -63,7 +63,8 @@ class SelectLessonView extends React.Component {
       if(response.status === 500){
         console.error('err getting from data')
       } else if(response.status === 200){
-        var lessonId = JSON.parse(response._bodyText).lessonId;
+        console.log('lessonId >>>>>>>>>>>>>>>>', response)
+        var lessonId = JSON.parse(response._bodyText).id;
         this.selectLesson(lessonId);
       }
     })
