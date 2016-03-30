@@ -334,7 +334,7 @@ class RequestFeedbackView extends React.Component {
 
         <Modal visible={this.state.modal} transparent={true} animated={true}>
           <View style={styles.modal}>
-            <View style={{height:this.state.height * 0.8, width:this.state.width * 0.9}}>
+            <View style={{height:this.state.height * 0.8, width:this.state.width * 0.85}}>
               <View style={styles.modalBox}>
                 <Text style={styles.textSizeModal}> Raised hand student: </Text>
                 {this.listStudent(this.state.raisedHandList)}
@@ -347,7 +347,7 @@ class RequestFeedbackView extends React.Component {
 
         <Modal visible={this.state.modalQuestion} transparent={true} animated={true}>
           <View style={styles.modal}>
-            <View style={{height:this.state.height * 0.8, width:this.state.width * 0.9}}>
+            <View style={{height:this.state.height * 0.8, width:this.state.width * 0.85}}>
               <View style={styles.modalBox}>
                 <Text style={styles.textSizeModal}> Question </Text>
                 {this.listQuestion(this.state.questionLists)}
@@ -360,7 +360,7 @@ class RequestFeedbackView extends React.Component {
 
         <Modal visible={this.state.pollModal} transparent={true} animated={false}>
           <View style={styles.modal}>
-            <View style={{height:this.state.height * 0.9, width:this.state.width * 0.9}}>
+            <View style={{height:this.state.height * 0.8, width:this.state.width * 0.85}}>
               <View style={styles.modalBox}>
                 {this.listOfPoll(this.state.polls)}
               </View>
