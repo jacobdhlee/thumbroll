@@ -454,6 +454,11 @@ class LessonChart extends React.Component {
     this.height = 300;
     this.xOffset = 50;
     this.yOffset = 50;
+    this.state = {
+      displayThumbs: true,
+      displayAttendance: false,
+      // displayAccuracy: false,
+    };
   }
 
   componentDidMount() {
@@ -481,7 +486,7 @@ class LessonChart extends React.Component {
 
     //Render axis labels
     d3.select('svg').append('text')
-      .attr('class', 'axisLabel')
+      .attr('class', 'xAxisLabel axisLabel')
       .attr('text-anchor', 'end')
       .attr('y', 6)
       .attr('x', -this.height / 2 + yOffset + 20)
@@ -496,6 +501,69 @@ class LessonChart extends React.Component {
       .attr('x', this.width / 2 + xOffset)
       .attr('dy', '.75em')
       .text('Lessons');
+  }
+
+  componentDidUpdate(props) {
+    console.log(this.state.displayThumbs);
+    var mapToChart = function(percent) {
+      return (100 - percent) / 100 * (this.height - 2 * yOffset) + yOffset;
+    }.bind(this);
+    var xOffset = this.xOffset;
+    var yOffset = this.yOffset;
+    var barWidth = Math.floor((this.width - 2 * xOffset) / props.lessons.length);
+
+    d3.select('svg')
+      .selectAll('.xAxisLabel')
+      .remove();
+
+    d3.select('svg').append('text')
+      .attr('class', 'xAxisLabel axisLabel')
+      .attr('text-anchor', 'end')
+      .attr('y', 6)
+      .attr('x', -this.height / 2 + yOffset + 20)
+      .attr('dy', '.75em')
+      .attr('transform', 'rotate(-90)')
+      .text(function(d) {
+        if(this.state.displayThumbs) {
+          return 'Average Thumb Poll (%)'
+        } else if (this.state.displayAccuracy) {
+          return 'Accuracy (%)'
+        } 
+      }.bind(this));
+
+      if(this.state.displayThumbs) {
+        d3.select('svg').selectAll('.lessonChartBar')
+          .data(props.lessons, function(d) {
+            return d.lesson_id;
+          })
+          .transition().duration(500)
+          .attr('y', function(d) {
+            var avgThumb = d.average_thumb || 1;
+            return mapToChart(avgThumb); 
+          })
+          .attr('width', barWidth - 20)
+          .attr('height', function(d) {
+            var avgThumb = d.average_thumb || 1;
+            return mapToChart(100 - avgThumb) - yOffset;
+          }.bind(this))
+      } else {
+        d3.select('svg').selectAll('.lessonChartBar')
+          .data(props.lessons, function(d) {
+            return d.lesson_id;
+          })
+          .transition().duration(500)
+          .attr('y', function(d) {
+            var correctRate = (d.correct_response_count || 0) / d.potential_correct_responses_count * 100;
+            correctRate = correctRate ? correctRate : 1;
+            return mapToChart(correctRate); 
+          })
+          .attr('height', function(d) {
+            var correctRate = (d.correct_response_count || 0) / d.potential_correct_responses_count * 100;
+            correctRate = correctRate ? correctRate : 1;
+            return mapToChart(100 - correctRate) - yOffset;
+          }.bind(this))
+      }
+
   }
 
   componentWillReceiveProps(props) {
@@ -567,6 +635,32 @@ class LessonChart extends React.Component {
     return (
       <div className='chartContainer center-align' style={{padding:'10px'}}>
         <svg width={this.width} height={this.height} />
+        <div>
+          <Row className='dataRow'>
+            <Col s={2} l={4}>
+            &nbsp;
+            </Col>
+            <Col s={6} l={4}>
+              <ul className="tabs">
+
+                <li className='tab col s1 active center-align' 
+                  onClick={() => {this.setState({displayAccuracy:false, displayThumbs: true})}} 
+                  style={{cursor: 'default'}}
+                  style={this.state.displayThumbs ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242', cursor:'default'}}
+                  ><span className='pointer'>Thumbs</span></li>
+                <li className='tab col s1 center-align' 
+                  onClick={() => {this.setState({displayAccuracy:true, displayThumbs: false})}} 
+                  style={{cursor: 'default'}} 
+                  style={this.state.displayAccuracy ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242', cursor:'default'}}>
+                  <span className='pointer'>Accuracy</span>
+                </li>
+
+              </ul>
+            </Col>
+            <Col s={4} l={4}>
+            </Col>
+          </Row>
+        </div>
       </div>
     )
   }
