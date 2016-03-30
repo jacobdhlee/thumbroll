@@ -41,9 +41,9 @@ class ClassStandbyView extends React.Component {
 
     this.state.socket.on('newPoll', function(pollInfo) {
       console.log('message received from server!', pollInfo);
-      if(pollInfo.pollObject.id == 1) {
+      if(pollInfo.pollObject.type == 'thumbs') {
         that.thumbcheckPage(pollInfo);
-      } else if(pollInfo.pollObject.id == 2) {
+      } else if(pollInfo.pollObject.type == 'multiChoice') {
         that.multiPage(pollInfo);
       }
     })
