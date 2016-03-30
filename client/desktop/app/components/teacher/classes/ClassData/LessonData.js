@@ -29,7 +29,13 @@ class LessonData extends React.Component {
 
   render(){
     const self = this;
-    const showButtons = new Date(this.state.lessonDate) > Date.now() ? <div>
+    const lessonDate = new Date(this.state.lessonDate);
+    const now = Date.now();
+
+    // wipe hours from dates, to compare days only.
+    lessonDate.setHours(0,0,0,0);
+    now.setHours(0,0,0,0);
+    const showButtons = lessonDate > Date.now() ? <div>
                           <button onClick={this.handleAddThumbs.bind(self)}>Add thumbs check</button>
                           <button onClick={this.handleAddMultiChoice.bind(self)}>Add multiple choice</button>
                         </div> : <div></div>;

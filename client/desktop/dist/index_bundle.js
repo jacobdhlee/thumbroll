@@ -32560,7 +32560,13 @@
 	    key: 'render',
 	    value: function render() {
 	      var self = this;
-	      var showButtons = new Date(this.state.lessonDate) > Date.now() ? _react2.default.createElement(
+	      var lessonDate = new Date(this.state.lessonDate);
+	      var now = Date.now();
+
+	      // wipe hours from dates, to compare days only.
+	      lessonDate.setHours(0, 0, 0, 0);
+	      now.setHours(0, 0, 0, 0);
+	      var showButtons = lessonDate > Date.now() ? _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
