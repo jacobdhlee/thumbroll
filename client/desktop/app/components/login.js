@@ -12,7 +12,7 @@ class Login extends React.Component {
       password: '',
       error: false,
       isLoading: false,
-      videoURL: 'https://s3-us-west-1.amazonaws.com/thumbroll/tester.mp4'
+      videoURL: 'https://s3-us-west-1.amazonaws.com/thumbroll/IMG_4645.mp4'
     };
   }
 
@@ -76,7 +76,7 @@ class Login extends React.Component {
       <main>
         <ReactDriveIn
           className ="backgroundVideo"
-          show="https://s3-us-west-1.amazonaws.com/thumbroll/tester.mp4"
+          show="https://s3-us-west-1.amazonaws.com/thumbroll/IMG_4645.mp4"
           poster="http://raw.githubusercontent.com/ronik-design/react-drive-in/master/example/glacier.jpg"
         />
 
