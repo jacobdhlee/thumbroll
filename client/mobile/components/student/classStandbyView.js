@@ -13,7 +13,8 @@ var {
   Dimensions,
   Navigator,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  ScrollView
 } = React;
 
 class ClassStandbyView extends React.Component {
@@ -113,6 +114,8 @@ class ClassStandbyView extends React.Component {
     }
     return(
       <View style={{flex:1}}>
+      <ScrollView scrollEnabled={false}
+        style={{backgroundColor: '#424242'}}>
         <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)} 
           beforeLogout={this.beforeLogout.bind(this)}>
           {name}
@@ -154,6 +157,7 @@ class ClassStandbyView extends React.Component {
           </View>
         </Modal>
 
+      </ScrollView>
       </View>
     )
   }
