@@ -87,8 +87,8 @@ class JoinClassView extends React.Component {
     });
   }
 
-  handleModalSubmit() {
-    var classCode = 'qc' + this.state.secretCode;
+  handleModalSubmit(secretCode) {
+    var classCode = 'qc' + secretCode;
     this.setState({
       modalVisible: false
     });
@@ -148,7 +148,6 @@ class JoinClassView extends React.Component {
             </ScrollView>
           </View>
         </View>
-        
         <StudentQCModal visible={this.state.modalVisible} onEnter={this.handleModalSubmit.bind(this)}
           onCancel={this.handleModalCancel.bind(this)} />
       </View>
