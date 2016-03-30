@@ -449,7 +449,6 @@ const LessonTable = (props) => {
 
 class LessonChart extends React.Component { 
   constructor(props) {
-    console.log('CONSTRUCTOR');
     super(props);
     this.width = 700;
     this.height = 300;
