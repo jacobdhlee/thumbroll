@@ -315,24 +315,35 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
 .pollForm {
   margin-bottom: 100px;
 }
-.axis path, .axis line {
+
+.axis, .axis path, .axis line {
   fill: none;
-  stroke: black;
+  stroke: #424242;
   shape-rendering: crispEdges;
 }
 
-.axis text {
-  font-family: sans-serif;
+.axis text, .axisLabel {
+  font-family: 'Lato', sans-serif;
   font-size: 11px;
+  color: #424242;
 }
 
-.studentChartNode {
-  fill:red;
-  stroke:black;
+.axisLabel {
+  font-size: 15px;
 }
 
-.studentChartNode:hover {
-  stroke-width: 3px;
+.studentChartNode, .lessonChartBar {
+  fill:#e65100;
+  stroke:#424242;
+  stroke-width:2px;
+}
+
+.lessonChartBar {
+  stroke-width:0px;
+}
+
+.studentChartNode:hover, .lessonChartBar:hover {
+  stroke-width: 4px;
 }
 
 .d3-tip {

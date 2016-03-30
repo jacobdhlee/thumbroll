@@ -47,12 +47,8 @@ class ClassData extends React.Component {
           <Col s={6} l={4}>
             <ul className="tabs">
 
-              <li className='tab col s1 active center-align' onClick={() => this.setState({
-                displayLessons: true,
-                displayStudents: false,
-              })} style={{
-                cursor: 'default',
-                }}
+              <li className='tab col s1 active center-align' onClick={this.switchToLessonsView.bind(this)} 
+                style={{cursor: 'default'}}
                 style={this.state.displayLessons ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242', cursor:'default'}}
                 ><span className='pointer'>Lessons</span></li>
               <li className='tab col s1 center-align' 
@@ -157,6 +153,33 @@ class ClassData extends React.Component {
          console.log("Class students from DB:", response);   
           this.setState({
             classStudents: response,
+            error: false,
+            isLoading: false
+          });
+        });
+      }
+    });
+  }
+
+  switchToLessonsView() {
+    this.setState({
+      displayStudents: false,
+      displayLessons: true,
+      isLoading: true,
+    });
+    api.getClassLessonsData(this.state.classId)
+    .then((response) => {
+      if(response.status === 400){
+        this.setState({
+           error: 'Data forbidden',
+           isLoading: false
+         });
+        console.error(this.state.error);
+      } else if (response.status === 200) {
+        response.json().then((response) => {
+         console.log("Class lessons from DB:", response);   
+          this.setState({
+            classLessons: response,
             error: false,
             isLoading: false
           });
@@ -380,6 +403,7 @@ const Lessons = (props) => {
             </form>
           </div>
         </div>
+        <LessonChart lessons={props.lessons} />
       </div>
     )
   } else {
@@ -421,6 +445,131 @@ const LessonTable = (props) => {
     </table>
   </div>
   )
+}
+
+class LessonChart extends React.Component { 
+  constructor(props) {
+    super(props);
+    this.width = 700;
+    this.height = 300;
+    this.xOffset = 50;
+    this.yOffset = 50;
+  }
+
+  componentDidMount() {
+    //Render axes
+    var xOffset = this.xOffset;
+    var yOffset = this.yOffset
+
+    var yAxisScale = d3.scale.linear()
+      .domain([0,100])
+      .range([this.height - yOffset, yOffset]);
+
+    var yAxis = d3.svg.axis()
+      .scale(yAxisScale)
+      .orient('left');
+
+    var yAxisGroup = d3.select('svg').append('g')
+      .attr('class', 'axis')
+      .attr('transform', 'translate(' + xOffset + ', 0)')
+      .call(yAxis);
+
+    d3.select('svg').append('line')
+      .attr('class', 'axis')
+      .attr('x1', xOffset).attr('y1', this.height - yOffset)
+      .attr('x2', this.width - xOffset).attr('y2', this.height - yOffset)
+
+    //Render axis labels
+    d3.select('svg').append('text')
+      .attr('class', 'axisLabel')
+      .attr('text-anchor', 'end')
+      .attr('y', 6)
+      .attr('x', -this.height / 2 + yOffset + 20)
+      .attr('dy', '.75em')
+      .attr('transform', 'rotate(-90)')
+      .text('Average Thumb Poll (%)'); 
+
+    d3.select('svg').append('text')
+      .attr('class', 'axisLabel')
+      .attr('text-anchor', 'end')
+      .attr('y', this.height - 30)
+      .attr('x', this.width / 2 + xOffset)
+      .attr('dy', '.75em')
+      .text('Lessons');
+  }
+
+  componentWillReceiveProps(props) {
+    var xOffset = this.xOffset;
+    var yOffset = this.yOffset;
+    var barWidth = Math.floor((this.width - 2 * xOffset) / props.lessons.length);
+
+    var tip = d3.tip().attr('class', 'd3-tip').html(function(d) {
+      var correctRate = (d.correct_response_count || 0) / d.potential_correct_responses_count * 100;
+      var avgThumb = d.average_thumb;
+      correctRate = d.potential_correct_responses_count ? correctRate.toFixed(1) + '%' : 'N/A';
+      avgThumb = avgThumb ? avgThumb.toFixed(1) + '%' : 'N/A';
+      return d.lesson_name + '<br/>' +
+        'Avg Thumb: ' + avgThumb + '<br/>' +
+        'Attendance: ' + d.student_count + '<br/>' + 
+        'Accuracy Rate: ' + correctRate;
+    });
+    d3.select('svg').call(tip);
+
+    var mapToChart = function(percent) {
+      return (100 - percent) / 100 * (this.height - 2 * yOffset) + yOffset;
+    }.bind(this);
+
+    //render existing lessons
+    d3.select('svg').selectAll('.lessonChartBar')
+      .data(props.lessons, function(d) {
+        return d.lesson_id;
+      })
+      .transition()
+      .duration(500)
+      .attr('x', function(d, i) {
+        return 10 + xOffset + i * barWidth;
+      })
+      .attr('y', function(d) {
+        var avgThumb = d.average_thumb || 1;
+        return mapToChart(avgThumb); 
+      })
+      .attr('width', barWidth - 20)
+      .attr('height', function(d) {
+        var avgThumb = d.average_thumb || 1;
+        return mapToChart(100 - avgThumb) - yOffset;
+      }.bind(this));
+
+    //render new lessons
+    d3.select('svg').selectAll('.lessonChartBar')
+      .data(props.lessons, function(d) {
+        return d.lesson_id;
+      })
+      .enter()
+      .append('rect')
+      .attr('class', 'lessonChartBar')
+      .attr('x', function(d, i) {
+        return 10 + xOffset + i * barWidth;
+      })
+      .attr('y', function(d) {
+        var avgThumb = d.average_thumb || 1;
+        return mapToChart(avgThumb); 
+      })
+      .attr('width', barWidth - 20)
+      .attr('height', function(d) {
+        var avgThumb = d.average_thumb || 1;
+        return mapToChart(100 - avgThumb) - yOffset;
+      }.bind(this))
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
+  }
+
+  render(){
+    return (
+      <div className='chartContainer center-align' style={{padding:'10px'}}>
+        <svg width={this.width} height={this.height} />
+      </div>
+    )
+  }
 }
 
 const StudentTable = (props) => {
@@ -506,7 +655,7 @@ class StudentChart extends React.Component {
       .orient('left');
 
     //render students
-    d3.select('svg').selectAll('.student')
+    d3.select('svg').selectAll('.studentChartNode')
       .data(props.students)
       .enter()
       .append('circle')
@@ -557,7 +706,7 @@ class StudentChart extends React.Component {
 
   render(){
     return (
-      <div className='chartContainer' style={{padding:'10px'}}>
+      <div className='chartContainer center-align' style={{padding:'10px'}}>
         <svg width={this.width} height={this.height}>
         </svg>
       </div>
