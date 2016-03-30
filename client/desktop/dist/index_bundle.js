@@ -31752,14 +31752,15 @@
 	    }
 	  }, {
 	    key: 'handleLessonClick',
-	    value: function handleLessonClick(lessonId, lessonName) {
+	    value: function handleLessonClick(lessonId, lessonName, lessonDate) {
 	      this.context.router.push({
 	        pathname: '/class/' + this.state.classId + '/lessons/' + lessonId,
 	        state: {
 	          className: this.state.className,
 	          lessonId: lessonId,
 	          classId: this.state.classId,
-	          lessonName: lessonName
+	          lessonName: lessonName,
+	          lessonDate: lessonDate
 	        }
 	      });
 	    }
@@ -32071,7 +32072,7 @@
 	          return _react2.default.createElement(
 	            'tr',
 	            { style: { cursor: 'pointer' }, key: 'L' + lesson.lesson_id,
-	              onClick: props.handleLessonClick.bind(null, lesson.lesson_id, lesson.lesson_name) },
+	              onClick: props.handleLessonClick.bind(null, lesson.lesson_id, lesson.lesson_name, lesson.date) },
 	            _react2.default.createElement(
 	              'td',
 	              null,
@@ -32533,6 +32534,7 @@
 	      lessonName: _this.props.location.state.lessonName,
 	      className: _this.props.location.state.className,
 	      classId: _this.props.location.state.classId,
+	      lessonDate: _this.props.location.state.lessonDate,
 	      data: [],
 	      addThumbs: false,
 	      addMultiChoice: false,

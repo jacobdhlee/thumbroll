@@ -9,6 +9,7 @@ class LessonData extends React.Component {
       lessonName: this.props.location.state.lessonName,
       className: this.props.location.state.className,
       classId: this.props.location.state.classId,
+      lessonDate: this.props.location.state.lessonDate,
       data: [],
       addThumbs: false,
       addMultiChoice: false,
@@ -291,6 +292,7 @@ const MCTable = (props) => {
   } else {
     return (
       <div> No Multiple Choice Polls </div>
+
     )
   }
 }
