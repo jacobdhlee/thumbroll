@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',  
     justifyContent: 'center',
-    backgroundColor: '#424242'
+    backgroundColor: '#424242',
   },
   modalTextSize: {
     fontSize: 25,

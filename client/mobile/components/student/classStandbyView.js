@@ -48,9 +48,7 @@ class ClassStandbyView extends React.Component {
       }
     })
   }
-  componentWillMount() {
-    console.log('this.state.class >>>>>???>>>>???>>>>', this.state.class)
-  }
+  
   thumbcheckPage(pollInfo) {
     this.props.navigator.push({
       component: ThumbCheck,
