@@ -503,9 +503,17 @@ class LessonChart extends React.Component {
     var yOffset = this.yOffset;
     var barWidth = Math.floor((this.width - 2 * xOffset) / props.lessons.length);
 
-    // var tip = d3.tip().attr('class', 'd3-tip').html(function(d) {
-    // });
-    // d3.select('svg').call(tip);
+    var tip = d3.tip().attr('class', 'd3-tip').html(function(d) {
+      var correctRate = (d.correct_response_count || 0) / d.potential_correct_responses_count * 100;
+      var avgThumb = d.average_thumb;
+      correctRate = d.potential_correct_responses_count ? correctRate.toFixed(1) + '%' : 'N/A';
+      avgThumb = avgThumb ? avgThumb.toFixed(1) + '%' : 'N/A';
+      return d.lesson_name + '<br/>' +
+        'Avg Thumb: ' + avgThumb + '<br/>' +
+        'Attendance: ' + d.student_count + '<br/>' + 
+        'Accuracy Rate: ' + correctRate;
+    });
+    d3.select('svg').call(tip);
 
     var mapToChart = function(percent) {
       return (100 - percent) / 100 * (this.height - 2 * yOffset) + yOffset;
@@ -550,7 +558,9 @@ class LessonChart extends React.Component {
       .attr('height', function(d) {
         var avgThumb = d.average_thumb || 1;
         return mapToChart(100 - avgThumb) - yOffset;
-      }.bind(this));
+      }.bind(this))
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
   }
 
   render(){
