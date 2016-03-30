@@ -468,14 +468,14 @@ class LessonChart extends React.Component {
     var yOffset = this.yOffset
 
     //Render axes
-    var yAxisScale = d3.scale.linear()
+    this.yAxisScale = d3.scale.linear()
       .domain([0,100])
       .range([this.height - yOffset, yOffset]);
     var yAxis = d3.svg.axis()
-      .scale(yAxisScale)
+      .scale(this.yAxisScale)
       .orient('left');
     var yAxisGroup = d3.select('svg').append('g')
-      .attr('class', 'axis')
+      .attr('class', 'axis yaxis')
       .attr('transform', 'translate(' + xOffset + ', 0)')
       .call(yAxis);
 
@@ -549,6 +549,8 @@ class LessonChart extends React.Component {
         }
       }.bind(this));
 
+    //Scale axis depending on state
+
     //Set functions for height and y based on state
     var heightFunc;
     var yFunc;
@@ -574,13 +576,22 @@ class LessonChart extends React.Component {
       } 
     } else if(nextState.displayAttendance) {
       heightFunc = function(d) {
-        var attendance = lesson.student_count || 1;
+        var attendance = d.student_count;
+        // attendance = Number(attendance) ? attendance : 1;
         return mapToChart(100 - attendance) - yOffset;
       };
       yFunc = function(d) {
-        var attendance = lesson.student_count || 1;
+        var attendance = d.student_count;
+        // attendance = Number(attendance) ? attendance : 1;
         return mapToChart(attendance); 
-      } 
+      }
+      var max = Math.max.apply(null, nextProps.lessons.map(function(lesson) {
+        return lesson.student_count;
+      }));
+      this.yAxisScale.domain([0, Math.ceil(max / 10) * 10])
+      d3.select('svg').select('.yaxis')
+        .transition().duration(500)
+        // .call(yAxis);  
     }
 
     //Adjust height and width on existing lessons
@@ -628,15 +639,21 @@ class LessonChart extends React.Component {
               <ul className="tabs">
 
                 <li className='tab col s1 active center-align' 
-                  onClick={() => {this.setState({displayAccuracy:false, displayThumbs: true, displayAttendance: false})}} 
+                  onClick={() => {this.setState({displayAccuracy: false, displayThumbs: true, displayAttendance: false})}} 
                   style={{cursor: 'default'}}
                   style={this.state.displayThumbs ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242', cursor:'default'}}
                   ><span className='pointer'>Thumbs</span></li>
                 <li className='tab col s1 center-align' 
-                  onClick={() => {this.setState({displayAccuracy:true, displayThumbs: false, displayAttendance: false})}} 
+                  onClick={() => {this.setState({displayAccuracy: true, displayThumbs: false, displayAttendance: false})}} 
                   style={{cursor: 'default'}} 
                   style={this.state.displayAccuracy ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242', cursor:'default'}}>
                   <span className='pointer'>Accuracy</span>
+                </li>
+                <li className='tab col s1 center-align' 
+                  onClick={() => {this.setState({displayAccuracy: false, displayThumbs: false, displayAttendance: true})}} 
+                  style={{cursor: 'default'}} 
+                  style={this.state.displayAttendance ? {backgroundColor:'#01579b'} : {backgroundColor:'#fafafa', color: '#424242', cursor:'default'}}>
+                  <span className='pointer'>Attendance</span>
                 </li>
 
               </ul>
