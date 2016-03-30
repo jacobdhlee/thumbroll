@@ -117,12 +117,6 @@ class ClassStandbyView extends React.Component {
           beforeLogout={this.beforeLogout.bind(this)}>
           {name}
         </NavBar>
-        <View>
-          <Text onPress={this.thumbcheckPage.bind(this)} >ThumbCheck</Text>
-        </View>
-        <View>
-          <Text onPress={this.multiPage.bind(this)} >MutipleChoice</Text>
-        </View>
         <View style={{alignItems: 'center'}}>
           <Text style={styles.textSizeOne}>Waiting for Teacher!</Text>
         </View>
@@ -152,7 +146,7 @@ class ClassStandbyView extends React.Component {
                 />
                 </View>
                 <TouchableOpacity style={{width: 200}}>
-                  <Button onPress={this.closeQuestion.bind(this)} text={'submit'} />
+                  <Button onPress={this.closeQuestion.bind(this)} text={'Submit'} />
                 </TouchableOpacity>
               </View>
             </View>

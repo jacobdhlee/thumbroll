@@ -315,7 +315,7 @@ class RequestFeedbackView extends React.Component {
               </Text>
             </View>
           </TouchableOpacity>
-          <View style={styles.currentLessonBox}>
+          <View style={[styles.currentLessonBox, {width: this.state.width - 205}]}>
             <Text style={styles.currentLesson}>{this.state.lesson}</Text>
           </View>
           <TouchableOpacity onPress={this.clickRaisedHand.bind(this)} style={styles.raiseHandBox}>
@@ -446,7 +446,6 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
     justifyContent: 'center',
     backgroundColor: '#01579b',
-    width: 170, 
   },
   currentLesson: {
     fontSize: 20,
