@@ -38,7 +38,7 @@ class RequestFeedbackView extends React.Component {
           /*options:{for preset answers?}*/
         },
         {
-          type: 'multichoice',
+          type: 'multiChoice',
           name: 'Multiple Choice'
         }
       ],
