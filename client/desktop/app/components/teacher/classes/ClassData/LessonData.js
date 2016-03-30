@@ -1,5 +1,6 @@
-import React from 'react'
+import React from 'react';
 import api from '../../../../utils/api';
+import moment from 'moment';
 
 class LessonData extends React.Component {
   constructor(props){
@@ -9,6 +10,7 @@ class LessonData extends React.Component {
       lessonName: this.props.location.state.lessonName,
       className: this.props.location.state.className,
       classId: this.props.location.state.classId,
+      lessonDate: this.props.location.state.lessonDate,
       data: [],
       addThumbs: false,
       addMultiChoice: false,
@@ -20,11 +22,23 @@ class LessonData extends React.Component {
       multiA: "",
       multiB: "",
       multiC: "",
-      multiD: ""
+      multiD: "",
+      formError: ""
     };
   }
 
   render(){
+    const self = this;
+    const lessonDate = new Date(this.state.lessonDate);
+    const currentDay = new Date();
+
+    // wipe hours from dates, to compare days only.
+    lessonDate.setHours(0,0,0,0);
+    currentDay.setHours(0,0,0,0);
+    const showButtons = lessonDate >= currentDay ? <div>
+                          <button onClick={this.handleAddThumbs.bind(self)}>Add thumbs check</button>
+                          <button onClick={this.handleAddMultiChoice.bind(self)}>Add multiple choice</button>
+                        </div> : <div></div>;
     return (<div>
       <h2 className='sectionHeading classList' onClick={this.handleClassClick.bind(this)}>
         <span className='pointer'>{this.state.className}</span>
@@ -40,8 +54,9 @@ class LessonData extends React.Component {
           return poll.type === 'multiChoice';
         })} />
       </div>
-      <button onClick={this.handleAddThumbs.bind(this)}>Add thumbs check</button>
-      <button onClick={this.handleAddMultiChoice.bind(this)}>Add multiple choice</button>
+      
+      {showButtons}
+      
       <AddThumbsForm 
         onSubmit={this.handleThumbsFormSubmit.bind(this)} 
         lessonId={this.props.lessonId}
@@ -69,7 +84,8 @@ class LessonData extends React.Component {
         handleMultiBChange={this.handleMultiBChange.bind(this)}
         handleMultiCChange={this.handleMultiCChange.bind(this)}
         handleMultiDChange={this.handleMultiDChange.bind(this)}
-      />      
+      />
+      <ErrorMessage formError={this.state.formError} />
     </div>)
   }
 
@@ -96,16 +112,18 @@ class LessonData extends React.Component {
     });
   }
 
-  handleAddThumbs() {
+  handleAddThumbs(e) {
     // Pop out Thumbs form
+    e.preventDefault();
     this.setState({
       addThumbs: true,
       addMultiChoice: false
     });
   }
 
-  handleAddMultiChoice() {
+  handleAddMultiChoice(e) {
     // Pop out MultiChoice form
+    e.preventDefault();
     this.setState({
       addThumbs: false,
       addMultiChoice: true
@@ -150,6 +168,7 @@ class LessonData extends React.Component {
 
   handleThumbsFormSubmit(e) {
     // Submit form data over API
+    e.preventDefault();
     console.log("Submit thumbs was clicked!")
     var lessonId = this.state.lessonId;
     var self = this;
@@ -189,13 +208,16 @@ class LessonData extends React.Component {
       });
     } else {
         // Mandatory fields not entered
+        self.setState({
+          formError: "Please enter all required fields"
+        });
         console.log("Please enter all required fields");
       }
   }
 
   handleMultiChoiceFormSubmit(e) {
     // Submit form data over API
-
+    e.preventDefault();
     console.log("Submit thumbs was clicked!")
     var lessonId = this.state.lessonId;
     var self = this;
@@ -245,6 +267,9 @@ class LessonData extends React.Component {
 
     } else {
       // Mandatory fields not entered
+      self.setState({
+        formError: "Please enter all required fields"
+      });
       console.log("Please enter all required fields");
 
     }
@@ -283,6 +308,7 @@ const MCTable = (props) => {
   } else {
     return (
       <div> No Multiple Choice Polls </div>
+
     )
   }
 }
@@ -328,16 +354,19 @@ const AddThumbsForm = (props) => {
         <form onSubmit={props.addStudent} className="pollForm">
           <div>
             <text>Title</text>
+            <text className='required'>*</text>
             <input type='text' placeholder='Title (for your records)' value={props.thumbsTitle} onChange={(event) => {
               props.handleThumbsTitleChange(event);
             }} />
           </div>
           <div>
             <text>Question</text>
+            <text className='required'>*</text>
             <input type='text' placeholder='Question' value={props.thumbsQuestion} onChange={(event) => {
              props.handleThumbsQuestionChange(event);
             }} />
           </div>
+          <text className='requiredText'>*required fields</text>
           <div>
             <button onClick={props.onSubmit} style={{marginLeft:'0', fontSize: '1em'}} type='submit'>Add</button>
           </div>
@@ -359,30 +388,35 @@ const AddMultiChoiceForm = (props) => {
         <form onSubmit={props.handleMultiChoiceFormSubmit} className="pollForm">
           <div>
             <text>Short Title</text>
+            <text className='required'>*</text>
             <input type='text' placeholder='Short title (for your records)' value={props.multiTitle} onChange={(event) => {
               props.handleMultiTitleChange(event);
             }} />
           </div>
           <div>
             <text>Question</text>
+            <text className='required'>*</text>
             <input type='text' placeholder='Question' value={props.multiQuestion} onChange={(event) => {
               props.handleMultiQuestionChange(event);
             }} />
           </div>
           <div>
             <text>Answer</text>
+            <text className='required'>*</text>
             <input type='text' placeholder='Answer' value={props.multiAnswer} onChange={(event) => {
               props.handleMultiAnswerChange(event);
             }} />
           </div>
           <div>
             <text>Option A</text>
+            <text className='required'>*</text>
             <input type='text' placeholder='Option A' value={props.multiA} onChange={(event) => {
               props.handleMultiAChange(event);
             }} />
           </div>
           <div>
             <text>Option B</text>
+            <text className='required'>*</text>
             <input type='text' placeholder='Option B' value={props.multiB} onChange={(event) => {
               props.handleMultiBChange(event);
             }} />
@@ -412,6 +446,14 @@ const AddMultiChoiceForm = (props) => {
       )
   }
 };
+
+const ErrorMessage = (props) => {
+  if (props.formError) {
+    return (<div className='errorMessage'> {props.formError} </div>)
+  } else {
+    return (<div></div>)
+  }
+}
 
 LessonData.contextTypes = {
   router: React.PropTypes.any.isRequired

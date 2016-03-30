@@ -1,9 +1,9 @@
-import React from 'react'
-import {Route, RouteHandler, Router, Link} from 'react-router'
-import LessonData from './LessonData'
-import StudentData from './StudentData'
-import DatePicker from 'react-datepicker'
-import moment from 'moment'
+import React from 'react';
+import {Route, RouteHandler, Router, Link} from 'react-router';
+import LessonData from './LessonData';
+import StudentData from './StudentData';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
 import api from '../../../../utils/api';
 require('react-datepicker/dist/react-datepicker.css');
 require('d3');
@@ -188,14 +188,15 @@ class ClassData extends React.Component {
     });
   }
 
-  handleLessonClick(lessonId, lessonName) {
+  handleLessonClick(lessonId, lessonName, lessonDate) {
     this.context.router.push({
       pathname: '/class/' + this.state.classId + '/lessons/' + lessonId,
       state: { 
         className: this.state.className,
         lessonId: lessonId,
         classId: this.state.classId,
-        lessonName: lessonName
+        lessonName: lessonName,
+        lessonDate: lessonDate
       }
     });
   }
@@ -431,7 +432,7 @@ const LessonTable = (props) => {
           var date = new Date(lesson.date).toLocaleDateString();
           return (
             <tr style={{cursor: 'pointer'}} key={'L' + lesson.lesson_id} 
-              onClick={props.handleLessonClick.bind(null, lesson.lesson_id, lesson.lesson_name)}>
+              onClick={props.handleLessonClick.bind(null, lesson.lesson_id, lesson.lesson_name, lesson.date)}>
               <td> {lesson.lesson_name} </td>
               <td> {date} </td>
               <td> {lesson.student_count || 0} </td>

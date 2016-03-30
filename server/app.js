@@ -119,22 +119,12 @@ models.sequelize.sync({force: true}).then(function () {
   });
 
   models.classes.create({
-    name: 'Quick Class',
-  });
-
-  models.lessons.create({
-    name: 'Default',
-    class_id: 1,
-    date: moment()
-  });
-
-  models.classes.create({
     name: 'CS101',
     teacher_id: 1,
   });
 
   models.classes.create({
-    name: 'CS102',
+    name: 'CS201',
     teacher_id: 2
   });
 
@@ -144,27 +134,27 @@ models.sequelize.sync({force: true}).then(function () {
   });
 
   models.lessons.create({
-    name: 'CS101 - Week 1',
-    class_id: 2,
+    name: 'Week 1 - Intro',
+    class_id: 1,
     date: moment().subtract(2, 'weeks').format()
   });
 
   models.lessons.create({
-    name: 'CS101 - Week 2',
-    class_id: 2,
+    name: 'Week 2 - JS Basics',
+    class_id: 1,
     date: moment().subtract(1, 'weeks').format()
   });
 
   models.lessons.create({
-    name: 'CS101 - Week 3',
-    class_id: 2,
+    name: 'Week 3 - Algorithms',
+    class_id: 1,
     date: moment().format()
 
   });
 
   models.lessons.create({
-    name: 'CS101 - Week 4',
-    class_id: 2,
+    name: 'Week 4 - Data Structures',
+    class_id: 1,
     date: moment().add(1, 'weeks').format()
 
   });
@@ -175,17 +165,17 @@ models.sequelize.sync({force: true}).then(function () {
   });
 
   models.lessons.create({
-    name: 'History - Week 1',
-    class_id: 4,
+    name: 'Week 1 - Ancient Egypt',
+    class_id: 3,
     date: moment().subtract(1, 'weeks').format()
   });
 
   models.lessons.create({
-    name: 'History - Week 2',
-    class_id: 4,
+    name: 'Week 2 - Mongols',
+    class_id: 3,
     date: moment().add(1, 'weeks').format()
   });
-  // Needs correct fiends added
+  
   models.students_classes.create({
     class_id: 2,
     student_id: 1
