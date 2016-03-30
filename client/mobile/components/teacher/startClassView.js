@@ -7,6 +7,8 @@ var Button = require('./../shared/button');
 require('./../../utils/userAgent');
 var io =require('socket.io-client/socket.io');
 var env = require('./../../utils/environment');
+var TeacherQCModal = require('./teacherQCModal');
+
 var server = env.server + ':' + env.port;
 
 var {
@@ -192,17 +194,8 @@ class StartClassView extends React.Component {
           </View>
         </View>
 
-        <Modal visible={this.state.modalVisible} transparent={true} animated={true}>
-          <View style={styles.modal}>
-            <View style={{height:this.state.height * 0.6, width:this.state.width * 0.85}}>
-              <View style={styles.modalBox}>
-                <Text style={styles.textSize}> Your secret code is: </Text>
-                <Text style={styles.codeSize}> {this.state.randomId} </Text>
-              </View>
-              <Button onPress={this.navigateFromModal.bind(this)} text={'Okay'} />
-            </View>
-          </View>
-        </Modal>
+        <TeacherQCModal visible={this.state.modalVisible} onEnter={this.navigateFromModal.bind(this)}
+          randomId={this.state.randomId}/>
       </View>
     )
   }
@@ -229,19 +222,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
   },
-  modal: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.8)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalBox: {
-    flex: 1,
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#e3f2fd',
-  }
 });
 
 module.exports = StartClassView;
