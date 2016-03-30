@@ -57,8 +57,8 @@ class SelectLessonView extends React.Component {
     });
   }
 
-  addLesson(){
-    api.addLesson()
+  addLesson(classId){
+    api.addLesson(classId)
     .then((response) => {
       if(response.status === 500){
         console.error('err getting from data')
@@ -102,7 +102,7 @@ class SelectLessonView extends React.Component {
             <ScrollView>
               <View style={styles.buttonsContainer}>
                 {this.renderLessons(this.state.lessons)}
-                <Button onPress={this.addLesson.bind(this)} style={styles.button} text={'Add Lesson'} />
+                <Button onPress={this.addLesson.bind(this, this.state.classId)} style={styles.button} text={'Add Lesson'} />
               </View>
             </ScrollView>
           </View>
