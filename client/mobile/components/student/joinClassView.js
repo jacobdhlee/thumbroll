@@ -6,6 +6,7 @@ var NavBar = require('./../shared/navbar');
 var Button = require('./../shared/button');
 var env = require('./../../utils/environment');
 var api = require('./../../utils/api');
+var StudentQCModal = require('./studentQCModal');
 
 var server = env.server + ':' + env.port;
 
@@ -148,31 +149,8 @@ class JoinClassView extends React.Component {
           </View>
         </View>
         
-
-        <Modal visible={this.state.modalVisible} transparent={true} animated={false}>
-          <View style={styles.modal}>
-            <View style={{height:this.state.height * 0.7, width:this.state.width * 0.9}}>
-              <View style={styles.modalBox}>
-                <Text style={styles.modalTextSize}> Enter the secret code </Text>
-                <View>
-                  <TextInput
-                    autoCapitalize={'none'}
-                    autoCorrect={false}
-                    maxLength={4}
-                    style={styles.userInput}
-                    keyboardType='numeric'
-                    value={this.state.secretCode}
-                    returnKeyType={'done'}
-                    onChange={this.handleCodeChange.bind(this)}
-                    onSubmitEditing={this.handleModalSubmit.bind(this)}
-                  />
-                </View>
-              </View>
-              <Button onPress={this.handleModalSubmit.bind(this)} text={'Enter'} />
-              <Button onPress={this.handleModalCancel.bind(this)} text={'Cancel'} />
-            </View>
-          </View>
-        </Modal>
+        <StudentQCModal visible={this.state.modalVisible} onEnter={this.handleModalSubmit.bind(this)}
+          onCancel={this.handleModalCancel.bind(this)} />
       </View>
     )
   }
@@ -185,32 +163,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#424242'
   },
-  modal: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.8)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalBox: {
-    flex: 1,
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#424242'
-  },
   modalTextSize: {
     fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 20,
-  },
-  userInput: {
-    backgroundColor: '#e1f5fe',
-    width: 300,
-    height: 45,
-    padding: 4,
-    fontSize: 18,
-    borderWidth: 1,
-    borderRadius: 4,
   },
 })
 module.exports = JoinClassView;
