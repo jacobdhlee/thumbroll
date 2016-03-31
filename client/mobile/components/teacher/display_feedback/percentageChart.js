@@ -6,7 +6,9 @@ class PercentageChart extends Component {
     super(props);
     this.state = {
       studentData: [],
-      color: '#66ff99',
+      color: ['#03a9f4','#03a9f4','#03a9f4'],
+      minAnim: new Animated.Value(0),
+      maxAnim: new Animated.Value(0),
       xLabels: ['Lowest', 'Average Student Response', 'Highest']
     }
 
@@ -14,31 +16,71 @@ class PercentageChart extends Component {
 
 
   componentWillReceiveProps(newData) {
-    var updatedStudentData = [newData.lowest, newData.average / 100, newData.highest];
-    var updatedColor;
+    var updatedStudentData = [newData.lowest / 100, newData.average / 100, newData.highest / 100];
+    var updatedColor = [];
 
     // Change color based on average response
-    if(updatedStudentData[1] > 0.8) {
-      updatedColor = '#66ff99';
-    } else if(updatedStudentData[1] > 0.4) {
-      updatedColor = '#fcfa8b';
-    } else {
-      updatedColor = '#ff4f4d';
+    for(var i = 0; i < updatedStudentData.length; i++) {
+      if(updatedStudentData[i] > 0.8) {
+        updatedColor[i] = '#66ff99';
+      } else if(updatedStudentData[i] > 0.4) {
+        updatedColor[i] = '#fcfa8b';
+      } else {
+        updatedColor[i] = '#ff4f4d';
+      }
     }
+
+    Animated.timing(      
+      this.state.minAnim,
+      {toValue: updatedStudentData[0]},      
+    ).start();
+    Animated.timing(      
+      this.state.maxAnim,
+      {toValue: updatedStudentData[2]},      
+    ).start();
+
     this.setState({
       studentData : updatedStudentData,
       color: updatedColor,
-      xLabels : ['Lowest', 'Average', 'Highest']
     });
   }
 
   render() {
+    var width = 300;
     return (
       <View style={styles.container}>
-        <Progress.Circle size={300} progress={this.state.studentData[1]} 
-          showsText={true} thickness={50} borderWidth={5} color={this.state.color}
-          textStyle={styles.progressText}/>
-        <View stlye={styles.barsContainer}>
+        <View style={styles.circleContainer}>
+          <Progress.Circle size={300} progress={this.state.studentData[1]} 
+            showsText={true} thickness={50} borderWidth={5} color={this.state.color[1]}
+            textStyle={styles.progressText}/>
+        </View>
+        <View stlye={[{width:width}, styles.barsContainer]}>
+          <View style={styles.barContainer}>
+            <Text style={styles.barLabel}> Max: </Text>
+            <Animated.View style={[{
+              backgroundColor: this.state.color[2],
+                width:this.state.maxAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, width]  
+                })
+              }, styles.bar]} />
+              <Text style={styles.barLabel}> 
+                {Math.round(this.state.studentData[2] * 100 || 0) + '%'} 
+              </Text>
+          </View>
+          <View style={styles.barContainer}>
+            <Text style={styles.barLabel}> Min: </Text>
+            <Animated.View style={[{
+                backgroundColor: this.state.color[0],
+                width:this.state.minAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, width]  
+                })
+              }, styles.bar]} />
+              <Text style={styles.barLabel}> 
+                {Math.round(this.state.studentData[0] * 100 || 0) + '%'} 
+              </Text>
+          </View>
         </View>
       </View>
     );
@@ -50,15 +92,31 @@ const flag = true;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
+  },
+  circleContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
-    padding: 40
+    padding: 20
   },
   progressText: {
     color: '#03a9f4'
+  },
+  barsContainer: {
+
+  },
+  barContainer: {
+    flexDirection: 'row',
+    margin: 10,
+    marginLeft: 40
+  },
+  bar: {
+    height: 20,
+  }, 
+  barLabel: {
+    padding: 5,
+    alignSelf: 'center'
   }
 });
 
 module.exports = PercentageChart;
-
