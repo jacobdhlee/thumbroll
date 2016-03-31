@@ -152,14 +152,26 @@ __Step 5: Install dependencies__
 ```
 $ npm install
 ```
+__Step 6: Install Webpack__ 
 
-__Step 5: Startup Node server__ 
+```
+$ npm install -g webpack
+```
+
+__Step 7: Run Webpack from desktop directory__ 
+
+```
+$ cd client/desktop
+$ webpack --watch
+```
+
+__Step 8: Startup Node server__ 
 
 ```
 $ npm start
 ```
 
-__Step 5: Access DB (optional)__
+__Step 9: Access DB (optional)__
 
 Use the following command to access the thumbroll DB and query it directly:
 
@@ -169,7 +181,9 @@ $ psql thumbroll
 
 Note that semicolons are required at the end of each query statement.
 
-## Setup Mobile Front-end
+## Setup Front-end
+
+#### Mobile
 
 __Step 1: Run 'npm install' from the mobile directory__
 
@@ -195,6 +209,12 @@ In order to run the simulator, navigate to the 'AppDelegate.m' file under the 't
 
 1. If you want to run the XCode iPhone simulator from a development server (e.g., localhost), uncomment Option 1 and comment-out Option 2. Then, click the play button in the top-left corner (or Command + R).
 2. If you want to run the simulator on a physical iPhone device from a pre-bundled file on disk running on a remote server (e.g., Digital Ocean droplet), comment-out Option 1 and uncomment Option 2. Then, click the play button in the top-left corner (or Command + R).
+
+#### Desktop
+
+__Step 1: Set environment__
+
+The file '/client/desktop/utils/environment.js' is used to set the environment the front-end will use to communicate with the server. Change the key in the export statement to change the environment. See above to get IP address from a docker-machine.
 
 ## Icons
 
