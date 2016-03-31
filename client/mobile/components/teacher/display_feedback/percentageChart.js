@@ -1,4 +1,4 @@
-import React, { StyleSheet, View, Component, Text } from 'react-native';
+import React, { StyleSheet, View, Component, Text, Animated } from 'react-native';
 var Progress = require('react-native-progress');
  
 class PercentageChart extends Component {
@@ -6,7 +6,7 @@ class PercentageChart extends Component {
     super(props);
     this.state = {
       studentData: [],
-      color: '',
+      color: '#66ff99',
       xLabels: ['Lowest', 'Average Student Response', 'Highest']
     }
 
@@ -18,9 +18,9 @@ class PercentageChart extends Component {
     var updatedColor;
 
     // Change color based on average response
-    if(updatedStudentData[1] > 80) {
+    if(updatedStudentData[1] > 0.8) {
       updatedColor = '#66ff99';
-    } else if(updatedStudentData[1] > 40) {
+    } else if(updatedStudentData[1] > 0.4) {
       updatedColor = '#fcfa8b';
     } else {
       updatedColor = '#ff4f4d';
@@ -35,7 +35,11 @@ class PercentageChart extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Progress.Circle size={300} progress={this.state.studentData[1]} showsText={true} thickness={50} borderWidth={5} color={'#03a9f4'}/>
+        <Progress.Circle size={300} progress={this.state.studentData[1]} 
+          showsText={true} thickness={50} borderWidth={5} color={this.state.color}
+          textStyle={styles.progressText}/>
+        <View stlye={styles.barsContainer}>
+        </View>
       </View>
     );
   }
@@ -51,6 +55,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 40
   },
+  progressText: {
+    color: '#03a9f4'
+  }
 });
 
 module.exports = PercentageChart;
