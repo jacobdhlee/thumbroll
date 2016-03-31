@@ -384,7 +384,8 @@ const AddThumbsForm = (props) => {
         <form onSubmit={props.addStudent} className="pollForm">
           <div>
           
-            <input type='text' className='newPollInput' placeholder='Title (for your records) - Required' value={props.thumbsTitle} onChange={(event) => {
+            <input type='text' className='newPollInput' placeholder='Title (for your records) - Required' 
+            maxLength={24} value={props.thumbsTitle} onChange={(event) => {
               props.handleThumbsTitleChange(event);
             }} />
           </div>
@@ -413,7 +414,8 @@ const AddMultiChoiceForm = (props) => {
         <h5 className='sectionHeading' >New Multiple Choice</h5>
         <form onSubmit={props.handleMultiChoiceFormSubmit} className="pollForm">
           <div>
-            <input type='text' className='newPollInput' placeholder='Short title (for your records) - Required' value={props.multiTitle} onChange={(event) => {
+            <input type='text' className='newPollInput' placeholder='Short title (for your records) - Required' 
+            value={props.multiTitle} maxLength={24} onChange={(event) => {
               props.handleMultiTitleChange(event);
             }} />
           </div>
