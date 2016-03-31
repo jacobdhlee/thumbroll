@@ -12,7 +12,7 @@ module.exports = {
         },
         body: JSON.stringify({
           username: username,
-          password: password
+          password: password,
         })
       });
   },
@@ -171,5 +171,9 @@ module.exports = {
   getClassName: (classId) => {
     return fetch(server + '/classes/className/' + classId);
   },
+
+  getTeacherInfo: (teacherId) => {
+    return fetch(server + '/teachers/info/' + teacherId);
+  }
 }
 

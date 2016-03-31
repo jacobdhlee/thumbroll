@@ -44,6 +44,7 @@ class App extends React.Component {
   }
 
   loadTeacherData(teacherObject){
+    console.log('>>>>>>>>>>>>',teacherObject);
     this.setState({
       classes: teacherObject.classes
     });

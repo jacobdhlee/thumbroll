@@ -137,6 +137,7 @@ class Classes extends React.Component {
       this.setState({
         uid: user
       });
+      window.localStorage.userId = user;
       api.getClasses(this.state.uid)
       .then((response) => {
         if(response.status === 400){
