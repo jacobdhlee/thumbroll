@@ -35,22 +35,20 @@ class HistogramChart extends Component {
     var height = this.chartHeight;
     return labels.map((label, index) => {
         return (
-          <View style={{padding:10, margin:10}}>
+          <View key={label} style={styles.barContainer}>
             <View >
-              <Animated.View style={{
-                width:20, backgroundColor:'white', 
+              <Animated.View style={[{
                 height:this.state.animators[index].interpolate({
                   inputRange: [0, 1],
                   outputRange: [height, 0]  
                 })
-              }} />
-              <Animated.View style={{
-                width:20, backgroundColor:'blue', 
+              }, styles.barWhite]} />
+              <Animated.View style={[{
                 height:this.state.animators[index].interpolate({
                   inputRange: [0, 1],
                   outputRange: [0, height]  
                 })
-              }} />
+              }, styles.barColor]} />
             </View>
             <View>
               <Text> {label} </Text>
@@ -70,15 +68,15 @@ class HistogramChart extends Component {
           alwaysBounceVertical={false}
           directionalLockEnabled
           style={{height: this.chartHeight}}>
-          <View style={{height:this.chartHeight, marginTop:20, marginBottom:20}}>
-            <Text style={{marginBottom:this.chartHeight / 5}}> 100% </Text>
-            <Text style={{marginBottom:this.chartHeight / 5}}> 75% </Text>
-            <Text style={{marginBottom:this.chartHeight / 5}}> 50% </Text>
-            <Text style={{marginBottom:this.chartHeight / 5}}> 25% </Text>
-            <Text> 0% </Text>
+          <View style={[{height:this.chartHeight}, styles.axisContainer]}>
+            <Text style={[{marginBottom:this.chartHeight / 5}, styles.axisText]}> 100% </Text>
+            <Text style={[{marginBottom:this.chartHeight / 5}, styles.axisText]}> 75% </Text>
+            <Text style={[{marginBottom:this.chartHeight / 5}, styles.axisText]}> 50% </Text>
+            <Text style={[{marginBottom:this.chartHeight / 5}, styles.axisText]}> 25% </Text>
+            <Text style={styles.axisText}> 0% </Text>
           </View>
-          <View style={{height:this.chartHeight, marginTop:20, marginBottom:20}}>
-            <View style={{height:this.chartHeight, width:2, backgroundColor:'black'}} />
+          <View style={[{height:this.chartHeight}, styles.axisContainer]}>
+            <View style={[{height:this.chartHeight}, styles.axis]} />
           </View>
           {this.renderBars.call(this, this.state.xLabels)}
         </ScrollView>
@@ -105,12 +103,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
   },
-  chart: {
-    position: 'absolute',
-    top: 15,
-    left: 15,
-    bottom: 4,
-    right: 15,
+  axisContainer: {
+    marginTop:20, 
+    marginBottom:20,
+  },
+  axisText: {
+
+  },
+  axis: {
+    width:2, 
+    backgroundColor:'black',
+  },
+  barContainer: {
+    padding:10, 
+    margin:10,
+  },
+  barWhite: {
+    width:20, 
+    backgroundColor:'white', 
+  },
+  barColor: {
+    width:20, 
+    backgroundColor:'white', 
   }
 });
 
