@@ -12,7 +12,6 @@ class HistogramChart extends Component {
     this.chartHeight = 400;
   }
 
-
   componentWillReceiveProps(newData) {
     var updatedStudentData = newData.data;
 
@@ -50,8 +49,8 @@ class HistogramChart extends Component {
                 })
               }, styles.barColor]} />
             </View>
-            <View>
-              <Text> {label} </Text>
+            <View style={styles.labelContainer}>
+              <Text style={styles.labelText}> {label} </Text>
             </View>
           </View>
         )
@@ -104,7 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   axisContainer: {
-    marginTop:20, 
+    marginTop:10, 
     marginBottom:20,
   },
   axisText: {
@@ -112,19 +111,25 @@ const styles = StyleSheet.create({
   },
   axis: {
     width:2, 
-    backgroundColor:'black',
+    backgroundColor:'#424242',
   },
   barContainer: {
-    padding:10, 
-    margin:10,
+    padding:5, 
+    margin:5,
   },
   barWhite: {
-    width:20, 
+    width:40, 
     backgroundColor:'white', 
   },
   barColor: {
-    width:20, 
-    backgroundColor:'white', 
+    width:40, 
+    backgroundColor:'#e65100', 
+  },
+  labelContainer: {
+    
+  }
+  labelText: {
+
   }
 });
 
