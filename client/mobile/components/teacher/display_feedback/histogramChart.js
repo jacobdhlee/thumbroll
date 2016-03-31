@@ -1,6 +1,4 @@
-import React, { StyleSheet, View, Component } from 'react-native';
-import RNChart from 'react-native-chart';
-
+import React, { StyleSheet, View, Component, Animated } from 'react-native';
  
 class HistogramChart extends Component {
   constructor(props) {
@@ -8,6 +6,7 @@ class HistogramChart extends Component {
     this.state = {
       studentData: [],
       transformedData: [],
+      animators: [new Animated.Value(0), new Animated.Value(0), new Animated.Value(0), new Animated.Value(0)],       
       xLabels: ['A', 'B', 'C', 'D']
     }
   }
@@ -19,10 +18,16 @@ class HistogramChart extends Component {
     this.setState({
       studentData : updatedStudentData,
       transformedData: transformMultiChoiceData(updatedStudentData),
-      color: '#219dff'
     });
     
     var displayData = transformMultiChoiceData(updatedStudentData);
+    var total = displayData.reduce((a,b) => {return a + b});
+    for(var i = 0 ; i < displayData.length; i++) {
+      Animated.timing(      
+        this.state.animators[i],
+        {toValue: displayData[i] / total},      
+      ).start();   
+    }
   }
 
   render() {
