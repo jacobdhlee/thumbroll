@@ -17,6 +17,6 @@ RUN npm install
 WORKDIR /app/client/desktop
 RUN webpack
 
-
+WORKDIR /app
 EXPOSE 80
 CMD ["npm", "start"]
