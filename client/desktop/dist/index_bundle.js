@@ -33076,17 +33076,27 @@
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Title (for your records) - Required',
+	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Title (for your records)',
 	            maxLength: 24, value: props.thumbsTitle, onChange: function onChange(event) {
 	              props.handleThumbsTitleChange(event);
-	            } })
+	            } }),
+	          _react2.default.createElement(
+	            'text',
+	            null,
+	            '*'
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Question - Required', value: props.thumbsQuestion, onChange: function onChange(event) {
+	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Question', value: props.thumbsQuestion, onChange: function onChange(event) {
 	              props.handleThumbsQuestionChange(event);
-	            } })
+	            } }),
+	          _react2.default.createElement(
+	            'text',
+	            null,
+	            '*'
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -33120,38 +33130,63 @@
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Short title (for your records) - Required',
+	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Short title (for your records)',
 	            value: props.multiTitle, maxLength: 24, onChange: function onChange(event) {
 	              props.handleMultiTitleChange(event);
-	            } })
+	            } }),
+	          _react2.default.createElement(
+	            'text',
+	            null,
+	            '*'
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Question - Required', value: props.multiQuestion, onChange: function onChange(event) {
+	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Question', value: props.multiQuestion, onChange: function onChange(event) {
 	              props.handleMultiQuestionChange(event);
-	            } })
+	            } }),
+	          _react2.default.createElement(
+	            'text',
+	            null,
+	            '*'
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Answer (A, B, C, or D) - Required', value: props.multiAnswer, onChange: function onChange(event) {
+	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Answer (A, B, C, or D)', value: props.multiAnswer, onChange: function onChange(event) {
 	              props.handleMultiAnswerChange(event);
-	            } })
+	            } }),
+	          _react2.default.createElement(
+	            'text',
+	            null,
+	            '*'
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Option A - Required', value: props.multiA, onChange: function onChange(event) {
+	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Option A', value: props.multiA, onChange: function onChange(event) {
 	              props.handleMultiAChange(event);
-	            } })
+	            } }),
+	          _react2.default.createElement(
+	            'text',
+	            null,
+	            '*'
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Option B - Required', value: props.multiB, onChange: function onChange(event) {
+	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Option B', value: props.multiB, onChange: function onChange(event) {
 	              props.handleMultiBChange(event);
-	            } })
+	            } }),
+	          _react2.default.createElement(
+	            'text',
+	            null,
+	            '*'
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',

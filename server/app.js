@@ -23,22 +23,12 @@ app.use(function(req, res, next) {
   next();
 });
   
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // Session handling
 app.use(cookieParser('Bueller'));
 app.use(session({secret: 'Bueller'}));
-// app.use(session({
-//   secret: "Bueller",
-//   resave: false,
-//   saveUninitialized: true,
-//   cookie: {
-//     httpOnly: false,
-//     secure: false
-//   }
-// }));
 
 // Serve bundled index.html
 app.use(express.static(__dirname + '/../client/desktop/dist'));
@@ -54,7 +44,6 @@ models.sequelize.sync({force: true}).then(function () {
   });
 
   // SAMPLE DB INSERTIONS
-
   models.teachers.create({
     firstname: 'Teacher',
     lastname: 'Test',
@@ -182,6 +171,7 @@ models.sequelize.sync({force: true}).then(function () {
 
   });
 
+  // Add History lessons
   models.lessons.create({
     name: 'Week 1 - Ancient Egypt',
     class_id: 3,
