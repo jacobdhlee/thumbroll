@@ -74,7 +74,7 @@ class MultiChoice extends React.Component {
         <NavBar navi={this.props.navigator} beforeLogout={this.beforeLogout.bind(this)} onBack={this.onBack.bind(this)}>
           MultiChoice
         </NavBar>
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor:'#424242' }}>
           <Text style={styles.textSize}>{this.state.questionFromTeacher}</Text>
           {this.renderButton('A  '+ this.state.choice["A"])}
           {this.renderButton("B  " + this.state.choice["B"])}
