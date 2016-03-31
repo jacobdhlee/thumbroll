@@ -275,7 +275,7 @@ class Login extends React.Component {
           <TouchableHighlight
             style={styles[this.state.accountType + 'Button']}
             onPress={this.handleLoginSubmit.bind(this)}
-            underlayColor='#e66365'>
+            underlayColor='#01579b'>
             <Text style={styles.buttonText}> {this.state.accountType[0].toUpperCase() + this.state.accountType.slice(1)
             + ' Sign In'} </Text>
           </TouchableHighlight>
@@ -285,7 +285,7 @@ class Login extends React.Component {
           <TouchableHighlight
             style={styles[this.state.accountType + 'Button']}
             onPress={this.selectQuickClass.bind(this)}
-            underlayColor='#e66365'>
+            underlayColor='#01579b'>
             <Text style={styles.buttonText}> 
             {this.state.accountType == 'student' ? 'Join Quick Class' : 'Start Quick Class'} </Text>
           </TouchableHighlight>
@@ -382,22 +382,26 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    color: 'white',
+    color: '#fafafa',
     alignSelf: 'center'
   },
   signup: {
     marginTop: 20,
     fontSize: 14,
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: 0
   },
   loading: {
-    marginTop: 20
+    marginTop: 0,
+    marginBottom: 0
   },
   err: {
     fontSize: 14,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: 'red',
   },
   switchContainer: {
+    marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'center'
   }

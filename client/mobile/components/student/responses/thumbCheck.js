@@ -54,7 +54,7 @@ class ThumbCheck extends React.Component {
     return (
       <View style={styles.sceneContainer}>
         <NavBar navi={this.props.navigator} beforeLogout={this.beforeLogout.bind(this)} onBack={this.onBack.bind(this)}>
-          ThumbRoll
+          Thumbroll
         </NavBar>
         <View style={styles.contentContainer}>
           <View style={styles.titleContainer}>
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'stretch',
-    backgroundColor: 'white',
+    backgroundColor: '#424242',
   },
   contentContainer: {
     marginTop: 20,
@@ -93,7 +93,8 @@ const styles = StyleSheet.create({
   },
   textSize:{
     fontSize:25,
-    fontWeight: 'bold', 
+    fontWeight: 'normal',
+    color: '#fafafa' 
   }
 })
 

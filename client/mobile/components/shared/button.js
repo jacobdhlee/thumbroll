@@ -33,7 +33,7 @@ class Button extends React.Component {
 
 const styles = StyleSheet.create({
   buttons: {
-    height: 50,
+    height: 45,
     backgroundColor:'#03a9f4',
     borderColor: '#03a9f4',
     borderWidth: 1,

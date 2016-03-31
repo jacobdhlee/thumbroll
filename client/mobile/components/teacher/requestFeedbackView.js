@@ -179,13 +179,13 @@ class RequestFeedbackView extends React.Component {
   listQuestion(list) {
     if( list.length === 0 ) {
       return(
-        <Text>No Question yet</Text>
+        <Text>No questions asked</Text>
       )
     } 
     return (
       <View>
-        <Text>Question from {list[0].student}</Text>
-        <Text>{list[0].question}</Text>
+        <Text>From {list[0].student}:</Text>
+        <Text style={{fontStyle: 'italic'}}>{list[0].question}</Text>
       </View>
     )
   }
@@ -193,7 +193,7 @@ class RequestFeedbackView extends React.Component {
   listStudent(list) {
     if(list.length === 0) {
       return (
-        <Text>No one raised hand yet</Text>
+        <Text>No hands raised</Text>
       )
     }
     return list.map((student, index) => {
@@ -344,11 +344,11 @@ class RequestFeedbackView extends React.Component {
           <View style={styles.modal}>
             <View style={{height:this.state.height * 0.8, width:this.state.width * 0.85}}>
               <View style={styles.modalBox}>
-                <Text style={styles.textSizeModal}> Raised hand student: </Text>
+                <Text style={styles.textSizeModal}> Hands up </Text>
                 {this.listStudent(this.state.raisedHandList)}
               </View>
+              <Button onPress={this.clearList.bind(this)} text={'Clear list'}/>
               <Button onPress={this.clickRaisedHand.bind(this)} text={'Close'}/>
-              <Button onPress={this.clearList.bind(this)} text={'clear'}/>
             </View>
           </View>
         </Modal>
@@ -357,10 +357,10 @@ class RequestFeedbackView extends React.Component {
           <View style={styles.modal}>
             <View style={{height:this.state.height * 0.8, width:this.state.width * 0.85}}>
               <View style={styles.modalBox}>
-                <Text style={styles.textSizeModal}> Question </Text>
+                <Text style={styles.textSizeModal}> Questions </Text>
                 {this.listQuestion(this.state.questionLists)}
               </View>
-              <Button onPress={this.answeredQuestion.bind(this)} text={'answered'} />
+              <Button onPress={this.answeredQuestion.bind(this)} text={'Mark as answered'} />
               <Button onPress={this.clickQuestion.bind(this)} text={'Close'}/>
             </View>
           </View>
@@ -460,7 +460,7 @@ const styles = StyleSheet.create({
   },
   currentLesson: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: 'normal',
     color: '#fafafa',
   },
 });

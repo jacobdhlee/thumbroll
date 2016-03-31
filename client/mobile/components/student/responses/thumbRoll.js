@@ -105,7 +105,7 @@ class ThumbRoll extends React.Component {
   render() {
     return (
       <View ref='circle' style={{alignItems: 'center', padding:this.padding}} {...this._panResponder.panHandlers}>
-        <Progress.Circle size={this.circleSize} progress={this.state.value} showsText={true} thickness={50} borderWidth={5} color={'#0277bd'}/>
+        <Progress.Circle size={this.circleSize} progress={this.state.value} showsText={true} thickness={50} borderWidth={5} color={'#03a9f4'}/>
       </View>
     )
   }
