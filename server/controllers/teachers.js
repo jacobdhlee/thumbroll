@@ -274,5 +274,17 @@ module.exports = {
       console.error('Error saving class to DB:', err);
       res.status(500).send(err);
     });
+  },
+
+  getTeacherInfo: function(req, res, next) {
+    var teacherId = req.params.teacherId
+    models.teachers.findOne({
+      where: {'id': teacherId}
+    })
+    .then(function(teacherObject) {
+      console.log('found! >>>>>>>>', teacherObject);
+      teacherObject.password = 'hehe';
+      res.status(200).send(teacherObject);
+    });
   }
 };
