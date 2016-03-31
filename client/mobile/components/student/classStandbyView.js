@@ -106,7 +106,6 @@ class ClassStandbyView extends React.Component {
       Alert.alert('Question submitted!')
     )
   }
-
   render(){
     var name = this.state.class.name;
     if(!name) {
@@ -114,51 +113,51 @@ class ClassStandbyView extends React.Component {
     }
     return(
       <View style={{flex:1}}>
-      <View style={{flex:1}}>
         <NavBar navi={this.props.navigator} onBack={this.previousSection.bind(this)} 
           beforeLogout={this.beforeLogout.bind(this)}>
           {name}
         </NavBar>
-      <ScrollView scrollEnabled={false}
-        style={{backgroundColor: '#424242'}}>
-        <View style={{alignItems: 'center', backgroundColor: '#424242'}}>
+        <View style={{backgroundColor: '#424242', justifyContent:'center', alignItems:'center'}}>
           <Text style={styles.textSizeOne}>Waiting for Teacher</Text>
         </View>
-        <View style={styles.container}>
-          <Button onPress={this.raiseHand.bind(this)} text={'Raise Hand'}/>
-          <Button onPress={this.askQuestion.bind(this)}text={'Ask Question'} />
-        </View>
-
-        <Modal visible={this.state.modal} transparent={true} animated={false}>
-          <View style={styles.modal}>
-            <View style={{height:this.state.height * 0.9, width:this.state.width * 0.9}}>
-              <View style={styles.modalBox}>
-                <Text style={styles.modalTextSize}> Enter your Question </Text>
-                <View>
-                <TextInput
-                  autoCapitalize={'sentences'}
-                  autoCorrect={true}
-                  style={[styles.userInput, {width:this.state.width * 0.85}]}
-                  keyboardType='default'
-                  returnKeyType={'done'}
-                  keyboardAppearance='dark'
-                  clearTextOnFocus={true}
-                  multiline={true}
-                  onChangeText={(text) => this.setState({ question: text})}
-                  value={this.state.question}
-                  onSubmitEditing={this.closeQuestion.bind(this)}
-                />
-                </View>
-                <TouchableOpacity style={{width: 200}}>
-                  <Button onPress={this.closeQuestion.bind(this)} text={'Submit'} />
-                </TouchableOpacity>
+        <View style={{flex:1, justifyContent: 'center', flexDirection: 'column', backgroundColor: '#424242'}}>
+          <View>
+            <ScrollView scrollEnabled={false}>
+              <View style={styles.container}>
+                <Button onPress={this.raiseHand.bind(this)} text={'Raise Hand'}/>
+                <Button onPress={this.askQuestion.bind(this)}text={'Ask Question'} />
               </View>
-            </View>
-          </View>
-        </Modal>
 
-      </ScrollView>
-      </View>
+              <Modal visible={this.state.modal} transparent={true} animated={false}>
+                <View style={styles.modal}>
+                  <View style={{height:this.state.height * 0.9, width:this.state.width * 0.9}}>
+                    <View style={styles.modalBox}>
+                      <Text style={styles.modalTextSize}> Enter your Question </Text>
+                      <View>
+                      <TextInput
+                        autoCapitalize={'sentences'}
+                        autoCorrect={true}
+                        style={[styles.userInput, {width:this.state.width * 0.85}]}
+                        keyboardType='default'
+                        returnKeyType={'done'}
+                        keyboardAppearance='dark'
+                        clearTextOnFocus={true}
+                        multiline={true}
+                        onChangeText={(text) => this.setState({ question: text})}
+                        value={this.state.question}
+                        onSubmitEditing={this.closeQuestion.bind(this)}
+                      />
+                      </View>
+                      <TouchableOpacity style={{width: 200}}>
+                        <Button onPress={this.closeQuestion.bind(this)} text={'Submit'} />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </Modal>
+            </ScrollView>
+          </View>
+        </View>
       </View>
     )
   }
@@ -213,11 +212,9 @@ const styles = StyleSheet.create({
 
   container:{
     flex: 1,
-    width: null,
-    height: null,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignSelf: 'center',
     backgroundColor: '#424242'
   },
 
