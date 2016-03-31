@@ -24,6 +24,12 @@ class Login extends React.Component {
     this.setState({password: event.target.value});
   }
 
+  checkSubmit(e) {
+    if (e && e.keyCode === 13) {
+      console.log("SUBMIT CONDITION MET!")
+      this.handleSubmit();
+    }
+  }
 
   handleSubmit() {
     // Invoke controller to send POST request
@@ -85,33 +91,34 @@ class Login extends React.Component {
           >Login</h2>
         </Col>
         </Row>
-
-        <div className='valign'>
-          <Row className='loginRow'>
-            <Col s={12} l={12}>
-              <input style={{fontSize: '3em'}} style={{maxWidth: '10em'}} className='center-align callToAction'
-              type="text" 
-              placeholder="Username" 
-              value={this.state.username} 
-              onChange={this.handleUsernameChange.bind(this)} 
-              />
-            
-              <input style={{fontSize: '3em'}} style={{maxWidth: '10em'}} className='center-align callToAction'
-              type="password" 
-              placeholder="Password" 
-              value={this.state.password} 
-              onChange={this.handlePasswordChange.bind(this)} 
-              />
+        <form onSubmit={this.handleSubmit.bind(this)}>
+          <div className='valign'>
+            <Row className='loginRow'>
+              <Col s={12} l={12}>
+                <input style={{fontSize: '3em'}} style={{maxWidth: '10em'}} className='center-align callToAction'
+                type="text" 
+                placeholder="Username" 
+                value={this.state.username} 
+                onChange={this.handleUsernameChange.bind(this)} 
+                />
+              
+                <input style={{fontSize: '3em'}} style={{maxWidth: '10em'}} className='center-align callToAction'
+                type="password" 
+                placeholder="Password" 
+                value={this.state.password} 
+                onChange={this.handlePasswordChange.bind(this)} 
+                />
+                </Col>
+            </Row>
+            <Row className='loginRow'>
+              <Col s={12} l={12}>
+                <button type='submit' style={{fontSize: '2em'}} className='center-align loginButton' >
+                Submit
+                </button>
               </Col>
-          </Row>
-          <Row className='loginRow'>
-            <Col s={12} l={12}>
-              <button style={{fontSize: '2em'}} className='center-align loginButton' onClick={this.handleSubmit.bind(this)}>
-              Submit
-              </button>
-            </Col>
-          </Row>
-        </div>
+            </Row>
+          </div>
+        </form>
         {showErr}
         </main>
       </div>

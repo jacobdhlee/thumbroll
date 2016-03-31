@@ -28974,6 +28974,14 @@
 	      this.setState({ password: event.target.value });
 	    }
 	  }, {
+	    key: 'checkSubmit',
+	    value: function checkSubmit(e) {
+	      if (e && e.keyCode === 13) {
+	        console.log("SUBMIT CONDITION MET!");
+	        this.handleSubmit();
+	      }
+	    }
+	  }, {
 	    key: 'handleSubmit',
 	    value: function handleSubmit() {
 	      var _this2 = this;
@@ -29065,28 +29073,32 @@
 	              )
 	            ),
 	            _react2.default.createElement(
-	              'div',
-	              { className: 'valign' },
+	              'form',
+	              { onSubmit: this.handleSubmit.bind(this) },
 	              _react2.default.createElement(
-	                _reactMaterialize.Row,
-	                { className: 'loginRow' },
+	                'div',
+	                { className: 'valign' },
 	                _react2.default.createElement(
-	                  _reactMaterialize.Col,
-	                  { s: 12, l: 12 },
-	                  _react2.default.createElement('input', (_React$createElement = { style: { fontSize: '3em' } }, _defineProperty(_React$createElement, 'style', { maxWidth: '10em' }), _defineProperty(_React$createElement, 'className', 'center-align callToAction'), _defineProperty(_React$createElement, 'type', 'text'), _defineProperty(_React$createElement, 'placeholder', 'Username'), _defineProperty(_React$createElement, 'value', this.state.username), _defineProperty(_React$createElement, 'onChange', this.handleUsernameChange.bind(this)), _React$createElement)),
-	                  _react2.default.createElement('input', (_React$createElement2 = { style: { fontSize: '3em' } }, _defineProperty(_React$createElement2, 'style', { maxWidth: '10em' }), _defineProperty(_React$createElement2, 'className', 'center-align callToAction'), _defineProperty(_React$createElement2, 'type', 'password'), _defineProperty(_React$createElement2, 'placeholder', 'Password'), _defineProperty(_React$createElement2, 'value', this.state.password), _defineProperty(_React$createElement2, 'onChange', this.handlePasswordChange.bind(this)), _React$createElement2))
-	                )
-	              ),
-	              _react2.default.createElement(
-	                _reactMaterialize.Row,
-	                { className: 'loginRow' },
-	                _react2.default.createElement(
-	                  _reactMaterialize.Col,
-	                  { s: 12, l: 12 },
+	                  _reactMaterialize.Row,
+	                  { className: 'loginRow' },
 	                  _react2.default.createElement(
-	                    'button',
-	                    { style: { fontSize: '2em' }, className: 'center-align loginButton', onClick: this.handleSubmit.bind(this) },
-	                    'Submit'
+	                    _reactMaterialize.Col,
+	                    { s: 12, l: 12 },
+	                    _react2.default.createElement('input', (_React$createElement = { style: { fontSize: '3em' } }, _defineProperty(_React$createElement, 'style', { maxWidth: '10em' }), _defineProperty(_React$createElement, 'className', 'center-align callToAction'), _defineProperty(_React$createElement, 'type', 'text'), _defineProperty(_React$createElement, 'placeholder', 'Username'), _defineProperty(_React$createElement, 'value', this.state.username), _defineProperty(_React$createElement, 'onChange', this.handleUsernameChange.bind(this)), _React$createElement)),
+	                    _react2.default.createElement('input', (_React$createElement2 = { style: { fontSize: '3em' } }, _defineProperty(_React$createElement2, 'style', { maxWidth: '10em' }), _defineProperty(_React$createElement2, 'className', 'center-align callToAction'), _defineProperty(_React$createElement2, 'type', 'password'), _defineProperty(_React$createElement2, 'placeholder', 'Password'), _defineProperty(_React$createElement2, 'value', this.state.password), _defineProperty(_React$createElement2, 'onChange', this.handlePasswordChange.bind(this)), _React$createElement2))
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  _reactMaterialize.Row,
+	                  { className: 'loginRow' },
+	                  _react2.default.createElement(
+	                    _reactMaterialize.Col,
+	                    { s: 12, l: 12 },
+	                    _react2.default.createElement(
+	                      'button',
+	                      { type: 'submit', style: { fontSize: '2em' }, className: 'center-align loginButton' },
+	                      'Submit'
+	                    )
 	                  )
 	                )
 	              )
@@ -32136,23 +32148,23 @@
 	    _this7.yOffset = 50;
 	    _this7.state = {
 	      displayThumbs: true,
-	      displayAttendance: false
+	      displayAttendance: false,
+	      displayAccuracy: false
 	    };
 	    return _this7;
 	  }
 
 	  _createClass(LessonChart, [{
 	    key: 'componentDidMount',
-	    // displayAccuracy: false,
 	    value: function componentDidMount() {
 	      //Helpers
 	      var xOffset = this.xOffset;
 	      var yOffset = this.yOffset;
 
 	      //Render axes
-	      var yAxisScale = d3.scale.linear().domain([0, 100]).range([this.height - yOffset, yOffset]);
-	      var yAxis = d3.svg.axis().scale(yAxisScale).orient('left');
-	      var yAxisGroup = d3.select('svg').append('g').attr('class', 'axis').attr('transform', 'translate(' + xOffset + ', 0)').call(yAxis);
+	      this.yAxisScale = d3.scale.linear().domain([0, 100]).range([this.height - yOffset, yOffset]);
+	      this.yAxis = d3.svg.axis().scale(this.yAxisScale).orient('left');
+	      var yAxisGroup = d3.select('svg').append('g').attr('class', 'axis yaxis').attr('transform', 'translate(' + xOffset + ', 0)').call(this.yAxis);
 
 	      d3.select('svg').append('line').attr('class', 'axis').attr('x1', xOffset).attr('y1', this.height - yOffset).attr('x2', this.width - xOffset).attr('y2', this.height - yOffset);
 
@@ -32192,8 +32204,12 @@
 	          return 'Average Thumb Poll (%)';
 	        } else if (nextState.displayAccuracy) {
 	          return 'Accuracy (%)';
+	        } else if (nextState.displayAttendance) {
+	          return 'Attendance';
 	        }
 	      }.bind(this));
+
+	      //Scale axis depending on state
 
 	      //Set functions for height and y based on state
 	      var heightFunc;
@@ -32207,6 +32223,7 @@
 	          var avgThumb = d.average_thumb || 1;
 	          return mapToChart(avgThumb);
 	        };
+	        this.yAxisScale.domain([0, 100]);
 	      } else if (nextState.displayAccuracy) {
 	        heightFunc = function heightFunc(d) {
 	          var correctRate = (d.correct_response_count || 0) / d.potential_correct_responses_count * 100;
@@ -32218,7 +32235,31 @@
 	          correctRate = correctRate ? correctRate : 1;
 	          return mapToChart(correctRate);
 	        };
+	        this.yAxisScale.domain([0, 100]);
+	      } else if (nextState.displayAttendance) {
+	        var max = Math.max.apply(null, nextProps.lessons.map(function (lesson) {
+	          return lesson.student_count;
+	        }));
+	        var ceil = Math.ceil(max / 10) * 10;
+	        mapToChart = function (percent) {
+	          return (ceil - percent) / ceil * (this.height - 2 * yOffset) + yOffset;
+	        }.bind(this);
+
+	        heightFunc = function heightFunc(d) {
+	          var attendance = d.student_count;
+	          // attendance = Number(attendance) ? attendance : 1;
+	          return mapToChart(ceil - attendance) - yOffset;
+	        };
+	        yFunc = function yFunc(d) {
+	          var attendance = d.student_count;
+	          // attendance = Number(attendance) ? attendance : 1;
+	          return mapToChart(attendance);
+	        };
+	        this.yAxisScale.domain([0, ceil]);
 	      }
+
+	      //Adjust height of axis:
+	      d3.select('svg').select('.yaxis').transition().duration(500).call(this.yAxis);
 
 	      //Adjust height and width on existing lessons
 	      d3.select('svg').selectAll('.lessonChartBar').data(nextProps.lessons, function (d) {
@@ -32264,7 +32305,7 @@
 	                  'li',
 	                  _defineProperty({ className: 'tab col s1 active center-align',
 	                    onClick: function onClick() {
-	                      _this8.setState({ displayAccuracy: false, displayThumbs: true });
+	                      _this8.setState({ displayAccuracy: false, displayThumbs: true, displayAttendance: false });
 	                    },
 	                    style: { cursor: 'default' }
 	                  }, 'style', this.state.displayThumbs ? { backgroundColor: '#01579b' } : { backgroundColor: '#fafafa', color: '#424242', cursor: 'default' }),
@@ -32278,7 +32319,7 @@
 	                  'li',
 	                  _defineProperty({ className: 'tab col s1 center-align',
 	                    onClick: function onClick() {
-	                      _this8.setState({ displayAccuracy: true, displayThumbs: false });
+	                      _this8.setState({ displayAccuracy: true, displayThumbs: false, displayAttendance: false });
 	                    },
 	                    style: { cursor: 'default' }
 	                  }, 'style', this.state.displayAccuracy ? { backgroundColor: '#01579b' } : { backgroundColor: '#fafafa', color: '#424242', cursor: 'default' }),
@@ -32286,6 +32327,20 @@
 	                    'span',
 	                    { className: 'pointer' },
 	                    'Accuracy'
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'li',
+	                  _defineProperty({ className: 'tab col s1 center-align',
+	                    onClick: function onClick() {
+	                      _this8.setState({ displayAccuracy: false, displayThumbs: false, displayAttendance: true });
+	                    },
+	                    style: { cursor: 'default' }
+	                  }, 'style', this.state.displayAttendance ? { backgroundColor: '#01579b' } : { backgroundColor: '#fafafa', color: '#424242', cursor: 'default' }),
+	                  _react2.default.createElement(
+	                    'span',
+	                    { className: 'pointer' },
+	                    'Attendance'
 	                  )
 	                )
 	              )
@@ -32549,15 +32604,15 @@
 	      currentDay.setHours(0, 0, 0, 0);
 	      var showButtons = lessonDate >= currentDay ? _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'center-align' },
 	        _react2.default.createElement(
 	          'button',
-	          { onClick: this.handleAddThumbs.bind(self) },
+	          { className: 'newPollButton', onClick: this.handleAddThumbs.bind(self) },
 	          'Add thumbs check'
 	        ),
 	        _react2.default.createElement(
 	          'button',
-	          { onClick: this.handleAddMultiChoice.bind(self) },
+	          { className: 'newPollButton', onClick: this.handleAddMultiChoice.bind(self) },
 	          'Add multiple choice'
 	        )
 	      ) : _react2.default.createElement('div', null);
@@ -32582,19 +32637,20 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'dataTable' },
+	          null,
 	          _react2.default.createElement(ThumbsTable, { data: this.state.data.filter(function (poll) {
 	              return poll.type === 'thumbs';
 	            }) })
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'dataTable' },
+	          null,
 	          _react2.default.createElement(MCTable, { data: this.state.data.filter(function (poll) {
 	              return poll.type === 'multiChoice';
 	            }) })
 	        ),
 	        showButtons,
+	        _react2.default.createElement(ErrorMessage, { className: 'center-align', formError: this.state.formError }),
 	        _react2.default.createElement(AddThumbsForm, {
 	          onSubmit: this.handleThumbsFormSubmit.bind(this),
 	          lessonId: this.props.lessonId,
@@ -32622,8 +32678,7 @@
 	          handleMultiBChange: this.handleMultiBChange.bind(this),
 	          handleMultiCChange: this.handleMultiCChange.bind(this),
 	          handleMultiDChange: this.handleMultiDChange.bind(this)
-	        }),
-	        _react2.default.createElement(ErrorMessage, { formError: this.state.formError })
+	        })
 	      );
 	    }
 	  }, {
@@ -32825,64 +32880,68 @@
 	  if (props.data.length) {
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'tableContainer' },
+	      null,
 	      _react2.default.createElement(
-	        'table',
-	        null,
+	        'div',
+	        { className: 'tableContainer' },
 	        _react2.default.createElement(
-	          'thead',
+	          'table',
 	          null,
 	          _react2.default.createElement(
-	            'tr',
+	            'thead',
 	            null,
 	            _react2.default.createElement(
-	              'th',
-	              null,
-	              ' Multiple Choice Polls '
-	            ),
-	            _react2.default.createElement(
-	              'th',
-	              null,
-	              ' Response Count '
-	            ),
-	            _react2.default.createElement(
-	              'th',
-	              null,
-	              ' Accuracy Rate '
-	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tbody',
-	          null,
-	          props.data.map(function (poll) {
-	            var correctRate = (poll.correct_response_count || 0) / poll.response_count * 100;
-	            return _react2.default.createElement(
 	              'tr',
-	              { key: 'P' + poll.poll_id },
+	              null,
 	              _react2.default.createElement(
-	                'td',
+	                'th',
 	                null,
-	                ' ',
-	                poll.poll_name || 'N/A',
-	                ' '
+	                ' Multiple Choice Polls '
 	              ),
 	              _react2.default.createElement(
-	                'td',
+	                'th',
 	                null,
-	                ' ',
-	                poll.response_count || 0,
-	                ' '
+	                ' Response Count '
 	              ),
 	              _react2.default.createElement(
-	                'td',
+	                'th',
 	                null,
-	                ' ',
-	                !isNaN(correctRate) ? correctRate.toFixed(2) + '%' : 'N/A',
-	                ' '
+	                ' Accuracy Rate '
 	              )
-	            );
-	          })
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'tbody',
+	            null,
+	            props.data.map(function (poll) {
+	              var correctRate = (poll.correct_response_count || 0) / poll.response_count * 100;
+	              return _react2.default.createElement(
+	                'tr',
+	                { key: 'P' + poll.poll_id },
+	                _react2.default.createElement(
+	                  'td',
+	                  null,
+	                  ' ',
+	                  poll.poll_name || 'N/A',
+	                  ' '
+	                ),
+	                _react2.default.createElement(
+	                  'td',
+	                  null,
+	                  ' ',
+	                  poll.response_count || 0,
+	                  ' '
+	                ),
+	                _react2.default.createElement(
+	                  'td',
+	                  null,
+	                  ' ',
+	                  !isNaN(correctRate) ? correctRate.toFixed(2) + '%' : 'N/A',
+	                  ' '
+	                )
+	              );
+	            })
+	          )
 	        )
 	      )
 	    );
@@ -32895,63 +32954,67 @@
 	  if (props.data.length) {
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'tableContainer' },
+	      { className: 'dataTable' },
 	      _react2.default.createElement(
-	        'table',
-	        null,
+	        'div',
+	        { className: 'tableContainer' },
 	        _react2.default.createElement(
-	          'thead',
+	          'table',
 	          null,
 	          _react2.default.createElement(
-	            'tr',
+	            'thead',
 	            null,
 	            _react2.default.createElement(
-	              'th',
-	              null,
-	              ' Thumbs Checks '
-	            ),
-	            _react2.default.createElement(
-	              'th',
-	              null,
-	              ' Response Count '
-	            ),
-	            _react2.default.createElement(
-	              'th',
-	              null,
-	              ' Average Response '
-	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tbody',
-	          null,
-	          props.data.map(function (poll) {
-	            return _react2.default.createElement(
 	              'tr',
-	              { key: 'P' + poll.poll_id },
+	              null,
 	              _react2.default.createElement(
-	                'td',
+	                'th',
 	                null,
-	                ' ',
-	                poll.poll_name || 'N/A',
-	                ' '
+	                ' Thumbs Checks '
 	              ),
 	              _react2.default.createElement(
-	                'td',
+	                'th',
 	                null,
-	                ' ',
-	                poll.response_count || 0,
-	                ' '
+	                ' Response Count '
 	              ),
 	              _react2.default.createElement(
-	                'td',
+	                'th',
 	                null,
-	                ' ',
-	                poll.average_thumb ? poll.average_thumb.toFixed(2) + '%' : 'N/A',
-	                ' '
+	                ' Average Response '
 	              )
-	            );
-	          })
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'tbody',
+	            null,
+	            props.data.map(function (poll) {
+	              return _react2.default.createElement(
+	                'tr',
+	                { key: 'P' + poll.poll_id },
+	                _react2.default.createElement(
+	                  'td',
+	                  null,
+	                  ' ',
+	                  poll.poll_name || 'N/A',
+	                  ' '
+	                ),
+	                _react2.default.createElement(
+	                  'td',
+	                  null,
+	                  ' ',
+	                  poll.response_count || 0,
+	                  ' '
+	                ),
+	                _react2.default.createElement(
+	                  'td',
+	                  null,
+	                  ' ',
+	                  poll.average_thumb ? poll.average_thumb.toFixed(2) + '%' : 'N/A',
+	                  ' '
+	                )
+	              );
+	            })
+	          )
 	        )
 	      )
 	    );
@@ -32964,7 +33027,7 @@
 	  if (props.addThumbs) {
 	    return _react2.default.createElement(
 	      'div',
-	      null,
+	      { className: 'newPoll' },
 	      _react2.default.createElement(
 	        'h5',
 	        { className: 'sectionHeading' },
@@ -32976,41 +33039,16 @@
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement(
-	            'text',
-	            null,
-	            'Title'
-	          ),
-	          _react2.default.createElement(
-	            'text',
-	            { className: 'required' },
-	            '*'
-	          ),
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Title (for your records)', value: props.thumbsTitle, onChange: function onChange(event) {
+	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Title (for your records) - Required', value: props.thumbsTitle, onChange: function onChange(event) {
 	              props.handleThumbsTitleChange(event);
 	            } })
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement(
-	            'text',
-	            null,
-	            'Question'
-	          ),
-	          _react2.default.createElement(
-	            'text',
-	            { className: 'required' },
-	            '*'
-	          ),
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Question', value: props.thumbsQuestion, onChange: function onChange(event) {
+	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Question - Required', value: props.thumbsQuestion, onChange: function onChange(event) {
 	              props.handleThumbsQuestionChange(event);
 	            } })
-	        ),
-	        _react2.default.createElement(
-	          'text',
-	          { className: 'requiredText' },
-	          '*required fields'
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -33032,7 +33070,7 @@
 	  if (props.addMultiChoice) {
 	    return _react2.default.createElement(
 	      'div',
-	      null,
+	      { className: 'newPoll' },
 	      _react2.default.createElement(
 	        'h5',
 	        { className: 'sectionHeading' },
@@ -33044,109 +33082,49 @@
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement(
-	            'text',
-	            null,
-	            'Short Title'
-	          ),
-	          _react2.default.createElement(
-	            'text',
-	            { className: 'required' },
-	            '*'
-	          ),
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Short title (for your records)', value: props.multiTitle, onChange: function onChange(event) {
+	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Short title (for your records) - Required', value: props.multiTitle, onChange: function onChange(event) {
 	              props.handleMultiTitleChange(event);
 	            } })
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement(
-	            'text',
-	            null,
-	            'Question'
-	          ),
-	          _react2.default.createElement(
-	            'text',
-	            { className: 'required' },
-	            '*'
-	          ),
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Question', value: props.multiQuestion, onChange: function onChange(event) {
+	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Question - Required', value: props.multiQuestion, onChange: function onChange(event) {
 	              props.handleMultiQuestionChange(event);
 	            } })
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement(
-	            'text',
-	            null,
-	            'Answer'
-	          ),
-	          _react2.default.createElement(
-	            'text',
-	            { className: 'required' },
-	            '*'
-	          ),
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Answer', value: props.multiAnswer, onChange: function onChange(event) {
+	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Answer (A, B, C, or D) - Required', value: props.multiAnswer, onChange: function onChange(event) {
 	              props.handleMultiAnswerChange(event);
 	            } })
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement(
-	            'text',
-	            null,
-	            'Option A'
-	          ),
-	          _react2.default.createElement(
-	            'text',
-	            { className: 'required' },
-	            '*'
-	          ),
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Option A', value: props.multiA, onChange: function onChange(event) {
+	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Option A - Required', value: props.multiA, onChange: function onChange(event) {
 	              props.handleMultiAChange(event);
 	            } })
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement(
-	            'text',
-	            null,
-	            'Option B'
-	          ),
-	          _react2.default.createElement(
-	            'text',
-	            { className: 'required' },
-	            '*'
-	          ),
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Option B', value: props.multiB, onChange: function onChange(event) {
+	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Option B - Required', value: props.multiB, onChange: function onChange(event) {
 	              props.handleMultiBChange(event);
 	            } })
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement(
-	            'text',
-	            null,
-	            'Option C'
-	          ),
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Option C', value: props.multiC, onChange: function onChange(event) {
+	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Option C', value: props.multiC, onChange: function onChange(event) {
 	              props.handleMultiCChange(event);
 	            } })
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement(
-	            'text',
-	            null,
-	            'Option D'
-	          ),
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Option D', value: props.multiD, onChange: function onChange(event) {
+	          _react2.default.createElement('input', { type: 'text', className: 'newPollInput', placeholder: 'Option D', value: props.multiD, onChange: function onChange(event) {
 	              props.handleMultiDChange(event);
 	            } })
 	        ),
@@ -57017,7 +56995,7 @@
 
 
 	// module
-	exports.push([module.id, "html, body, h1, h2, h3, h4, ul, ol, li, p, a {\n  padding: 0;\n  border: 0;\n  margin: 0;\n}\n\nbody {\n  height: 100%;\n  width: 100%;\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column;\n  background-color: #fafafa;\n  overflow: scroll;\n}\n\nmain {\n  flex: 1 0 auto;\n}\n\np {\n  font-weight: 200;\n  font-family: 'Lato', sans-serif;\n  margin-left: 20%;\n}\n\nul {\n  list-style: none;\n}\n\nli {\n  color: black;\n  list-style: none;\n}\n\n.backgroundVideo{\n  height: 100%;\n  width: 100%;\n  top: 0;\n  padding: none;\n  position: fixed;\n  z-index: -100\n}\n\nfooter {\n  width:100%;\n  height:116px;\n  position: absolute;\n  bottom:0;\n  left:0;\n}\n\nfooter.footerApp{\n  width:0;\n  height:0;\n  position: fixed;\n  bottom:0;\n  left:0;\n}\n\nfooter.footerApp {\n  margin-top: 100px;\n  width:100%;\n  height:45px;\n  bottom:0;\n  left:0;\n  padding: 10px;\n}\n\n.title {\n  font-family: 'Lato', sans-serif;\n  font-weight: 100;\n  padding-left: 10px;\n}\n\n.titleCheck {\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n}\n\n.sectionHeading {\n  font-family: 'Lato', sans-serif;\n  font-weight: 900;\n  margin: 20px;\n  margin-left: 0px;\n  color: #424242;\n  margin-top: 10px;\n}\n.pointer {\n  cursor: pointer;\n}\n\nh2.sectionHeading {\n  font-family: 'Lato', sans-serif;\n  font-weight: 900;\n  margin: 30px;\n  margin-left: 20%;\n  margin-bottom: 3%;\n  color: #424242;\n}\n\nh2.classDataHeading {\n  margin-bottom: 1%;\n}\n\n.settingsButton {\n  float: left;\n  text-align: left;\n}\n.copywriter {\n  float: right;\n  font-family: 'Lato', sans-serif;\n  font-weight: 100;\n  color: #fafafa;\n}\n\n.welcomeTopBar {\n  padding-bottom: 10px;\n}\n\n.welcomeMessage {\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  font-size: 1.5em;\n  margin-top:0px;\n  margin-bottom: 1em;\n}\n\n.callToAction {\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  color: #fafafa;\n}\n\ninput:not([type]):focus:not([readonly]),\ninput[type=text]:focus:not([readonly]),\ninput[type=password]:focus:not([readonly]),\ninput[type=email]:focus:not([readonly]),\ninput[type=url]:focus:not([readonly]),\ninput[type=time]:focus:not([readonly]),\ninput[type=date]:focus:not([readonly]),\ninput[type=datetime-local]:focus:not([readonly]),\ninput[type=tel]:focus:not([readonly]),\ninput[type=number]:focus:not([readonly]),\ninput[type=search]:focus:not([readonly]),\ntextarea.materialize-textarea:focus:not([readonly]) {\n    border-bottom: 1px solid #03a9f4;\n    box-shadow: 0 1px 0 0 #03a9f4;\n}\n\n\nbutton {\n  background-color: transparent;\n  color: #fafafa;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\nbutton:active {\n  outline: none;\n  color: #03a9f4;\n  background-color: #03a9f4;\n}\n\nbutton:focus {\n  background-color: #fafafa;\n}\n\n\nbutton {\n  background-color: #fafafa;\n  color: #424242;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\nbutton:active .login{\n    outline: none;\n    background-color: #01579b;\n}\n\n.loginButton:active{\n    outline: none;\n    background-color: #03a9f4;\n}\n\n.loginButton:focus {\n  background-color: transparent;\n}\n\n.loginButton{\n  background-color: transparent;\n  color: #fafafa;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\n.tableContainer {\n  margin-left: 20%;\n  margin-right: 20%;\n}\n\n#tableHeader {\n  max-width: 90%;\n}\n\n.tabs .tab {\n  border: 2px solid #03a9f4;\n  text-transform: none;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  font-size: 1.5em;\n  max-width: 100%;\n  color: #fafafa;\n  border-radius: 2px;\n}\n.tab:first-child {\n  border: 2px solid #03a9f4;\n  border-right: none;\n}\n\n.tab:active{\n  background-color: #bf360c;\n}\n\n.dateContainer {\n  max-width: '15em';\n\n  margin-left:'10px';\n}\n\ninput:not([type]), input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {\n    background-color: transparent;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    border-radius: 0;\n    outline: none;\n    height: 3rem;\n    width: 20%; \n    font-size: 1rem;\n    margin: 0 0 10px 0px;\n    padding: 0;\n    box-shadow: none;\n    box-sizing: content-box;\n    transition: all .3s;\n}\n\n.addNew {\n  margin-left: 20%;\n  margin-right: 20%;\n}\n\n.error {\n  color: #fafafa;\n}\n\n.dataTable {\n  margin-bottom: 70px;\n}\n\n.classList {\n  margin-left: 20%;\n}\n\n.classListItem {\n  font-size: 2em;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  color: #03a9f4;\n}\n\n.newClassForm {\n  max-width: 200px;\n}\n\n.newClass {\n  margin-left: 20%;\n  width: 200%; \n}\n\n.lessonsToday {\n  margin-bottom: 20px;\n}\n\n.row {\n  margin-bottom: 200px;\n}\n\n.dataRow {\n  margin-left: 30%;\n  margin-right: 30%;\n  margin-bottom: 10px;\n  margin-top: 0;\n}\n\n.loginRow {\n  margin-bottom: 0px;\n}\n\n.profile {\n  font-size: 1.5em;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  margin-bottom: 30px;\n}\n\n.pollForm {\n  margin-bottom: 100px;\n}\n\n.axis, .axis path, .axis line {\n  fill: none;\n  stroke: #424242;\n  shape-rendering: crispEdges;\n}\n\n.axis text, .axisLabel {\n  font-family: 'Lato', sans-serif;\n  font-size: 11px;\n  color: #424242;\n}\n\n.axisLabel {\n  font-size: 15px;\n}\n\n.studentChartNode, .lessonChartBar {\n  fill:#e65100;\n  stroke:#424242;\n  stroke-width:2px;\n}\n\n.lessonChartBar {\n  stroke-width:0px;\n}\n\n.studentChartNode:hover, .lessonChartBar:hover {\n  stroke-width: 4px;\n}\n\n.d3-tip {\n  line-height: 1;\n  font-weight: bold;\n  padding: 12px;\n  background: rgba(0, 0, 0, 0.8);\n  color: #fff;\n  border-radius: 2px;\n}\n\n/* Creates a small triangle extender for the tooltip */\n.d3-tip:after {\n  box-sizing: border-box;\n  display: inline;\n  font-size: 10px;\n  width: 100%;\n  line-height: 1;\n  color: rgba(0, 0, 0, 0.8);\n  content: \"\\25BC\";\n  position: absolute;\n  text-align: center;\n}\n\n/* Style northward tooltips differently */\n.d3-tip.n:after {\n  margin: -1px 0 0 0;\n  top: 100%;\n  left: 0;\n}\n\n.errorMessage {\n  margin-bottom: 60px;\n}", ""]);
+	exports.push([module.id, "html, body, h1, h2, h3, h4, ul, ol, li, p, a {\n  padding: 0;\n  border: 0;\n  margin: 0;\n}\n\nbody {\n  height: 100%;\n  width: 100%;\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column;\n  background-color: #fafafa;\n  overflow: scroll;\n}\n\nmain {\n  flex: 1 0 auto;\n}\n\np {\n  font-weight: 200;\n  font-family: 'Lato', sans-serif;\n  margin-left: 20%;\n}\n\nul {\n  list-style: none;\n}\n\nli {\n  color: black;\n  list-style: none;\n}\n\n.backgroundVideo{\n  height: 100%;\n  width: 100%;\n  top: 0;\n  padding: none;\n  position: fixed;\n  z-index: -100\n}\n\nfooter {\n  width:100%;\n  height:116px;\n  position: absolute;\n  bottom:0;\n  left:0;\n}\n\nfooter.footerApp{\n  width:0;\n  height:0;\n  position: fixed;\n  bottom:0;\n  left:0;\n}\n\nfooter.footerApp {\n  margin-top: 100px;\n  width:100%;\n  height:45px;\n  bottom:0;\n  left:0;\n  padding: 10px;\n}\n\n.title {\n  font-family: 'Lato', sans-serif;\n  font-weight: 100;\n  padding-left: 10px;\n}\n\n.titleCheck {\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n}\n\n.sectionHeading {\n  font-family: 'Lato', sans-serif;\n  font-weight: 900;\n  margin: 20px;\n  margin-left: 0px;\n  color: #424242;\n  margin-top: 10px;\n}\n.pointer {\n  cursor: pointer;\n}\n\nh2.sectionHeading {\n  font-family: 'Lato', sans-serif;\n  font-weight: 900;\n  margin: 30px;\n  margin-left: 20%;\n  margin-bottom: 3%;\n  color: #424242;\n}\n\nh2.classDataHeading {\n  margin-bottom: 1%;\n}\n\n.settingsButton {\n  float: left;\n  text-align: left;\n}\n.copywriter {\n  float: right;\n  font-family: 'Lato', sans-serif;\n  font-weight: 100;\n  color: #fafafa;\n}\n\n.welcomeTopBar {\n  padding-bottom: 10px;\n}\n\n.welcomeMessage {\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  font-size: 1.5em;\n  margin-top:0px;\n  margin-bottom: 1em;\n}\n\n.callToAction {\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  color: #fafafa;\n}\n\ninput:not([type]):focus:not([readonly]),\ninput[type=text]:focus:not([readonly]),\ninput[type=password]:focus:not([readonly]),\ninput[type=email]:focus:not([readonly]),\ninput[type=url]:focus:not([readonly]),\ninput[type=time]:focus:not([readonly]),\ninput[type=date]:focus:not([readonly]),\ninput[type=datetime-local]:focus:not([readonly]),\ninput[type=tel]:focus:not([readonly]),\ninput[type=number]:focus:not([readonly]),\ninput[type=search]:focus:not([readonly]),\ntextarea.materialize-textarea:focus:not([readonly]) {\n    border-bottom: 1px solid #03a9f4;\n    box-shadow: 0 1px 0 0 #03a9f4;\n}\n\n\nbutton {\n  background-color: transparent;\n  color: #fafafa;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\nbutton:active {\n  outline: none;\n  color: #03a9f4;\n  background-color: #03a9f4;\n}\n\nbutton:focus {\n  background-color: #fafafa;\n}\n\n\nbutton {\n  background-color: #fafafa;\n  color: #424242;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\nbutton:active .login{\n    outline: none;\n    background-color: #01579b;\n}\n\n.loginButton:active{\n    outline: none;\n    background-color: #03a9f4;\n}\n\n.loginButton:focus {\n  background-color: transparent;\n}\n\n.loginButton{\n  background-color: transparent;\n  color: #fafafa;\n  border: 2px solid #03a9f4;\n  border-radius: 2px;\n  font-family: 'Lato', sans-serif;\n  font-weight: 400;\n  padding: 0 10px 0 10px;\n}\n\n.tableContainer {\n  margin-left: 20%;\n  margin-right: 20%;\n}\n\n#tableHeader {\n  max-width: 90%;\n}\n\n.tabs .tab {\n  border: 2px solid #03a9f4;\n  text-transform: none;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  font-size: 1.5em;\n  max-width: 100%;\n  color: #fafafa;\n  border-radius: 2px;\n}\n.tab:first-child {\n  border: 2px solid #03a9f4;\n  border-right: none;\n}\n\n.tab:active{\n  background-color: #bf360c;\n}\n\n.dateContainer {\n  max-width: '15em';\n\n  margin-left:'10px';\n}\n\ninput:not([type]), input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {\n    background-color: transparent;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    border-radius: 0;\n    outline: none;\n    height: 3rem;\n    width: 20%; \n    font-size: 1rem;\n    margin: 0 0 10px 0px;\n    padding: 0;\n    box-shadow: none;\n    box-sizing: content-box;\n    transition: all .3s;\n}\n\n.addNew {\n  margin-left: 20%;\n  margin-right: 20%;\n}\n\n.error {\n  color: #fafafa;\n}\n\n.dataTable {\n  margin-bottom: 70px;\n}\n\n.classList {\n  margin-left: 20%;\n}\n\n.classListItem {\n  font-size: 2em;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  color: #03a9f4;\n}\n\n.newClassForm {\n  max-width: 200px;\n}\n\n.newClass {\n  margin-left: 20%;\n  width: 200%; \n}\n\n.lessonsToday {\n  margin-bottom: 20px;\n}\n\n.row {\n  margin-bottom: 200px;\n}\n\n.dataRow {\n  margin-left: 30%;\n  margin-right: 30%;\n  margin-bottom: 10px;\n  margin-top: 0;\n}\n\n.loginRow {\n  margin-bottom: 0px;\n}\n\n.profile {\n  font-size: 1.5em;\n  font-family: 'Lato', sans-serif;\n  font-weight: 300;\n  margin-bottom: 30px;\n}\n\n.pollForm {\n  margin-bottom: 100px;\n}\n\n.axis, .axis path, .axis line {\n  fill: none;\n  stroke: #424242;\n  shape-rendering: crispEdges;\n}\n\n.axis text, .axisLabel {\n  font-family: 'Lato', sans-serif;\n  font-size: 11px;\n  color: #424242;\n}\n\n.axisLabel {\n  font-size: 15px;\n}\n\n.studentChartNode, .lessonChartBar {\n  fill:#e65100;\n  stroke:#424242;\n  stroke-width:2px;\n}\n\n.lessonChartBar {\n  stroke-width:0px;\n}\n\n.studentChartNode:hover, .lessonChartBar:hover {\n  stroke-width: 4px;\n}\n\n.d3-tip {\n  line-height: 1;\n  font-weight: bold;\n  padding: 12px;\n  background: rgba(0, 0, 0, 0.8);\n  color: #fff;\n  border-radius: 2px;\n}\n\n/* Creates a small triangle extender for the tooltip */\n.d3-tip:after {\n  box-sizing: border-box;\n  display: inline;\n  font-size: 10px;\n  width: 100%;\n  line-height: 1;\n  color: rgba(0, 0, 0, 0.8);\n  content: \"\\25BC\";\n  position: absolute;\n  text-align: center;\n}\n\n/* Style northward tooltips differently */\n.d3-tip.n:after {\n  margin: -1px 0 0 0;\n  top: 100%;\n  left: 0;\n}\n\n.errorMessage {\n  margin-bottom: 0;\n  text-align: center;\n  color:red;\n}\n\n.newPollButton {\n  margin: 5px 1px;\n}\n\n.newPoll {\n  margin-left: 20%;\n}\n\n.newPollInput {\n  margin-left: 20em;\n  padding: 20px;\n}", ""]);
 
 	// exports
 

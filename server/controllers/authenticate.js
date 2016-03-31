@@ -205,6 +205,10 @@ module.exports = {
     }
   },
 
+  wildcard: function(req, res, next) {
+    res.redirect('/');
+  },
+
   checkAuth: function(req, res, next) {
     // req.session.user = 'ian';
     if(utils.isLoggedIn(req)) {
