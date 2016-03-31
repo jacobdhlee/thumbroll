@@ -1,9 +1,11 @@
-import React, { StyleSheet, View, Component, Text, Animated } from 'react-native';
+import React, { StyleSheet, View, Component, Text, Animated, Dimensions } from 'react-native';
 var Progress = require('react-native-progress');
  
 class PercentageChart extends Component {
   constructor(props) {
     super(props);
+    var {height, width} = Dimensions.get('window');
+    this.width = width;
     this.state = {
       studentData: [],
       color: ['#03a9f4','#03a9f4','#03a9f4'],
@@ -11,7 +13,6 @@ class PercentageChart extends Component {
       maxAnim: new Animated.Value(0),
       xLabels: ['Lowest', 'Average Student Response', 'Highest']
     }
-
   }
 
 
@@ -46,7 +47,7 @@ class PercentageChart extends Component {
   }
 
   render() {
-    var width = 300;
+    var width = this.width * 0.5;
     return (
       <View style={styles.container}>
         <View style={styles.circleContainer}>
@@ -92,7 +93,7 @@ const flag = true;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#fafafa',
   },
   circleContainer: {
     justifyContent: 'center',
