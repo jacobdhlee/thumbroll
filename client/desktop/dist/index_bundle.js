@@ -28974,6 +28974,14 @@
 	      this.setState({ password: event.target.value });
 	    }
 	  }, {
+	    key: 'checkSubmit',
+	    value: function checkSubmit(e) {
+	      if (e && e.keyCode === 13) {
+	        console.log("SUBMIT CONDITION MET!");
+	        this.handleSubmit();
+	      }
+	    }
+	  }, {
 	    key: 'handleSubmit',
 	    value: function handleSubmit() {
 	      var _this2 = this;
@@ -29065,28 +29073,32 @@
 	              )
 	            ),
 	            _react2.default.createElement(
-	              'div',
-	              { className: 'valign' },
+	              'form',
+	              { onSubmit: this.handleSubmit.bind(this) },
 	              _react2.default.createElement(
-	                _reactMaterialize.Row,
-	                { className: 'loginRow' },
+	                'div',
+	                { className: 'valign' },
 	                _react2.default.createElement(
-	                  _reactMaterialize.Col,
-	                  { s: 12, l: 12 },
-	                  _react2.default.createElement('input', (_React$createElement = { style: { fontSize: '3em' } }, _defineProperty(_React$createElement, 'style', { maxWidth: '10em' }), _defineProperty(_React$createElement, 'className', 'center-align callToAction'), _defineProperty(_React$createElement, 'type', 'text'), _defineProperty(_React$createElement, 'placeholder', 'Username'), _defineProperty(_React$createElement, 'value', this.state.username), _defineProperty(_React$createElement, 'onChange', this.handleUsernameChange.bind(this)), _React$createElement)),
-	                  _react2.default.createElement('input', (_React$createElement2 = { style: { fontSize: '3em' } }, _defineProperty(_React$createElement2, 'style', { maxWidth: '10em' }), _defineProperty(_React$createElement2, 'className', 'center-align callToAction'), _defineProperty(_React$createElement2, 'type', 'password'), _defineProperty(_React$createElement2, 'placeholder', 'Password'), _defineProperty(_React$createElement2, 'value', this.state.password), _defineProperty(_React$createElement2, 'onChange', this.handlePasswordChange.bind(this)), _React$createElement2))
-	                )
-	              ),
-	              _react2.default.createElement(
-	                _reactMaterialize.Row,
-	                { className: 'loginRow' },
-	                _react2.default.createElement(
-	                  _reactMaterialize.Col,
-	                  { s: 12, l: 12 },
+	                  _reactMaterialize.Row,
+	                  { className: 'loginRow' },
 	                  _react2.default.createElement(
-	                    'button',
-	                    { style: { fontSize: '2em' }, className: 'center-align loginButton', onClick: this.handleSubmit.bind(this) },
-	                    'Submit'
+	                    _reactMaterialize.Col,
+	                    { s: 12, l: 12 },
+	                    _react2.default.createElement('input', (_React$createElement = { style: { fontSize: '3em' } }, _defineProperty(_React$createElement, 'style', { maxWidth: '10em' }), _defineProperty(_React$createElement, 'className', 'center-align callToAction'), _defineProperty(_React$createElement, 'type', 'text'), _defineProperty(_React$createElement, 'placeholder', 'Username'), _defineProperty(_React$createElement, 'value', this.state.username), _defineProperty(_React$createElement, 'onChange', this.handleUsernameChange.bind(this)), _React$createElement)),
+	                    _react2.default.createElement('input', (_React$createElement2 = { style: { fontSize: '3em' } }, _defineProperty(_React$createElement2, 'style', { maxWidth: '10em' }), _defineProperty(_React$createElement2, 'className', 'center-align callToAction'), _defineProperty(_React$createElement2, 'type', 'password'), _defineProperty(_React$createElement2, 'placeholder', 'Password'), _defineProperty(_React$createElement2, 'value', this.state.password), _defineProperty(_React$createElement2, 'onChange', this.handlePasswordChange.bind(this)), _React$createElement2))
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  _reactMaterialize.Row,
+	                  { className: 'loginRow' },
+	                  _react2.default.createElement(
+	                    _reactMaterialize.Col,
+	                    { s: 12, l: 12 },
+	                    _react2.default.createElement(
+	                      'button',
+	                      { type: 'submit', style: { fontSize: '2em' }, className: 'center-align loginButton' },
+	                      'Submit'
+	                    )
 	                  )
 	                )
 	              )
