@@ -199,4 +199,5 @@ In order to run the simulator, navigate to the 'AppDelegate.m' file under the 't
 ## Icons
 
 Hand by Maico Amorim from the Noun Project
-help by Pham Thi Dieu Linh from the Noun Project
+
+Help by Pham Thi Dieu Linh from the Noun Project
