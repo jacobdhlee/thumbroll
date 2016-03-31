@@ -9,6 +9,7 @@ class HistogramChart extends Component {
       animators: [new Animated.Value(0), new Animated.Value(0), new Animated.Value(0), new Animated.Value(0)],       
       xLabels: ['A', 'B', 'C', 'D']
     }
+    this.chartHeight = 400;
   }
 
 
@@ -28,6 +29,35 @@ class HistogramChart extends Component {
         {toValue: displayData[i] / total},      
       ).start();   
     }
+  }
+
+  renderBars (data) {
+    var height = this.chartHeight;
+    return data.map((answer, index) => {
+        return (
+          <View style={{padding:10, margin:10}}>
+            <View >
+              <Animated.View style={{
+                width:20, backgroundColor:'white', 
+                height:this.state.animators[index].interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [height, 0]  
+                })
+              }} />
+              <Animated.View style={{
+                width:20, backgroundColor:'blue', 
+                height:this.state.animators[index].interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, height]  
+                })
+              }} />
+            </View>
+            <View>
+              <Text> {this.state.xLabels[index]} </Text>
+            </View>
+          </View>
+        )
+    })
   }
 
   render() {
