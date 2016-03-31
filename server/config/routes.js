@@ -2,7 +2,6 @@ var studentsController = require('../controllers/students');
 var teachersController = require('../controllers/teachers');
 var classesController = require('../controllers/classes');
 var authenticationController = require('../controllers/authenticate');
-var rootController = require('../controllers/root');
 var utils = require('../utils/utils');
 
 module.exports = function(app, io) {
@@ -41,7 +40,6 @@ module.exports = function(app, io) {
   app.post('/teachers/lessons', teachersController.addClassLesson);
 
   app.post('/students/ready', utils.checkUser, studentsController.readyStage.bind(null, io));
-  // app.get(utils.checkUser, '/', rootController.root);
   
   // Add student to class
   app.post('/teachers/class/student', teachersController.addStudentToClass);
@@ -51,4 +49,5 @@ module.exports = function(app, io) {
 
   // Add new multiChoice poll to lesson
   app.post('/classes/lessons/multiChoice', teachersController.addMultiChoicePoll);
+  app.get('*', authenticationController.wildcard);
 };
