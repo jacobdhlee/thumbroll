@@ -8,15 +8,6 @@ class HistogramChart extends Component {
     this.state = {
       studentData: [],
       transformedData: [],
-      chartData: [
-        {
-          name: 'BarChart',
-          type: 'bar',
-          color: '#219dff',
-          widthPercent: 1,
-          data: [],
-        }
-      ],
       xLabels: ['A', 'B', 'C', 'D']
     }
   }
@@ -24,7 +15,6 @@ class HistogramChart extends Component {
 
   componentWillReceiveProps(newData) {
     var updatedStudentData = newData.data;
-    var updatedColor;
 
     this.setState({
       studentData : updatedStudentData,
@@ -33,37 +23,11 @@ class HistogramChart extends Component {
     });
     
     var displayData = transformMultiChoiceData(updatedStudentData);
-    return (
-      <View style={styles.container}>
-        <RNChart style={styles.chart}
-          chartData={[{
-          name: 'BarChart',
-          type: 'bar',
-          color: this.state.color,
-          widthPercent: .5,
-          data: this.state.transformedData
-        }]}
-          verticalGridStep={5}
-          xLabels={['A', 'B', 'C', 'D']}
-         />
-      </View>
-    );
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <RNChart style={styles.chart}
-          chartData={[{
-          name: 'BarChart',
-          type: 'bar',
-          color: this.state.color,
-          widthPercent: .5,
-          data: this.state.transformedData
-        }]}
-          verticalGridStep={5}
-          xLabels={this.state.xLabels}
-         />
       </View>
     );
   }
@@ -79,8 +43,6 @@ var transformMultiChoiceData = (responses) => {
 
   return [allResponses['A'] || 0, allResponses['B'] || 0, allResponses['C'] || 0, allResponses['D'] || 0];
 };
-
-const flag = true;
 
 const styles = StyleSheet.create({
   container: {
