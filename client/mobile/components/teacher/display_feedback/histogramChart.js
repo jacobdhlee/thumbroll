@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   labelContainer: {
     
-  }
+  },
   labelText: {
 
   }
