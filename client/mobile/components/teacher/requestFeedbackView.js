@@ -315,7 +315,7 @@ class RequestFeedbackView extends React.Component {
           <Button onPress={this.dismissClass.bind(this)} text={'Dismiss Class'}/>
           {this.renderFeedbackOptions(this.state.feedbackOptions)}
           <Button onPress={this.callOnStudent.bind(this)} text={'Call On Student'}/>
-          <Button onPress={this.presetPoll.bind(this)} text={'Preset Poll'} />
+          <Button onPress={this.presetPoll.bind(this)} text={'Preset Polls'} />
         </View>
         <View style={styles.studentResponse}>
           <TouchableOpacity onPress={this.clickQuestion.bind(this)} style={styles.questionBox}>
