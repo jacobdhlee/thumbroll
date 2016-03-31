@@ -1,21 +1,12 @@
 import React, { StyleSheet, View, Component, Text } from 'react-native';
-import RNChart from 'react-native-chart';
-
+var Progress = require('react-native-progress');
  
 class PercentageChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
       studentData: [],
-      chartData: [
-        {
-          name: 'BarChart',
-          type: 'bar',
-          color: '#219dff',
-          widthPercent: 1,
-          data: [],
-        }
-      ],
+      color: '',
       xLabels: ['Lowest', 'Average Student Response', 'Highest']
     }
 
@@ -23,7 +14,7 @@ class PercentageChart extends Component {
 
 
   componentWillReceiveProps(newData) {
-    var updatedStudentData = [newData.lowest, newData.average, newData.highest];
+    var updatedStudentData = [newData.lowest, newData.average / 100, newData.highest];
     var updatedColor;
 
     // Change color based on average response
@@ -39,38 +30,12 @@ class PercentageChart extends Component {
       color: updatedColor,
       xLabels : ['Lowest', 'Average', 'Highest']
     });
-
-    return (
-      <View style={styles.container}>
-        <RNChart style={styles.chart}
-          chartData={[{
-          name: 'BarChart',
-          type: 'bar',
-          color: this.state.color,
-          widthPercent: .5,
-          data: this.state.studentData
-        }]}
-          verticalGridStep={5}
-          xLabels={['Lowest', 'Average Student Response: ' + newData.average, 'Highest']}
-         />
-      </View>
-    );
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <RNChart style={styles.chart}
-          chartData={[{
-          name: 'BarChart',
-          type: 'bar',
-          color: this.state.color,
-          widthPercent: .5,
-          data: this.state.studentData
-        }]}
-          verticalGridStep={5}
-          xLabels={['Lowest', 'Average', 'Highest']}
-         />
+        <Progress.Circle size={300} progress={this.state.studentData[1]} showsText={true} thickness={50} borderWidth={5} color={'#03a9f4'}/>
       </View>
     );
   }
@@ -84,14 +49,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
+    padding: 40
   },
-  chart: {
-    position: 'absolute',
-    top: 15,
-    left: 15,
-    bottom: 4,
-    right: 15,
-  }
 });
 
 module.exports = PercentageChart;
