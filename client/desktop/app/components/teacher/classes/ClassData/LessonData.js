@@ -39,6 +39,27 @@ class LessonData extends React.Component {
                           <button className='newPollButton' onClick={this.handleAddThumbs.bind(self)}>Add thumbs check</button>
                           <button className='newPollButton' onClick={this.handleAddMultiChoice.bind(self)}>Add multiple choice</button>
                         </div> : <div></div>;
+    var lessonIsInFuture = lessonDate >= currentDay;
+    var showMCTable = this.state.data.filter(function(poll) {
+      return poll.type === 'multiChoice';
+    }).length;
+    var showThumbsTable = this.state.data.filter(function(poll){
+      return poll.type === 'thumbs';
+    }).length;
+
+    console.log(showMCTable, showThumbsTable, lessonIsInFuture, 'should be true...');
+
+    const userMessage = () => {
+      if(!showMCTable && !showThumbsTable) {
+        if(lessonIsInFuture) {
+          return 'No feedback is set to be recorded for this lesson. Add some below!';
+        } else {
+          return 'No feedback has been recorded for this lesson.';
+        }
+      } 
+    }
+
+
     return (<div>
       <h2 className='sectionHeading classList' onClick={this.handleClassClick.bind(this)}>
         <span className='pointer'>{this.state.className}</span>
@@ -53,6 +74,12 @@ class LessonData extends React.Component {
         <MCTable data={this.state.data.filter(function(poll) {
           return poll.type === 'multiChoice';
         })} />
+      </div>
+
+      <div>
+        <p style={{fontWeight: 400, marginBottom: '10px'}}>
+          {userMessage()}
+        </p>
       </div>
       
       {showButtons}
