@@ -202,12 +202,13 @@ const styles = StyleSheet.create({
   },
 
   userInput: {
-    backgroundColor: '#e1f5fe',
+    backgroundColor: '#535a60',
     height: 300,
     padding: 4,
     fontSize: 18,
     borderWidth: 1,
     borderRadius: 4,
+    color: '#fafafa'
   },
 
   container:{

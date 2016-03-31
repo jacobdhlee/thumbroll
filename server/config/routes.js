@@ -49,5 +49,10 @@ module.exports = function(app, io) {
 
   // Add new multiChoice poll to lesson
   app.post('/classes/lessons/multiChoice', teachersController.addMultiChoicePoll);
+
+  // Get teacher info
+  app.get('/teachers/info/:teacherId', teachersController.getTeacherInfo);
+
+  //Wildcard
   app.get('*', authenticationController.wildcard);
 };
