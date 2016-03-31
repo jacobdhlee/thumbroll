@@ -1,4 +1,4 @@
-import React, { StyleSheet, View, Component, Animated } from 'react-native';
+import React, { StyleSheet, View, Component, Animated, ScrollView, Text } from 'react-native';
  
 class HistogramChart extends Component {
   constructor(props) {
@@ -31,9 +31,9 @@ class HistogramChart extends Component {
     }
   }
 
-  renderBars (data) {
+  renderBars (labels) {
     var height = this.chartHeight;
-    return data.map((answer, index) => {
+    return labels.map((label, index) => {
         return (
           <View style={{padding:10, margin:10}}>
             <View >
@@ -53,7 +53,7 @@ class HistogramChart extends Component {
               }} />
             </View>
             <View>
-              <Text> {this.state.xLabels[index]} </Text>
+              <Text> {label} </Text>
             </View>
           </View>
         )
@@ -63,6 +63,25 @@ class HistogramChart extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          alwaysBounceVertical={false}
+          directionalLockEnabled
+          style={{height: this.chartHeight}}>
+          <View style={{height:this.chartHeight, marginTop:20, marginBottom:20}}>
+            <Text style={{marginBottom:this.chartHeight / 5}}> 100% </Text>
+            <Text style={{marginBottom:this.chartHeight / 5}}> 75% </Text>
+            <Text style={{marginBottom:this.chartHeight / 5}}> 50% </Text>
+            <Text style={{marginBottom:this.chartHeight / 5}}> 25% </Text>
+            <Text> 0% </Text>
+          </View>
+          <View style={{height:this.chartHeight, marginTop:20, marginBottom:20}}>
+            <View style={{height:this.chartHeight, width:2, backgroundColor:'black'}} />
+          </View>
+          {this.renderBars.call(this, this.state.xLabels)}
+        </ScrollView>
       </View>
     );
   }
