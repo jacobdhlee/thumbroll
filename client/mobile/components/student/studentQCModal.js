@@ -48,31 +48,35 @@ class StudentQCModal extends React.Component {
 
   render() {
     return (
-      <Modal visible={this.props.visible} transparent={true} animated={true}>
-          <ScrollView scrollEnabled={false}>
-        <View style={styles.modal}>
-            <View style={{height:this.state.height * 0.6, width:this.state.width * 0.85}}>
-              <View style={styles.modalBox}>
-                <Text style={styles.modalTextSize}> Enter the secret code: </Text>
-                <View>
-                  <TextInput
-                    autoCapitalize={'none'}
-                    autoCorrect={false}
-                    maxLength={4}
-                    style={styles.userInput}
-                    keyboardType='numeric'
-                    value={this.state.secretCode}
-                    returnKeyType={'done'}
-                    onChange={this.handleCodeChange.bind(this)}
-                    onSubmitEditing={this.props.onEnter.bind(null, this.state.secretCode)}
-                  />
-                </View>
+      <Modal style={{flex: 1}} visible={this.props.visible} transparent={true} animated={true}>
+        <View style={styles.container}>
+          <View>
+            <ScrollView style={{flex: 1}}scrollEnabled={false}>
+              <View style={styles.modal}>
+                  <View style={{height:this.state.height * 0.6, width:this.state.width * 0.85}}>
+                    <View style={styles.modalBox}>
+                      <Text style={styles.modalTextSize}> Enter the secret code: </Text>
+                      <View>
+                        <TextInput
+                          autoCapitalize={'none'}
+                          autoCorrect={false}
+                          maxLength={4}
+                          style={styles.userInput}
+                          keyboardType='numeric'
+                          value={this.state.secretCode}
+                          returnKeyType={'done'}
+                          onChange={this.handleCodeChange.bind(this)}
+                          onSubmitEditing={this.props.onEnter.bind(null, this.state.secretCode)}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                <Button onPress={this.handleEnter.bind(this)} text={'Enter'} />
+                <Button onPress={this.handleCancel.bind(this)} text={'Cancel'} />
               </View>
-            </View>
-          <Button onPress={this.handleEnter.bind(this)} text={'Enter'} />
-          <Button onPress={this.handleCancel.bind(this)} text={'Cancel'} />
+            </ScrollView>
+          </View>
         </View>
-          </ScrollView>
       </Modal>
     );
   }
@@ -106,6 +110,12 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 20,
+  },
+  container: {
+    flex: 1,
+    flexDirection: 'column',  
+    justifyContent: 'center',
+    backgroundColor: '#424242',
   },
 });
 
