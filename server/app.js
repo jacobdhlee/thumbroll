@@ -72,8 +72,8 @@ models.sequelize.sync({force: true}).then(function () {
   });
 
   models.students.create({
-    firstname: 'Student',
-    lastname: 'Example',
+    firstname: 'Dunning',
+    lastname: 'Kruger',
     username: 's',
     // s
     password: '$2a$10$UR9XmBRvc90YMA9bWuXxcOqPXLK2M1QWgr1FR65wkAaNABaMlMGie',
@@ -125,6 +125,15 @@ models.sequelize.sync({force: true}).then(function () {
     email: 'edison@tinder.com'
   });
 
+  models.students.create({
+    firstname: 'Salacious',
+    lastname: 'Crumb',
+    username: 'scrum',
+    // 123
+    password: '$2a$10$cWPLKHIJUX7YRLwJvpMrVeIi0Pxo/IATOPNJ43S2NU/2MG2Qd6rEq',
+    email: 'salacious@crumb.com'
+  });
+
   models.classes.create({
     name: 'CS101',
     teacher_id: 1,
@@ -161,14 +170,12 @@ models.sequelize.sync({force: true}).then(function () {
     name: 'Week 3 - Algorithms',
     class_id: 1,
     date: moment().format()
-
   });
 
   models.lessons.create({
     name: 'Week 4 - Data Structures',
     class_id: 1,
     date: moment().add(1, 'weeks').format()
-
   });
 
   // Add History lessons
@@ -183,20 +190,47 @@ models.sequelize.sync({force: true}).then(function () {
     class_id: 3,
     date: moment().add(1, 'weeks').format()
   });
-  
+
+  // Adding students to CS101
   models.students_classes.create({
     class_id: 1,
     student_id: 1
   });
 
   models.students_classes.create({
-    class_id: 3,
+    class_id: 1,
     student_id: 2
   });
 
   models.students_classes.create({
     class_id: 1,
     student_id: 3
+  });
+
+  models.students_classes.create({
+    class_id: 1,
+    student_id: 4
+  });
+
+  models.students_classes.create({
+    class_id: 1,
+    student_id: 5
+  });
+
+  models.students_classes.create({
+    class_id: 1,
+    student_id: 6
+  });
+
+  models.students_classes.create({
+    class_id: 1,
+    student_id: 7
+  });
+
+  // Misc enrollments
+  models.students_classes.create({
+    class_id: 3,
+    student_id: 2
   });
 
   models.students_classes.create({
@@ -207,35 +241,51 @@ models.sequelize.sync({force: true}).then(function () {
   models.polls.create({
     type: 'thumbs',
     lesson_id: 2,
-    name: 'Default thumbs 11:03AM',
+    name: 'For loops',
     sent: true
   });
 
   models.polls.create({
     type: 'multiChoice',
     lesson_id: 3,
-    name: "Easy Europe question",
+    name: "Sort time complexity",
+    answer: 'B',
+    sent: true,
+    preset_data: JSON.stringify({
+      subType: "ABCD", 
+      question: "What is the time complexity of a merge sort?",
+      A: "O(n)",
+      B: "O(n log(n))",     
+      C: "O(n2)",
+      D: "O(log n)"
+    })
+  });
+
+  models.polls.create({
+    type: 'multiChoice',
+    lesson_id: 3,
+    name: "n-Queens",
     answer: 'A',
     sent: true,
     preset_data: JSON.stringify({
       subType: "ABC", 
-      question: "Which of these countries starts with 'A'?",
-      A: "Austria",
-      B: "Germany",    
-      C: "Prussia"
+      question: "n-Queens for n=3?",
+      A: "0",
+      B: "3",    
+      C: "6",
     })
   });
 
   models.polls.create({
     type: 'thumbs',
     lesson_id: 3,
-    name: 'Default thumbs 11:05AM',
+    name: 'Merge Sort',
     sent: true
   });
 
   models.polls.create({
     type: 'multiChoice',
-    lesson_id: 4,
+    lesson_id: 5,
     answer: 'B',
     name: 'American Presidents',
     sent: false,
@@ -248,34 +298,172 @@ models.sequelize.sync({force: true}).then(function () {
     })
   });
 
+  models.polls.create({
+    type: 'thumbs',
+    lesson_id: 2,
+    name: 'Underscore',
+    sent: true
+  });
+
   models.poll_responses.create({
-    response_val: 93,
+    response_val: 2,
     student_id: 1,
     poll_id: 1,
   });
 
   models.poll_responses.create({
     response_val: 16,
+    student_id: 2,
+    poll_id: 1,
+  });
+
+  models.poll_responses.create({
+    response_val: 70,
     student_id: 3,
     poll_id: 1,
   });
 
   models.poll_responses.create({
+    response_val: 90,
+    student_id: 4,
+    poll_id: 1,
+  });
+
+  models.poll_responses.create({
+    response_val: 90,
+    student_id: 5,
+    poll_id: 1,
+  });
+
+  models.poll_responses.create({
     response_val: 'A',
-    student_id: 3,
+    student_id: 7,
     poll_id: 2,
   });
 
   models.poll_responses.create({
-    response_val: 'C',
+    response_val: 'B',
     student_id: 1,
     poll_id: 2,
   }); 
 
   models.poll_responses.create({
-    response_val: 55,
+    response_val: 'A',
+    student_id: 2,
+    poll_id: 2,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 'B',
+    student_id: 3,
+    poll_id: 2,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 'A',
     student_id: 1,
     poll_id: 3,
   }); 
 
+  models.poll_responses.create({
+    response_val: 'A',
+    student_id: 2,
+    poll_id: 3,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 'C',
+    student_id: 3,
+    poll_id: 3,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 'A',
+    student_id: 4,
+    poll_id: 3,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 'B',
+    student_id: 5,
+    poll_id: 3,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 'A',
+    student_id: 6,
+    poll_id: 3,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 10,
+    student_id: 1,
+    poll_id: 4,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 23,
+    student_id: 2,
+    poll_id: 4,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 77,
+    student_id: 3,
+    poll_id: 4,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 91,
+    student_id: 4,
+    poll_id: 4,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 100,
+    student_id: 5,
+    poll_id: 4,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 10,
+    student_id: 7,
+    poll_id: 4,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 15,
+    student_id: 1,
+    poll_id: 6,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 100,
+    student_id: 2,
+    poll_id: 6,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 65,
+    student_id: 3,
+    poll_id: 6,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 60,
+    student_id: 4,
+    poll_id: 6,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 95,
+    student_id: 5,
+    poll_id: 6,
+  }); 
+
+  models.poll_responses.create({
+    response_val: 30,
+    student_id: 7,
+    poll_id: 6,
+  }); 
 });
