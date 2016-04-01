@@ -72,7 +72,7 @@ class Login extends React.Component {
   }
 
   render(){
-    var showErr = this.state.error ? <div className='error'> {this.state.error} </div> : <div></div>;
+    var showErr = this.state.error ? <div className='error'>{this.state.error}</div> : <div></div>;
     return (
       <div>
       <div className='center-align'>
