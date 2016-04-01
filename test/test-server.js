@@ -93,7 +93,7 @@ describe('Thumbroll', function(){
   it('should return class ID when teacher added', function(done){
     chai.request(server)
     .post('/teachers/classes')
-    .send({name: 'CS401', teacher_id: 1})
+    .send({name: 'CS401',teacher_id: 1})
     .end(function(err,res){
       expect(res).to.have.status(200);
       expect(res.body).to.be.a('object');
