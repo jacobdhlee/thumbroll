@@ -5,4 +5,4 @@ machine:
     - npm install -g npm@3.x.x
   test:
     override:
-      - supertest
+      - node_modules/.bin/mocha test/test-server.js
