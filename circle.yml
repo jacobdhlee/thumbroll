@@ -3,6 +3,6 @@ machine:
     version: 4.0.0
   post:
     - npm install -g npm@3.x.x
-  test:
-    override:
-      - node_modules/.bin/_mocha test/test-server.js
+test:
+  override:
+    - node_modules/.bin/mocha test/test-server.js
