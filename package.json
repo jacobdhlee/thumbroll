@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "start": "node server/app.js",
-    "test": "node_modules/.bin/chai test/test-server.js"
+    "test": "node_modules/.bin/_mocha test/test-server.js"
   },
   "repository": {
     "type": "git",
