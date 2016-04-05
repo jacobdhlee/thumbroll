@@ -5,4 +5,4 @@ machine:
     - npm install -g npm@3.x.x
   test:
     override:
-      - node_modules/.bin/mocha test/test-server.js
+      - node_modules/.bin/chai test/test-server.js
