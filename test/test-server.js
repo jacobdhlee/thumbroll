@@ -11,12 +11,15 @@ describe('Thumbroll', function(){
   it('should list all classes for teacher id 1', function(done){
     chai.request(server)
     .get('/teachers/classes/1')
-    .end(function(err,res){
+    .then(function(res){
       expect(res).to.have.status(200);
       expect(res.body[2].name).to.deep.equal("Postmodern Gender Theory")
       expect(err).to.be.null;
-      done();
     })
+    .catch(function(err){
+      throw err
+    })
+    done();
   })
 })
 
