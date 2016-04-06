@@ -1,7 +1,7 @@
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 var request = require('request');
-var server = 'http://localhost:80';
+var server = 'http://localhost:3000';
 var expect = require('chai').expect;
 
 chai.use(chaiHttp);
@@ -25,7 +25,7 @@ describe('Thumbroll', function(){
     return chai.request(server)
     .get('/classes/lessons/4')
     .then(function(res){
-      expect(res).to.have.status(201);
+      expect(res).to.have.status(200);
       expect(res.lesson).to.deep.equal();
     })
     .catch(function(err){
@@ -143,8 +143,8 @@ describe('Thumbroll', function(){
 })
 
 describe('Thumbroll', function(){
-  it('should return studens when teacher add student', function(done){
-    chai.request(server)
+  it('should return studens when teacher add student', function(){
+    return chai.request(server)
     .post('/teachers/class/student')
     .send({studentEmail: 's@email.com', classId: 1})
     .then(function(res){
@@ -155,91 +155,85 @@ describe('Thumbroll', function(){
     .catch(function(err){
       throw err;
     })
-    done();
   })
 })
 
 describe('Thumbroll', function(){
-  it('should return thumbs infomation', function(done){
-    chai.request(server)
+  it('should return thumbs infomation', function(){
+    return chai.request(server)
     .post('/classes/lessons/thumbs')
     .send({lessonId: 1, type: 'thumbs', title: 'data', question:'Do you know something'})
     .then(function(res){
       expect(res).to.have.status(201);
       expect(res.body).to.be.an('object');
-      expect(res.body.preset_data).to.be.an('object');
+      expect(JSON.parse(res.body.preset_data)).to.be.an('object');
       expect(Object.keys(res.body)).to.deep.equal(['id', 'type', 'lesson_id', 'name', 'sent', 'preset_data','answer'])
     })
     .catch(function(err){
       throw err;
     })
-    done();
   })
 })
 
 describe('Thumbroll', function(){
-  it('should return multiChoice infomation', function(done){
-    chai.request(server)
+  it('should return multiChoice infomation', function(){
+    return chai.request(server)
     .post('/classes/lessons/multiChoice')
     .send({lessonId: 1, type: 'multiChoice', title: 'data structure', question:'Do you know something', answer: 'A'})
     .then(function(res){
       expect(res).to.have.status(201);
       expect(res.body).to.be.an('object');
-      expect(res.body.preset_data).to.be.an('object');
-      expect(Object.keys(res.body)).to.deep.equal(['id', 'type', 'lesson_id', 'name', 'sent', 'preset_data'])
+      expect(JSON.parse(res.body.preset_data)).to.be.an('object');
+      expect(Object.keys(res.body)).to.deep.equal(['id', 'type', 'lesson_id', 'name', 'answer', 'sent', 'preset_data'])
     })
     .catch(function(err){
       throw err;
     })
-    done();
   })
 })
 
 describe('Thumbroll', function(){
-  it('should return teachers information', function(done){
-    chai.request(server)
+  it('should return teachers information', function(){
+    return chai.request(server)
     .get('/teachers/info/1')
     .then(function(res){
       expect(res).to.have.status(200);
-      expect(res.body.id).to.depp.equal(1);
+      expect(res.body.id).to.be.equal(1);
       expect(Object.keys(res.body)).to.deep.equal(['id', 'firstname', 'lastname', 'email', 'username', 'password'])
     })
     .catch(function(err){
       throw err;
     })
-    done();
   })
 })
 
 describe('Thumbroll', function(){
-  it('should return student information associate class', function(done){
-    chai.request(server)
+  it('should return student information associate class', function(){
+    return chai.request(server)
     .get('/classes/3/students')
     .then(function(res){
       expect(res).to.have.status(200);
       expect(res.body).to.be.an('array');
-      expect(Object.keys(res.body)).to.deep.equal(['student_id', 'first_name', 'last_name', 'lesson_count', 'potential_response_count', 'response_count','correct_response_count','potential_correct_response_count','average_thumb'])
+      expect(Object.keys(res.body[0])).to.deep.equal(['student_id', 'first_name', 'last_name', 'lesson_count', 'potential_response_count', 'response_count','correct_response_count','potential_correct_response_count','average_thumb'])
     })
     .catch(function(err){
       throw err;
     })
-    done();
   })
 })
 
 describe('Thumbroll', function(){
-  it('should return today\'s lessons information', function(done){
-    chai.request(server)
+  it('should return today\'s lessons information', function(){
+    return chai.request(server)
     .get('/teachers/1/lessons/today')
     .then(function(res){
       expect(res).to.have.status(200);
       expect(res.body).to.be.an('array');
       expect(res.body[0]).to.be.an('object');
-      expect(Object.keys(res.body)).to.deep.equal(['class_id', 'class_name', 'id', 'name', 'date'])
+      expect(Object.keys(res.body[0])).to.deep.equal(['class_id', 'class_name', 'id', 'name', 'date'])
     })
     .catch(function(err){
       throw err;
     })
-    done();
   })
 })
