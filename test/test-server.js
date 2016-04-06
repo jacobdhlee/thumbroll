@@ -1,7 +1,7 @@
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 var request = require('request');
-var server = 'http://localhost:3000';
+var server = 'http://localhost:80';
 var expect = require('chai').expect;
 
 chai.use(chaiHttp);
