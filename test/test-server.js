@@ -1,115 +1,102 @@
-'use strict';
-
 var chai = require('chai');
 var chaiHttp = require('chai-http');
+var request = require('request');
 var server = 'http://localhost:3000';
 var expect = require('chai').expect;
 
 chai.use(chaiHttp);
 
 describe('Thumbroll', function(){
-  it('should list all classes for teacher id 1', function(done){
-    chai.request(server)
+  it('should list all classes for teacher id 1', function(){
+    return chai.request(server)
     .get('/teachers/classes/1')
     .then(function(res){
       expect(res).to.have.status(200);
       expect(res.body[2].name).to.deep.equal("Postmodern Gender Theory")
-      expect(err).to.be.null;
     })
     .catch(function(err){
       throw err;
     })
-    done();
   })
 })
 
 describe('Thumbroll', function(){
-  it('should list all lessons for class id 4', function(done){
-    chai.request(server)
+  it('should list all lessons for class id 4', function(){
+    return chai.request(server)
     .get('/classes/lessons/4')
     .then(function(res){
-      expect(res).to.have.status(200);
+      expect(res).to.have.status(201);
       expect(res.lesson).to.deep.equal();
-      expect(err).to.be.null;
     })
     .catch(function(err){
       throw err;
     })
-    done();
   })
 })
 
 describe('Thumbroll', function(){
-  it('should list of poll for lesson id 2', function(done){
-    chai.request(server)
+  it('should list of poll for lesson id 2', function(){
+    return chai.request(server)
     .get('/lessons/2/polls')
     .then(function(res){
       expect(res).to.have.status(200);
       expect(res.body[0].type).to.deep.equal('thumbs');
-      expect(err).to.be.null;
     })
     .catch(function(err){
       throw err;
     })
-    done();
   })
 })
 
 describe('Thumbroll', function(){
-  it('should list class for student id 1', function(done){
-    chai.request(server)
+  it('should list class for student id 1', function(){
+    return chai.request(server)
     .get('/students/classes/1')
     .then(function(res){
       var classes = res.body[0].class
       expect(res).to.have.status(200);
       expect(classes.name).to.deep.equal('CS101');
-      expect(err).to.be.null;
     })
     .catch(function(err){
       throw err;
     })
-    done();
   })
 })
 // teachers/polls/:lessonId
 
 describe('Thumbroll', function(){
-  it('should list class for student id 1', function(done){
-    chai.request(server)
+  it('should list class for student id 1', function(){
+    return chai.request(server)
     .get('/teachers/polls/3')
     .then(function(res){
       expect(res).to.have.status(200);
       expect(res.body[0].type).to.deep.equal('multiChoice');
       expect(res.body[1].type).to.deep.equal('multiChoice');
-      expect(err).to.be.null;
     })
     .catch(function(err){
       throw err;
     })
-    done();
   })
 })
 
 describe('Thumbroll', function(){
-  it('should list lesson for class id 3', function(done){
-    chai.request(server)
+  it('should list lesson for class id 3', function(){
+    return chai.request(server)
     .get('/teachers/classes/3/lessons')
     .then(function(res){
       expect(res).to.have.status(200);
       expect(res.body[0].name).to.deep.equal('Week 1 - Ancient Egypt');
       expect(res.body[1].name).to.deep.equal('Week 2 - Mongols');
-      expect(err).to.be.null;
     })
     .catch(function(err){
       throw err;
     })
-    done();
   })
 })
 
 describe('Thumbroll', function(){
-  it('should return class ID when teacher added', function(done){
-    chai.request(server)
+  it('should return class ID when teacher added', function(){
+    return chai.request(server)
     .post('/teachers/classes')
     .send({name: 'CS401',teacher_id: 1})
     .then(function(res){
@@ -120,13 +107,12 @@ describe('Thumbroll', function(){
     .catch(function(err){
       throw err;
     })
-    done();
   })
 })
 
 describe('Thumbroll', function(){
-  it('should return poll when teacher add poll', function(done){
-    chai.request(server)
+  it('should return poll when teacher add poll', function(){
+    return chai.request(server)
     .post('/teachers/polls')
     .send({lessonId: 1, pollObject: 'thumbs', pollId: 1})
     .then(function(res){
@@ -137,13 +123,12 @@ describe('Thumbroll', function(){
     .catch(function(err){
       throw err;
     })
-    done();
   })
 })
 
 describe('Thumbroll', function(){
-  it('should return lessons when teacher create lessons', function(done){
-    chai.request(server)
+  it('should return lessons when teacher create lessons', function(){
+    return chai.request(server)
     .post('/teachers/lessons')
     .send({lessonName: 'coding week 1', data: '2016-04-01T21:04:07.840Z', classId: 1})
     .then(function(res){
@@ -154,7 +139,6 @@ describe('Thumbroll', function(){
     .catch(function(err){
       throw err;
     })
-    done();
   })
 })
 
