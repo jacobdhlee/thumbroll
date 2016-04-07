@@ -3,5 +3,7 @@ machine:
     version: 4.0.0
   post:
     - npm install -g npm@3.x.x
-
-  
+test:
+  override:
+    - case $CIRCLE_NODE_INDEX in 0) rake spec ;; 1) npm test ;; esac:
+        parallel: true  
