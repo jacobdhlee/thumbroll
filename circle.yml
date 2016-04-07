@@ -5,3 +5,7 @@ machine:
     - npm install -g npm@3.x.x
   services:
     - elasticsearch
+test:
+  override:
+    - mkdir -p $CIRCLE_TEST_REPORTS/cucumber
+    - bundle exec cucumber --format json --out $CIRCLE_TEST_REPORTS/cucumber/tests.cucumber
