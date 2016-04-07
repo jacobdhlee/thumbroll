@@ -7,5 +7,4 @@ machine:
     - elasticsearch
 test:
   override:
-    - mkdir -p $CIRCLE_TEST_REPORTS/cucumber
-    - bundle exec cucumber --format json --out $CIRCLE_TEST_REPORTS/cucumber/tests.cucumber
+    - test/test-server.js
