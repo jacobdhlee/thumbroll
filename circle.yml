@@ -4,6 +4,6 @@ machine:
   post:
     - npm install -g npm@3.x.x
   hosts:
-    circlehost: 127.0.0.1
+    circlehost: 127.0.0.1:3000
   services:
     - elasticsearch
